@@ -1,13 +1,16 @@
 import { prisma } from '../lib/prisma';
 import type {
   campaign,
-  campaignJoined,
+  campaignWithStatus,
+  campaignWithVariationsEvaluatorsStatus,
   evaluator,
   status,
   variation
 } from '../types/databaseObjects';
 
-const getCampaigns = async (): Promise<campaignJoined[]> => {
+const getCampaigns = async (): Promise<
+  campaignWithVariationsEvaluatorsStatus[]
+> => {
   const campaigns = await prisma.campaign.findMany({
     include: {
       evaluator: true,
@@ -24,9 +27,7 @@ const getCampaigns = async (): Promise<campaignJoined[]> => {
   return campaigns;
 };
 
-const getCampaignsStatus = async (): Promise<
-  Array<campaign & { status: status }>
-> => {
+const getCampaignsStatus = async (): Promise<campaignWithStatus[]> => {
   const campaigns = await prisma.campaign.findMany({
     include: { status: true },
     orderBy: [{ idCampaign: 'desc' }],
@@ -40,7 +41,9 @@ const getCampaignsStatus = async (): Promise<
   return campaigns;
 };
 
-const getJoinedCampaignsActive = async (): Promise<campaignJoined[]> => {
+const getCampaignsActiveWithVariationsEvaluatorsStatus = async (): Promise<
+  campaignWithVariationsEvaluatorsStatus[]
+> => {
   const campaigns = await prisma.campaign.findMany({
     include: {
       evaluator: true,
@@ -59,7 +62,7 @@ const getJoinedCampaignsActive = async (): Promise<campaignJoined[]> => {
 
 const getCampaignById = async (
   idCampaign: number
-): Promise<campaignJoined | null> => {
+): Promise<campaignWithVariationsEvaluatorsStatus | null> => {
   const campaign = await prisma.campaign.findUnique({
     include: {
       evaluator: true,
@@ -77,7 +80,9 @@ const getStatus = async (): Promise<status[]> => {
   return status;
 };
 
-const createCampaignJoined = async (campaign: campaignJoined): Promise<any> => {
+const createCampaign = async (
+  campaign: campaignWithVariationsEvaluatorsStatus
+): Promise<any> => {
   const result = await prisma.campaign.create({
     data: {
       evaluator: {
@@ -109,8 +114,8 @@ const createCampaignJoined = async (campaign: campaignJoined): Promise<any> => {
   return result;
 };
 
-const updateCampaignJoined = async (
-  campaign: campaignJoined
+const updateCampaign = async (
+  campaign: campaignWithVariationsEvaluatorsStatus
 ): Promise<campaign> => {
   const result = await prisma.campaign.update({
     data: {
@@ -195,7 +200,9 @@ const seed = async (): Promise<any> => {
   return result;
 };
 
-const getCampaignsForFrontend = async (): Promise<campaignJoined[]> => {
+const getCampaignsForFrontend = async (): Promise<
+  campaignWithVariationsEvaluatorsStatus[]
+> => {
   const campaigns = await prisma.campaign.findMany({
     include: {
       evaluator: true,
@@ -226,13 +233,13 @@ const getCampaignsForFrontend = async (): Promise<campaignJoined[]> => {
 };
 
 export {
-  createCampaignJoined,
+  createCampaign,
   getCampaignById,
   getCampaigns,
   getCampaignsStatus,
-  getJoinedCampaignsActive,
+  getCampaignsActiveWithVariationsEvaluatorsStatus,
   getStatus,
   seed,
-  updateCampaignJoined,
+  updateCampaign,
   getCampaignsForFrontend
 };

@@ -1,13 +1,12 @@
 import React from 'react';
 
-import type { campaign, status } from '.prisma/client/index';
-
 import styles from './styles.module.scss';
 import constants from '../../../../config/constants';
+import type { campaignWithStatus } from '../../../../types/databaseObjects';
 import capitalize from '../../../../utils/capitalize';
 
 interface props {
-  campaign: campaign & { status: status };
+  campaign: campaignWithStatus;
 }
 
 const Index = ({ campaign }: props): JSX.Element => {

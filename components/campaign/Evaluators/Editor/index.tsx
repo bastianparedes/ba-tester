@@ -7,7 +7,7 @@ import type { editor } from 'monaco-editor';
 import styles from './styles.module.scss';
 import labels from '../../../../config/labels';
 import type {
-  campaignJoined,
+  campaignWithVariationsEvaluatorsStatus,
   evaluator
 } from '../../../../types/databaseObjects';
 
@@ -17,7 +17,9 @@ interface props {
   setShowEditor: (arg0: boolean) => void;
   evaluator: evaluator;
   setCampaign: (
-    campaign: (campaignJoined: campaignJoined) => campaignJoined
+    campaign: (
+      campaignWithVariationsEvaluatorsStatus: campaignWithVariationsEvaluatorsStatus
+    ) => campaignWithVariationsEvaluatorsStatus
   ) => void;
 }
 

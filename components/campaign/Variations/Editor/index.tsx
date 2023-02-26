@@ -8,7 +8,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import styles from './styles.module.scss';
 import labels from '../../../../config/labels';
 import type {
-  campaignJoined,
+  campaignWithVariationsEvaluatorsStatus,
   variation
 } from '../../../../types/databaseObjects';
 
@@ -18,7 +18,9 @@ interface props {
   setShowEditor: (arg0: boolean) => void;
   variation: variation;
   setCampaign: (
-    campaign: (campaignJoined: campaignJoined) => campaignJoined
+    campaign: (
+      campaignWithVariationsEvaluatorsStatus: campaignWithVariationsEvaluatorsStatus
+    ) => campaignWithVariationsEvaluatorsStatus
   ) => void;
 }
 

@@ -5,7 +5,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 
 import styles from './styles.module.scss';
 import type {
-  campaignJoined,
+  campaignWithVariationsEvaluatorsStatus,
   evaluator
 } from '../../../../types/databaseObjects';
 import Editor from '../Editor';
@@ -13,7 +13,9 @@ import Editor from '../Editor';
 interface props {
   evaluator: evaluator;
   setCampaign: (
-    campaign: (campaignJoined: campaignJoined) => campaignJoined
+    campaign: (
+      campaignWithVariationsEvaluatorsStatus: campaignWithVariationsEvaluatorsStatus
+    ) => campaignWithVariationsEvaluatorsStatus
   ) => void;
 }
 

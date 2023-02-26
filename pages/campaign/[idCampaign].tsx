@@ -7,14 +7,17 @@ import Evaluators from '../../components/campaign/Evaluators';
 import Name from '../../components/campaign/Name';
 import Variations from '../../components/campaign/Variations';
 import constants from '../../config/constants';
-import type { campaignJoined, status } from '../../types/databaseObjects';
+import type {
+  campaignWithVariationsEvaluatorsStatus,
+  status
+} from '../../types/databaseObjects';
 import { getCampaignById, getStatus } from '../../utils/database';
 
 const Index = ({
   initialCampaign,
   status
 }: {
-  initialCampaign: campaignJoined;
+  initialCampaign: campaignWithVariationsEvaluatorsStatus;
   status: status[];
 }): JSX.Element => {
   const [campaign, setCampaign] = useState(initialCampaign);
@@ -29,7 +32,7 @@ const Index = ({
 };
 
 const getServerSideProps: GetServerSideProps<{
-  initialCampaign: campaignJoined | null;
+  initialCampaign: campaignWithVariationsEvaluatorsStatus | null;
   status: status[];
 }> = async (context) => {
   const campaignId = Number(context.query.idCampaign);

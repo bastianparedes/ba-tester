@@ -10,8 +10,10 @@ export type { evaluator };
 export type { status };
 export type { variation };
 
-export type campaignJoined = campaign & {
+export type campaignWithVariationsEvaluatorsStatus = campaign & {
   evaluator: evaluator[];
   status: status;
   variation: variation[];
 };
+
+export type campaignWithStatus = campaignWithStatus;

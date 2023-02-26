@@ -3,29 +3,31 @@ import cookie from './cookie';
 import Evaluator from './Evaluator';
 import Variation from './Variation';
 import constants from '../config/constants';
-import type { campaignJoined } from '../types/databaseObjects';
+import type { campaignWithVariationsEvaluatorsStatus } from '../types/databaseObjects';
 import getRandomFromArray from '../utils/getRandomFromArray';
 
 const runScript = async (): Promise<void> => {
-  const campaigns = window.ab.campaigns.map((campaign: campaignJoined) => {
-    const evaluators = campaign.evaluator.map(
-      (evaluatorData) =>
-        new Evaluator(evaluatorData.idEvaluator, evaluatorData.javascript)
-    );
+  const campaigns = window.ab.campaigns.map(
+    (campaign: campaignWithVariationsEvaluatorsStatus) => {
+      const evaluators = campaign.evaluator.map(
+        (evaluatorData) =>
+          new Evaluator(evaluatorData.idEvaluator, evaluatorData.javascript)
+      );
 
-    const variations = campaign.variation.map(
-      (variationData) =>
-        new Variation(
-          variationData.idVariation,
-          variationData.html,
-          variationData.css,
-          variationData.javascript,
-          variationData.traffic
-        )
-    );
+      const variations = campaign.variation.map(
+        (variationData) =>
+          new Variation(
+            variationData.idVariation,
+            variationData.html,
+            variationData.css,
+            variationData.javascript,
+            variationData.traffic
+          )
+      );
 
-    return new Campaign(campaign.idCampaign, evaluators, variations);
-  });
+      return new Campaign(campaign.idCampaign, evaluators, variations);
+    }
+  );
 
   if (campaigns.length === 0) return;
 

@@ -3,13 +3,18 @@ import React from 'react';
 import styles from './styles.module.scss';
 import Variation from './Variation';
 import labels from '../../../config/labels';
-import type { campaignJoined, variation } from '../../../types/databaseObjects';
+import type {
+  campaignWithVariationsEvaluatorsStatus,
+  variation
+} from '../../../types/databaseObjects';
 import AddButton from '../AddButton';
 
 interface props {
   variations: variation[];
   setCampaign: (
-    campaign: (campaignJoined: campaignJoined) => campaignJoined
+    campaign: (
+      campaignWithVariationsEvaluatorsStatus: campaignWithVariationsEvaluatorsStatus
+    ) => campaignWithVariationsEvaluatorsStatus
   ) => void;
 }
 

@@ -6,10 +6,10 @@ import Cancel from './Cancel';
 import Save from './Save';
 import styles from './styles.module.scss';
 import constants from '../../../config/constants';
-import type { campaignJoined } from '../../../types/databaseObjects';
+import type { campaignWithVariationsEvaluatorsStatus } from '../../../types/databaseObjects';
 
 interface props {
-  campaign: campaignJoined;
+  campaign: campaignWithVariationsEvaluatorsStatus;
 }
 
 const Buttons = ({ campaign }: props): JSX.Element => {

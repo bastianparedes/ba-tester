@@ -3,13 +3,18 @@ import React from 'react';
 import Evaluator from './Evaluator';
 import styles from './styles.module.scss';
 import labels from '../../../config/labels';
-import type { campaignJoined, evaluator } from '../../../types/databaseObjects';
+import type {
+  campaignWithVariationsEvaluatorsStatus,
+  evaluator
+} from '../../../types/databaseObjects';
 import AddButton from '../AddButton';
 
 interface props {
   evaluators: evaluator[];
   setCampaign: (
-    campaign: (campaignJoined: campaignJoined) => campaignJoined
+    campaign: (
+      campaignWithVariationsEvaluatorsStatus: campaignWithVariationsEvaluatorsStatus
+    ) => campaignWithVariationsEvaluatorsStatus
   ) => void;
 }
 

@@ -2,10 +2,10 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import labels from '../../../../config/labels';
-import type { campaignJoined } from '../../../../types/databaseObjects';
+import type { campaignWithVariationsEvaluatorsStatus } from '../../../../types/databaseObjects';
 
 interface props {
-  campaign: campaignJoined;
+  campaign: campaignWithVariationsEvaluatorsStatus;
   onClick: () => void;
 }
 

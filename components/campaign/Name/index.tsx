@@ -2,13 +2,18 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import labels from '../../../config/labels';
-import type { campaignJoined, status } from '../../../types/databaseObjects';
+import type {
+  campaignWithVariationsEvaluatorsStatus,
+  status
+} from '../../../types/databaseObjects';
 import capitalize from '../../../utils/capitalize';
 
 interface props {
-  campaign: campaignJoined;
+  campaign: campaignWithVariationsEvaluatorsStatus;
   setCampaign: (
-    campaign: (campaignJoined: campaignJoined) => campaignJoined
+    campaign: (
+      campaignWithVariationsEvaluatorsStatus: campaignWithVariationsEvaluatorsStatus
+    ) => campaignWithVariationsEvaluatorsStatus
   ) => void;
   status: status[];
 }
@@ -17,7 +22,9 @@ const Index = ({ campaign, setCampaign, status }: props): JSX.Element => {
   const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
     const newName = event.target.value;
     setCampaign(
-      (campaign: campaignJoined): campaignJoined => ({
+      (
+        campaign: campaignWithVariationsEvaluatorsStatus
+      ): campaignWithVariationsEvaluatorsStatus => ({
         ...campaign,
         name: newName
       })
