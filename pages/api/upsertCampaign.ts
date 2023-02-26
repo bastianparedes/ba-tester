@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import type { campaignWithVariationsEvaluatorsStatus } from '../../types/databaseObjects';
 import { createCampaign, updateCampaign } from '../../utils/database';
+import { deploy } from '../../utils/repository';
 
 const getCampaigns = async (
   req: NextApiRequest,
@@ -16,9 +17,13 @@ const getCampaigns = async (
       return;
     }
 
-    const result = await updateCampaign(campaign);
+    const resultUpdateCampaign = await updateCampaign(campaign);
+    const resultDeploy = await deploy();
 
-    res.send(result);
+    res.send({
+      resultDeploy,
+      resultUpdateCampaign
+    });
   }
 };
 
