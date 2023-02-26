@@ -1750,6 +1750,13 @@ const Template = (): JSX.Element => {
       </style>
       <style>
         {`
+        body, html, #__next {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background: #fff;
+        }
+
         .L3eUgb {
           display: flex;
           flex-direction: column;
@@ -2484,6 +2491,7 @@ const Template = (): JSX.Element => {
         </div>
       </div>
       <div className="gb_Pd">Google Apps</div>
+      <script src="/api/script" type="text/javascript"></script>
     </>
   );
 };
