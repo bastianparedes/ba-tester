@@ -16,4 +16,4 @@ export type campaignWithVariationsEvaluatorsStatus = campaign & {
   variation: variation[];
 };
 
-export type campaignWithStatus = campaignWithStatus;
+export type campaignWithStatus = campaign & { status: status };

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import template from '../templates/google.html';
+import Google from '../templates/Google';
 
 const Index = (): JSX.Element => {
   return (
     <>
-      <div />
+      <Google />
     </>
   );
 };
