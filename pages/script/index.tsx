@@ -4,7 +4,7 @@ import fsPromises from 'fs/promises';
 import { type GetServerSideProps } from 'next';
 import path from 'path';
 
-import queryDatabase from '../../prepare/queryDatabase';
+import { getCampaignsForFrontend } from '../../utils/database';
 
 interface props {
   script: string;
@@ -15,7 +15,7 @@ const scriptPage = ({ script }: props): JSX.Element => {
 };
 
 const getServerSideProps: GetServerSideProps<{ script: string }> = async () => {
-  const jsonData = await queryDatabase();
+  const jsonData = await getCampaignsForFrontend();
 
   const script =
     `window.ab=${JSON.stringify(jsonData)};` +

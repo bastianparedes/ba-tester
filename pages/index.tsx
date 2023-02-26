@@ -5,7 +5,7 @@ import type { GetServerSideProps } from 'next';
 
 import CampaignsContainer from '../components/index/CampaignsContainer';
 import Header from '../components/index/Header';
-import { prisma } from '../lib/prisma';
+import { getCampaignsStatus } from '../utils/database';
 
 const Index = ({
   campaigns
@@ -23,15 +23,7 @@ const Index = ({
 const getServerSideProps: GetServerSideProps<{
   campaigns: Array<campaign & { status: status }>;
 }> = async () => {
-  const campaigns = await prisma.campaign.findMany({
-    include: { status: true },
-    orderBy: [{ idCampaign: 'desc' }],
-    where: {
-      idStatus: {
-        not: 2
-      }
-    }
-  });
+  const campaigns = await getCampaignsStatus();
 
   return {
     props: {

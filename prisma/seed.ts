@@ -1,20 +1,5 @@
-import { prisma } from '../lib/prisma';
+import { seed } from '../utils/database';
 
-const main = async (): Promise<void> => {
-  await prisma.status.createMany({
-    data: [
-      { idStatus: 0, value: 'inactive' },
-      { idStatus: 1, value: 'active' },
-      { idStatus: 2, value: 'deleted' }
-    ]
-  });
-};
-
-main()
-  .catch(async () => {
-    await prisma.$disconnect();
-    process.exit(1);
-  })
-  .then(async () => {
-    await prisma.$disconnect();
-  });
+seed().finally(() => {
+  process.exit(1);
+});

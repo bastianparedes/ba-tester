@@ -17,8 +17,6 @@ const deploy = async (
     method: 'POST'
   });
 
-  console.log(response.status);
-
   res.send({ status: response.status });
 };
 

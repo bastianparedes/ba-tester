@@ -8,7 +8,7 @@ import Name from '../../components/campaign/Name';
 import Variations from '../../components/campaign/Variations';
 import constants from '../../config/constants';
 import type { campaignJoined, status } from '../../types/databaseObjects';
-import database from '../../utils/database';
+import { getCampaignById, getStatus } from '../../utils/database';
 
 const Index = ({
   initialCampaign,
@@ -33,7 +33,7 @@ const getServerSideProps: GetServerSideProps<{
   status: status[];
 }> = async (context) => {
   const campaignId = Number(context.query.idCampaign);
-  const status = await database.getStatus();
+  const status = await getStatus();
 
   if (Number.isNaN(campaignId))
     return {
@@ -57,7 +57,7 @@ const getServerSideProps: GetServerSideProps<{
       }
     };
 
-  const initialCampaign = await database.getCampaignById(
+  const initialCampaign = await getCampaignById(
     Number(context.query.idCampaign)
   );
 
