@@ -18,7 +18,8 @@ const getCampaigns = async (
     }
 
     const resultUpdateCampaign = await updateCampaign(campaign);
-    const resultDeploy = await deploy();
+    const resultDeploy =
+      process.env.NODE_ENV === 'production' ? await deploy() : null;
 
     res.send({
       resultDeploy,
