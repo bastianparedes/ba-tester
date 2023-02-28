@@ -81,7 +81,7 @@ const Editor = ({
 
   const handleOnSave = (): void => {
     setCampaign((campaign) => {
-      const variation = campaign.variation.map((variation) => {
+      const variation = campaign.variations.map((variation) => {
         if (idVariation === variation.idVariation) {
           variation.html = html;
           variation.css = css;

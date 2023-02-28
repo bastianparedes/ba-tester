@@ -10,9 +10,9 @@ interface props {
 }
 
 const Save = ({ campaign, onClick }: props): JSX.Element => {
-  const thereAreVariation = campaign.variation.length > 0;
+  const thereAreVariation = campaign.variations.length > 0;
   const trafficSumNot100 =
-    campaign.variation.reduce(
+    campaign.variations.reduce(
       (sum, variation) => sum + variation.traffic,
       0
     ) !== 100;

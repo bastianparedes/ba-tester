@@ -28,7 +28,7 @@ const Evaluator = ({ setCampaign, evaluator }: props): JSX.Element => {
   const idEvaluator = evaluator.idEvaluator;
   const deleteEvaluator = (): void => {
     setCampaign((campaign) => {
-      const newEvaluators = campaign.evaluator.filter(
+      const newEvaluators = campaign.evaluators.filter(
         (evaluator: evaluator) => idEvaluator !== evaluator.idEvaluator
       );
 
@@ -41,7 +41,7 @@ const Evaluator = ({ setCampaign, evaluator }: props): JSX.Element => {
 
   const saveName = (event: React.FocusEvent<HTMLInputElement>): void => {
     setCampaign((campaign) => {
-      const evaluator = campaign.evaluator.map((evaluator) => {
+      const evaluator = campaign.evaluators.map((evaluator) => {
         if (idEvaluator === evaluator.idEvaluator) {
           evaluator.name = event.target.value;
         }

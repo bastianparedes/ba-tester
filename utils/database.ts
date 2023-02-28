@@ -13,9 +13,9 @@ const getCampaigns = async (): Promise<
 > => {
   const campaigns = await prisma.campaign.findMany({
     include: {
-      evaluator: true,
+      evaluators: true,
       status: true,
-      variation: true
+      variations: true
     },
     where: {
       idStatus: {
@@ -46,9 +46,9 @@ const getCampaignsActiveWithVariationsEvaluatorsStatus = async (): Promise<
 > => {
   const campaigns = await prisma.campaign.findMany({
     include: {
-      evaluator: true,
+      evaluators: true,
       status: true,
-      variation: true
+      variations: true
     },
     where: {
       idStatus: {
@@ -65,9 +65,9 @@ const getCampaignById = async (
 ): Promise<campaignWithVariationsEvaluatorsStatus | null> => {
   const campaign = await prisma.campaign.findUnique({
     include: {
-      evaluator: true,
+      evaluators: true,
       status: true,
-      variation: true
+      variations: true
     },
     where: { idCampaign }
   });
@@ -86,7 +86,7 @@ const createCampaign = async (
   const result = await prisma.campaign.create({
     data: {
       evaluator: {
-        create: campaign.evaluator.map((evaluator: evaluator) => {
+        create: campaign.evaluators.map((evaluator: evaluator) => {
           return {
             idEvaluator: evaluator.idEvaluator,
             javascript: evaluator.javascript,
@@ -97,7 +97,7 @@ const createCampaign = async (
       idStatus: campaign.idStatus,
       name: campaign.name,
       variation: {
-        create: campaign.variation.map((variation: variation) => {
+        create: campaign.variations.map((variation: variation) => {
           return {
             css: variation.css,
             html: variation.html,
@@ -122,12 +122,12 @@ const updateCampaign = async (
       evaluator: {
         deleteMany: {
           idEvaluator: {
-            notIn: campaign.evaluator.map(
+            notIn: campaign.evaluators.map(
               (evaluator: evaluator) => evaluator.idEvaluator
             )
           }
         },
-        upsert: campaign.evaluator.map((evaluator: evaluator) => ({
+        upsert: campaign.evaluators.map((evaluator: evaluator) => ({
           create: {
             idEvaluator: evaluator.idEvaluator,
             javascript: evaluator.javascript,
@@ -150,12 +150,12 @@ const updateCampaign = async (
       variation: {
         deleteMany: {
           idVariation: {
-            notIn: campaign.variation.map(
+            notIn: campaign.variations.map(
               (variation: variation) => variation.idVariation
             )
           }
         },
-        upsert: campaign.variation.map((variation: variation) => ({
+        upsert: campaign.variations.map((variation: variation) => ({
           create: {
             css: variation.css,
             html: variation.html,
@@ -205,9 +205,9 @@ const getCampaignsForFrontend = async (): Promise<
 > => {
   const campaigns = await prisma.campaign.findMany({
     include: {
-      evaluator: true,
+      evaluators: true,
       status: true,
-      variation: {
+      variations: {
         where: {
           traffic: {
             gt: 0
@@ -219,7 +219,7 @@ const getCampaignsForFrontend = async (): Promise<
       idStatus: {
         equals: 1
       },
-      variation: {
+      variations: {
         some: {
           idVariation: {
             not: 0

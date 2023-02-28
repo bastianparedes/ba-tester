@@ -9,12 +9,12 @@ import getRandomFromArray from '../utils/getRandomFromArray';
 const runScript = async (): Promise<void> => {
   const campaigns = window.ab.campaigns.map(
     (campaign: campaignWithVariationsEvaluatorsStatus) => {
-      const evaluators = campaign.evaluator.map(
+      const evaluators = campaign.evaluators.map(
         (evaluatorData) =>
           new Evaluator(evaluatorData.idEvaluator, evaluatorData.javascript)
       );
 
-      const variations = campaign.variation.map(
+      const variations = campaign.variations.map(
         (variationData) =>
           new Variation(
             variationData.idVariation,

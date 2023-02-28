@@ -30,7 +30,7 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
 
   const deleteVariation = (): void => {
     setCampaign((campaign) => {
-      const newVariations = campaign.variation.filter(
+      const newVariations = campaign.variations.filter(
         (variation: variation) => idVariation !== variation.idVariation
       );
 
@@ -43,7 +43,7 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
 
   const saveName = (event: React.FocusEvent<HTMLInputElement>): void => {
     setCampaign((campaign) => {
-      const variation = campaign.variation.map((variation) => {
+      const variation = campaign.variations.map((variation) => {
         if (idVariation === variation.idVariation) {
           variation.name = event.target.value;
         }
@@ -60,7 +60,7 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
 
   const saveTraffic = (event: React.FocusEvent<HTMLInputElement>): void => {
     setCampaign((campaign) => {
-      const newVariations = campaign.variation.map((variation: variation) => {
+      const newVariations = campaign.variations.map((variation: variation) => {
         if (idVariation === variation.idVariation) {
           const preNewTraffic = Math.trunc(Number(event.target.value));
           const newTraffic =

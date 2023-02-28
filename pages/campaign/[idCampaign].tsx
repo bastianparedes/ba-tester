@@ -24,8 +24,8 @@ const Index = ({
   return (
     <>
       <Name campaign={campaign} setCampaign={setCampaign} status={status} />
-      <Variations setCampaign={setCampaign} variations={campaign.variation} />
-      <Evaluators evaluators={campaign.evaluator} setCampaign={setCampaign} />
+      <Variations setCampaign={setCampaign} variations={campaign.variations} />
+      <Evaluators evaluators={campaign.evaluators} setCampaign={setCampaign} />
       <Buttons campaign={campaign} />
     </>
   );

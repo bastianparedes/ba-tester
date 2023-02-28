@@ -56,7 +56,7 @@ const Editor = ({
 
   const handleOnSave = (): void => {
     setCampaign((campaign) => {
-      const evaluator = campaign.evaluator.map((evaluator) => {
+      const evaluator = campaign.evaluators.map((evaluator) => {
         if (idEvaluator === evaluator.idEvaluator) {
           evaluator.javascript = javascript;
         }

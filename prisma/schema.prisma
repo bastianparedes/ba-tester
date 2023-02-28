@@ -13,15 +13,15 @@ model campaign {
   name       String      @default("") @db.VarChar(45)
   idStatus   Int         @default(0)
   status     status      @relation(fields: [idStatus], references: [idStatus], onDelete: NoAction, onUpdate: NoAction, map: "status_ibfk_1")
-  evaluators  evaluator[]
-  variations  variation[]
+  evaluators evaluator[]
+  variations variation[]
 
   @@index([idStatus], map: "status_ibfk_1")
 }
 
 model status {
-  idStatus Int        @id @unique(map: "idStatus_UNIQUE")
-  value    String     @unique(map: "value_UNIQUE") @db.VarChar(45)
+  idStatus  Int        @id @unique(map: "idStatus_UNIQUE")
+  value     String     @unique(map: "value_UNIQUE") @db.VarChar(45)
   campaigns campaign[]
 }
 

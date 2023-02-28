@@ -12,7 +12,7 @@ const constants = {
     }
   },
   newCampaign: {
-    evaluator: [],
+    evaluators: [],
     idCampaign: 0,
     idStatus: 0,
     name: 'New Campaign Name',
@@ -20,7 +20,7 @@ const constants = {
       idStatus: 0,
       value: 'active'
     },
-    variation: []
+    variations: []
   },
   path: {
     campaign: '/campaign',

@@ -1,20 +1,9 @@
-import type {
-  campaign,
-  evaluator,
-  status,
-  variation
-} from '.prisma/client/index';
+import type { campaignWithVariationsEvaluatorsStatus } from '../types/databaseObjects';
 
 declare global {
   interface Window {
     ab: {
-      campaigns: Array<
-        campaign & {
-          evaluator: evaluator[];
-          status: status;
-          variation: variation[];
-        }
-      >;
+      campaigns: campaignWithVariationsEvaluatorsStatus[];
     };
   }
 }

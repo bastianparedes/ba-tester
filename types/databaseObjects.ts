@@ -11,9 +11,9 @@ export type { status };
 export type { variation };
 
 export type campaignWithVariationsEvaluatorsStatus = campaign & {
-  evaluator: evaluator[];
+  evaluators: evaluator[];
   status: status;
-  variation: variation[];
+  variations: variation[];
 };
 
 export type campaignWithStatus = campaign & { status: status };
