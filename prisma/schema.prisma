@@ -10,27 +10,27 @@ datasource db {
 
 model campaign {
   idCampaign Int         @id @default(autoincrement())
-  name        String      @default("") @db.VarChar(45)
+  name       String      @default("") @db.VarChar(45)
   idStatus   Int         @default(0)
-  status      status      @relation(fields: [idStatus], references: [idStatus], onDelete: NoAction, onUpdate: NoAction, map: "status_ibfk_1")
-  evaluator   evaluator[]
-  variation   variation[]
+  status     status      @relation(fields: [idStatus], references: [idStatus], onDelete: NoAction, onUpdate: NoAction, map: "status_ibfk_1")
+  evaluators  evaluator[]
+  variations  variation[]
 
   @@index([idStatus], map: "status_ibfk_1")
 }
 
 model status {
   idStatus Int        @id @unique(map: "idStatus_UNIQUE")
-  value     String     @unique(map: "value_UNIQUE") @db.VarChar(45)
-  campaign  campaign[]
+  value    String     @unique(map: "value_UNIQUE") @db.VarChar(45)
+  campaigns campaign[]
 }
 
 model evaluator {
   idEvaluator Int
   idCampaign  Int
-  name         String   @default("") @db.VarChar(45)
-  javascript   String   @default("") @db.VarChar(5000)
-  campaign     campaign @relation(fields: [idCampaign], references: [idCampaign], onDelete: NoAction, onUpdate: NoAction, map: "evaluator_ibfk_1")
+  name        String   @default("") @db.VarChar(45)
+  javascript  String   @default("") @db.VarChar(5000)
+  campaign    campaign @relation(fields: [idCampaign], references: [idCampaign], onDelete: NoAction, onUpdate: NoAction, map: "evaluator_ibfk_1")
 
   @@id([idEvaluator, idCampaign])
   @@index([idCampaign], map: "evaluator_ibfk_1")
@@ -39,12 +39,12 @@ model evaluator {
 model variation {
   idVariation Int
   idCampaign  Int
-  name         String   @default("") @db.VarChar(45)
-  html         String   @default("") @db.VarChar(5000)
-  css          String   @default("") @db.VarChar(5000)
-  javascript   String   @default("") @db.VarChar(5000)
-  traffic      Int      @default(0)
-  campaign     campaign @relation(fields: [idCampaign], references: [idCampaign], onDelete: NoAction, onUpdate: NoAction, map: "variation_ibfk_1")
+  name        String   @default("") @db.VarChar(45)
+  html        String   @default("") @db.VarChar(5000)
+  css         String   @default("") @db.VarChar(5000)
+  javascript  String   @default("") @db.VarChar(5000)
+  traffic     Int      @default(0)
+  campaign    campaign @relation(fields: [idCampaign], references: [idCampaign], onDelete: NoAction, onUpdate: NoAction, map: "variation_ibfk_1")
 
   @@id([idVariation, idCampaign])
   @@index([idCampaign], map: "variation_ibfk_1")
