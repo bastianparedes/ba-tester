@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 class Variation {
   idVariation: number;
+  idCampaign: number;
   html: string;
   css: string;
   javascript: string;
@@ -9,12 +10,14 @@ class Variation {
 
   constructor(
     idVariation: number,
+    idCampaign: number,
     html: string,
     css: string,
     javascript: string,
     traffic: number
   ) {
     this.idVariation = idVariation;
+    this.idCampaign = idCampaign;
     this.html = html;
     this.css = css;
     this.javascript = javascript;
@@ -52,6 +55,9 @@ class Variation {
       }
 
       try {
+        console.log(
+          `AB TEST - Campaign ${this.idCampaign} - Variation ${this.idVariation}`
+        );
         this.runJavascript();
       } catch (error) {
         console.log(error);

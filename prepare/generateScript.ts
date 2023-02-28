@@ -18,6 +18,7 @@ const runScript = async (): Promise<void> => {
         (variationData) =>
           new Variation(
             variationData.idVariation,
+            campaign.idCampaign,
             variationData.html,
             variationData.css,
             variationData.javascript,
