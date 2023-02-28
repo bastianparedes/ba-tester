@@ -62,7 +62,7 @@ jobs:
       #   with:
       #     name: dist-artifacts
       #     path: |
-      #       ./public/script.js
+      #       ./dist
       #       ./.next
 
       - name: Vercel Action

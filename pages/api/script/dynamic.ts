@@ -2,7 +2,7 @@ import fsPromises from 'fs/promises';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 
-import { getCampaignsForFrontend } from '../../utils/database';
+import { getCampaignsForFrontend } from '../../../utils/database';
 
 const getCampaigns = async (
   req: NextApiRequest,
@@ -16,7 +16,7 @@ const getCampaigns = async (
         jsonData
       )};` +
       (await fsPromises.readFile(
-        path.join(process.cwd(), 'public', 'script.js'),
+        path.join(process.cwd(), 'dist', 'script.js'),
         'utf-8'
       ));
 
