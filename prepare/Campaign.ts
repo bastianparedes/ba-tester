@@ -9,7 +9,7 @@ const getRandomVariation = (variations: Variation[]): Variation => {
     Array(variation.traffic).fill(variation)
   );
   const variation = getRandomFromArray(expandedVariations);
-  return getRandomFromArray(variation);
+  return variation;
 };
 
 class Campaign {
