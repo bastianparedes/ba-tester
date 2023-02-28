@@ -2491,7 +2491,6 @@ const Template = (): JSX.Element => {
         </div>
       </div>
       <div className="gb_Pd">Google Apps</div>
-      <script src="/api/script" type="text/javascript"></script>
     </>
   );
 };
