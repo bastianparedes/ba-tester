@@ -6,7 +6,8 @@ import constants from '../config/constants';
 import type { evaluator, variation } from '../types/databaseObjects';
 import getRandomFromArray from '../utils/getRandomFromArray';
 
-window.AB = window.AB ?? {};
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+window.AB = window.AB || {};
 
 window.AB.findCampaignThatContainsVariation = (
   idCampaign: number,
