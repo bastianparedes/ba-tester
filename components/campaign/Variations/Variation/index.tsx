@@ -36,14 +36,14 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
 
       return {
         ...campaign,
-        variation: newVariations
+        variations: newVariations
       };
     });
   };
 
   const saveName = (event: React.FocusEvent<HTMLInputElement>): void => {
     setCampaign((campaign) => {
-      const variation = campaign.variations.map((variation) => {
+      const variations = campaign.variations.map((variation) => {
         if (idVariation === variation.idVariation) {
           variation.name = event.target.value;
         }
@@ -53,7 +53,7 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
 
       return {
         ...campaign,
-        variation
+        variations
       };
     });
   };
@@ -73,7 +73,7 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
 
       return {
         ...campaign,
-        variation: newVariations
+        variations: newVariations
       };
     });
   };

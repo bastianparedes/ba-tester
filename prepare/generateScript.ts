@@ -3,71 +3,103 @@ import cookie from './cookie';
 import Evaluator from './Evaluator';
 import Variation from './Variation';
 import constants from '../config/constants';
-import type { campaignWithVariationsEvaluatorsStatus } from '../types/databaseObjects';
+import type { evaluator, variation } from '../types/databaseObjects';
 import getRandomFromArray from '../utils/getRandomFromArray';
 
-const runScript = async (): Promise<void> => {
-  const campaigns = window.ab.campaigns.map(
-    (campaign: campaignWithVariationsEvaluatorsStatus) => {
-      const evaluators = campaign.evaluators.map(
-        (evaluatorData) =>
-          new Evaluator(evaluatorData.idEvaluator, evaluatorData.javascript)
-      );
+window.AB = window.AB ?? {};
 
-      const variations = campaign.variations.map(
-        (variationData) =>
-          new Variation(
-            variationData.idVariation,
-            campaign.idCampaign,
-            variationData.html,
-            variationData.css,
-            variationData.javascript,
-            variationData.traffic
-          )
-      );
-
-      return new Campaign(campaign.idCampaign, evaluators, variations);
-    }
+window.AB.findCampaignThatContainsVariation = (
+  idCampaign: number,
+  idVariation: number
+) => {
+  const campaign = window.AB?.campaigns?.find(
+    (campaign) => campaign.idCampaign === idCampaign
   );
 
-  if (campaigns.length === 0) return;
+  const variation = campaign?.variations.find(
+    (variation) => variation.idVariation === idVariation
+  );
+
+  if (variation !== undefined) return campaign;
+  return undefined;
+};
+
+const runScript = async (): Promise<void> => {
+  if (window.AB?.campaigns?.length === 0) return;
 
   const abTestCookie = cookie.get(constants.cookie.name);
   const cookieExists = abTestCookie !== '';
 
   if (cookieExists) {
-    const cookieData: { idCampaign?: number; idVariation?: number } =
-      JSON.parse(abTestCookie);
+    const cookieData: {
+      idCampaign: number | any;
+      idVariation: number | any;
+    } = JSON.parse(abTestCookie);
 
-    const idCampaignInCookie = cookieData.idCampaign;
-    const idVariationInCookie = cookieData.idVariation;
-
-    const campaignAsignedByCookie = campaigns.find(
-      (campaign) => idCampaignInCookie === campaign.idCampaign
-    );
-
-    const variationAsignedByCookie = campaignAsignedByCookie?.variations.find(
-      (variation) => idVariationInCookie === variation.idVariation
-    );
+    const idCampaignInCookie = Number(cookieData.idCampaign);
+    const idVariationInCookie = Number(cookieData.idVariation);
 
     if (
-      campaignAsignedByCookie !== undefined &&
-      variationAsignedByCookie !== undefined
+      Number.isInteger(idCampaignInCookie) &&
+      Number.isInteger(idVariationInCookie)
     ) {
-      const campaignEvaluatorsPassed: boolean =
-        await campaignAsignedByCookie.evaluate();
+      const campaignData = window.AB.findCampaignThatContainsVariation(
+        idCampaignInCookie,
+        idVariationInCookie
+      );
 
-      if (campaignEvaluatorsPassed) {
-        variationAsignedByCookie.getFunction()();
+      if (campaignData !== undefined) {
+        const evaluators = campaignData.evaluators.map(
+          (evaluatorData) =>
+            new Evaluator(evaluatorData.idEvaluator, evaluatorData.javascript)
+        );
+        const variations = campaignData.variations.map(
+          (variationData) =>
+            new Variation(
+              variationData.idVariation,
+              campaignData.idCampaign,
+              variationData.html,
+              variationData.css,
+              variationData.javascript,
+              variationData.traffic
+            )
+        );
+        const campaign = new Campaign(
+          campaignData.idCampaign,
+          evaluators,
+          variations
+        );
+
+        campaign.getSpecificFunction(idVariationInCookie)();
         return;
       }
     }
   }
 
-  const campaignToRun = getRandomFromArray(campaigns);
-  if (campaignToRun === undefined) return;
+  const campaignDataToRun = getRandomFromArray(window.AB.campaigns);
 
-  campaignToRun.getFunction()();
+  const evaluators = campaignDataToRun.evaluators.map(
+    (evaluatorData: evaluator) =>
+      new Evaluator(evaluatorData.idEvaluator, evaluatorData.javascript)
+  );
+  const variations = campaignDataToRun.variations.map(
+    (variationData: variation) =>
+      new Variation(
+        variationData.idVariation,
+        campaignDataToRun.idCampaign,
+        variationData.html,
+        variationData.css,
+        variationData.javascript,
+        variationData.traffic
+      )
+  );
+  const campaignToRun = new Campaign(
+    campaignDataToRun.idCampaign,
+    evaluators,
+    variations
+  );
+
+  campaignToRun.getRandomFunction()();
 };
 
 runScript();

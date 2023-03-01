@@ -38,7 +38,7 @@ const getServerSideProps: GetServerSideProps<{
   const campaignId = Number(context.query.idCampaign);
   const status = await getStatus();
 
-  if (Number.isNaN(campaignId))
+  if (!Number.isInteger(campaignId))
     return {
       props: {
         status

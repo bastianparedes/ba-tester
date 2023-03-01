@@ -34,14 +34,14 @@ const Evaluator = ({ setCampaign, evaluator }: props): JSX.Element => {
 
       return {
         ...campaign,
-        evaluator: newEvaluators
+        evaluators: newEvaluators
       };
     });
   };
 
   const saveName = (event: React.FocusEvent<HTMLInputElement>): void => {
     setCampaign((campaign) => {
-      const evaluator = campaign.evaluators.map((evaluator) => {
+      const evaluators = campaign.evaluators.map((evaluator) => {
         if (idEvaluator === evaluator.idEvaluator) {
           evaluator.name = event.target.value;
         }
@@ -51,7 +51,7 @@ const Evaluator = ({ setCampaign, evaluator }: props): JSX.Element => {
 
       return {
         ...campaign,
-        evaluator
+        evaluators
       };
     });
   };

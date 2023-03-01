@@ -1,5 +1,8 @@
 /* eslint-disable no-eval */
 /* eslint-disable no-console */
+import cookie from './cookie';
+import constants from '../config/constants';
+
 class Variation {
   idVariation: number;
   idCampaign: number;
@@ -58,6 +61,15 @@ class Variation {
         console.log(
           `AB TEST - Campaign ${this.idCampaign} - Variation ${this.idVariation}`
         );
+        cookie.set(
+          constants.cookie.name,
+          JSON.stringify({
+            idCampaign: this.idCampaign,
+            idVariation: this.idVariation
+          }),
+          constants.cookie.duration
+        );
+
         this.runJavascript();
       } catch (error) {
         console.log(error);

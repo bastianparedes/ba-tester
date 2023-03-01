@@ -1,7 +1,5 @@
-import cookie from './cookie';
 import type Evaluator from './Evaluator';
 import type Variation from './Variation';
-import constants from '../config/constants';
 import getRandomFromArray from '../utils/getRandomFromArray';
 
 const getRandomVariation = (variations: Variation[]): Variation => {
@@ -34,7 +32,7 @@ class Campaign {
     ).then((results) => results.every((result: boolean) => result));
   }
 
-  getFunction(): Function {
+  getRandomFunction(): Function {
     return async () => {
       const allEvaluatorsPassed = await this.evaluate();
       if (!allEvaluatorsPassed) return;
@@ -43,14 +41,18 @@ class Campaign {
       if (randomVariationToRun === undefined) return;
 
       randomVariationToRun.getFunction()();
-      cookie.set(
-        constants.cookie.name,
-        JSON.stringify({
-          idCampaign: this.idCampaign,
-          idVariation: randomVariationToRun.idVariation
-        }),
-        constants.cookie.duration
+    };
+  }
+
+  getSpecificFunction(idVariation: number): Function {
+    return async () => {
+      const allEvaluatorsPassed = await this.evaluate();
+      if (!allEvaluatorsPassed) return;
+
+      const variation = this.variations.find(
+        (variation) => variation.idVariation === idVariation
       );
+      variation?.getFunction()();
     };
   }
 }

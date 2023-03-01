@@ -85,7 +85,7 @@ const createCampaign = async (
 ): Promise<any> => {
   const result = await prisma.campaign.create({
     data: {
-      evaluator: {
+      evaluators: {
         create: campaign.evaluators.map((evaluator: evaluator) => {
           return {
             idEvaluator: evaluator.idEvaluator,
@@ -96,7 +96,7 @@ const createCampaign = async (
       },
       idStatus: campaign.idStatus,
       name: campaign.name,
-      variation: {
+      variations: {
         create: campaign.variations.map((variation: variation) => {
           return {
             css: variation.css,
@@ -119,7 +119,7 @@ const updateCampaign = async (
 ): Promise<campaign> => {
   const result = await prisma.campaign.update({
     data: {
-      evaluator: {
+      evaluators: {
         deleteMany: {
           idEvaluator: {
             notIn: campaign.evaluators.map(
@@ -147,7 +147,7 @@ const updateCampaign = async (
       },
       idStatus: campaign.idStatus,
       name: campaign.name,
-      variation: {
+      variations: {
         deleteMany: {
           idVariation: {
             notIn: campaign.variations.map(

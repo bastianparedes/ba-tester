@@ -12,7 +12,7 @@ const getCampaigns = async (
     const jsonData = await getCampaignsForFrontend();
 
     const script =
-      `window.ab = window.ab || {};window.ab.campaigns = ${JSON.stringify(
+      `window.AB = window.AB || {};window.AB.campaigns = ${JSON.stringify(
         jsonData
       )};` +
       (await fsPromises.readFile(

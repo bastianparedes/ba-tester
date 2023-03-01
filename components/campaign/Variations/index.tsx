@@ -30,7 +30,7 @@ const Variations = ({ setCampaign, variations }: props): JSX.Element => {
 
       return {
         ...campaign,
-        variation: [
+        variations: [
           ...variations,
           {
             css: '',

@@ -30,7 +30,7 @@ const Evaluators = ({ setCampaign, evaluators }: props): JSX.Element => {
 
       return {
         ...campaign,
-        evaluator: [
+        evaluators: [
           ...evaluators,
           {
             idCampaign: campaign.idCampaign,

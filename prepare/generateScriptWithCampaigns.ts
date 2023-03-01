@@ -7,7 +7,7 @@ const runScript = async (): Promise<void> => {
   const campaigns = await getCampaignsForFrontend();
   await fsPromises.writeFile(
     path.join(process.cwd(), 'dist', 'campaigns.js'),
-    'window.ab = window.ab || {};window.ab.campaigns = ' +
+    'window.AB = window.AB || {};window.AB.campaigns = ' +
       JSON.stringify(campaigns) +
       ';',
     'utf-8'
