@@ -8,7 +8,6 @@ declare global {
         campaign: number,
         idVariation: number
       ) => campaignWithVariationsEvaluators | undefined;
-      runVariationFunction: (idCampaign: number, idVariation: number) => void;
     };
   }
 }
