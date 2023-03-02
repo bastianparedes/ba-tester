@@ -81,6 +81,9 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
   return (
     <tr className={styles.container}>
       <td className={styles.td}>
+        <span>{variation.idVariation}</span>
+      </td>
+      <td className={styles.td}>
         <input defaultValue={variation.name} onBlur={saveName} type="text" />
       </td>
       <td className={styles.td}>

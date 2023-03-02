@@ -12,6 +12,8 @@ import getRandomFromArray from '../utils/getRandomFromArray';
 
 window.AB = window.AB ?? {};
 
+window.AB.campaigns = window.AB.campaigns ?? [];
+
 window.AB.findCampaignThatContainsVariation = (
   idCampaign: number,
   idVariation: number
@@ -87,7 +89,21 @@ window.AB.readCookie = () => {
   return result;
 };
 
-window.AB.runScript = async () => {
+window.AB.runVariation = (idCampaign, idVariation) => {
+  if (window.AB?.findCampaignThatContainsVariation === undefined) return;
+  if (window.AB?.constructCampaignToRun === undefined) return;
+
+  const campaignData = window.AB.findCampaignThatContainsVariation(
+    idCampaign,
+    idVariation
+  );
+  if (campaignData === undefined) return;
+
+  const campaign = window.AB.constructCampaignToRun(campaignData);
+  campaign.getSpecificFunction(idVariation)();
+};
+
+window.AB.script = async () => {
   if (window.AB?.campaigns?.length === 0) return;
   if (window.AB?.readCookie === undefined) return;
   if (window.AB?.findCampaignThatContainsVariation === undefined) return;
@@ -115,4 +131,4 @@ window.AB.runScript = async () => {
   campaign.getRandomFunction()();
 };
 
-window.AB.runScript();
+window.AB.script();

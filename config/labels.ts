@@ -17,6 +17,7 @@ const labels = {
     variations: {
       newVariation: 'New Variation',
       table: {
+        id: 'ID',
         name: 'Name',
         traffic: 'Traffic'
       },

@@ -22,7 +22,9 @@ declare global {
         idVariation?: number;
       };
 
-      runScript?: () => Promise<void>;
+      runVariation?: (idCampaign: number, idVariation: number) => void;
+
+      script?: () => Promise<void>;
     };
   }
 }

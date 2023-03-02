@@ -44,7 +44,10 @@ class Campaign {
     };
   }
 
-  getSpecificFunction(idVariation: number): Function {
+  getSpecificFunction(
+    idVariation: number,
+    setCookie: boolean = true
+  ): Function {
     return async () => {
       const allEvaluatorsPassed = await this.evaluate();
       if (!allEvaluatorsPassed) return;
@@ -52,7 +55,7 @@ class Campaign {
       const variation = this.variations.find(
         (variation) => variation.idVariation === idVariation
       );
-      variation?.getFunction()();
+      variation?.getFunction(setCookie)();
     };
   }
 }

@@ -58,6 +58,9 @@ const Variations = ({ setCampaign, variations }: props): JSX.Element => {
         <thead>
           <tr>
             <th className={styles.th}>
+              <span>{labels.campaign.variations.table.id}</span>
+            </th>
+            <th className={styles.th}>
               <span>{labels.campaign.variations.table.name}</span>
             </th>
             <th className={styles.th}>

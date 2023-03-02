@@ -43,7 +43,7 @@ class Variation {
     eval(this.javascript);
   }
 
-  getFunction(): Function {
+  getFunction(setCookie: boolean = true): Function {
     return () => {
       try {
         this.addHtml();
@@ -61,14 +61,16 @@ class Variation {
         console.log(
           `AB TEST - Campaign ${this.idCampaign} - Variation ${this.idVariation}`
         );
-        cookie.set(
-          constants.cookie.name,
-          JSON.stringify({
-            idCampaign: this.idCampaign,
-            idVariation: this.idVariation
-          }),
-          constants.cookie.duration
-        );
+        if (setCookie) {
+          cookie.set(
+            constants.cookie.name,
+            JSON.stringify({
+              idCampaign: this.idCampaign,
+              idVariation: this.idVariation
+            }),
+            constants.cookie.duration
+          );
+        }
 
         this.runJavascript();
       } catch (error) {
