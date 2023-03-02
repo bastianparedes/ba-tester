@@ -1,5 +1,8 @@
 import path from 'path';
+import webpack from 'webpack';
 import WebpackShellPluginNext from 'webpack-shell-plugin-next';
+
+import { getCampaignsForFrontend } from './utils/database';
 
 const entryPath = path.join(__dirname, 'prepare', 'generateScript.ts');
 const outputPath = path.join(__dirname, 'dist');
@@ -25,6 +28,9 @@ export default async (): Promise<any> => {
       path: outputPath
     },
     plugins: [
+      new webpack.DefinePlugin({
+        WEBPACK_VARIABLE_1: JSON.stringify(await getCampaignsForFrontend())
+      }),
       new WebpackShellPluginNext({
         onAfterDone: {
           blocking: true,

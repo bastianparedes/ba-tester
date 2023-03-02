@@ -10,9 +10,11 @@ import type {
 } from '../types/databaseObjects';
 import getRandomFromArray from '../utils/getRandomFromArray';
 
+declare const WEBPACK_VARIABLE_1: any;
+
 window.AB = window.AB ?? {};
 
-window.AB.campaigns = window.AB.campaigns ?? [];
+window.AB.campaigns = WEBPACK_VARIABLE_1 ?? [];
 
 window.AB.findCampaignThatContainsVariation = (
   idCampaign: number,

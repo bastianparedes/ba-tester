@@ -6,7 +6,7 @@ const Index = (): JSX.Element => {
   return (
     <>
       <Google />
-      <script src="/api/script/dynamic" type="text/javascript"></script>
+      <script src="/api/script/static" type="text/javascript"></script>
     </>
   );
 };
