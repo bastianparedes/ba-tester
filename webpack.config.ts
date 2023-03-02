@@ -1,6 +1,5 @@
 import path from 'path';
 import webpack from 'webpack';
-import WebpackShellPluginNext from 'webpack-shell-plugin-next';
 
 import { getCampaignsForFrontend } from './utils/database';
 
@@ -30,21 +29,6 @@ export default async (): Promise<any> => {
     plugins: [
       new webpack.DefinePlugin({
         WEBPACK_VARIABLE_1: JSON.stringify(await getCampaignsForFrontend())
-      }),
-      new WebpackShellPluginNext({
-        onAfterDone: {
-          blocking: true,
-          parallel: false,
-          scripts: [
-            'echo "Generating campaigns.js"',
-            'npx ts-node prepare/generateScriptWithCampaigns.ts'
-          ]
-        },
-        onBeforeNormalRun: {
-          blocking: true,
-          parallel: false,
-          scripts: ['echo "Generating script.js"']
-        }
       })
     ],
     resolve: {
