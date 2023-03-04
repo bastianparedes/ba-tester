@@ -62,7 +62,7 @@ const Variation = ({ setCampaign, variation }: props): JSX.Element => {
     setCampaign((campaign) => {
       const newVariations = campaign.variations.map((variation: variation) => {
         if (idVariation === variation.idVariation) {
-          const preNewTraffic = Math.trunc(Number(event.target.value));
+          const preNewTraffic = Math.trunc(event.target.valueAsNumber);
           const newTraffic =
             preNewTraffic < 0 ? 0 : preNewTraffic > 100 ? 100 : preNewTraffic;
           event.target.value = String(newTraffic);

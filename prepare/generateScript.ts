@@ -1,5 +1,4 @@
 import Campaign from './Campaign';
-import cookie from './cookie';
 import Evaluator from './Evaluator';
 import Variation from './Variation';
 import constants from '../config/constants';
@@ -8,6 +7,7 @@ import type {
   evaluator,
   variation
 } from '../types/databaseObjects';
+import cookie from '../utils/cookie';
 import getRandomFromArray from '../utils/getRandomFromArray';
 
 declare const WEBPACK_VARIABLE_1: any;

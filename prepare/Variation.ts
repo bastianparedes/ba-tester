@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
 /* eslint-disable no-console */
-import cookie from './cookie';
 import constants from '../config/constants';
+import cookie from '../utils/cookie';
 
 class Variation {
   idVariation: number;
