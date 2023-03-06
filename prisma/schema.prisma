@@ -49,3 +49,8 @@ model variation {
   @@id([idVariation, idCampaign])
   @@index([idCampaign], map: "variation_ibfk_1")
 }
+
+model fakeUser {
+  user     String @id @unique(map: "user_UNIQUE") @db.VarChar(45)
+  password String @db.VarChar(255)
+}
