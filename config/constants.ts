@@ -3,14 +3,6 @@ const constants = {
     duration: 20,
     name: 'ab_test'
   },
-  fetch: {
-    method: {
-      delete: 'DELETE',
-      get: 'GET',
-      post: 'POST',
-      put: 'PUT'
-    }
-  },
   newCampaign: {
     evaluators: [],
     idCampaign: 0,
