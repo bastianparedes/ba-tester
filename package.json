@@ -1,9 +1,12 @@
 {
   "author": "Bastián Gabriel Paredes Padget",
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@monaco-editor/react": "^4.4.6",
     "@prisma/client": "^4.11.0",
+    "apollo-server-micro": "^3.12.0",
     "bastianparedes": "^1.1.5",
+    "graphql": "^16.6.0",
     "monaco-editor": "^0.35.0",
     "next": "latest",
     "react": "^18.2.0",
