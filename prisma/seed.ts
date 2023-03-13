@@ -1,5 +1,9 @@
 import { seed } from '../utils/database';
 
-seed().finally(() => {
-  process.exit(1);
-});
+seed()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch(() => {
+    process.exit(1);
+  });
