@@ -1,14 +1,15 @@
 import { ApolloServer } from 'apollo-server-micro';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import NextCors from 'nextjs-cors';
 
 import { createContext } from '../../graphql/context';
 import { resolvers } from '../../graphql/resolvers';
-import { typeDefs } from '../../graphql/shchema';
+import { schema } from '../../graphql/shchema';
 
 const apolloServer = new ApolloServer({
   context: createContext(),
   resolvers,
-  typeDefs
+  schema
 });
 const startServer = apolloServer.start();
 
@@ -16,6 +17,12 @@ const handler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
+  await NextCors(req, res, {
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    optionsSuccessStatus: 200,
+    origin: '*'
+  });
+
   await startServer;
   await apolloServer.createHandler({
     path: '/api/graphql'
