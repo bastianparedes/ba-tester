@@ -1,4 +1,4 @@
-import { extendType, objectType } from 'nexus';
+import { extendType, intArg, objectType } from 'nexus';
 
 const Status = objectType({
   definition(t) {
@@ -10,9 +10,16 @@ const Status = objectType({
 
 const StatusQuery = extendType({
   definition(t) {
-    t.list.field('status', {
-      async resolve(_parent, _args, ctx) {
-        return ctx.prisma.status.findMany();
+    t.field('status', {
+      args: {
+        idStatus: intArg()
+      },
+      async resolve(_parent, args, ctx) {
+        return ctx.prisma.status.findUnique({
+          where: {
+            idStatus: args.idStatus
+          }
+        });
       },
       type: 'Status'
     });

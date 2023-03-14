@@ -2,11 +2,30 @@
 ### Do not make changes to this file directly
 
 
+type Evaluator {
+  idCampaign: Int
+  idEvaluator: Int
+  javascript: String
+  name: String
+}
+
 type Query {
-  status: [Status]
+  evaluator(idCampaign: Int): [Evaluator]
+  status(idStatus: Int): Status
+  variation(idCampaign: Int): [Variation]
 }
 
 type Status {
   idStatus: Int
   value: String
+}
+
+type Variation {
+  css: String
+  html: String
+  idCampaign: Int
+  idVariation: Int
+  javascript: String
+  name: String
+  traffic: Int
 }
