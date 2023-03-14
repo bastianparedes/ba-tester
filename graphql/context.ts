@@ -6,7 +6,7 @@ interface Context {
   prisma: PrismaClient;
 }
 
-const createContext = async (_res = {}, _req = {}): Promise<Context> => {
+const createContext = (_res = {}, _req = {}): Context => {
   return {
     prisma
   };

@@ -15,7 +15,7 @@ const schema = makeSchema({
       'node_modules',
       '@types',
       'nexus-typegen',
-      'index,d,ts'
+      'index.d.ts'
     )
   },
   types

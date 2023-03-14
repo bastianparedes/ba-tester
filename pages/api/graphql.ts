@@ -1,14 +1,13 @@
+// import { PrismaClient } from '@prisma/client';
 import { ApolloServer } from 'apollo-server-micro';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NextCors from 'nextjs-cors';
 
 import { createContext } from '../../graphql/context';
-import { resolvers } from '../../graphql/resolvers';
 import { schema } from '../../graphql/shchema';
 
 const apolloServer = new ApolloServer({
   context: createContext(),
-  resolvers,
   schema
 });
 const startServer = apolloServer.start();

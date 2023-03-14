@@ -1,4 +1,4 @@
-import { objectType } from 'nexus';
+import { extendType, objectType } from 'nexus';
 
 const Status = objectType({
   definition(t) {
@@ -8,4 +8,16 @@ const Status = objectType({
   name: 'Status'
 });
 
-export { Status };
+const StatusQuery = extendType({
+  definition(t) {
+    t.list.field('status', {
+      async resolve(_parent, _args, ctx) {
+        return ctx.prisma.status.findMany();
+      },
+      type: 'Status'
+    });
+  },
+  type: 'Query'
+});
+
+export { Status, StatusQuery };
