@@ -2,6 +2,13 @@
 ### Do not make changes to this file directly
 
 
+type Campaign {
+  idCampaign: Int
+  idStatus: Int
+  name: String
+  status: Status
+}
+
 type Evaluator {
   idCampaign: Int
   idEvaluator: Int
@@ -10,6 +17,7 @@ type Evaluator {
 }
 
 type Query {
+  campaign(idCampaign: Int): Campaign
   evaluator(idCampaign: Int): [Evaluator]
   status(idStatus: Int): Status
   variation(idCampaign: Int): [Variation]

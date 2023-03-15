@@ -26,7 +26,7 @@ const VariationQuery = extendType({
           }
         });
       },
-      type: 'Variation'
+      type: Variation
     });
   },
   type: 'Query'

@@ -23,7 +23,7 @@ const EvaluatorQuery = extendType({
           }
         });
       },
-      type: 'Evaluator'
+      type: Evaluator
     });
   },
   type: 'Query'

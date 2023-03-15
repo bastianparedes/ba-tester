@@ -21,7 +21,7 @@ const StatusQuery = extendType({
           }
         });
       },
-      type: 'Status'
+      type: Status
     });
   },
   type: 'Query'
