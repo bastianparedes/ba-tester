@@ -1,0 +1,71 @@
+.nodeContainer {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  margin: 0.6rem 0;
+}
+
+.nodeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+
+  & .internalNodeContent {
+    margin: 0 1rem;
+  }
+}
+
+.bordeSuperior {
+  height: 1rem;
+  margin-bottom: .5rem;
+  border-top: .3rem black solid;
+  border-right: .3rem black solid;
+  border-left: .3rem black solid;
+}
+
+.bordeInferior {
+  height: 1rem;
+  margin-top: .5rem;
+  border-bottom: .3rem black solid;
+  border-right: .3rem black solid;
+  border-left: .3rem black solid;
+}
+
+.leafContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.andOr {
+  margin-left: 0rem;
+  background: none;
+  border: none;
+  color: rgb(171, 171, 171);
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(92, 92, 92);
+  }
+
+  &.andOrSelected {
+    color: rgb(0 0 0);
+    cursor: initial;
+  }
+}
+
+.button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  font-size: 2rem;
+
+  &:hover {
+    color: rgb(255, 108, 28);
+  }
+}
+
+.addButtonMargin {
+  margin-top: 1rem;
+}

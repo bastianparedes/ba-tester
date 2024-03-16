@@ -1,0 +1,80 @@
+import React, { useState } from 'react';
+
+import Monaco from '@monaco-editor/react';
+import { Modal } from 'bastianparedes/components';
+import type { editor } from 'monaco-editor';
+
+import styles from './styles.module.scss';
+import type {
+  CampaignExtendedWithoutDate,
+  TriggerData
+} from '../../../../../../../../../../types/databaseObjects';
+import { useTranslationContext } from '../../../../../../../../common/context/useTranslation';
+
+import 'react-tabs/style/react-tabs.css';
+
+interface Props {
+  setShowEditor: (arg0: boolean) => void;
+  trigger: TriggerData & { type: 'custom' };
+  setCampaign: (
+    campaign: (
+      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
+    ) => CampaignExtendedWithoutDate
+  ) => void;
+}
+
+const Editor = ({ setCampaign, trigger, setShowEditor }: Props) => {
+  const translation = useTranslationContext();
+  const [errors, setErrors] = useState<{ javascript: editor.IMarker[] }>({
+    javascript: []
+  });
+  const [javascript, setJavascript] = useState(trigger.data.javascript);
+
+  const monacoConfig = {
+    className: styles.monaco,
+    options: {
+      minimap: {
+        enabled: false
+      }
+    },
+    theme: 'vs-dark'
+  };
+
+  const monacoJavascriptConfig = {
+    onChange: (javascript: string | undefined) => {
+      setJavascript(javascript ?? '');
+    },
+    onValidate: (errorsJavascript: editor.IMarker[]) => {
+      setErrors((errors) => ({ ...errors, javascript: errorsJavascript }));
+    },
+    value: javascript
+  };
+
+  const handleOnSave = () => {
+    setCampaign((campaign) => {
+      trigger.data.javascript = javascript;
+
+      return structuredClone(campaign);
+    });
+    setShowEditor(false);
+  };
+
+  return (
+    <Modal setModalVisible={setShowEditor}>
+      <div className={styles.container}>
+        <button disabled={errors.javascript.length > 0} onClick={handleOnSave}>
+          {translation.campaign.save}
+        </button>
+        <div className={styles.monacoContainer}>
+          <Monaco
+            {...monacoConfig}
+            {...monacoJavascriptConfig}
+            language="javascript"
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export default Editor;

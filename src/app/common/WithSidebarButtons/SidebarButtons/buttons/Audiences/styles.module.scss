@@ -1,0 +1,43 @@
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(95 98 255);
+  position: relative;
+  border-radius: 0.25rem;
+  color: #fff;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: calc(.25rem - 0.1px);
+    width: 0;
+    height: 100%;
+    transition: all 0.2s ease-in-out 0s;
+    background-color: inherit;
+    transform: translateX(100%);
+    color: rgb(95 98 255);
+  }
+
+  &:hover::after {
+    width: .75rem;
+  }
+
+}
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.25rem;
+  
+  path {
+    stroke: inherit;
+  }
+}

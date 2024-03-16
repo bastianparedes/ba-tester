@@ -1,0 +1,11 @@
+.button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  font-size: 2rem;
+
+  &:hover {
+    color: rgb(255, 108, 28);
+  }
+}

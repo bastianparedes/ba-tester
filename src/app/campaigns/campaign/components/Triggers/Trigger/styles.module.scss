@@ -1,0 +1,46 @@
+.or {
+  margin: 0 1rem;
+}
+
+.tr {
+  background-color: rgb(230 230 230);
+  border-radius: 533px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  font-size: 2rem;
+
+  &:hover {
+    color: rgb(255, 108, 28);
+  }
+}
+
+.td {
+  padding: .5rem;
+  
+  $border-radius: .5rem;
+  &:first-child {
+    border-radius: $border-radius 0 0 $border-radius;
+  }
+  &:last-child {
+    border-radius: 0 $border-radius $border-radius 0;
+  }
+}
+
+.tdSelect {
+  width: 13rem;
+}
+
+.littleButton {
+  width: 4rem;
+}

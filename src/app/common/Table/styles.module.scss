@@ -1,0 +1,16 @@
+.table {
+  width: 100%;
+  height: fit-content;
+  text-align: left;
+  border-spacing: 1rem 1rem;
+  background-color: rgb(255, 255, 255);
+  border-collapse: collapse;
+  box-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+}
+
+.tdNoRows {
+  height: 6rem;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 2rem;
+}
