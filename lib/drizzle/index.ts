@@ -5,7 +5,7 @@ import * as schema from './schema';
 
 const client = createClient({
   authToken: process.env.DATABASE_TOKEN,
-  url: process.env.DATABASE_URL_SQL_LITE ?? ''
+  url: process.env.DATABASE_URL ?? ''
 });
 
 export default drizzle(client, { schema });
