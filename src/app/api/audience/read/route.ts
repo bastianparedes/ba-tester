@@ -1,4 +1,4 @@
-import { and, asc, desc, ilike, inArray, sql } from 'drizzle-orm';
+import { and, asc, desc, inArray, like, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 import drizzle from '../../../../../lib/drizzle';
@@ -29,7 +29,7 @@ const POST = async (request: Request) => {
     .from(Audience)
     .where(
       and(
-        ilike(Audience.name, nameToUseInFilter),
+        like(Audience.name, nameToUseInFilter),
         inArray(Audience.status, args.statusList)
       )
     )
@@ -44,7 +44,7 @@ const POST = async (request: Request) => {
     .from(Audience)
     .where(
       and(
-        ilike(Audience.name, nameToUseInFilter),
+        like(Audience.name, nameToUseInFilter),
         inArray(Audience.status, args.statusList)
       )
     );

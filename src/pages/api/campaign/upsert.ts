@@ -7,7 +7,7 @@ import { validateCampaign } from '../../../../types/jsonValidators/campaign';
 import build from '../../../../utils/build';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const campaign = JSON.parse(req.body.campaign);
+  const { campaign } = JSON.parse(req.body);
   const isCampaign = validateCampaign(campaign);
   if (!isCampaign) return res.status(400).json({ success: false });
 

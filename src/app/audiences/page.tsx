@@ -27,7 +27,7 @@ const Index = () => {
       const response = await fetch(constants.api.audience.read, {
         body: JSON.stringify({
           args: {
-            name: filterByname,
+            name: filterByname.toLocaleLowerCase(),
             order,
             orderBy,
             page,
