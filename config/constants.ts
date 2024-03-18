@@ -38,6 +38,6 @@ const constants = Object.freeze({
     campaigns: '/campaigns'
   },
   quantitiesAvailable: [5, 10, 15, 20, 25]
-});
+} as const);
 
 export default constants;

@@ -6,9 +6,9 @@ import Cancel from './Cancel';
 import Save from './Save';
 import styles from './styles.module.scss';
 import constants from '../../../../../../config/constants';
+import { trpcClient } from '../../../../../../lib/trpc/client';
 import { basePath } from '../../../../../../next.config';
 import type { CampaignExtendedWithoutDate } from '../../../../../../types/databaseObjects';
-import { trpcClient } from '../../../../../../lib/trpc/client';
 import Loader from '../../../../common/Loader';
 
 interface Props {
@@ -17,7 +17,24 @@ interface Props {
 
 const Buttons = ({ campaign }: Props) => {
   const [loading, setLoading] = useState(false);
-  const insertCampaign = trpcClient.sendMail.useMutation();
+  const insertCampaign = trpcClient.insertCampaign.useMutation({
+    onSettled(_data, error) {
+      if (error !== null) {
+        location.href = path.join(basePath, constants.pages.campaigns);
+        console.log('There was an error');
+      }
+      setLoading(false);
+    }
+  });
+  const updateCampaign = trpcClient.updateCampaign.useMutation({
+    onSettled(_data, error) {
+      if (error !== null) {
+        location.href = path.join(basePath, constants.pages.campaigns);
+        console.log('There was an error');
+      }
+      setLoading(false);
+    }
+  });
 
   const returnToCampaigns = () => {
     location.href = path.join(basePath, constants.pages.campaigns);
@@ -25,12 +42,13 @@ const Buttons = ({ campaign }: Props) => {
 
   const handleOnSave = async () => {
     setLoading(true);
-    await fetch(path.join(basePath, constants.api.campaign.upsert), {
-      body: JSON.stringify({ campaign }),
-      method: 'POST'
+    if (campaign.id === undefined) return insertCampaign.mutate(campaign);
+    updateCampaign.mutate({
+      id: campaign.id,
+      values: campaign
     });
+
     setLoading(false);
-    // returnToCampaigns();
   };
 
   return (

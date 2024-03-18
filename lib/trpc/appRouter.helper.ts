@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { literal, z } from 'zod';
 
 import constants from '../../config/common/constants';
 import type { RequirementDataCampaign } from '../../types/databaseObjects';
@@ -10,8 +10,9 @@ import type { RequirementDataCampaign } from '../../types/databaseObjects';
 // };
 
 const zodRequirementsCampaign = (() => {
-  const requirements: z.ZodType<z.infer<RequirementDataCampaign>> =
-    z.discriminatedUnion('type', [
+  const requirements: z.ZodType<RequirementDataCampaign> = z.discriminatedUnion(
+    'type',
+    [
       z.object({
         data: z.object({
           children: z.lazy(() => requirements.array()),
@@ -85,17 +86,18 @@ const zodRequirementsCampaign = (() => {
         }),
         type: z.literal(constants.requirementTypes.audience)
       })
-    ]);
-
-  const result = requirements.parse({
-    type: 'audience',
-    hola: 1,
-    data: {
-      id: 1
-    }
+    ]
+  );
+  return z.object({
+    data: z.object({
+      children: z.array(requirements),
+      operator: z.enum([
+        constants.booleanOperators.and,
+        constants.booleanOperators.or
+      ])
+    }),
+    type: literal(constants.requirementTypes.node)
   });
-
-  console.log(requirements);
 })();
 
 export { zodRequirementsCampaign };

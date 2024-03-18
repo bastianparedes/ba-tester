@@ -24,6 +24,8 @@ const POST = async (request: Request) => {
     desc
   }[args.order];
 
+  console.log(args.name, nameToUseInFilter, args.statusList);
+
   const campaigns = await drizzle
     .select()
     .from(Campaign)
