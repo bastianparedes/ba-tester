@@ -16,23 +16,16 @@ interface Props {
 }
 
 const Buttons = ({ campaign }: Props) => {
-  const [loading, setLoading] = useState(false);
   const insertCampaign = trpcClient.insertCampaign.useMutation({
     onSettled(_data, error) {
-      if (error !== null) {
-        location.href = path.join(basePath, constants.pages.campaigns);
-        console.log('There was an error');
-      }
-      setLoading(false);
+      if (error !== null) return window.alert('There was an error');
+      location.href = path.join(basePath, constants.pages.campaigns);
     }
   });
   const updateCampaign = trpcClient.updateCampaign.useMutation({
     onSettled(_data, error) {
-      if (error !== null) {
-        location.href = path.join(basePath, constants.pages.campaigns);
-        console.log('There was an error');
-      }
-      setLoading(false);
+      if (error !== null) return window.alert('There was an error');
+      location.href = path.join(basePath, constants.pages.campaigns);
     }
   });
 
@@ -41,19 +34,16 @@ const Buttons = ({ campaign }: Props) => {
   };
 
   const handleOnSave = async () => {
-    setLoading(true);
     if (campaign.id === undefined) return insertCampaign.mutate(campaign);
     updateCampaign.mutate({
       id: campaign.id,
       values: campaign
     });
-
-    setLoading(false);
   };
 
   return (
     <>
-      {loading && <Loader />}
+      {(insertCampaign.isLoading || updateCampaign.isLoading) && <Loader />}
       <div className={styles.container}>
         <Save campaign={campaign} onClick={handleOnSave} />
         <Cancel onClick={returnToCampaigns} />

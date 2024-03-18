@@ -63,7 +63,7 @@ const IndexComponents = ({ campaigns }: Props) => {
             order,
             orderBy,
             setOrder,
-            setOrderBy
+            setOrderBy: setOrderBy as any
           }}
           rows={rows}
         />

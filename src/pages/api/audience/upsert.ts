@@ -5,7 +5,6 @@ import drizzle from '../../../../lib/drizzle';
 import { Audience } from '../../../../lib/drizzle/schema';
 import type { AudienceExtendedWithoutDate } from '../../../../types/databaseObjects';
 import { validateRequirementsAudience } from '../../../../types/jsonValidators';
-import build from '../../../../utils/build';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { audience }: { audience: AudienceExtendedWithoutDate } = JSON.parse(
@@ -42,7 +41,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  build();
   return res.json({ success: true });
 };
 

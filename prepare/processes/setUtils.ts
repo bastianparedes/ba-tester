@@ -4,9 +4,6 @@ import cookie from '../utils/cookie';
 
 declare global {
   interface Window {
-    _satellite?: {
-      track?: (arg0: string) => void;
-    };
     ba_tester: ba_tester;
   }
 }
@@ -24,22 +21,14 @@ const getDevice = () => {
     : commonConstants.devices.desktop;
 };
 
-const satelliteTrack = (arg: string) => {
-  const interval = setInterval(() => {
-    if (window?._satellite?.track !== undefined) {
-      window._satellite.track(arg);
-      clearInterval(interval);
-    }
-  }, 100);
-};
-
 const script = () => {
   window.ba_tester = {
-    audiencesData: INYECTED_AUDIENCES_DATA,
-    campaignsData: INYECTED_CAMPAIGNS_DATA,
+    audiencesData:
+      undefined as unknown as typeof window.ba_tester.audiencesData,
+    campaignsData:
+      undefined as unknown as typeof window.ba_tester.campaignsData,
     cookie,
-    device: getDevice(),
-    satelliteTrack
+    device: getDevice()
   };
 };
 

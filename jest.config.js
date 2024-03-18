@@ -7,7 +7,7 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   collectCoverage: true,
   collectCoverageFrom: [
-    './prepare/**/*.ts',
+    './script/**/*.ts',
     './lib/**/*.ts',
     './src/**/*.ts',
     './src/**/*.tsx',

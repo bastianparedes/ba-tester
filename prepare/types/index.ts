@@ -1,7 +1,7 @@
 import type {
   getAudiencesForFrontend,
   getCampaignsForFrontend
-} from 'prepare/utils/database';
+} from '../utils/database';
 
 type History = {
   events: {
@@ -23,7 +23,6 @@ type History = {
 };
 
 type ba_tester = {
-  satelliteTrack: (args0: string) => void;
   audiencesData: Awaited<ReturnType<typeof getAudiencesForFrontend>>;
   campaignsData: Awaited<ReturnType<typeof getCampaignsForFrontend>>;
   cookie: {

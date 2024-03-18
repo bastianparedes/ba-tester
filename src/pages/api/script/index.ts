@@ -2,8 +2,6 @@ import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 
-import build from '../../../../utils/build';
-
 const getBundle = async (_req: NextApiRequest, res: NextApiResponse) => {
   const fileExists = fs.existsSync(
     path.join(process.cwd(), 'dist', 'script.js')
@@ -11,7 +9,6 @@ const getBundle = async (_req: NextApiRequest, res: NextApiResponse) => {
 
   if (!fileExists) {
     try {
-      await build();
     } catch {
       res.send('');
     }
