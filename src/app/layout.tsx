@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { TrpcProvider } from './_contexts/TrpcProvider';
 import { TranslationProvider } from './common/context/useTranslation';
 import WithSidebarButtons from './common/WithSidebarButtons';
 import 'bastianparedes/styles/global.css';
@@ -16,7 +17,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body>
         <TranslationProvider languaje="english">
-          <WithSidebarButtons>{children}</WithSidebarButtons>
+          <WithSidebarButtons>
+            <TrpcProvider>{children}</TrpcProvider>
+          </WithSidebarButtons>
         </TranslationProvider>
       </body>
     </html>

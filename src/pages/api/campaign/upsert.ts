@@ -4,15 +4,15 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import drizzle from '../../../../lib/drizzle';
 import { Campaign } from '../../../../lib/drizzle/schema';
 import { validateCampaign } from '../../../../types/jsonValidators/campaign';
-import build from '../../../../utils/build';
+// import build from '../../../../utils/build';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { campaign } = JSON.parse(req.body);
   const isCampaign = validateCampaign(campaign);
   if (!isCampaign) return res.status(400).json({ success: false });
 
-  const requirementsAreValid = validateCampaign(campaign);
-  if (!requirementsAreValid) return res.json({ success: false });
+  // const requirementsAreValid = validateCampaign(campaign);
+  // if (!requirementsAreValid) return res.json({ success: false });
 
   const variations = campaign.variations.map((variation, index) => ({
     css: variation.css.trim(),
@@ -53,7 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  build();
+  // build();
   return res.json({ success: true });
 };
 

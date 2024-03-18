@@ -8,6 +8,7 @@ import styles from './styles.module.scss';
 import constants from '../../../../../../config/constants';
 import { basePath } from '../../../../../../next.config';
 import type { CampaignExtendedWithoutDate } from '../../../../../../types/databaseObjects';
+import { trpcClient } from '../../../../../../lib/trpc/client';
 import Loader from '../../../../common/Loader';
 
 interface Props {
@@ -16,6 +17,8 @@ interface Props {
 
 const Buttons = ({ campaign }: Props) => {
   const [loading, setLoading] = useState(false);
+  const insertCampaign = trpcClient.sendMail.useMutation();
+
   const returnToCampaigns = () => {
     location.href = path.join(basePath, constants.pages.campaigns);
   };
@@ -27,7 +30,7 @@ const Buttons = ({ campaign }: Props) => {
       method: 'POST'
     });
     setLoading(false);
-    returnToCampaigns();
+    // returnToCampaigns();
   };
 
   return (

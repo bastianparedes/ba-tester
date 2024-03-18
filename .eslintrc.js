@@ -7,7 +7,6 @@ const eslintrc = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:sonarjs/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
@@ -28,7 +27,6 @@ const eslintrc = {
     'import',
     'prettier',
     'react',
-    'sonarjs',
     'sort-keys-fix'
   ],
   root: true,

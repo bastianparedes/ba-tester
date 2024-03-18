@@ -38,18 +38,17 @@ type RequirementDataCampaign =
     }
   | {
       type: 'cookie' | 'localStorage' | 'sessionStorage' | 'queryParam';
-      data: {
-        name: string;
-      } & (
+      data:
         | {
+            name: string;
             comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
             value: string;
           }
         | {
+            name: string;
             comparator: 'exists' | 'doesNotExist';
             value?: undefined;
-          }
-      );
+          };
     }
   | {
       type: 'custom';
@@ -152,5 +151,6 @@ export type {
   AudienceExtendedWithoutDate,
   CampaignWithoutDate,
   CampaignWithDate,
-  CampaignExtendedWithoutDate
+  CampaignExtendedWithoutDate,
+  RequirementDataCampaign
 };
