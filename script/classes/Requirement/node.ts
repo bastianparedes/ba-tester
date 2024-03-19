@@ -2,7 +2,8 @@ import type { ba_tester } from '../../types';
 
 import Requirement from './index';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type RequirementData =
+  ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementNode = (requirement: RequirementData & { type: 'node' }) =>
   Promise.all(

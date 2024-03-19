@@ -10,16 +10,16 @@ declare global {
 }
 
 const script = () => {
-  window.ba_tester.campaignsData.forEach((campaignData) => {
+  window.ba_tester.campaignsData?.forEach((campaignData) => {
     const triggers = campaignData.triggers.map(
       (triggerData) => new Trigger(triggerData, campaignData.id)
     );
 
     const variations = campaignData.variations.map(
-      (variationData) => new Variation(variationData, campaignData.id as number)
+      (variationData) => new Variation(variationData, campaignData.id)
     );
     return new Campaign(
-      campaignData.id as number,
+      campaignData.id,
       campaignData.name,
       campaignData.requirements,
       triggers,
