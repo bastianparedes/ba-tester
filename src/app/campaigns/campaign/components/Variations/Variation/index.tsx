@@ -8,7 +8,7 @@ import type {
   CampaignExtendedWithoutDate,
   VariationData
 } from '../../../../../../../types/databaseObjects';
-import { useTranslationContext } from '../../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import Editor from '../Editor';
 import { variationsWithDistributedTraffic } from '../util';
 

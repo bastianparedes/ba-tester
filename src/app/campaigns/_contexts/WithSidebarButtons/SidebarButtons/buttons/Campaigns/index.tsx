@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { GrTest } from 'react-icons/gr';
 
 import styles from './styles.module.scss';
-import constants from '../../../../../../../config/constants';
+import constants from '../../../../../../../../config/constants';
 
 const ButtonCampaigns = () => {
   return (

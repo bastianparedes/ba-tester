@@ -3,7 +3,7 @@ import React from 'react';
 import Column from './Column';
 import Row from './Row';
 import styles from './styles.module.scss';
-import { useTranslationContext } from '../../common/context/useTranslation';
+import { useTranslationContext } from '../../_contexts/useTranslation';
 
 interface Props {
   columns: {

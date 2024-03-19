@@ -5,7 +5,7 @@ import db from '../../../../lib/drizzle/index';
 import { getCampaignsForFrontend } from '../../../../script/utils/database';
 
 const GET = async () => {
-  const campaigns = getCampaignsForFrontend();
+  const campaigns = await getCampaignsForFrontend();
 
   const stringWindow = `window.ba_tester = window.ba_tester || {}\n;window.ba_tester.campaignsData = ${JSON.stringify(campaigns)};`;
 

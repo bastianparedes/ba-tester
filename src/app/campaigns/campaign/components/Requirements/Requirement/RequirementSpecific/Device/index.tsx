@@ -2,7 +2,7 @@ import React from 'react';
 
 import commonConstants from '../../../../../../../../../config/common/constants';
 import type { CampaignExtendedWithoutDate } from '../../../../../../../../../types/databaseObjects';
-import { useTranslationContext } from '../../../../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
   requirement: CampaignExtendedWithoutDate['requirements']['data']['children'][number];

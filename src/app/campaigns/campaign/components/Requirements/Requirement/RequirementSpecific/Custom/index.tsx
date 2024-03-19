@@ -5,7 +5,7 @@ import { MdEdit } from 'react-icons/md';
 import Editor from './Editor';
 import styles from './styles.module.scss';
 import type { CampaignExtendedWithoutDate } from '../../../../../../../../../types/databaseObjects';
-import { useTranslationContext } from '../../../../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
   requirement: CampaignExtendedWithoutDate['requirements']['data']['children'][number];

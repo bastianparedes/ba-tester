@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import styles from './styles.module.scss';
 import constants from '../../../../../config/constants';
-import { useTranslationContext } from '../../../common/context/useTranslation';
+import { useTranslationContext } from '../../_contexts/useTranslation';
 
 const Index = () => {
   const translation = useTranslationContext();

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import styles from './styles.module.scss';
-import { useTranslationContext } from '../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../_contexts/useTranslation';
 import { useFiltersContext } from '../../context/filters';
 
 const FilterByName = () => {

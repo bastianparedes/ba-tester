@@ -8,7 +8,7 @@ import type {
   CampaignExtendedWithoutDate,
   RequirementData
 } from '../../../../../../../../../../types/databaseObjects';
-import { useTranslationContext } from '../../../../../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
 

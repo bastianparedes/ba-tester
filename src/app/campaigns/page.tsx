@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 
-import IndexComponents from './components';
-import { FiltersProvider } from './components/context/filters';
+import IndexComponents from './_components';
+import { FiltersProvider } from './_components/context/filters';
 import commonConstants from '../../../config/common/constants';
 import { trpcClient } from '../../../lib/trpc/client';
 import type { CampaignWithDate } from '../../../types/databaseObjects';
 import { useLocalStorage } from '../../../utils/customHook';
-import Loader from '../common/Loader';
+import Loader from './_components/Loader';
 
 const Index = () => {
   const [campaigns, setCampaigns] = useState<CampaignWithDate[]>([]);

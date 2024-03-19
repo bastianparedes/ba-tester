@@ -10,7 +10,7 @@ import type {
   CampaignExtendedWithoutDate,
   TriggerData
 } from '../../../../../../../types/databaseObjects';
-import { useTranslationContext } from '../../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 interface Props {
   index: number;

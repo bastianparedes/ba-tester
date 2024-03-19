@@ -9,7 +9,7 @@ import constants from '../../../../../../config/constants';
 import { trpcClient } from '../../../../../../lib/trpc/client';
 import { basePath } from '../../../../../../next.config';
 import type { CampaignExtendedWithoutDate } from '../../../../../../types/databaseObjects';
-import Loader from '../../../../common/Loader';
+import Loader from '../../../_components/Loader';
 
 interface Props {
   campaign: CampaignExtendedWithoutDate;

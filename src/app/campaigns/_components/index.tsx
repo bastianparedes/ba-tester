@@ -8,8 +8,8 @@ import StatusSpan from './StatusSpan';
 import styles from './styles.module.scss';
 import constants from '../../../../config/constants';
 import type { CampaignWithDate } from '../../../../types/databaseObjects';
-import { useTranslationContext } from '../../common/context/useTranslation';
-import Table from '../../common/Table';
+import { useTranslationContext } from '../_contexts/useTranslation';
+import Table from './Table';
 
 interface Props {
   campaigns: CampaignWithDate[];

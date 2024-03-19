@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import commonConstants from '../../../../../../config/common/constants';
 import type { CampaignExtendedWithoutDate } from '../../../../../../types/databaseObjects';
-import { useTranslationContext } from '../../../../common/context/useTranslation';
+import { useTranslationContext } from '../../../_contexts/useTranslation';
 
 interface Props {
   campaign: CampaignExtendedWithoutDate;
