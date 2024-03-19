@@ -1,7 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { eq } from 'drizzle-orm';
-import db from '../../../../lib/drizzle/index';
 import { getCampaignsForFrontend } from '../../../../script/utils/database';
 
 const GET = async () => {

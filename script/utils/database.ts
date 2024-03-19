@@ -5,6 +5,7 @@ const getCampaignsForFrontend = async () => {
   return (
     await db.query.Campaign.findMany({
       columns: {
+        id: true,
         name: true,
         requirements: true,
         triggers: true,
