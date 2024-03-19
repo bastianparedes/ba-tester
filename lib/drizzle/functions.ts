@@ -1,7 +1,10 @@
 import { and, asc, desc, eq, inArray, like, sql } from 'drizzle-orm';
 
 import * as schema from './schema';
-import type { CampaignExtendedWithoutDate } from '../../types/databaseObjects';
+import type {
+  AudienceExtendedWithoutDate,
+  CampaignExtendedWithoutDate
+} from '../../types/databaseObjects';
 
 import db from './index';
 
@@ -18,7 +21,7 @@ const insertCampaign = async ({
   triggers: CampaignExtendedWithoutDate['triggers'];
   variations: CampaignExtendedWithoutDate['variations'];
 }) => {
-  await db
+  return await db
     .insert(schema.Campaign)
     .values({
       name,
@@ -105,4 +108,101 @@ const getCampaigns = async ({
   };
 };
 
-export { insertCampaign, updateCampaign, getCampaigns };
+const insertAudience = async ({
+  name,
+  requirements,
+  status
+}: {
+  name: string;
+  requirements: AudienceExtendedWithoutDate['requirements'];
+  status: AudienceExtendedWithoutDate['status'];
+}) => {
+  return await db
+    .insert(schema.Audience)
+    .values({
+      name,
+      requirements,
+      status
+    })
+    .returning();
+};
+
+const updateAudience = async (
+  id: number,
+  values: {
+    name: string;
+    requirements: AudienceExtendedWithoutDate['requirements'];
+    status: AudienceExtendedWithoutDate['status'];
+  }
+) => {
+  return await db
+    .update(schema.Audience)
+    .set({
+      lastModifiedDate: schema.Audience.lastModifiedDate.default,
+      name: values.name,
+      requirements: values.requirements,
+      status: values.status
+    })
+    .where(eq(schema.Audience.id, id))
+    .returning();
+};
+
+const getAudiences = async ({
+  statusList,
+  name,
+  quantity,
+  page,
+  orderDirection,
+  orderBy
+}: {
+  statusList: AudienceExtendedWithoutDate['status'][];
+  name: string;
+  quantity: number;
+  page: number;
+  orderDirection: 'asc' | 'desc';
+  orderBy: 'status' | 'name' | 'id' | 'lastModifiedDate';
+}) => {
+  const sort = {
+    asc,
+    desc
+  }[orderDirection];
+
+  const audiences = await db
+    .select()
+    .from(schema.Audience)
+    .where(
+      and(
+        like(schema.Audience.name, '%' + name.trim().split('').join('%') + '%'),
+        inArray(schema.Audience.status, statusList)
+      )
+    )
+    .orderBy(sort(schema.Audience[orderBy]))
+    .limit(quantity)
+    .offset(page * quantity);
+
+  const [{ count }] = await db
+    .select({
+      count: sql<number>`count(*)`
+    })
+    .from(schema.Audience)
+    .where(
+      and(
+        like(schema.Audience.name, name.trim().split('').join('%') + '%'),
+        inArray(schema.Audience.status, statusList)
+      )
+    );
+
+  return {
+    audiences,
+    count: Number(count)
+  };
+};
+
+export {
+  insertCampaign,
+  updateCampaign,
+  getCampaigns,
+  insertAudience,
+  updateAudience,
+  getAudiences
+};
