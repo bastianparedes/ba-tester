@@ -4,12 +4,21 @@ import React, { useState } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
-
+import path from 'path';
+import nextConfig from '../../../next.config';
 import { trpcClient } from '../../../lib/trpc/client';
 
 interface Props {
   children: React.ReactNode;
 }
+
+const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+const domain = process.env.DOMAIN ?? 'localhost:3000';
+const url = path.join(
+  `${protocol}://${domain}`,
+  nextConfig.basePath,
+  'api/trpc'
+);
 
 const TrpcProvider = ({ children }: Props) => {
   const [queryClient] = useState(() => new QueryClient({}));
@@ -17,7 +26,7 @@ const TrpcProvider = ({ children }: Props) => {
     trpcClient.createClient({
       links: [
         httpBatchLink({
-          url: `${process.env.DOMAIN || 'http://localhost:3000'}/api/trpc`
+          url
         })
       ]
     })

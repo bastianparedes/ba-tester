@@ -24,4 +24,5 @@ Variable | Optional
 basePath | Yes
 DATABASE_URL | No
 DATABSE_TOKEN | No
+DOMAIN | Yes
 
