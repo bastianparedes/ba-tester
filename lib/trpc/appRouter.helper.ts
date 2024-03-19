@@ -3,12 +3,6 @@ import { literal, z } from 'zod';
 import constants from '../../config/common/constants';
 import type { RequirementDataCampaign } from '../../types/databaseObjects';
 
-// type: "node";
-// data: {
-//     children: RequirementDataCampaign[];
-//     operator: "and" | "or";
-// };
-
 const zodRequirementsCampaign = (() => {
   const requirements: z.ZodType<RequirementDataCampaign> = z.discriminatedUnion(
     'type',
