@@ -1,24 +1,5 @@
 import type { getCampaignsForFrontend } from '../utils/database';
 
-type History = {
-  events: {
-    click: {
-      class: string | null;
-      date: number;
-      id: string | null;
-      tagName: string;
-    }[];
-    pageView: {
-      date: number;
-      url: string;
-    }[];
-    userSession: {
-      date: number;
-      isLoggedIn: boolean;
-    }[];
-  };
-};
-
 type ba_tester = {
   campaignsData: Awaited<ReturnType<typeof getCampaignsForFrontend>>;
   cookie: {
@@ -35,4 +16,4 @@ type ba_tester = {
   device: 'desktop' | 'mobile';
 };
 
-export type { ba_tester, History };
+export type { ba_tester };

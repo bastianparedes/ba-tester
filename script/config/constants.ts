@@ -4,9 +4,6 @@ const constants = Object.freeze({
     max: 10000000000,
     min: 0,
     name: 'ba_test_id'
-  },
-  storage: {
-    name: 'ba_test_history'
   }
 });
 

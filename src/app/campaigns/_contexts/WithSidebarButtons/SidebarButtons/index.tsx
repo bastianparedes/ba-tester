@@ -1,7 +1,8 @@
 import React from 'react';
 
-import ButtonBundle from './buttons/Bundle';
 import ButtonCampaigns from './buttons/Campaigns';
+import ButtonBundle from './buttons/Bundle';
+import ButtonExample from './buttons/Example';
 import styles from './styles.module.scss';
 
 const SidebarButtons = () => {
@@ -9,6 +10,7 @@ const SidebarButtons = () => {
     <div className={styles.container}>
       <ButtonCampaigns />
       <ButtonBundle />
+      <ButtonExample />
     </div>
   );
 };

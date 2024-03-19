@@ -21,6 +21,7 @@ const insertCampaign = async ({
   return await db
     .insert(schema.Campaign)
     .values({
+      lastModifiedDate: new Date(),
       name,
       requirements,
       status,
@@ -43,7 +44,7 @@ const updateCampaign = async (
   return await db
     .update(schema.Campaign)
     .set({
-      lastModifiedDate: schema.Campaign.lastModifiedDate.default,
+      lastModifiedDate: new Date(),
       name: values.name,
       requirements: values.requirements,
       status: values.status,

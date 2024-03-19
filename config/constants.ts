@@ -22,7 +22,8 @@ const constants = Object.freeze({
   pages: {
     bundle: '/api/script',
     campaign: '/campaigns/campaign',
-    campaigns: '/campaigns'
+    campaigns: '/campaigns',
+    example: '/example'
   },
   quantitiesAvailable: [5, 10, 15, 20, 25]
 } as const);

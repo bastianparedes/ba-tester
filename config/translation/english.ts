@@ -87,13 +87,6 @@ const labels = Object.freeze({
         [commonConstants.devices.desktop]: 'Desktop',
         [commonConstants.devices.mobile]: 'Mobile'
       },
-      limitHistory: {
-        [commonConstants.limitTypes.session]: 'session',
-        [commonConstants.limitTypes.oneDay]: '1 day',
-        [commonConstants.limitTypes.oneWeek]: '1 week',
-        [commonConstants.limitTypes.oneMonth]: '1 month',
-        [commonConstants.limitTypes.threeMonths]: '3 months'
-      },
       operator: {
         [commonConstants.booleanOperators.and]: 'and',
         [commonConstants.booleanOperators.or]: 'or'

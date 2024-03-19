@@ -5,7 +5,10 @@ const getCampaignsForFrontend = async () => {
   return (
     await db.query.Campaign.findMany({
       columns: {
-        lastModifiedDate: false
+        name: true,
+        requirements: true,
+        triggers: true,
+        variations: true
       },
       where: (campaign) => eq(campaign.status, 'active')
     })
