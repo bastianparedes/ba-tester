@@ -9,7 +9,13 @@ import constants from '../../../../../../../../config/constants';
 const ButtonCampaigns = () => {
   return (
     <div className={styles.buttonContainer}>
-      <Link prefetch={false} className={styles.a} href={constants.pages.bundle}>
+      <Link
+        prefetch={false}
+        className={styles.a}
+        rel="noopener noreferrer"
+        target="_blank"
+        href={constants.pages.bundle}
+      >
         <IoLogoJavascript className={styles.icon} />
       </Link>
     </div>

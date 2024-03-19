@@ -7,26 +7,22 @@ import { FiltersProvider } from './_components/context/filters';
 import commonConstants from '../../../config/common/constants';
 import { trpcClient } from '../../../lib/trpc/client';
 import type { CampaignWithDate } from '../../../types/databaseObjects';
-import { useLocalStorage } from '../../../utils/customHook';
 import Loader from './_components/Loader';
 
-const Index = () => {
+const Page = () => {
   const [campaigns, setCampaigns] = useState<CampaignWithDate[]>([]);
-  const [filterByStatusList, setFilterByStatusList] = useLocalStorage<
+  const [filterByStatusList, setFilterByStatusList] = useState<
     (typeof commonConstants)['campaignStatus'][number][]
-  >('filterByStatusList', [
-    commonConstants.status.inactive,
-    commonConstants.status.active
-  ]);
-  const [filterByname, setFilterByName] = useLocalStorage('filterByName', '');
-  const [orderBy, setOrderBy] = useLocalStorage<
+  >([commonConstants.status.inactive, commonConstants.status.active]);
+  const [filterByname, setFilterByName] = useState('');
+  const [orderBy, setOrderBy] = useState<
     'status' | 'name' | 'id' | 'lastModifiedDate'
-  >('orderBy', 'lastModifiedDate');
-  const [order, setOrder] = useLocalStorage<'asc' | 'desc'>('order', 'desc');
-  const [quantity, setQuantity] = useLocalStorage('quantity', 15);
-  const [page, setPage] = useLocalStorage('page', 0);
+  >('lastModifiedDate');
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc');
+  const [quantity, setQuantity] = useState(15);
+  const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [count, setCount] = useLocalStorage('count', 0);
+  const [count, setCount] = useState(0);
   const getCampaigns = trpcClient.getCampaigns.useMutation({
     onSettled(data, error) {
       if (error !== null) return;
@@ -78,4 +74,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Page;

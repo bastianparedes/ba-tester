@@ -10,6 +10,8 @@ const ButtonCampaigns = () => {
   return (
     <div className={styles.buttonContainer}>
       <Link
+        rel="noopener noreferrer"
+        target="_blank"
         prefetch={false}
         className={styles.a}
         href={constants.pages.example}
