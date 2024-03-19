@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Audience from './Audience';
 import Custom from './Custom';
 import Device from './Device';
 import Storage from './Storage';
@@ -9,10 +8,6 @@ import commonConstants from '../../../../../../../../config/common/constants';
 import type { CampaignExtendedWithoutDate } from '../../../../../../../../types/databaseObjects';
 
 interface Props {
-  audiences: {
-    id: number;
-    name: string;
-  }[];
   requirement: Exclude<
     CampaignExtendedWithoutDate['requirements']['data']['children'][number],
     { type: 'node' }
@@ -24,9 +19,8 @@ interface Props {
   ) => void;
 }
 
-const Element = ({ audiences, setCampaign, requirement }: Props) => {
+const Element = ({ setCampaign, requirement }: Props) => {
   const requirements = {
-    [commonConstants.requirementTypes.audience]: Audience,
     [commonConstants.requirementTypes.cookie]: Storage,
     [commonConstants.requirementTypes.custom]: Custom,
     [commonConstants.requirementTypes.device]: Device,
@@ -37,13 +31,7 @@ const Element = ({ audiences, setCampaign, requirement }: Props) => {
   };
 
   const Requirement = requirements[requirement.type];
-  return (
-    <Requirement
-      audiences={audiences}
-      setCampaign={setCampaign}
-      requirement={requirement}
-    />
-  );
+  return <Requirement setCampaign={setCampaign} requirement={requirement} />;
 };
 
 export default Element;

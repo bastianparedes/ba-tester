@@ -1,10 +1,8 @@
 import comparatorResolver from './comparatorResolver';
 import type { ba_tester } from '../../types';
 
-type RequirementData = (
-  | ba_tester['audiencesData']
-  | ba_tester['campaignsData']
-)[number]['requirements']['data']['children'][number];
+type RequirementData =
+  ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementLocalStorage = (requirement: RequirementData) => {
   if (requirement.type !== 'localStorage')

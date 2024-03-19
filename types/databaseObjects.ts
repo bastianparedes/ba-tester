@@ -70,50 +70,9 @@ type RequirementDataCampaign =
         comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
         value: string;
       };
-    }
-  | {
-      type: 'audience';
-      data: {
-        id: number | undefined;
-      };
     };
 
-type dataHistory = {
-  comparatorHistory: 'atLeast' | 'atMost' | 'moreThan' | 'lessThan' | 'exactly';
-  limitHistory: 'session' | 'oneDay' | 'oneWeek' | 'oneMonth' | 'threeMonths';
-  repetitionsHistory: number;
-};
-
-type RequirementDataAudience =
-  | {
-      type: 'node';
-      data: {
-        operator: 'and' | 'or';
-        children: RequirementDataAudience[];
-      };
-    }
-  | {
-      type: 'pageViewsHistory';
-      data: dataHistory;
-    };
-
-type RequirementData = RequirementDataCampaign | RequirementDataAudience;
-
-type AudienceWithoutDate = {
-  readonly id: number | undefined;
-  name: string;
-  status: (typeof commonConstants.audienceStatus)[number];
-};
-
-type AudienceWithDate = AudienceWithoutDate & {
-  readonly lastModifiedDate: string;
-};
-
-type AudienceExtendedWithoutDate = AudienceWithoutDate & {
-  requirements: RequirementDataAudience & {
-    type: 'node';
-  };
-};
+type RequirementData = RequirementDataCampaign;
 
 interface VariationData {
   css: string;
@@ -146,9 +105,6 @@ export type {
   TriggerData,
   RequirementData,
   VariationData,
-  AudienceWithoutDate,
-  AudienceWithDate,
-  AudienceExtendedWithoutDate,
   CampaignWithoutDate,
   CampaignWithDate,
   CampaignExtendedWithoutDate,

@@ -1,7 +1,4 @@
-import type {
-  getAudiencesForFrontend,
-  getCampaignsForFrontend
-} from '../utils/database';
+import type { getCampaignsForFrontend } from '../utils/database';
 
 type History = {
   events: {
@@ -23,7 +20,6 @@ type History = {
 };
 
 type ba_tester = {
-  audiencesData: Awaited<ReturnType<typeof getAudiencesForFrontend>>;
   campaignsData: Awaited<ReturnType<typeof getCampaignsForFrontend>>;
   cookie: {
     get: (arg0: string) => string | null;

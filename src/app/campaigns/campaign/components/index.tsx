@@ -12,13 +12,9 @@ import type { CampaignExtendedWithoutDate } from '../../../../../types/databaseO
 
 type Props = {
   initialCampaign: CampaignExtendedWithoutDate;
-  audiences: {
-    id: number;
-    name: string;
-  }[];
 };
 
-const Components = ({ audiences, initialCampaign }: Props) => {
+const Components = ({ initialCampaign }: Props) => {
   const [campaign, setCampaign] = useState(initialCampaign);
 
   return (
@@ -26,7 +22,6 @@ const Components = ({ audiences, initialCampaign }: Props) => {
       <Name campaign={campaign} setCampaign={setCampaign} />
       <Triggers triggers={campaign.triggers} setCampaign={setCampaign} />
       <Requirements
-        audiences={audiences}
         requirements={campaign.requirements}
         setCampaign={setCampaign}
       />

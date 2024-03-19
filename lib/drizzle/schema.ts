@@ -2,10 +2,7 @@ import { sql } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 import commonConstants from '../../config/common/constants';
-import type {
-  AudienceExtendedWithoutDate,
-  CampaignExtendedWithoutDate
-} from '../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate } from '../../types/databaseObjects';
 
 export const Campaign = sqliteTable('Campaign', {
   id: integer('id', { mode: 'number' })
@@ -37,26 +34,4 @@ export const Campaign = sqliteTable('Campaign', {
   })
     .$type<CampaignExtendedWithoutDate['variations']>()
     .notNull()
-});
-
-export const Audience = sqliteTable('Audience', {
-  id: integer('id', { mode: 'number' })
-    .notNull()
-    .primaryKey({ autoIncrement: true }),
-  lastModifiedDate: integer('lastModifiedDate', {
-    mode: 'timestamp'
-  })
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  name: text('name', { length: 100 }).notNull().default(''),
-  requirements: text('requirements', {
-    mode: 'json'
-  })
-    .$type<AudienceExtendedWithoutDate['requirements']>()
-    .notNull(),
-  status: text('status', {
-    enum: commonConstants.audienceStatus
-  })
-    .notNull()
-    .default('active')
 });

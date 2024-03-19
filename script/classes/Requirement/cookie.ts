@@ -2,10 +2,8 @@ import comparatorResolver from './comparatorResolver';
 import type { ba_tester } from '../../types';
 import cookie from '../../utils/cookie';
 
-type RequirementData = (
-  | ba_tester['audiencesData']
-  | ba_tester['campaignsData']
-)[number]['requirements']['data']['children'][number];
+type RequirementData =
+  ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementCookie = (requirement: RequirementData) => {
   if (requirement.type !== 'cookie')

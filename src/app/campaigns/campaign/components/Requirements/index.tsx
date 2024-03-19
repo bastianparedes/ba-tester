@@ -6,10 +6,6 @@ import type { CampaignExtendedWithoutDate } from '../../../../../../types/databa
 import { useTranslationContext } from '../../../../common/context/useTranslation';
 
 interface Props {
-  audiences: {
-    id: number;
-    name: string;
-  }[];
   requirements: CampaignExtendedWithoutDate['requirements'];
   setCampaign: (
     campaign: (
@@ -18,7 +14,7 @@ interface Props {
   ) => void;
 }
 
-const Requirements = ({ audiences, setCampaign, requirements }: Props) => {
+const Requirements = ({ setCampaign, requirements }: Props) => {
   const translation = useTranslationContext();
 
   return (
@@ -30,7 +26,6 @@ const Requirements = ({ audiences, setCampaign, requirements }: Props) => {
       </header>
       <div className={styles.requirementsContainer}>
         <Requirement
-          audiences={audiences}
           grandParentNode={null}
           id={'0'}
           index={0}

@@ -1,39 +1,6 @@
 import commonConstants from '../common/constants';
 
 const labels = Object.freeze({
-  audience: {
-    cancel: 'Cancelar',
-    name: {
-      inputPlaceHolder: 'Nombre de la audiencia',
-      title: 'Audiencia'
-    },
-    requirements: {
-      newRequirement: 'Nueva condición',
-      table: {
-        name: 'Nombre'
-      },
-      title: 'Condiciones'
-    },
-    save: 'Guardar'
-  },
-  audiences: {
-    audiencesTable: {
-      audienceName: 'Nombre de la audiencia',
-      id: 'ID',
-      lastModified: 'Fecha modificación',
-      status: 'Estado'
-    },
-    filters: {
-      name: 'Nombre',
-      page: 'Página',
-      quantity: 'Cantidad',
-      status: 'Estado'
-    },
-    header: {
-      createAudienceButton: 'Crear nueva audiencia',
-      title: 'Audiencias'
-    }
-  },
   campaign: {
     cancel: 'Cancelar',
     name: {
@@ -163,9 +130,7 @@ const labels = Object.freeze({
         [commonConstants.requirementTypes.localStorage]: 'Local storage',
         [commonConstants.requirementTypes.queryParam]: 'Query Param',
         [commonConstants.requirementTypes.sessionStorage]: 'Session storage',
-        [commonConstants.requirementTypes.url]: 'URL',
-        [commonConstants.requirementTypes.audience]: 'Audiencia',
-        [commonConstants.requirementTypes.pageViewsHistory]: 'Vistas de página'
+        [commonConstants.requirementTypes.url]: 'URL'
       }
     },
     statusLabels: {

@@ -15,19 +15,10 @@ const Page = async ({
   searchParams: { id: string | undefined };
 }) => {
   const redirectUrl = path.join(basePath, constants.pages.campaigns);
-  const getAudiences = async () =>
-    await drizzle.query.Audience.findMany({
-      columns: {
-        id: true,
-        name: true
-      },
-      where: (audience) => eq(audience.status, commonConstants.status.active)
-    });
 
   if (searchParams.id === undefined)
     return (
       <Components
-        audiences={await getAudiences()}
         initialCampaign={{
           id: undefined,
           name: 'New Campaign Name',
@@ -56,12 +47,7 @@ const Page = async ({
 
   if (initialCampaign === undefined) redirect(redirectUrl);
 
-  return (
-    <Components
-      audiences={await getAudiences()}
-      initialCampaign={initialCampaign}
-    />
-  );
+  return <Components initialCampaign={initialCampaign} />;
 };
 
 export default Page;

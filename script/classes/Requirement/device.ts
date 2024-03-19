@@ -2,10 +2,8 @@ import comparatorResolver from './comparatorResolver';
 import commonConstants from '../../../config/common/constants';
 import type { ba_tester } from '../../types';
 
-type RequirementData = (
-  | ba_tester['audiencesData']
-  | ba_tester['campaignsData']
-)[number]['requirements']['data']['children'][number];
+type RequirementData =
+  ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementDevice = (requirement: RequirementData) => {
   if (requirement.type !== 'device')

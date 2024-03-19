@@ -8,7 +8,6 @@ declare global {
   }
 }
 
-declare const INYECTED_AUDIENCES_DATA: typeof window.ba_tester.audiencesData;
 declare const INYECTED_CAMPAIGNS_DATA: typeof window.ba_tester.campaignsData;
 
 const getDevice = () => {
@@ -23,8 +22,6 @@ const getDevice = () => {
 
 const script = () => {
   window.ba_tester = {
-    audiencesData:
-      undefined as unknown as typeof window.ba_tester.audiencesData,
     campaignsData:
       undefined as unknown as typeof window.ba_tester.campaignsData,
     cookie,

@@ -17,10 +17,4 @@ const getCampaignsForFrontend = async () => {
   return campaigns;
 };
 
-const getAudiencesForFrontend = async () => {
-  return await drizzle.query.Audience.findMany({
-    where: (audience) => eq(audience.status, commonConstants.status.active)
-  });
-};
-
-export { getCampaignsForFrontend, getAudiencesForFrontend };
+export { getCampaignsForFrontend };

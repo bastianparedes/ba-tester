@@ -1,22 +1,11 @@
 const constants = Object.freeze({
   api: {
-    audience: {
-      read: '/api/audience/read',
-      upsert: '/api/audience/upsert'
-    },
     campaign: {
       read: '/api/campaign/read',
       upsert: '/api/campaign/upsert'
     }
   },
   database: {
-    audience: {
-      id: 'id',
-      lastModifiedDate: 'lastModifiedDate',
-      name: 'name',
-      requirements: 'requirements',
-      status: 'status'
-    },
     campaign: {
       id: 'id',
       lastModifiedDate: 'lastModifiedDate',
@@ -31,8 +20,6 @@ const constants = Object.freeze({
     }
   },
   pages: {
-    audience: '/audiences/audience',
-    audiences: '/audiences',
     bundle: '/api/script',
     campaign: '/campaigns/campaign',
     campaigns: '/campaigns'

@@ -12,10 +12,6 @@ import { useTranslationContext } from '../../../../../common/context/useTranslat
 import AddButton from '../../AddButton';
 
 interface Props {
-  audiences: {
-    id: number;
-    name: string;
-  }[];
   grandParentNode: CampaignExtendedWithoutDate['requirements'] | null;
   id: string;
   index: number;
@@ -29,7 +25,6 @@ interface Props {
 }
 
 const Requirement = ({
-  audiences,
   grandParentNode,
   id,
   index,
@@ -120,7 +115,6 @@ const Requirement = ({
                 </>
               )}
               <Requirement
-                audiences={audiences}
                 grandParentNode={parentNode}
                 id={id + '-' + String(indexChild)}
                 index={indexChild}
@@ -206,13 +200,6 @@ const Requirement = ({
         },
         type: newType
       };
-    else if (newType === commonConstants.requirementTypes.audience)
-      parentNode.data.children[index] = {
-        data: {
-          id: undefined
-        },
-        type: newType
-      };
     setCampaign((campaign) => {
       return structuredClone(campaign);
     });
@@ -254,7 +241,6 @@ const Requirement = ({
         ))}
       </select>
       <RequirementSpecific
-        audiences={audiences}
         setCampaign={setCampaign}
         requirement={requirement}
       />

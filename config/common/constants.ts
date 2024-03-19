@@ -19,13 +19,11 @@ const comparisons = Object.freeze({
 });
 
 const requirementTypes = Object.freeze({
-  audience: 'audience',
   cookie: 'cookie',
   custom: 'custom',
   device: 'device',
   localStorage: 'localStorage',
   node: 'node',
-  pageViewsHistory: 'pageViewsHistory',
   queryParam: 'queryParam',
   sessionStorage: 'sessionStorage',
   url: 'url'
@@ -78,14 +76,12 @@ const campaignStatus = [
   status.deleted
 ] as const;
 
-const audienceStatus = [status.active, status.deleted] as const;
 const triggers = [
   triggerTypes.clickOnElement,
   triggerTypes.custom,
   triggerTypes.pageLoad,
   triggerTypes.timeOnPage
 ];
-const audienceRequirements = [requirementTypes.pageViewsHistory];
 const campaignRequirements = [
   requirementTypes.cookie,
   requirementTypes.custom,
@@ -93,13 +89,10 @@ const campaignRequirements = [
   requirementTypes.localStorage,
   requirementTypes.queryParam,
   requirementTypes.sessionStorage,
-  requirementTypes.url,
-  requirementTypes.audience
+  requirementTypes.url
 ];
 
 const constants = Object.freeze({
-  audienceRequirements,
-  audienceStatus,
   booleanOperators,
   campaignRequirements,
   campaignStatus,
