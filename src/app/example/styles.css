@@ -1,0 +1,82 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+#main-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.titulo-principal {
+  margin: 0;
+}
+
+.navegacion ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.navegacion a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.seccion {
+  padding: 2rem;
+}
+
+.fondo-claro {
+  background-color: #e0e0e0;
+}
+
+.parrafo {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+#formulario-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.campo {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.boton {
+  background-color: #3498db;
+  color: white;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: #2980b9;
+}
+
+#main-footer {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.footer-texto {
+  margin: 0;
+}

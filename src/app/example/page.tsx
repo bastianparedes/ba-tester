@@ -1,78 +1,49 @@
-import Image from 'next/image';
-import styles from './page.module.css';
+import './styles.css';
 
 export default function Home() {
   return (
-    <main className={styles.main} id="main">
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-          </a>
-        </div>
-      </div>
+    <>
+      <header id="main-header">
+        <h1 className="titulo-principal">Mi sitio web</h1>
+        <nav className="navegacion">
+          <ul>
+            <li>
+              <a href="#inicio">Inicio</a>
+            </li>
+            <li>
+              <a href="#acerca">Acerca de</a>
+            </li>
+            <li>
+              <a href="#contacto">Contacto</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <section id="inicio" className="seccion">
+        <h2>Bienvenido</h2>
+        <p className="parrafo">Este es un sitio de ejemplo con HTML y CSS.</p>
+      </section>
+      <section id="acerca" className="seccion fondo-claro">
+        <h2>Acerca de nosotros</h2>
+        <p className="parrafo">Nos encanta programar sitios web.</p>
+      </section>
+      <section id="contacto" className="seccion">
+        <h2>Contacto</h2>
+        <form id="formulario-contacto">
+          <label htmlFor="nombre">Nombre:</label>
+          <input type="text" id="nombre" className="campo" />
 
-      <div className={styles.center}></div>
+          <label htmlFor="email">Correo electrónico:</label>
+          <input type="email" id="email" className="campo" />
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+          <button type="submit" className="boton">
+            Enviar
+          </button>
+        </form>
+      </section>
+      <footer id="main-footer">
+        <p className="footer-texto">© 2025 Mi sitio web</p>
+      </footer>
+    </>
   );
 }
