@@ -1,29 +1,37 @@
 import fs from 'fs';
 import path from 'path';
 import { getCampaignsForFrontend } from '../../../../script/utils/database';
+import { unstable_cache } from 'next/cache';
 
 const GET = async () => {
-  const campaigns = await getCampaignsForFrontend();
+  const getCachedScript = unstable_cache(
+    async () => {
+      const campaigns = await getCampaignsForFrontend();
+      const stringWindow = `window.ba_tester = window.ba_tester || {}\n;window.ba_tester.campaignsData = ${JSON.stringify(campaigns)};`;
+      const fileExists = fs.existsSync(
+        path.join(process.cwd(), 'dist', 'script.js')
+      );
 
-  const stringWindow = `window.ba_tester = window.ba_tester || {}\n;window.ba_tester.campaignsData = ${JSON.stringify(campaigns)};`;
+      if (!fileExists) {
+        try {
+        } catch {
+          return '';
+        }
+      }
+      const script = fs.readFileSync(
+        path.join(process.cwd(), 'dist', 'script.js'),
+        'utf-8'
+      );
 
-  const fileExists = fs.existsSync(
-    path.join(process.cwd(), 'dist', 'script.js')
-  );
-
-  if (!fileExists) {
-    try {
-    } catch {
-      return new Response();
+      return stringWindow + script;
+    },
+    ['script'],
+    {
+      revalidate: 600
     }
-  }
-
-  const script = fs.readFileSync(
-    path.join(process.cwd(), 'dist', 'script.js'),
-    'utf-8'
   );
 
-  return new Response(stringWindow + script);
+  return new Response(await getCachedScript());
 };
 
 export { GET };
