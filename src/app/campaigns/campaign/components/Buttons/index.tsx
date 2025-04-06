@@ -43,7 +43,7 @@ const Buttons = ({ campaign }: Props) => {
 
   return (
     <>
-      {(insertCampaign.isLoading || updateCampaign.isLoading) && <Loader />}
+      {(insertCampaign.isPending || updateCampaign.isPending) && <Loader />}
       <div className={styles.container}>
         <Save campaign={campaign} onClick={handleOnSave} />
         <Cancel onClick={returnToCampaigns} />

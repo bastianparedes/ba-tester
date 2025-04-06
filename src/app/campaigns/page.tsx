@@ -68,7 +68,7 @@ const Page = () => {
       setPage={setPage}
       setQuantity={setQuantity}
     >
-      {(getCampaigns.isLoading || isLoading) && <Loader />}
+      {(getCampaigns.isPending || isLoading) && <Loader />}
       <IndexComponents campaigns={campaigns} />
     </FiltersProvider>
   );
