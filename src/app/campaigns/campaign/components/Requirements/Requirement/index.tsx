@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { classNames } from 'bastianparedes/utils';
+import { cx } from 'class-variance-authority';
 import { MdDelete } from 'react-icons/md';
 import { TbBracketsContain } from 'react-icons/tb';
 
@@ -73,7 +73,7 @@ const Requirement = ({
       <div className={styles.nodeContainer}>
         {!isRootNode && <div className={styles.bordeSuperior}></div>}
         <div
-          className={classNames(
+          className={cx(
             styles.nodeContent,
             !isRootNode && styles.internalNodeContent
           )}
@@ -83,7 +83,7 @@ const Requirement = ({
               {indexChild > 0 && (
                 <>
                   <button
-                    className={classNames(
+                    className={cx(
                       styles.andOr,
                       requirement.data.operator ===
                         commonConstants.booleanOperators.and &&
@@ -98,7 +98,7 @@ const Requirement = ({
                     {translation.common.requirement.operator.and}
                   </button>
                   <button
-                    className={classNames(
+                    className={cx(
                       styles.andOr,
                       requirement.data.operator ===
                         commonConstants.booleanOperators.or &&

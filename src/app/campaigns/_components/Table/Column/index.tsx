@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { classNames } from 'bastianparedes/utils';
+import { cx } from 'class-variance-authority';
 import { BsArrowDownShort } from 'react-icons/bs';
 
 import styles from './styles.module.scss';
@@ -30,10 +30,7 @@ const Column = ({ id, label, orderInfo, width }: Props) => {
   };
 
   return (
-    <th
-      className={classNames(styles.th)}
-      style={{ width: String(width) + '%' }}
-    >
+    <th className={cx(styles.th)} style={{ width: String(width) + '%' }}>
       {orderInfo === undefined ? (
         label
       ) : (
@@ -41,7 +38,7 @@ const Column = ({ id, label, orderInfo, width }: Props) => {
           <span>{label}</span>
           {orderInfo.orderBy === id && (
             <BsArrowDownShort
-              className={classNames(
+              className={cx(
                 styles.arrow,
                 orderInfo.order === 'asc' && styles.arrowUp
               )}

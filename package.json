@@ -20,7 +20,7 @@
     "@tanstack/react-query": "^5.71.10",
     "@trpc/client": "^11.0.2",
     "@trpc/react-query": "^11.0.2",
-    "bastianparedes": "^1.1.5",
+    "class-variance-authority": "^0.7.1",
     "constate": "^3.3.3",
     "drizzle-orm": "^0.41.0",
     "monaco-editor": "^0.52.2",

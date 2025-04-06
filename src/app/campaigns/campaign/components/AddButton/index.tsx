@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { classNames } from 'bastianparedes/utils';
+import { cx } from 'class-variance-authority';
 
 import styles from './styles.module.scss';
 
@@ -12,7 +12,7 @@ interface Props {
 
 const Index = ({ children, className, onClick }: Props) => {
   return (
-    <button className={classNames(styles.button, className)} onClick={onClick}>
+    <button className={cx(styles.button, className)} onClick={onClick}>
       {children}
     </button>
   );

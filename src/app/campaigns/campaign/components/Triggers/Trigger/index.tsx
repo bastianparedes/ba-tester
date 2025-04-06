@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { classNames } from 'bastianparedes/utils';
+import { cx } from 'class-variance-authority';
 import { MdDelete } from 'react-icons/md';
 
 import styles from './styles.module.scss';
@@ -101,7 +101,7 @@ const Trigger = ({ index, setCampaign, trigger }: Props) => {
             <TriggerSpecific setCampaign={setCampaign} trigger={trigger} />
           </div>
         </td>
-        <td className={classNames(styles.td, styles.littleButton)}>
+        <td className={cx(styles.td, styles.littleButton)}>
           <button className={styles.button} onClick={deleteTrigger}>
             <MdDelete />
           </button>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { classNames } from 'bastianparedes/utils';
+import { cx } from 'class-variance-authority';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 import styles from './styles.module.scss';
@@ -86,7 +86,7 @@ const Variation = ({ setCampaign, variation }: Props) => {
           {translation.common.symbols.percentage}
         </span>
       </td>
-      <td className={classNames(styles.td, styles.littleButton)}>
+      <td className={cx(styles.td, styles.littleButton)}>
         <button className={styles.button} onClick={openEditor}>
           <MdEdit />
         </button>
@@ -98,7 +98,7 @@ const Variation = ({ setCampaign, variation }: Props) => {
           />
         )}
       </td>
-      <td className={classNames(styles.td, styles.littleButton)}>
+      <td className={cx(styles.td, styles.littleButton)}>
         <button className={styles.button} onClick={deleteVariation}>
           <MdDelete />
         </button>

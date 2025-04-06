@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Monaco from '@monaco-editor/react';
-import { Modal } from 'bastianparedes/components';
+import { Modal } from '../../../../../../../_components/Modal';
 
 import styles from './styles.module.scss';
 import type {

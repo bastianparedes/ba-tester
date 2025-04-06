@@ -12,11 +12,11 @@ body {
   text-align: center;
 }
 
-.titulo-principal {
+.main-title {
   margin: 0;
 }
 
-.navegacion ul {
+.navigation ul {
   list-style: none;
   padding: 0;
   display: flex;
@@ -24,39 +24,39 @@ body {
   gap: 1rem;
 }
 
-.navegacion a {
+.navigation a {
   color: white;
   text-decoration: none;
   font-weight: bold;
 }
 
-.seccion {
+.section {
   padding: 2rem;
 }
 
-.fondo-claro {
+.light-background {
   background-color: #e0e0e0;
 }
 
-.parrafo {
+.paragraph {
   font-size: 1.1rem;
   color: #333;
 }
 
-#formulario-contacto {
+#contact-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   max-width: 400px;
 }
 
-.campo {
+.input-field {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.boton {
+.button {
   background-color: #3498db;
   color: white;
   padding: 0.7rem;
@@ -65,7 +65,7 @@ body {
   cursor: pointer;
 }
 
-.boton:hover {
+.button:hover {
   background-color: #2980b9;
 }
 
@@ -77,6 +77,6 @@ body {
   margin-top: 2rem;
 }
 
-.footer-texto {
+.footer-text {
   margin: 0;
 }
