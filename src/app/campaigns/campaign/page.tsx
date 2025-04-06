@@ -9,11 +9,12 @@ import drizzle from '../../../../lib/drizzle';
 import { Campaign } from '../../../../lib/drizzle/schema';
 import { basePath } from '../../../../next.config';
 
-const Page = async ({
-  searchParams
-}: {
-  searchParams: { id: string | undefined };
-}) => {
+const Page = async (
+  props: {
+    searchParams: Promise<{ id: string | undefined }>;
+  }
+) => {
+  const searchParams = await props.searchParams;
   const redirectUrl = path.join(basePath, constants.pages.campaigns);
 
   if (searchParams.id === undefined)
