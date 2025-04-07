@@ -10,6 +10,7 @@ import constants from '../../../../config/constants';
 import type { CampaignWithDate } from '../../../../types/databaseObjects';
 import { useTranslationContext } from '../_contexts/useTranslation';
 import Table from './Table';
+import Pagination from '@mui/material/Pagination';
 
 interface Props {
   campaigns: CampaignWithDate[];
@@ -17,7 +18,16 @@ interface Props {
 
 const IndexComponents = ({ campaigns }: Props) => {
   const translation = useTranslationContext();
-  const { order, orderBy, setOrder, setOrderBy } = useFiltersContext();
+  const {
+    order,
+    orderBy,
+    setOrder,
+    setOrderBy,
+    quantity,
+    page,
+    count,
+    setPage
+  } = useFiltersContext();
 
   const columns = [
     {
@@ -53,20 +63,35 @@ const IndexComponents = ({ campaigns }: Props) => {
     ]
   }));
 
+  const totalPages = Math.floor(count / quantity);
+
+  const handleOnChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setPage(() => Number(value - 1));
+  };
+
   return (
     <>
       <Header />
       <main className={styles.campaignsContainer}>
-        <Table
-          columns={columns}
-          orderInfo={{
-            order,
-            orderBy,
-            setOrder,
-            setOrderBy: setOrderBy as any
-          }}
-          rows={rows}
-        />
+        <div className={styles['table-and-pagination']}>
+          <Table
+            columns={columns}
+            orderInfo={{
+              order,
+              orderBy,
+              setOrder,
+              setOrderBy: setOrderBy as any
+            }}
+            rows={rows}
+          />
+          <div className={styles.pagination}>
+            <Pagination
+              count={totalPages + 1}
+              page={page + 1}
+              onChange={handleOnChange}
+            />
+          </div>
+        </div>
         <Filters />
       </main>
     </>

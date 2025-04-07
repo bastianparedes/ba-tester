@@ -1,12 +1,8 @@
 import React from 'react';
-
 import { TrpcProvider } from './_contexts/TrpcProvider';
 import { TranslationProvider } from './_contexts/useTranslation';
 import WithSidebarButtons from './_contexts/WithSidebarButtons';
 import { url } from '../../../lib/trpc/config';
-import './styles/global.css';
-import './styles/normalize.css';
-import '../../../styles/styles.scss';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
