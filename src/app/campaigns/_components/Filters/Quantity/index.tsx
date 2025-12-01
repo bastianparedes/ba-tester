@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import constants from '../../../../../../config/constants';
+import constants from '../../../../../config/constants';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import { useFiltersContext } from '../../context/filters';
 
@@ -15,9 +15,7 @@ const FilterByQuantity = () => {
 
   return (
     <fieldset>
-      <legend className={styles.legend}>
-        {translation.campaigns.filters.quantity}
-      </legend>
+      <legend className={styles.legend}>{translation.campaigns.filters.quantity}</legend>
       {constants.quantitiesAvailable.map((quantitieAvailable) => {
         const id = 'radio-filter-quantity-' + String(quantitieAvailable);
         return (

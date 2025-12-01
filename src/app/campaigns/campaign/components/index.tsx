@@ -8,7 +8,7 @@ import Requirements from './Requirements';
 import styles from './styles.module.scss';
 import Triggers from './Triggers';
 import Variations from './Variations';
-import type { CampaignExtendedWithoutDate } from '../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
 
 type Props = {
   initialCampaign: CampaignExtendedWithoutDate;
@@ -21,10 +21,7 @@ const Components = ({ initialCampaign }: Props) => {
     <div className={styles.container}>
       <Name campaign={campaign} setCampaign={setCampaign} />
       <Triggers triggers={campaign.triggers} setCampaign={setCampaign} />
-      <Requirements
-        requirements={campaign.requirements}
-        setCampaign={setCampaign}
-      />
+      <Requirements requirements={campaign.requirements} setCampaign={setCampaign} />
       <Variations setCampaign={setCampaign} variations={campaign.variations} />
       <Buttons campaign={campaign} />
     </div>

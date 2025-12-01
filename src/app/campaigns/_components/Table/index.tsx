@@ -33,21 +33,13 @@ const Table = ({ columns, orderInfo, rows }: Props) => {
       <thead>
         <tr>
           {columns.map((column) => (
-            <Column
-              id={column.id}
-              key={column.id}
-              label={column.label}
-              orderInfo={orderInfo}
-              width={column.width}
-            />
+            <Column id={column.id} key={column.id} label={column.label} orderInfo={orderInfo} width={column.width} />
           ))}
         </tr>
       </thead>
       <tbody>
         {thereAreRows ? (
-          rows.map((row) => (
-            <Row href={row.href} key={row.id} labels={row.labels} />
-          ))
+          rows.map((row) => <Row href={row.href} key={row.id} labels={row.labels} />)
         ) : (
           <tr>
             <td className={styles.tdNoRows} colSpan={columns.length}>

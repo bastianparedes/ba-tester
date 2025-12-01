@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FaEye } from 'react-icons/fa';
 
 import styles from './styles.module.scss';
-import constants from '../../../../../../../../config/constants';
+import constants from '../../../../../../../config/constants';
 
 const ButtonCampaigns = () => {
   return (

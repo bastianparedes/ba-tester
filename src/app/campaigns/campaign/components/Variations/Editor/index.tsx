@@ -5,10 +5,7 @@ import { Modal } from '../../../../_components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
 import styles from './styles.module.scss';
-import type {
-  CampaignExtendedWithoutDate,
-  VariationData
-} from '../../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate, VariationData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
@@ -17,9 +14,7 @@ interface Props {
   setShowEditor: (arg0: boolean) => void;
   variation: VariationData;
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -33,31 +28,31 @@ const Editor = ({ setCampaign, variation, setShowEditor }: Props) => {
     className: styles.monaco,
     options: {
       minimap: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
-    theme: 'vs-dark'
+    theme: 'vs-dark',
   };
 
   const monacoHtmlConfig = {
     onChange: (html: string | undefined) => {
       setHtml(html ?? '');
     },
-    value: html
+    value: html,
   };
 
   const monacoCssConfig = {
     onChange: (css: string | undefined) => {
       setCss(css ?? '');
     },
-    value: css
+    value: css,
   };
 
   const monacoJavascriptConfig = {
     onChange: (javascript: string | undefined) => {
       setJavascript(javascript ?? '');
     },
-    value: javascript
+    value: javascript,
   };
 
   const handleOnSave = () => {
@@ -95,11 +90,7 @@ const Editor = ({ setCampaign, variation, setShowEditor }: Props) => {
           </TabPanel>
           <TabPanel>
             <div className={styles.monacoContainer}>
-              <Monaco
-                {...monacoConfig}
-                {...monacoJavascriptConfig}
-                language="javascript"
-              />
+              <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
             </div>
           </TabPanel>
         </Tabs>

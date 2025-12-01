@@ -21,8 +21,7 @@ const Column = ({ id, label, orderInfo, width }: Props) => {
   const handleOnClick = () => {
     if (orderInfo === undefined) return;
 
-    if (id === orderInfo.orderBy)
-      orderInfo.setOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
+    if (id === orderInfo.orderBy) orderInfo.setOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
     else {
       orderInfo.setOrderBy(() => id);
       orderInfo.setOrder(() => 'desc');
@@ -37,12 +36,7 @@ const Column = ({ id, label, orderInfo, width }: Props) => {
         <button className={styles.button} onClick={handleOnClick}>
           <span>{label}</span>
           {orderInfo.orderBy === id && (
-            <BsArrowDownShort
-              className={cx(
-                styles.arrow,
-                orderInfo.order === 'asc' && styles.arrowUp
-              )}
-            />
+            <BsArrowDownShort className={cx(styles.arrow, orderInfo.order === 'asc' && styles.arrowUp)} />
           )}
         </button>
       )}

@@ -20,9 +20,7 @@ const FilterByName = () => {
 
   return (
     <fieldset>
-      <legend className={styles.legend}>
-        {translation.campaigns.filters.name}
-      </legend>
+      <legend className={styles.legend}>{translation.campaigns.filters.name}</legend>
       <input value={name} onChange={handleOnChange} type="text" />
     </fieldset>
   );

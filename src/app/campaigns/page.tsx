@@ -4,20 +4,19 @@ import React, { useEffect, useState } from 'react';
 
 import IndexComponents from './_components';
 import { FiltersProvider } from './_components/context/filters';
-import commonConstants from '../../../config/common/constants';
-import { trpcClient } from '../../../lib/trpc/client';
-import type { CampaignWithDate } from '../../../types/databaseObjects';
+import commonConstants from '../../config/common/constants';
+import { trpcClient } from '@/libs/trpc/client';
+import type { CampaignWithDate } from '@/types/databaseObjects';
 import Loader from './_components/Loader';
 
 const Page = () => {
   const [campaigns, setCampaigns] = useState<CampaignWithDate[]>([]);
-  const [filterByStatusList, setFilterByStatusList] = useState<
-    (typeof commonConstants)['campaignStatus'][number][]
-  >([commonConstants.status.inactive, commonConstants.status.active]);
+  const [filterByStatusList, setFilterByStatusList] = useState<(typeof commonConstants)['campaignStatus'][number][]>([
+    commonConstants.status.inactive,
+    commonConstants.status.active,
+  ]);
   const [filterByname, setFilterByName] = useState('');
-  const [orderBy, setOrderBy] = useState<
-    'status' | 'name' | 'id' | 'lastModifiedDate'
-  >('lastModifiedDate');
+  const [orderBy, setOrderBy] = useState<'status' | 'name' | 'id' | 'lastModifiedDate'>('lastModifiedDate');
   const [order, setOrder] = useState<'asc' | 'desc'>('desc');
   const [quantity, setQuantity] = useState(15);
   const [page, setPage] = useState(0);
@@ -29,7 +28,7 @@ const Page = () => {
       if (data === undefined) return;
       setCampaigns(data.campaigns);
       setCount(data.count);
-    }
+    },
   });
 
   useEffect(() => {
@@ -39,9 +38,8 @@ const Page = () => {
       orderDirection: order,
       page: page,
       quantity: quantity,
-      statusList: filterByStatusList
+      statusList: filterByStatusList,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterByStatusList, filterByname, order, orderBy, page, quantity]);
 
   useEffect(() => {

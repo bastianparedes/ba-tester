@@ -10,14 +10,10 @@ interface Props {
   quantity: number;
   page: number;
   count: number;
-  setFilterByStatusList: (
-    arg0: (arg1: permittedStatus[]) => typeof arg1
-  ) => void;
+  setFilterByStatusList: (arg0: (arg1: permittedStatus[]) => typeof arg1) => void;
   setFilterByName: (arg0: (arg1: string) => typeof arg1) => void;
   setOrder: (arg0: (arg1: 'asc' | 'desc') => typeof arg1) => void;
-  setOrderBy: (
-    arg0: (arg1: 'status' | 'name' | 'id' | 'lastModifiedDate') => typeof arg1
-  ) => void;
+  setOrderBy: (arg0: (arg1: 'status' | 'name' | 'id' | 'lastModifiedDate') => typeof arg1) => void;
   setPage: (arg0: (arg1: number) => typeof arg1) => void;
   setQuantity: (arg0: (arg1: number) => typeof arg1) => void;
 }
@@ -35,20 +31,16 @@ const useFilters = ({
   setOrder,
   setOrderBy,
   setPage,
-  setQuantity
+  setQuantity,
 }: Props) => {
   const addToFilterByStatusList = (newStatus: permittedStatus) => {
     if (filterByStatusList.includes(newStatus)) return;
-    setFilterByStatusList((previousState) =>
-      structuredClone([...previousState, newStatus])
-    );
+    setFilterByStatusList((previousState) => structuredClone([...previousState, newStatus]));
   };
 
   const removeFromFilterByStatusList = (oldStatus: permittedStatus) => {
     if (!filterByStatusList.includes(oldStatus)) return;
-    setFilterByStatusList((previousState) =>
-      previousState.filter((status) => status !== oldStatus)
-    );
+    setFilterByStatusList((previousState) => previousState.filter((status) => status !== oldStatus));
   };
 
   return {
@@ -65,7 +57,7 @@ const useFilters = ({
     setOrder,
     setOrderBy,
     setPage,
-    setQuantity
+    setQuantity,
   };
 };
 

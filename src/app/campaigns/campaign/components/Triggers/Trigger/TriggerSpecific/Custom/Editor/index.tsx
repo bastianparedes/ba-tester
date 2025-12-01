@@ -5,10 +5,7 @@ import { Modal } from '../../../../../../../_components/Modal';
 import type { editor } from 'monaco-editor';
 
 import styles from './styles.module.scss';
-import type {
-  CampaignExtendedWithoutDate,
-  TriggerData
-} from '../../../../../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate, TriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
@@ -17,16 +14,14 @@ interface Props {
   setShowEditor: (arg0: boolean) => void;
   trigger: TriggerData & { type: 'custom' };
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
 const Editor = ({ setCampaign, trigger, setShowEditor }: Props) => {
   const translation = useTranslationContext();
   const [errors, setErrors] = useState<{ javascript: editor.IMarker[] }>({
-    javascript: []
+    javascript: [],
   });
   const [javascript, setJavascript] = useState(trigger.data.javascript);
 
@@ -34,10 +29,10 @@ const Editor = ({ setCampaign, trigger, setShowEditor }: Props) => {
     className: styles.monaco,
     options: {
       minimap: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
-    theme: 'vs-dark'
+    theme: 'vs-dark',
   };
 
   const monacoJavascriptConfig = {
@@ -47,7 +42,7 @@ const Editor = ({ setCampaign, trigger, setShowEditor }: Props) => {
     onValidate: (errorsJavascript: editor.IMarker[]) => {
       setErrors((errors) => ({ ...errors, javascript: errorsJavascript }));
     },
-    value: javascript
+    value: javascript,
   };
 
   const handleOnSave = () => {
@@ -66,11 +61,7 @@ const Editor = ({ setCampaign, trigger, setShowEditor }: Props) => {
           {translation.campaign.save}
         </button>
         <div className={styles.monacoContainer}>
-          <Monaco
-            {...monacoConfig}
-            {...monacoJavascriptConfig}
-            language="javascript"
-          />
+          <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
         </div>
       </div>
     </Modal>

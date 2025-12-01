@@ -6,8 +6,8 @@ import { TbBracketsContain } from 'react-icons/tb';
 
 import RequirementSpecific from './RequirementSpecific';
 import styles from './styles.module.scss';
-import commonConstants from '../../../../../../../config/common/constants';
-import type { CampaignExtendedWithoutDate } from '../../../../../../../types/databaseObjects';
+import commonConstants from '../../../../../../config/common/constants';
+import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import AddButton from '../../AddButton';
 
@@ -18,35 +18,24 @@ interface Props {
   parentNode: CampaignExtendedWithoutDate['requirements'] | null;
   requirement: CampaignExtendedWithoutDate['requirements']['data']['children'][number];
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
-const Requirement = ({
-  grandParentNode,
-  id,
-  index,
-  parentNode,
-  requirement,
-  setCampaign
-}: Props) => {
+const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {
   const translation = useTranslationContext();
 
   const getSiblings = () => {
     if (parentNode === null) return [];
-    return parentNode.data.children.filter(
-      (_child, indexChild) => indexChild !== index
-    );
+    return parentNode.data.children.filter((_child, indexChild) => indexChild !== index);
   };
 
   const newRequirement = {
     data: {
       comparator: commonConstants.comparisons.contains,
-      value: ''
+      value: '',
     },
-    type: commonConstants.requirementTypes.url
+    type: commonConstants.requirementTypes.url,
   };
 
   if (requirement.type === commonConstants.requirementTypes.node) {
@@ -72,12 +61,7 @@ const Requirement = ({
     return (
       <div className={styles.nodeContainer}>
         {!isRootNode && <div className={styles.bordeSuperior}></div>}
-        <div
-          className={cx(
-            styles.nodeContent,
-            !isRootNode && styles.internalNodeContent
-          )}
-        >
+        <div className={cx(styles.nodeContent, !isRootNode && styles.internalNodeContent)}>
           {requirement.data.children.map((childNode, indexChild) => (
             <div key={id + '-' + String(indexChild)}>
               {indexChild > 0 && (
@@ -85,14 +69,9 @@ const Requirement = ({
                   <button
                     className={cx(
                       styles.andOr,
-                      requirement.data.operator ===
-                        commonConstants.booleanOperators.and &&
-                        styles.andOrSelected
+                      requirement.data.operator === commonConstants.booleanOperators.and && styles.andOrSelected,
                     )}
-                    disabled={
-                      requirement.data.operator ===
-                      commonConstants.booleanOperators.and
-                    }
+                    disabled={requirement.data.operator === commonConstants.booleanOperators.and}
                     onClick={switchToAnd}
                   >
                     {translation.common.requirement.operator.and}
@@ -100,14 +79,9 @@ const Requirement = ({
                   <button
                     className={cx(
                       styles.andOr,
-                      requirement.data.operator ===
-                        commonConstants.booleanOperators.or &&
-                        styles.andOrSelected
+                      requirement.data.operator === commonConstants.booleanOperators.or && styles.andOrSelected,
                     )}
-                    disabled={
-                      requirement.data.operator ===
-                      commonConstants.booleanOperators.or
-                    }
+                    disabled={requirement.data.operator === commonConstants.booleanOperators.or}
                     onClick={switchToOr}
                   >
                     {translation.common.requirement.operator.or}
@@ -125,10 +99,7 @@ const Requirement = ({
               />
             </div>
           ))}
-          <AddButton
-            className={styles.addButtonMargin}
-            onClick={addNewRequirement}
-          >
+          <AddButton className={styles.addButtonMargin} onClick={addNewRequirement}>
             {translation.campaign.requirements.newRequirement}
           </AddButton>
         </div>
@@ -146,9 +117,9 @@ const Requirement = ({
     const newNode = {
       data: {
         children: [requirement, newRequirement],
-        operator: commonConstants.booleanOperators.and
+        operator: commonConstants.booleanOperators.and,
       },
-      type: commonConstants.requirementTypes.node
+      type: commonConstants.requirementTypes.node,
     };
 
     parentNode.data.children[index] = newNode;
@@ -159,8 +130,7 @@ const Requirement = ({
   };
 
   const handleOnChangeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newType = event.target
-      .value as (typeof commonConstants)['campaignRequirements'][number];
+    const newType = event.target.value as (typeof commonConstants)['campaignRequirements'][number];
 
     if (
       newType === commonConstants.requirementTypes.cookie ||
@@ -172,33 +142,33 @@ const Requirement = ({
         data: {
           comparator: commonConstants.comparisons.is,
           name: '',
-          value: ''
+          value: '',
         },
-        type: newType
+        type: newType,
       };
     else if (newType === commonConstants.requirementTypes.custom)
       parentNode.data.children[index] = {
         data: {
           javascript: 'resolve(true);',
-          name: ''
+          name: '',
         },
-        type: newType
+        type: newType,
       };
     else if (newType === commonConstants.requirementTypes.device)
       parentNode.data.children[index] = {
         data: {
           comparator: commonConstants.comparisons.is,
-          device: commonConstants.devices.desktop
+          device: commonConstants.devices.desktop,
         },
-        type: newType
+        type: newType,
       };
     else if (newType === commonConstants.requirementTypes.url)
       parentNode.data.children[index] = {
         data: {
           comparator: commonConstants.comparisons.is,
-          value: ''
+          value: '',
         },
-        type: newType
+        type: newType,
       };
     setCampaign((campaign) => {
       return structuredClone(campaign);
@@ -206,9 +176,7 @@ const Requirement = ({
   };
 
   const removeRequirement = () => {
-    const newRequirements = parentNode.data.children.filter(
-      (_child, indexChild) => indexChild !== index
-    );
+    const newRequirements = parentNode.data.children.filter((_child, indexChild) => indexChild !== index);
 
     parentNode.data.children = newRequirements;
 
@@ -218,9 +186,7 @@ const Requirement = ({
         parentNode.data = uniqueSibling.data;
       } else if (grandParentNode !== null) {
         const indexOfParentNode = grandParentNode.data.children.findIndex(
-          (child) =>
-            child.type === commonConstants.requirementTypes.node &&
-            child.data.children.length === 1
+          (child) => child.type === commonConstants.requirementTypes.node && child.data.children.length === 1,
         );
         grandParentNode.data.children[indexOfParentNode] = uniqueSibling;
       }
@@ -240,10 +206,7 @@ const Requirement = ({
           </option>
         ))}
       </select>
-      <RequirementSpecific
-        setCampaign={setCampaign}
-        requirement={requirement}
-      />
+      <RequirementSpecific setCampaign={setCampaign} requirement={requirement} />
       <button className={styles.button} onClick={removeRequirement}>
         <MdDelete />
       </button>

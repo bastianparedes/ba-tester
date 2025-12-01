@@ -11,11 +11,7 @@ interface props {
   modes?: string[];
 }
 
-const Shadow = ({
-  children,
-  setVisible = null,
-  modes = ['dark']
-}: props): JSX.Element => {
+const Shadow = ({ children, setVisible = null, modes = ['dark'] }: props): JSX.Element => {
   const handleOnClick = (event: React.MouseEvent): void => {
     event.preventDefault();
     event.stopPropagation();
@@ -32,11 +28,7 @@ const Shadow = ({
   const classNamesList = modes.map((mode) => styles[mode]);
 
   return (
-    <div
-      className={cx(styles.shadow, ...classNamesList)}
-      data-testid="data-testid-shadow"
-      onClick={handleOnClick}
-    >
+    <div className={cx(styles.shadow, ...classNamesList)} data-testid="data-testid-shadow" onClick={handleOnClick}>
       {children}
     </div>
   );

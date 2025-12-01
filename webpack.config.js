@@ -1,9 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
 
 module.exports = {
   cache: false,
   entry: {
-    app: path.join(process.cwd(), 'script', 'index.ts')
+    app: path.join(process.cwd(), 'src', 'script', 'index.ts'),
   },
   mode: 'production',
   module: {
@@ -12,18 +13,21 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'ts-loader',
         options: {
-          transpileOnly: true
+          transpileOnly: true,
         },
-        test: /\.ts?$/
-      }
-    ]
+        test: /\.ts?$/,
+      },
+    ],
   },
   output: {
     filename: 'script.js',
-    path: path.join(process.cwd(), 'dist')
+    path: path.join(process.cwd(), 'dist'),
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    alias: {
+      '@': path.join(process.cwd(), 'src'),
+    },
   },
-  stats: 'errors-only'
+  stats: 'errors-only',
 };

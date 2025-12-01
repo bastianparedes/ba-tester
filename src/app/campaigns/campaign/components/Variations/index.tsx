@@ -3,19 +3,14 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { variationsWithDistributedTraffic } from './util';
 import Variation from './Variation';
-import type {
-  CampaignExtendedWithoutDate,
-  VariationData
-} from '../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate, VariationData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import AddButton from '../AddButton';
 
 interface Props {
   variations: VariationData[];
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -25,11 +20,7 @@ const Variations = ({ setCampaign, variations }: Props) => {
   const addNewVariation = () => {
     setCampaign((campaign) => {
       const newCampaign = structuredClone(campaign);
-      const newIdVariation =
-        variations.reduce(
-          (highest, nextVariation) => Math.max(highest, nextVariation.id),
-          0
-        ) + 1;
+      const newIdVariation = variations.reduce((highest, nextVariation) => Math.max(highest, nextVariation.id), 0) + 1;
 
       newCampaign.variations.push({
         css: '',
@@ -37,12 +28,10 @@ const Variations = ({ setCampaign, variations }: Props) => {
         id: newIdVariation,
         javascript: '',
         name: 'Variation ' + String(newIdVariation),
-        traffic: 0
+        traffic: 0,
       });
 
-      newCampaign.variations = variationsWithDistributedTraffic(
-        newCampaign.variations
-      );
+      newCampaign.variations = variationsWithDistributedTraffic(newCampaign.variations);
 
       return newCampaign;
     });
@@ -51,12 +40,8 @@ const Variations = ({ setCampaign, variations }: Props) => {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h2 className={styles.title}>
-          {translation.campaign.variations.title}
-        </h2>
-        <AddButton onClick={addNewVariation}>
-          {translation.campaign.variations.newVariation}
-        </AddButton>
+        <h2 className={styles.title}>{translation.campaign.variations.title}</h2>
+        <AddButton onClick={addNewVariation}>{translation.campaign.variations.newVariation}</AddButton>
       </header>
       <table className={styles.table}>
         <thead>
@@ -74,11 +59,7 @@ const Variations = ({ setCampaign, variations }: Props) => {
         </thead>
         <tbody>
           {variations.map((variation) => (
-            <Variation
-              key={variation.id}
-              setCampaign={setCampaign}
-              variation={variation}
-            />
+            <Variation key={variation.id} setCampaign={setCampaign} variation={variation} />
           ))}
         </tbody>
       </table>

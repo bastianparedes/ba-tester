@@ -2,7 +2,7 @@
 
 import constate from 'constate';
 
-import translation from '../../../../config/translation';
+import translation from '../../../config/translation';
 
 interface Props {
   languaje: 'english' | 'spanish';

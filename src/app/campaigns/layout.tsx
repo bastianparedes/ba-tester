@@ -2,7 +2,7 @@ import React from 'react';
 import { TrpcProvider } from './_contexts/TrpcProvider';
 import { TranslationProvider } from './_contexts/useTranslation';
 import WithSidebarButtons from './_contexts/WithSidebarButtons';
-import { url } from '../../../lib/trpc/config';
+import { url } from '@/libs/trpc/config';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

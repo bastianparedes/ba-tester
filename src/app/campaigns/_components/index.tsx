@@ -6,8 +6,8 @@ import Header from './Header';
 import { getDateString } from './index.helper';
 import StatusSpan from './StatusSpan';
 import styles from './styles.module.scss';
-import constants from '../../../../config/constants';
-import type { CampaignWithDate } from '../../../../types/databaseObjects';
+import constants from '../../../config/constants';
+import type { CampaignWithDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../_contexts/useTranslation';
 import Table from './Table';
 import Pagination from '@mui/material/Pagination';
@@ -18,38 +18,29 @@ interface Props {
 
 const IndexComponents = ({ campaigns }: Props) => {
   const translation = useTranslationContext();
-  const {
-    order,
-    orderBy,
-    setOrder,
-    setOrderBy,
-    quantity,
-    page,
-    count,
-    setPage
-  } = useFiltersContext();
+  const { order, orderBy, setOrder, setOrderBy, quantity, page, count, setPage } = useFiltersContext();
 
   const columns = [
     {
       id: constants.database.campaign.id,
       label: translation.campaigns.camapaignsTable.id,
-      width: 10
+      width: 10,
     },
     {
       id: constants.database.campaign.name,
       label: translation.campaigns.camapaignsTable.campaignName,
-      width: 50
+      width: 50,
     },
     {
       id: constants.database.campaign.status,
       label: translation.campaigns.camapaignsTable.status,
-      width: 20
+      width: 20,
     },
     {
       id: constants.database.campaign.lastModifiedDate,
       label: translation.campaigns.camapaignsTable.lastModified,
-      width: 20
-    }
+      width: 20,
+    },
   ];
 
   const rows = campaigns.map((campaign) => ({
@@ -59,8 +50,8 @@ const IndexComponents = ({ campaigns }: Props) => {
       campaign.id,
       campaign.name,
       <StatusSpan status={campaign.status} key={campaign.status} />,
-      getDateString(campaign.lastModifiedDate)
-    ]
+      getDateString(campaign.lastModifiedDate),
+    ],
   }));
 
   const totalPages = Math.floor(count / quantity);
@@ -80,16 +71,12 @@ const IndexComponents = ({ campaigns }: Props) => {
               order,
               orderBy,
               setOrder,
-              setOrderBy: setOrderBy as any
+              setOrderBy: setOrderBy as any,
             }}
             rows={rows}
           />
           <div className={styles.pagination}>
-            <Pagination
-              count={totalPages + 1}
-              page={page + 1}
-              onChange={handleOnChange}
-            />
+            <Pagination count={totalPages + 1} page={page + 1} onChange={handleOnChange} />
           </div>
         </div>
         <Filters />

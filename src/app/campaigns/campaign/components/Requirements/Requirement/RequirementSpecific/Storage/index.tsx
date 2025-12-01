@@ -1,15 +1,13 @@
 import React from 'react';
 
-import commonConstants from '../../../../../../../../../config/common/constants';
-import type { CampaignExtendedWithoutDate } from '../../../../../../../../../types/databaseObjects';
+import commonConstants from '../../../../../../../../config/common/constants';
+import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
   requirement: CampaignExtendedWithoutDate['requirements']['data']['children'][number];
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -21,9 +19,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
     requirement.type !== 'sessionStorage' &&
     requirement.type !== 'queryParam'
   )
-    throw new Error(
-      'Type cookie or localStorage or sessionStorage or queryParam expected in requirement'
-    );
+    throw new Error('Type cookie or localStorage or sessionStorage or queryParam expected in requirement');
 
   const comparatorPermittedValues = [
     commonConstants.comparisons.contains,
@@ -31,7 +27,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
     commonConstants.comparisons.exists,
     commonConstants.comparisons.doesNotExist,
     commonConstants.comparisons.is,
-    commonConstants.comparisons.isNot
+    commonConstants.comparisons.isNot,
   ];
 
   const handleOnChangeName = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -42,20 +38,14 @@ const Element = ({ setCampaign, requirement }: Props) => {
     });
   };
 
-  const handleOnChangeComparator = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const newComparator = event.target
-      .value as (typeof comparatorPermittedValues)[number];
+  const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newComparator = event.target.value as (typeof comparatorPermittedValues)[number];
     requirement.data.comparator = newComparator;
 
-    if (
-      requirement.data.comparator === 'exists' ||
-      requirement.data.comparator === 'doesNotExist'
-    )
+    if (requirement.data.comparator === 'exists' || requirement.data.comparator === 'doesNotExist')
       requirement.data = {
         comparator: requirement.data.comparator,
-        name: requirement.data.name
+        name: requirement.data.name,
       };
 
     setCampaign((campaign) => {
@@ -66,8 +56,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
   const handleOnChangeValue = (event: React.FocusEvent<HTMLInputElement>) => {
     if (
       requirement.data.comparator !== commonConstants.comparisons.contains &&
-      requirement.data.comparator !==
-        commonConstants.comparisons.doesNotContain &&
+      requirement.data.comparator !== commonConstants.comparisons.doesNotContain &&
       requirement.data.comparator !== commonConstants.comparisons.is &&
       requirement.data.comparator !== commonConstants.comparisons.isNot
     )
@@ -84,15 +73,10 @@ const Element = ({ setCampaign, requirement }: Props) => {
       <input
         value={requirement.data.name}
         onChange={handleOnChangeName}
-        placeholder={
-          translation.common.requirement.placeholder[requirement.type].name
-        }
+        placeholder={translation.common.requirement.placeholder[requirement.type].name}
         type="text"
       />
-      <select
-        onChange={handleOnChangeComparator}
-        value={requirement.data.comparator}
-      >
+      <select onChange={handleOnChangeComparator} value={requirement.data.comparator}>
         {comparatorPermittedValues.map((value) => (
           <option key={value} value={value}>
             {translation.common.requirement.comparator[value]}
@@ -100,16 +84,13 @@ const Element = ({ setCampaign, requirement }: Props) => {
         ))}
       </select>
       {(requirement.data.comparator === commonConstants.comparisons.contains ||
-        requirement.data.comparator ===
-          commonConstants.comparisons.doesNotContain ||
+        requirement.data.comparator === commonConstants.comparisons.doesNotContain ||
         requirement.data.comparator === commonConstants.comparisons.is ||
         requirement.data.comparator === commonConstants.comparisons.isNot) && (
         <input
           value={requirement.data.value}
           onChange={handleOnChangeValue}
-          placeholder={
-            translation.common.requirement.placeholder[requirement.type].value
-          }
+          placeholder={translation.common.requirement.placeholder[requirement.type].value}
           type="text"
         />
       )}

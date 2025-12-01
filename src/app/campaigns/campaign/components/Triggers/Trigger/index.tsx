@@ -5,63 +5,55 @@ import { MdDelete } from 'react-icons/md';
 
 import styles from './styles.module.scss';
 import TriggerSpecific from './TriggerSpecific';
-import commonConstants from '../../../../../../../config/common/constants';
-import type {
-  CampaignExtendedWithoutDate,
-  TriggerData
-} from '../../../../../../../types/databaseObjects';
+import commonConstants from '../../../../../../config/common/constants';
+import type { CampaignExtendedWithoutDate, TriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 interface Props {
   index: number;
   trigger: TriggerData;
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
 const Trigger = ({ index, setCampaign, trigger }: Props) => {
   const translation = useTranslationContext();
   const handleOnChangeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newType = event.target
-      .value as (typeof commonConstants)['triggers'][number];
+    const newType = event.target.value as (typeof commonConstants)['triggers'][number];
     setCampaign((campaign) => {
-      const index = campaign.triggers.findIndex(
-        (triggerInList) => triggerInList.id === trigger.id
-      );
+      const index = campaign.triggers.findIndex((triggerInList) => triggerInList.id === trigger.id);
 
       if (newType === 'clickOnElement')
         campaign.triggers[index] = {
           data: {
-            selector: ''
+            selector: '',
           },
           id: trigger.id,
-          type: newType
+          type: newType,
         };
       else if (newType === 'custom')
         campaign.triggers[index] = {
           data: {
             javascript: 'fire();',
-            name: ''
+            name: '',
           },
           id: trigger.id,
-          type: newType
+          type: newType,
         };
       else if (newType === 'pageLoad')
         campaign.triggers[index] = {
           data: {},
           id: trigger.id,
-          type: newType
+          type: newType,
         };
       else if (newType === 'timeOnPage')
         campaign.triggers[index] = {
           data: {
-            seconds: 1
+            seconds: 1,
           },
           id: trigger.id,
-          type: newType
+          type: newType,
         };
 
       return structuredClone(campaign);
@@ -70,9 +62,7 @@ const Trigger = ({ index, setCampaign, trigger }: Props) => {
 
   const deleteTrigger = () => {
     setCampaign((campaign) => {
-      campaign.triggers = campaign.triggers.filter(
-        (triggerInList) => triggerInList.id !== trigger.id
-      );
+      campaign.triggers = campaign.triggers.filter((triggerInList) => triggerInList.id !== trigger.id);
       return structuredClone(campaign);
     });
   };
@@ -82,9 +72,7 @@ const Trigger = ({ index, setCampaign, trigger }: Props) => {
       {index > 0 && (
         <tr>
           <td>
-            <span className={styles.or}>
-              {translation.campaign.triggers.booleanOperators.or}
-            </span>
+            <span className={styles.or}>{translation.campaign.triggers.booleanOperators.or}</span>
           </td>
         </tr>
       )}

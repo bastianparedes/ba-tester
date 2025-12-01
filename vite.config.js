@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import path from 'path';
 
 export default defineConfig({
   assetsInclude: [],
@@ -8,14 +9,14 @@ export default defineConfig({
     minify: 'terser',
     rollupOptions: {
       input: {
-        script: path.join(process.cwd(), 'prepare', 'script.ts')
+        script: path.join(process.cwd(), 'prepare', 'script.ts'),
       },
       output: {
         dir: path.join(process.cwd(), 'dist'),
         entryFileNames: 'script.js',
-        format: 'umd'
-      }
-    }
+        format: 'umd',
+      },
+    },
   },
   cacheDir: 'node_modules/.vite',
   plugins: [
@@ -23,10 +24,10 @@ export default defineConfig({
       enforce: 'pre',
       exclude: /node_modules/,
       test: /\.(js|ts|jsx|tsx)$/,
-      use: 'ts-loader'
-    }
+      use: 'ts-loader',
+    },
   ],
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
-  }
+    extensions: ['.tsx', '.ts', '.js'],
+  },
 });

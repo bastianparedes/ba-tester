@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import type { CampaignExtendedWithoutDate } from '../../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 interface Props {
@@ -13,11 +13,7 @@ const Save = ({ campaign, onClick }: Props) => {
   const translation = useTranslationContext();
 
   const thereAreVariation = campaign.variations.length > 0;
-  const trafficSumNot100 =
-    campaign.variations.reduce(
-      (sum, variation) => sum + variation.traffic,
-      0
-    ) !== 100;
+  const trafficSumNot100 = campaign.variations.reduce((sum, variation) => sum + variation.traffic, 0) !== 100;
   const emptyName = campaign.name.trim() === '';
 
   return (

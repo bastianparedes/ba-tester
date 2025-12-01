@@ -1,18 +1,13 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import type {
-  CampaignExtendedWithoutDate,
-  TriggerData
-} from '../../../../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate, TriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
   trigger: TriggerData & { type: 'timeOnPage' };
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -34,14 +29,7 @@ const Trigger = ({ setCampaign, trigger }: Props) => {
 
   return (
     <div className={styles.container}>
-      <input
-        max={60000}
-        min={0}
-        onChange={handleOnChangeSeconds}
-        step={1}
-        type="number"
-        value={trigger.data.seconds}
-      />
+      <input max={60000} min={0} onChange={handleOnChangeSeconds} step={1} type="number" value={trigger.data.seconds} />
       <span>{translation.campaign.triggers.seconds}</span>
     </div>
   );

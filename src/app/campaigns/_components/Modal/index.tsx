@@ -18,11 +18,7 @@ const Modal = ({ children, setModalVisible }: props): JSX.Element => {
   return (
     <Shadow setVisible={setModalVisible}>
       <div className={styles.modal}>
-        <button
-          className={styles.button}
-          data-testid="data-testid-button-closer-modal"
-          onClick={handleOnClose}
-        >
+        <button className={styles.button} data-testid="data-testid-button-closer-modal" onClick={handleOnClose}>
           <MdClose />
         </button>
         <div className={styles.childrenContainer}>{children}</div>

@@ -4,10 +4,7 @@ import { cx } from 'class-variance-authority';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 import styles from './styles.module.scss';
-import type {
-  CampaignExtendedWithoutDate,
-  VariationData
-} from '../../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate, VariationData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import Editor from '../Editor';
 import { variationsWithDistributedTraffic } from '../util';
@@ -15,9 +12,7 @@ import { variationsWithDistributedTraffic } from '../util';
 interface Props {
   variation: VariationData;
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -32,13 +27,9 @@ const Variation = ({ setCampaign, variation }: Props) => {
 
   const deleteVariation = () => {
     setCampaign((campaign) => {
-      campaign.variations = campaign.variations.filter(
-        (variation: VariationData) => id !== variation.id
-      );
+      campaign.variations = campaign.variations.filter((variation: VariationData) => id !== variation.id);
 
-      campaign.variations = variationsWithDistributedTraffic(
-        campaign.variations
-      );
+      campaign.variations = variationsWithDistributedTraffic(campaign.variations);
 
       return structuredClone(campaign);
     });
@@ -82,21 +73,13 @@ const Variation = ({ setCampaign, variation }: Props) => {
           type="number"
           value={variation.traffic}
         />
-        <span className={styles.percentage}>
-          {translation.common.symbols.percentage}
-        </span>
+        <span className={styles.percentage}>{translation.common.symbols.percentage}</span>
       </td>
       <td className={cx(styles.td, styles.littleButton)}>
         <button className={styles.button} onClick={openEditor}>
           <MdEdit />
         </button>
-        {showEditor && (
-          <Editor
-            setCampaign={setCampaign}
-            setShowEditor={setShowEditor}
-            variation={variation}
-          />
-        )}
+        {showEditor && <Editor setCampaign={setCampaign} setShowEditor={setShowEditor} variation={variation} />}
       </td>
       <td className={cx(styles.td, styles.littleButton)}>
         <button className={styles.button} onClick={deleteVariation}>

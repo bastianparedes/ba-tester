@@ -1,17 +1,12 @@
 import React from 'react';
 
-import type {
-  CampaignExtendedWithoutDate,
-  TriggerData
-} from '../../../../../../../../../types/databaseObjects';
+import type { CampaignExtendedWithoutDate, TriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
   trigger: TriggerData & { type: 'clickOnElement' };
   setCampaign: (
-    campaign: (
-      CampaignExtendedWithoutDate: CampaignExtendedWithoutDate
-    ) => CampaignExtendedWithoutDate
+    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -31,9 +26,7 @@ const Trigger = ({ setCampaign, trigger }: Props) => {
     <input
       value={selector}
       onChange={handleOnChange}
-      placeholder={
-        translation.campaign.triggers.placeholder[trigger.type].valueStringOne
-      }
+      placeholder={translation.campaign.triggers.placeholder[trigger.type].valueStringOne}
       type="text"
     />
   );

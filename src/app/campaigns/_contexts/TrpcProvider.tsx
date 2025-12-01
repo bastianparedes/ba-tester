@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
-import { trpcClient } from '../../../../lib/trpc/client';
+import { trpcClient } from '@/libs/trpc/client';
 
 interface Props {
   children: React.ReactNode;
@@ -17,10 +17,10 @@ const TrpcProvider = ({ children, url }: Props) => {
     trpcClient.createClient({
       links: [
         httpBatchLink({
-          url
-        })
-      ]
-    })
+          url,
+        }),
+      ],
+    }),
   );
 
   return (

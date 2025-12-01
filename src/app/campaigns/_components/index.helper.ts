@@ -1,4 +1,4 @@
-import { startWithZero } from '../../../../utils/date';
+import { startWithZero } from '@/utils/date';
 
 const getDateString = (dateAsString: string) => {
   const date = new Date(dateAsString);

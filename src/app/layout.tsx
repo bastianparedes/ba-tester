@@ -1,12 +1,6 @@
 import React from 'react';
 import './styles/global.css';
 import './styles/normalize.css';
-import { Lato } from 'next/font/google';
-
-const latoInit = Lato({
-  subsets: ['latin'],
-  weight: ['100', '300']
-});
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

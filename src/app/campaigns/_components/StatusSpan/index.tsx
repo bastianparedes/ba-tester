@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import commonConstants from '../../../../../config/common/constants';
+import commonConstants from '../../../../config/common/constants';
 import { useTranslationContext } from '../../_contexts/useTranslation';
 
 interface Props {
@@ -10,11 +10,7 @@ interface Props {
 
 const StatusSpan = ({ status }: Props) => {
   const translation = useTranslationContext();
-  return (
-    <span className={styles[status]}>
-      {translation.common.statusLabels[status]}
-    </span>
-  );
+  return <span className={styles[status]}>{translation.common.statusLabels[status]}</span>;
 };
 
 export default StatusSpan;
