@@ -3,7 +3,7 @@ import db from '@/libs/db/index';
 
 const getCampaignsForFrontend = async () => {
   return (
-    await db.query.Campaign.findMany({
+    await db.query.campaigns.findMany({
       columns: {
         id: true,
         name: true,

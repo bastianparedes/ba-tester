@@ -19,7 +19,7 @@ const insertCampaign = async ({
   variations: CampaignExtendedWithoutDate['variations'];
 }) => {
   return await db
-    .insert(schema.Campaign)
+    .insert(schema.campaigns)
     .values({
       lastModifiedDate: new Date(),
       name,
@@ -42,7 +42,7 @@ const updateCampaign = async (
   },
 ) => {
   return await db
-    .update(schema.Campaign)
+    .update(schema.campaigns)
     .set({
       lastModifiedDate: new Date(),
       name: values.name,
@@ -51,7 +51,7 @@ const updateCampaign = async (
       triggers: values.triggers,
       variations: values.variations,
     })
-    .where(eq(schema.Campaign.id, id))
+    .where(eq(schema.campaigns.id, id))
     .returning();
 };
 
@@ -77,14 +77,14 @@ const getCampaigns = async ({
 
   const campaigns = await db
     .select()
-    .from(schema.Campaign)
+    .from(schema.campaigns)
     .where(
       and(
-        like(schema.Campaign.name, '%' + name.trim().split('').join('%') + '%'),
-        inArray(schema.Campaign.status, statusList),
+        like(schema.campaigns.name, '%' + name.trim().split('').join('%') + '%'),
+        inArray(schema.campaigns.status, statusList),
       ),
     )
-    .orderBy(sort(schema.Campaign[orderBy]))
+    .orderBy(sort(schema.campaigns[orderBy]))
     .limit(quantity)
     .offset(page * quantity);
 
@@ -92,11 +92,11 @@ const getCampaigns = async ({
     .select({
       count: sql<number>`count(*)`,
     })
-    .from(schema.Campaign)
+    .from(schema.campaigns)
     .where(
       and(
-        like(schema.Campaign.name, name.trim().split('').join('%') + '%'),
-        inArray(schema.Campaign.status, statusList),
+        like(schema.campaigns.name, name.trim().split('').join('%') + '%'),
+        inArray(schema.campaigns.status, statusList),
       ),
     );
 

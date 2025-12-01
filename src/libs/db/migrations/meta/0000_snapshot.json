@@ -1,11 +1,11 @@
 {
-  "id": "d8d1b70a-1244-4301-8c8c-ddeb89f97747",
+  "id": "7c25a8a4-3611-4ac6-9a9a-a85dc4b79187",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.Campaign": {
-      "name": "Campaign",
+    "public.campaigns": {
+      "name": "campaigns",
       "schema": "",
       "columns": {
         "id": {
@@ -14,8 +14,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "lastModifiedDate": {
-          "name": "lastModifiedDate",
+        "last_modified_date": {
+          "name": "last_modified_date",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -23,7 +23,7 @@
         },
         "name": {
           "name": "name",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "default": "''"
@@ -36,7 +36,8 @@
         },
         "status": {
           "name": "status",
-          "type": "text",
+          "type": "status_enum",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
           "default": "'inactive'"
@@ -57,13 +58,89 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "campaigns_id_unique": {
+          "name": "campaigns_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_id_unique": {
+          "name": "users_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "id"
+          ]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.status_enum": {
+      "name": "status_enum",
+      "schema": "public",
+      "values": [
+        "inactive",
+        "active",
+        "deleted"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},
