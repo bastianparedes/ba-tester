@@ -6,6 +6,7 @@ import api from '@/app/api';
 import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/db/index';
 import config from '@/config/constants';
 import { useLoader } from '@/app/_common/contexts/Loader';
+import Pagination from '@mui/material/Pagination';
 
 type UiState = {
   sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
@@ -210,49 +211,8 @@ export default function Page() {
         </div>
 
         {/* Paginación */}
-        <div className="mt-6 flex items-center justify-between bg-white rounded-lg shadow p-4">
-          <div className="text-sm text-slate-600">
-            Mostrando <span className="font-semibold">{campaigns.length}</span> de{' '}
-            <span className="font-semibold">{state.totalItems}</span> resultados
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: 0 })}
-              disabled={state.currentPage === 0}
-              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
-            >
-              Primera
-            </button>
-
-            <button
-              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: state.currentPage - 1 })}
-              disabled={state.currentPage === 0}
-              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
-            >
-              Anterior
-            </button>
-
-            <div className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium">
-              {state.currentPage + 1}
-            </div>
-
-            <button
-              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: state.currentPage + 1 })}
-              disabled={state.currentPage === totalPages - 1}
-              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
-            >
-              Siguiente
-            </button>
-
-            <button
-              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: totalPages - 1 })}
-              disabled={state.currentPage === totalPages - 1}
-              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
-            >
-              Última
-            </button>
-          </div>
+        <div className="mt-6 flex items-center justify-center bg-white rounded-lg shadow p-4">
+          <Pagination count={totalPages} page={state.currentPage + 1} onChange={() => {}} />
         </div>
       </div>
 
