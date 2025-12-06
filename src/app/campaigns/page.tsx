@@ -7,7 +7,7 @@ import { FiltersProvider } from './_components/context/filters';
 import commonConstants from '../../config/common/constants';
 import type { TypeCampaign } from '@/types/databaseObjects';
 import Loader from './_components/Loader';
-import api from '@/app/api/client';
+import api from '@/app/api';
 
 const Page = () => {
   const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);

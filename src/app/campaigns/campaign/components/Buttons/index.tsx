@@ -2,43 +2,36 @@ import Cancel from './Cancel';
 import Save from './Save';
 import styles from './styles.module.scss';
 import constants from '../../../../../config/constants';
-import { trpcClient } from '@/libs/trpc/client';
 import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import api from '@/app/api';
 import Loader from '../../../_components/Loader';
+import { useState } from 'react';
 
 interface Props {
   campaign: TypeCampaignExtendedWithoutDate;
 }
 
 const Buttons = ({ campaign }: Props) => {
-  const insertCampaign = trpcClient.insertCampaign.useMutation({
-    onSettled(_data, error) {
-      if (error !== null) return window.alert('There was an error');
-      location.href = constants.pages.campaigns;
-    },
-  });
-  const updateCampaign = trpcClient.updateCampaign.useMutation({
-    onSettled(_data, error) {
-      if (error !== null) return window.alert('There was an error');
-      location.href = constants.pages.campaigns;
-    },
-  });
+  const [loading, setLoading] = useState(false);
 
   const returnToCampaigns = () => {
     location.href = constants.pages.campaigns;
   };
 
   const handleOnSave = async () => {
-    if (campaign.id === undefined) return insertCampaign.mutate(campaign);
-    updateCampaign.mutate({
-      id: campaign.id,
-      values: campaign,
-    });
+    setLoading(true);
+    if (campaign.id === undefined) {
+      api.createCampaign({ body: campaign });
+    } else {
+      api.updateCampaign({ pathParams: { id: campaign.id }, body: campaign });
+    }
+    location.href = constants.pages.campaigns;
+    setLoading(false);
   };
 
   return (
     <>
-      {(insertCampaign.isPending || updateCampaign.isPending) && <Loader />}
+      {loading && <Loader />}
       <div className={styles.container}>
         <Save campaign={campaign} onClick={handleOnSave} />
         <Cancel onClick={returnToCampaigns} />

@@ -10,6 +10,4 @@ Para levantar el ambiente en local basta con ejecutar ```npm run dev``` en la te
 Variable | Optional
 --- | ---
 DATABASE_URL | No
-DATABSE_TOKEN | No
-DOMAIN | Yes
 

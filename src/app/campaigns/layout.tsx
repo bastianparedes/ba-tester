@@ -1,8 +1,6 @@
 import React from 'react';
-import { TrpcProvider } from './_contexts/TrpcProvider';
 import { TranslationProvider } from './_contexts/useTranslation';
 import WithSidebarButtons from './_contexts/WithSidebarButtons';
-import { url } from '@/libs/trpc/config';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,9 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body>
         <TranslationProvider languaje="english">
-          <WithSidebarButtons>
-            <TrpcProvider url={url}>{children}</TrpcProvider>
-          </WithSidebarButtons>
+          <WithSidebarButtons>{children}</WithSidebarButtons>
         </TranslationProvider>
       </body>
     </html>
