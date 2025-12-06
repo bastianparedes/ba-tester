@@ -15,7 +15,7 @@ services:
   app:
     build:
       context: .
-    image: azzurro
+    image: ba-tester
     environment:
       DATABASE_URL: "postgresql://postgres:12345678@database:5432/postgres?sslmode=disable"
       DOMAIN: "localhost:3000"
