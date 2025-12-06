@@ -1,10 +1,10 @@
-import type { VariationData } from '@/types/databaseObjects';
+import type { TypeVariationData } from '@/types/databaseObjects';
 
 class Variation {
-  data: VariationData;
+  data: TypeVariationData;
   readonly idCampaign: number;
 
-  constructor(data: VariationData, idCampaign: number) {
+  constructor(data: TypeVariationData, idCampaign: number) {
     this.data = data;
     this.idCampaign = idCampaign;
   }

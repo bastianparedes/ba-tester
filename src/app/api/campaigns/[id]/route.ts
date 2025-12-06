@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { zodRequirementsCampaign } from '../validator.helper';
 import commonConstants from '@/config/common/constants';
-import { updateCampaign } from '@/libs/db/functions';
+import db from '@/libs/db';
 import { TypePut } from './client';
 
 const updateCampaignSchema = z.object({
@@ -61,7 +61,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePut['body'] = parseResult.data;
 
-  const result = await updateCampaign(id, validated);
+  const result = await db.updateCampaign(id, validated);
 
   return NextResponse.json(result);
 }

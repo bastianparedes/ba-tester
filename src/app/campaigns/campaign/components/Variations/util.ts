@@ -1,6 +1,6 @@
-import type { VariationData } from '@/types/databaseObjects';
+import type { TypeVariationData } from '@/types/databaseObjects';
 
-const variationsWithDistributedTraffic = (variations: VariationData[]) => {
+const variationsWithDistributedTraffic = (variations: TypeVariationData[]) => {
   if (variations.length === 0) return variations;
   const distributedTraffic = Math.floor(100 / variations.length);
   variations.forEach((variation) => {

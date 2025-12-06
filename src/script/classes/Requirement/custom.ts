@@ -1,8 +1,8 @@
 import type { ba_tester } from '@/script/types';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
-const requirementCustom = (requirement: RequirementData) => {
+const requirementCustom = (requirement: TypeRequirementData) => {
   if (requirement.type !== 'custom') throw new Error('Type custom expected in requirement');
 
   return new Promise((resolve) => {

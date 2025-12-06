@@ -8,7 +8,6 @@ const constants = Object.freeze({
   database: {
     campaign: {
       id: 'id',
-      lastModifiedDate: 'lastModifiedDate',
       name: 'name',
       requirements: 'requirements',
       status: 'status',

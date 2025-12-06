@@ -3,11 +3,11 @@ import Save from './Save';
 import styles from './styles.module.scss';
 import constants from '../../../../../config/constants';
 import { trpcClient } from '@/libs/trpc/client';
-import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import Loader from '../../../_components/Loader';
 
 interface Props {
-  campaign: CampaignExtendedWithoutDate;
+  campaign: TypeCampaignExtendedWithoutDate;
 }
 
 const Buttons = ({ campaign }: Props) => {

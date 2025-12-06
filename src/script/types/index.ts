@@ -1,7 +1,7 @@
-import type { getCampaignsForFrontend } from '@/script/utils/database';
+import type { getCampaignsForScript } from '@/script/utils/database';
 
 type ba_tester = {
-  campaignsData: Awaited<ReturnType<typeof getCampaignsForFrontend>>;
+  campaignsData: Awaited<ReturnType<typeof getCampaignsForScript>>;
   cookie: {
     get: (arg0: string) => string | null;
     set: (arg0: string, arg01: string | number, arg02: number, arg03: string, arg04: string) => void;

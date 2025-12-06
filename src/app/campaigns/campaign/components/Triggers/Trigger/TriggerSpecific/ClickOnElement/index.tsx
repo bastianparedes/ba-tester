@@ -1,12 +1,12 @@
 import React from 'react';
 
-import type { CampaignExtendedWithoutDate, TriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate, TypeTriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
-  trigger: TriggerData & { type: 'clickOnElement' };
+  trigger: TypeTriggerData & { type: 'clickOnElement' };
   setCampaign: (
-    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
   ) => void;
 }
 

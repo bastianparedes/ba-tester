@@ -1,12 +1,12 @@
 import type { ba_tester } from '@/script/types';
 
-type TriggerData = ba_tester['campaignsData'][number]['triggers'][number];
+type TypeTriggerData = ba_tester['campaignsData'][number]['triggers'][number];
 
 class Trigger {
-  trigger: TriggerData;
+  trigger: TypeTriggerData;
   readonly idCampaign: number;
 
-  constructor(trigger: TriggerData, idCampaign: number) {
+  constructor(trigger: TypeTriggerData, idCampaign: number) {
     this.trigger = trigger;
     this.idCampaign = idCampaign;
   }

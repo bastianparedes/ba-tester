@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { RequirementDataCampaign, TriggerData, VariationData } from '@/types/databaseObjects';
+import { TypeRequirementDataCampaign, TypeTriggerData, TypeVariationData } from '@/types/databaseObjects';
 
 const url = '/api/campaigns/';
 
@@ -7,20 +7,19 @@ export type TypeGet = {
   response: {
     campaigns: {
       id: number;
-      lastModifiedDate: Date;
       name: string;
       requirements: {
         type: 'node';
         data: {
-          children: RequirementDataCampaign[];
+          children: TypeRequirementDataCampaign[];
           operator: 'and' | 'or';
         };
       } & {
         type: 'node';
       };
       status: 'active' | 'deleted' | 'inactive';
-      triggers: TriggerData[];
-      variations: VariationData[];
+      triggers: TypeTriggerData[];
+      variations: TypeVariationData[];
     };
   };
 };
@@ -38,7 +37,7 @@ export type TypePut = {
     name: string;
     requirements: {
       data: {
-        children: RequirementDataCampaign[];
+        children: TypeRequirementDataCampaign[];
         operator: 'and' | 'or';
       };
       type: 'node';
@@ -84,7 +83,7 @@ export type TypePut = {
   };
   response: never;
 };
-export const putCampaign = async ({ pathParams, body }: { pathParams: { id: number }; body: TypePut['body'] }) => {
+export const updateCampaign = async ({ pathParams, body }: { pathParams: { id: number }; body: TypePut['body'] }) => {
   const response = await restClient.put<TypePut['response']>({ url: `${url}${pathParams.id}`, body });
   return response;
 };

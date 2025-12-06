@@ -2,9 +2,9 @@ import comparatorResolver from './comparatorResolver';
 import commonConstants from '../../../config/common/constants';
 import type { ba_tester } from '@/script/types';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
-const requirementDevice = (requirement: RequirementData) => {
+const requirementDevice = (requirement: TypeRequirementData) => {
   if (requirement.type !== 'device') throw new Error('Type device expected in requirement');
 
   const isMobile =

@@ -3,14 +3,14 @@ import React from 'react';
 import styles from './styles.module.scss';
 import Trigger from './Trigger';
 import commonConstants from '../../../../../config/common/constants';
-import type { CampaignExtendedWithoutDate, TriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate, TypeTriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import AddButton from '../AddButton';
 
 interface Props {
-  triggers: TriggerData[];
+  triggers: TypeTriggerData[];
   setCampaign: (
-    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
   ) => void;
 }
 

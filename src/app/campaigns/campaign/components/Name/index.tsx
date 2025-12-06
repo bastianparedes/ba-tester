@@ -2,13 +2,13 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import commonConstants from '../../../../../config/common/constants';
-import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 
 interface Props {
-  campaign: CampaignExtendedWithoutDate;
+  campaign: TypeCampaignExtendedWithoutDate;
   setCampaign: (
-    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -16,7 +16,7 @@ const Index = ({ campaign, setCampaign }: Props) => {
   const translation = useTranslationContext();
 
   const handleOnChange = (event: React.FocusEvent<HTMLInputElement>) => {
-    setCampaign((campaign: CampaignExtendedWithoutDate) => {
+    setCampaign((campaign: TypeCampaignExtendedWithoutDate) => {
       campaign.name = event.target.value;
       return structuredClone(campaign);
     });

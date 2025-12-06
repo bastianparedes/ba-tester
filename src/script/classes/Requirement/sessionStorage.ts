@@ -1,9 +1,9 @@
 import comparatorResolver from './comparatorResolver';
 import type { ba_tester } from '@/script/types';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
-const requirementSessionStorage = (requirement: RequirementData) => {
+const requirementSessionStorage = (requirement: TypeRequirementData) => {
   if (requirement.type !== 'sessionStorage') throw new Error('Type sessionStorage expected in requirement');
   const keyValue = sessionStorage.getItem(requirement.data.name);
   return comparatorResolver({

@@ -9,7 +9,7 @@ import requirementUrl from './url';
 import commonConstants from '../../../config/common/constants';
 import type { ba_tester } from '@/script/types';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementSpecific = {
   cookie: requirementCookie,
@@ -22,9 +22,9 @@ const requirementSpecific = {
 };
 
 class Requirement {
-  readonly requirementData: RequirementData;
+  readonly requirementData: TypeRequirementData;
 
-  constructor(requirementData: RequirementData) {
+  constructor(requirementData: TypeRequirementData) {
     this.requirementData = requirementData;
   }
 

@@ -1,2 +1,2 @@
-import db from './client';
+import * as db from './functions';
 export default db;

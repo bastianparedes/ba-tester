@@ -4,15 +4,15 @@ import { cx } from 'class-variance-authority';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 import styles from './styles.module.scss';
-import type { CampaignExtendedWithoutDate, VariationData } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate, TypeVariationData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import Editor from '../Editor';
 import { variationsWithDistributedTraffic } from '../util';
 
 interface Props {
-  variation: VariationData;
+  variation: TypeVariationData;
   setCampaign: (
-    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
   ) => void;
 }
 
@@ -27,7 +27,7 @@ const Variation = ({ setCampaign, variation }: Props) => {
 
   const deleteVariation = () => {
     setCampaign((campaign) => {
-      campaign.variations = campaign.variations.filter((variation: VariationData) => id !== variation.id);
+      campaign.variations = campaign.variations.filter((variation: TypeVariationData) => id !== variation.id);
 
       campaign.variations = variationsWithDistributedTraffic(campaign.variations);
 

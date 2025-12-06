@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { zodRequirementsCampaign } from './validator.helper';
 import commonConstants from '@/config/common/constants';
 import constants from '@/config/constants';
-import { getCampaigns, insertCampaign } from '@/libs/db/functions';
+import db from '@/libs/db';
 import { TypeGet, TypePost } from './client';
 import { TypeApiResponse } from '@/types/api';
 
@@ -13,23 +13,31 @@ const getSchema = z.object({
     constants.database.campaign.status,
     constants.database.campaign.name,
     constants.database.campaign.id,
-    constants.database.campaign.lastModifiedDate,
   ]),
   orderDirection: z.enum(['asc', 'desc']),
-  page: z.number().int().nonnegative(),
-  quantity: z.number().int().nonnegative(),
-  statusList: z.array(z.enum(commonConstants.campaignStatus)),
+  page: z.coerce.number().int().nonnegative(),
+  quantity: z.coerce.number().int().nonnegative(),
+  statusList: z
+    .union([z.string().transform((val) => [val]), z.array(z.string())])
+    .pipe(z.array(z.enum(commonConstants.campaignStatus))),
 });
 
 export async function GET(req: NextRequest): TypeApiResponse<TypeGet['response']> {
   const searchParams = req.nextUrl.searchParams;
-  const params = Object.fromEntries(searchParams.entries());
-  const parseResult = getSchema.safeParse(params);
+  const queryParams = {
+    name: searchParams.get('name'),
+    orderBy: searchParams.get('orderBy'),
+    orderDirection: searchParams.get('orderDirection'),
+    page: searchParams.get('page'),
+    quantity: searchParams.get('quantity'),
+    statusList: searchParams.getAll('statusList'),
+  };
+  const parseResult = getSchema.safeParse(queryParams);
   if (!parseResult.success) {
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   }
   const validated: TypeGet['queryParams'] = parseResult.data;
-  const result = await getCampaigns(validated);
+  const result = await db.getCampaigns(validated);
   return NextResponse.json({
     data: result,
   });
@@ -88,6 +96,6 @@ export async function POST(request: NextRequest): TypeApiResponse<TypePost['resp
   if (!parseResult.success)
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePost['body'] = parseResult.data;
-  await insertCampaign(validated);
+  await db.insertCampaign(validated);
   return NextResponse.json({});
 }

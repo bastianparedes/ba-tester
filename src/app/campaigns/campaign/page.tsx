@@ -1,11 +1,9 @@
-import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 import Components from './components';
 import commonConstants from '../../../config/common/constants';
 import constants from '../../../config/constants';
-import drizzle from '@/libs/db';
-import { campaigns } from '@/libs/db/schema';
+import db from '@/libs/db';
 
 const Page = async (props: { searchParams: Promise<{ id: string | undefined }> }) => {
   const searchParams = await props.searchParams;
@@ -36,9 +34,7 @@ const Page = async (props: { searchParams: Promise<{ id: string | undefined }> }
 
   const id = Number.parseInt(searchParams.id);
 
-  const initialCampaign = await drizzle.query.campaigns.findFirst({
-    where: eq(campaigns.id, id),
-  });
+  const initialCampaign = await db.getCampaign({ id });
 
   if (initialCampaign === undefined) redirect(redirectUrl);
 

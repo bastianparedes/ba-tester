@@ -5,12 +5,12 @@ import type { ba_tester } from '@/script/types';
 import { getId } from '@/script/utils/info';
 import queryParam from '@/script/utils/queryParam';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements'];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements'];
 
 class Campaign {
   id: number;
   name: string;
-  requirementData: RequirementData;
+  requirementData: TypeRequirementData;
   triggers: Trigger[];
   variations: Variation[];
   triggeredOnce: boolean;
@@ -19,7 +19,7 @@ class Campaign {
   constructor(
     id: number,
     name: string,
-    requirementData: RequirementData,
+    requirementData: TypeRequirementData,
     triggers: Trigger[],
     variations: Variation[],
   ) {

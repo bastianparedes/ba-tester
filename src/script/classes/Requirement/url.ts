@@ -1,9 +1,9 @@
 import comparatorResolver from './comparatorResolver';
 import type { ba_tester } from '@/script/types';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
-const requirementUrl = (requirement: RequirementData) => {
+const requirementUrl = (requirement: TypeRequirementData) => {
   if (requirement.type !== 'url') throw new Error('Type url expected in requirement');
   return comparatorResolver({
     comparator: requirement.data.comparator,

@@ -1,6 +1,6 @@
 import type commonConstants from '../config/common/constants';
 
-type TriggerData = {
+type TypeTriggerData = {
   readonly id: number;
 } & (
   | {
@@ -28,11 +28,11 @@ type TriggerData = {
     }
 );
 
-type RequirementDataCampaign =
+type TypeRequirementDataCampaign =
   | {
       type: 'node';
       data: {
-        children: RequirementDataCampaign[];
+        children: TypeRequirementDataCampaign[];
         operator: 'and' | 'or';
       };
     }
@@ -72,9 +72,9 @@ type RequirementDataCampaign =
       };
     };
 
-type RequirementData = RequirementDataCampaign;
+type TypeRequirementData = TypeRequirementDataCampaign;
 
-interface VariationData {
+interface TypeVariationData {
   css: string;
   html: string;
   readonly id: number;
@@ -83,30 +83,25 @@ interface VariationData {
   traffic: number;
 }
 
-interface CampaignWithoutDate {
+interface TypeCampaign {
   readonly id: number | undefined;
   name: string;
   status: (typeof commonConstants.campaignStatus)[number];
 }
 
-type CampaignWithDate = CampaignWithoutDate & {
-  readonly lastModifiedDate: string;
-};
-
-type CampaignExtendedWithoutDate = CampaignWithoutDate & {
-  triggers: TriggerData[];
-  requirements: RequirementDataCampaign & {
+type TypeCampaignExtendedWithoutDate = TypeCampaign & {
+  triggers: TypeTriggerData[];
+  requirements: TypeRequirementDataCampaign & {
     type: 'node';
   };
-  variations: VariationData[];
+  variations: TypeVariationData[];
 };
 
 export type {
-  TriggerData,
-  RequirementData,
-  VariationData,
-  CampaignWithoutDate,
-  CampaignWithDate,
-  CampaignExtendedWithoutDate,
-  RequirementDataCampaign,
+  TypeTriggerData,
+  TypeRequirementData,
+  TypeVariationData,
+  TypeCampaign,
+  TypeCampaignExtendedWithoutDate,
+  TypeRequirementDataCampaign,
 };

@@ -1,11 +1,11 @@
 import { and, asc, desc, eq, inArray, like, sql } from 'drizzle-orm';
 
 import * as schema from './schema';
-import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
 
 import db from './client';
 
-const insertCampaign = async ({
+export const insertCampaign = async ({
   name,
   requirements,
   status,
@@ -13,15 +13,14 @@ const insertCampaign = async ({
   variations,
 }: {
   name: string;
-  requirements: CampaignExtendedWithoutDate['requirements'];
-  status: CampaignExtendedWithoutDate['status'];
-  triggers: CampaignExtendedWithoutDate['triggers'];
-  variations: CampaignExtendedWithoutDate['variations'];
+  requirements: TypeCampaignExtendedWithoutDate['requirements'];
+  status: TypeCampaignExtendedWithoutDate['status'];
+  triggers: TypeCampaignExtendedWithoutDate['triggers'];
+  variations: TypeCampaignExtendedWithoutDate['variations'];
 }) => {
   return await db
     .insert(schema.campaigns)
     .values({
-      lastModifiedDate: new Date(),
       name,
       requirements,
       status,
@@ -31,20 +30,19 @@ const insertCampaign = async ({
     .returning();
 };
 
-const updateCampaign = async (
+export const updateCampaign = async (
   id: number,
   values: {
     name: string;
-    requirements: CampaignExtendedWithoutDate['requirements'];
-    status: CampaignExtendedWithoutDate['status'];
-    triggers: CampaignExtendedWithoutDate['triggers'];
-    variations: CampaignExtendedWithoutDate['variations'];
+    requirements: TypeCampaignExtendedWithoutDate['requirements'];
+    status: TypeCampaignExtendedWithoutDate['status'];
+    triggers: TypeCampaignExtendedWithoutDate['triggers'];
+    variations: TypeCampaignExtendedWithoutDate['variations'];
   },
 ) => {
   return await db
     .update(schema.campaigns)
     .set({
-      lastModifiedDate: new Date(),
       name: values.name,
       requirements: values.requirements,
       status: values.status,
@@ -55,7 +53,7 @@ const updateCampaign = async (
     .returning();
 };
 
-const getCampaigns = async ({
+export const getCampaigns = async ({
   statusList,
   name,
   quantity,
@@ -63,12 +61,12 @@ const getCampaigns = async ({
   orderDirection,
   orderBy,
 }: {
-  statusList: CampaignExtendedWithoutDate['status'][];
+  statusList: TypeCampaignExtendedWithoutDate['status'][];
   name: string;
   quantity: number;
   page: number;
   orderDirection: 'asc' | 'desc';
-  orderBy: 'status' | 'name' | 'id' | 'lastModifiedDate';
+  orderBy: 'status' | 'name' | 'id';
 }) => {
   const sort = {
     asc,
@@ -106,4 +104,22 @@ const getCampaigns = async ({
   };
 };
 
-export { insertCampaign, updateCampaign, getCampaigns };
+export const getCampaign = async ({ id }: { id: number }) =>
+  await db.query.campaigns.findFirst({
+    where: eq(schema.campaigns.id, id),
+  });
+
+export const getCampaignsForScript = async () => {
+  return (
+    await db.query.campaigns.findMany({
+      columns: {
+        id: true,
+        name: true,
+        requirements: true,
+        triggers: true,
+        variations: true,
+      },
+      where: (campaign) => eq(campaign.status, 'active'),
+    })
+  ).filter((campaign) => campaign.variations.length > 0 && campaign.triggers.length > 0);
+};

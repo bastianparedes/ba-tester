@@ -1,9 +1,9 @@
 import comparatorResolver from './comparatorResolver';
 import type { ba_tester } from '@/script/types';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
-const requirementLocalStorage = (requirement: RequirementData) => {
+const requirementLocalStorage = (requirement: TypeRequirementData) => {
   if (requirement.type !== 'localStorage') throw new Error('Type localStorage expected in requirement');
   const keyValue = localStorage.getItem(requirement.data.name);
   return comparatorResolver({

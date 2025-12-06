@@ -1,13 +1,13 @@
 import React from 'react';
 
 import commonConstants from '../../../../../../../../config/common/constants';
-import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
-  requirement: CampaignExtendedWithoutDate['requirements']['data']['children'][number];
+  requirement: TypeCampaignExtendedWithoutDate['requirements']['data']['children'][number];
   setCampaign: (
-    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
   ) => void;
 }
 

@@ -5,41 +5,46 @@ import React, { useEffect, useState } from 'react';
 import IndexComponents from './_components';
 import { FiltersProvider } from './_components/context/filters';
 import commonConstants from '../../config/common/constants';
-import { trpcClient } from '@/libs/trpc/client';
-import type { CampaignWithDate } from '@/types/databaseObjects';
+import type { TypeCampaign } from '@/types/databaseObjects';
 import Loader from './_components/Loader';
+import api from '@/app/api/client';
 
 const Page = () => {
-  const [campaigns, setCampaigns] = useState<CampaignWithDate[]>([]);
+  const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
   const [filterByStatusList, setFilterByStatusList] = useState<(typeof commonConstants)['campaignStatus'][number][]>([
     commonConstants.status.inactive,
     commonConstants.status.active,
   ]);
   const [filterByname, setFilterByName] = useState('');
-  const [orderBy, setOrderBy] = useState<'status' | 'name' | 'id' | 'lastModifiedDate'>('lastModifiedDate');
+  const [orderBy, setOrderBy] = useState<'status' | 'name' | 'id'>('name');
   const [order, setOrder] = useState<'asc' | 'desc'>('desc');
   const [quantity, setQuantity] = useState(15);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const getCampaigns = trpcClient.getCampaigns.useMutation({
-    onSettled(data, error) {
-      if (error !== null) return;
-      if (data === undefined) return;
-      setCampaigns(data.campaigns);
-      setCount(data.count);
-    },
-  });
 
   useEffect(() => {
-    getCampaigns.mutate({
-      name: filterByname,
-      orderBy: orderBy,
-      orderDirection: order,
-      page: page,
-      quantity: quantity,
-      statusList: filterByStatusList,
-    });
+    (async () => {
+      setIsLoading(true);
+      const response = await api.getCampaigns({
+        queryParams: {
+          name: filterByname,
+          orderBy: orderBy,
+          orderDirection: order,
+          page: page,
+          quantity: quantity,
+          statusList: filterByStatusList,
+        },
+      });
+      if (!response.ok) {
+        setIsLoading(false);
+        return;
+      }
+      const json = await response.json();
+      setCampaigns(json.data.campaigns);
+      setCount(json.data.count);
+      setIsLoading(false);
+    })();
   }, [filterByStatusList, filterByname, order, orderBy, page, quantity]);
 
   useEffect(() => {
@@ -66,7 +71,7 @@ const Page = () => {
       setPage={setPage}
       setQuantity={setQuantity}
     >
-      {(getCampaigns.isPending || isLoading) && <Loader />}
+      {isLoading && <Loader />}
       <IndexComponents campaigns={campaigns} />
     </FiltersProvider>
   );

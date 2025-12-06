@@ -1,11 +1,11 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 interface Props {
-  campaign: CampaignExtendedWithoutDate;
+  campaign: TypeCampaignExtendedWithoutDate;
   onClick: () => void;
 }
 

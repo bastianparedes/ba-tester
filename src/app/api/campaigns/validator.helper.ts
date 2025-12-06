@@ -1,10 +1,10 @@
 import { literal, z } from 'zod';
 
 import constants from '@/config/common/constants';
-import type { RequirementDataCampaign } from '@/types/databaseObjects';
+import type { TypeRequirementDataCampaign } from '@/types/databaseObjects';
 
 const zodRequirementsCampaign = (() => {
-  const requirements: z.ZodType<RequirementDataCampaign> = z.discriminatedUnion('type', [
+  const requirements: z.ZodType<TypeRequirementDataCampaign> = z.discriminatedUnion('type', [
     z.object({
       data: z.object({
         children: z.lazy(() => requirements.array()),

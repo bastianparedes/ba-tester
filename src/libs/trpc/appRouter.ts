@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { zodRequirementsCampaign } from './appRouter.helper';
 import commonConstants from '../../config/common/constants';
 import constants from '../../config/constants';
-import { getCampaigns, insertCampaign, updateCampaign } from '@/libs/db/functions';
+import db from '@/libs/db';
 
 const t = initTRPC.create();
 const router = t.router;
@@ -19,7 +19,6 @@ const appRouter = router({
           constants.database.campaign.status,
           constants.database.campaign.name,
           constants.database.campaign.id,
-          constants.database.campaign.lastModifiedDate,
         ]),
         orderDirection: z.enum(['asc', 'desc']),
         page: z.number().int().nonnegative(),
@@ -28,7 +27,7 @@ const appRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      return await getCampaigns(input);
+      return await db.getCampaigns(input);
     }),
 
   insertCampaign: publicProcedure
@@ -81,7 +80,7 @@ const appRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      return await insertCampaign(input);
+      return await db.insertCampaign(input);
     }),
   updateCampaign: publicProcedure
     .input(
@@ -136,7 +135,7 @@ const appRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      return await updateCampaign(input.id, input.values);
+      return await db.updateCampaign(input.id, input.values);
     }),
 });
 

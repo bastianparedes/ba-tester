@@ -7,18 +7,18 @@ import { TbBracketsContain } from 'react-icons/tb';
 import RequirementSpecific from './RequirementSpecific';
 import styles from './styles.module.scss';
 import commonConstants from '../../../../../../config/common/constants';
-import type { CampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import AddButton from '../../AddButton';
 
 interface Props {
-  grandParentNode: CampaignExtendedWithoutDate['requirements'] | null;
+  grandParentNode: TypeCampaignExtendedWithoutDate['requirements'] | null;
   id: string;
   index: number;
-  parentNode: CampaignExtendedWithoutDate['requirements'] | null;
-  requirement: CampaignExtendedWithoutDate['requirements']['data']['children'][number];
+  parentNode: TypeCampaignExtendedWithoutDate['requirements'] | null;
+  requirement: TypeCampaignExtendedWithoutDate['requirements']['data']['children'][number];
   setCampaign: (
-    campaign: (CampaignExtendedWithoutDate: CampaignExtendedWithoutDate) => CampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
   ) => void;
 }
 

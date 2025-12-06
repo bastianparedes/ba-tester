@@ -2,9 +2,9 @@ import type { ba_tester } from '@/script/types';
 
 import Requirement from './index';
 
-type RequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
 
-const requirementNode = (requirement: RequirementData & { type: 'node' }) =>
+const requirementNode = (requirement: TypeRequirementData & { type: 'node' }) =>
   Promise.all(requirement.data.children.map((childData) => new Requirement(childData).evaluate())).then((results) => {
     const fns = Object.freeze({
       and: 'every',

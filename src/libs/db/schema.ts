@@ -1,27 +1,19 @@
-import { pgTable, serial, timestamp, jsonb, varchar, pgEnum } from 'drizzle-orm/pg-core';
-import { sql } from 'drizzle-orm';
+import { pgTable, serial, jsonb, varchar, pgEnum } from 'drizzle-orm/pg-core';
 
 import commonConstants from '../../config/common/constants';
-import type { CampaignExtendedWithoutDate } from '../../types/databaseObjects';
+import type { TypeCampaignExtendedWithoutDate } from '../../types/databaseObjects';
 
 export const statusEnum = pgEnum('status_enum', commonConstants.campaignStatus);
 
 export const campaigns = pgTable('campaigns', {
   id: serial('id').primaryKey().unique(),
 
-  lastModifiedDate: timestamp('last_modified_date', {
-    withTimezone: false,
-    mode: 'date',
-  })
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-
   name: varchar('name', { length: 255 }).notNull().default(''),
-  requirements: jsonb('requirements').$type<CampaignExtendedWithoutDate['requirements']>().notNull(),
+  requirements: jsonb('requirements').$type<TypeCampaignExtendedWithoutDate['requirements']>().notNull(),
   status: statusEnum('status').notNull().default('inactive'),
 
-  triggers: jsonb('triggers').$type<CampaignExtendedWithoutDate['triggers']>().notNull(),
-  variations: jsonb('variations').$type<CampaignExtendedWithoutDate['variations']>().notNull(),
+  triggers: jsonb('triggers').$type<TypeCampaignExtendedWithoutDate['triggers']>().notNull(),
+  variations: jsonb('variations').$type<TypeCampaignExtendedWithoutDate['variations']>().notNull(),
 });
 
 export const users = pgTable('users', {

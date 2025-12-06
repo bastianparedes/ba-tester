@@ -3,17 +3,16 @@ import React from 'react';
 import { useFiltersContext } from './context/filters';
 import Filters from './Filters';
 import Header from './Header';
-import { getDateString } from './index.helper';
 import StatusSpan from './StatusSpan';
 import styles from './styles.module.scss';
 import constants from '../../../config/constants';
-import type { CampaignWithDate } from '@/types/databaseObjects';
+import type { TypeCampaign } from '@/types/databaseObjects';
 import { useTranslationContext } from '../_contexts/useTranslation';
 import Table from './Table';
 import Pagination from '@mui/material/Pagination';
 
 interface Props {
-  campaigns: CampaignWithDate[];
+  campaigns: TypeCampaign[];
 }
 
 const IndexComponents = ({ campaigns }: Props) => {
@@ -36,22 +35,12 @@ const IndexComponents = ({ campaigns }: Props) => {
       label: translation.campaigns.camapaignsTable.status,
       width: 20,
     },
-    {
-      id: constants.database.campaign.lastModifiedDate,
-      label: translation.campaigns.camapaignsTable.lastModified,
-      width: 20,
-    },
   ];
 
   const rows = campaigns.map((campaign) => ({
     href: constants.pages.campaign + '?id=' + String(campaign.id),
     id: Number(campaign.id),
-    labels: [
-      campaign.id,
-      campaign.name,
-      <StatusSpan status={campaign.status} key={campaign.status} />,
-      getDateString(campaign.lastModifiedDate),
-    ],
+    labels: [campaign.id, campaign.name, <StatusSpan status={campaign.status} key={campaign.status} />],
   }));
 
   const totalPages = Math.floor(count / quantity);

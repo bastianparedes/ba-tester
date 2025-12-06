@@ -1,12 +1,12 @@
 import { restClient } from '@/libs/restClient';
-import { RequirementDataCampaign, TriggerData, VariationData } from '@/types/databaseObjects';
+import { TypeRequirementDataCampaign, TypeTriggerData, TypeVariationData } from '@/types/databaseObjects';
 
 const url = '/api/campaigns';
 
 export type TypeGet = {
   queryParams: {
     name: string;
-    orderBy: 'name' | 'id' | 'lastModifiedDate' | 'status';
+    orderBy: 'name' | 'id' | 'status';
     orderDirection: 'asc' | 'desc';
     page: number;
     quantity: number;
@@ -15,20 +15,19 @@ export type TypeGet = {
   response: {
     campaigns: {
       id: number;
-      lastModifiedDate: Date;
       name: string;
       requirements: {
         type: 'node';
         data: {
-          children: RequirementDataCampaign[];
+          children: TypeRequirementDataCampaign[];
           operator: 'and' | 'or';
         };
       } & {
         type: 'node';
       };
       status: 'active' | 'deleted' | 'inactive';
-      triggers: TriggerData[];
-      variations: VariationData[];
+      triggers: TypeTriggerData[];
+      variations: TypeVariationData[];
     }[];
     count: number;
   };
@@ -57,7 +56,7 @@ export type TypePost = {
     name: string;
     requirements: {
       data: {
-        children: RequirementDataCampaign[];
+        children: TypeRequirementDataCampaign[];
         operator: 'and' | 'or';
       };
       type: 'node';
@@ -103,7 +102,7 @@ export type TypePost = {
   };
   response: never;
 };
-export const postCampaigns = async ({ body }: { body: TypePost['body'] }) => {
+export const createCampaign = async ({ body }: { body: TypePost['body'] }) => {
   const response = await restClient.post<TypePost['response']>({ url, body });
   return response;
 };
