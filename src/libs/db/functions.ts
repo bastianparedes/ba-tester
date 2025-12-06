@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, inArray, like, sql } from 'drizzle-orm';
 
 import * as schema from './schema';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeOrderBy, TypeOrderDirection, TypeCampaignExtended } from '@/types/db';
 
 import db from './client';
 
@@ -65,8 +65,8 @@ export const getCampaigns = async ({
   name: string;
   quantity: number;
   page: number;
-  orderDirection: 'asc' | 'desc';
-  orderBy: 'status' | 'name' | 'id';
+  orderDirection: TypeOrderDirection;
+  orderBy: TypeOrderBy;
 }) => {
   const sort = {
     asc,

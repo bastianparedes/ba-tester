@@ -1,7 +1,9 @@
+import { keyof } from 'zod';
 import { type TypeRequirementData } from './requirement';
 import { type TypeTriggerData } from './trigger';
 
-export type TypeStatus = 'inactive' | 'active' | 'deleted';
+export type TypeStatus = 'active' | 'inactive' | 'deleted';
+export type TypeOrderDirection = 'asc' | 'desc';
 
 export type TypeVariationData = {
   css: string;
@@ -18,6 +20,7 @@ export type TypeCampaign = {
   status: TypeStatus;
 };
 
+export type TypeOrderBy = ('name' | 'id' | 'status') satisfies keyof TypeOrderBy;
 export type TypeCampaignExtended = TypeCampaign & {
   triggers: TypeTriggerData[];
   requirements: TypeRequirementData & {

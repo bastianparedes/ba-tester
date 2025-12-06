@@ -2,16 +2,16 @@ import React from 'react';
 
 import { cx } from 'class-variance-authority';
 import { BsArrowDownShort } from 'react-icons/bs';
-
+import { type TypeOrderDirection } from '@/types/db';
 import styles from './styles.module.scss';
 
 interface Props {
   id: string;
   label: string;
   orderInfo?: {
-    order: 'asc' | 'desc';
+    order: TypeOrderDirection;
     orderBy: string;
-    setOrder: (arg0: (arg1: 'asc' | 'desc') => typeof arg1) => void;
+    setOrder: (arg0: (arg1: TypeOrderDirection) => typeof arg1) => void;
     setOrderBy: (arg0: (arg1: string) => typeof arg1) => void;
   };
   width: number;

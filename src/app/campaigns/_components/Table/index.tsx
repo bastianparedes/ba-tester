@@ -4,6 +4,7 @@ import Column from './Column';
 import Row from './Row';
 import styles from './styles.module.scss';
 import { useTranslationContext } from '../../_contexts/useTranslation';
+import { type TypeOrderDirection } from '@/types/db';
 
 interface Props {
   columns: {
@@ -12,9 +13,9 @@ interface Props {
     width: number;
   }[];
   orderInfo?: {
-    order: 'asc' | 'desc';
+    order: TypeOrderDirection;
     orderBy: string;
-    setOrder: (arg0: (arg1: 'asc' | 'desc') => typeof arg1) => void;
+    setOrder: (arg0: (arg1: TypeOrderDirection) => typeof arg1) => void;
     setOrderBy: (arg0: (arg1: string) => typeof arg1) => void;
   };
   rows: {

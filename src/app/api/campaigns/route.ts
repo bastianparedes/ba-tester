@@ -14,7 +14,7 @@ const getSchema = z.object({
     constants.database.campaign.name,
     constants.database.campaign.id,
   ]),
-  orderDirection: z.enum(['asc', 'desc']),
+  orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int().nonnegative(),
   quantity: z.coerce.number().int().nonnegative(),
   statusList: z

@@ -1,19 +1,18 @@
 import constate from 'constate';
-
-type permittedStatus = 'inactive' | 'active' | 'deleted';
+import { TypeOrderBy, TypeStatus, TypeOrderDirection } from '@/types/db';
 
 interface Props {
-  filterByStatusList: permittedStatus[];
+  filterByStatusList: TypeStatus[];
   filterByname: string;
-  order: 'asc' | 'desc';
+  order: TypeOrderDirection;
   orderBy: string;
   quantity: number;
   page: number;
   count: number;
-  setFilterByStatusList: (arg0: (arg1: permittedStatus[]) => typeof arg1) => void;
+  setFilterByStatusList: (arg0: (arg1: TypeStatus[]) => typeof arg1) => void;
   setFilterByName: (arg0: (arg1: string) => typeof arg1) => void;
-  setOrder: (arg0: (arg1: 'asc' | 'desc') => typeof arg1) => void;
-  setOrderBy: (arg0: (arg1: 'status' | 'name' | 'id') => typeof arg1) => void;
+  setOrder: (arg0: (arg1: TypeOrderDirection) => typeof arg1) => void;
+  setOrderBy: (arg0: (arg1: TypeOrderBy) => typeof arg1) => void;
   setPage: (arg0: (arg1: number) => typeof arg1) => void;
   setQuantity: (arg0: (arg1: number) => typeof arg1) => void;
 }
@@ -33,12 +32,12 @@ const useFilters = ({
   setPage,
   setQuantity,
 }: Props) => {
-  const addToFilterByStatusList = (newStatus: permittedStatus) => {
+  const addToFilterByStatusList = (newStatus: TypeStatus) => {
     if (filterByStatusList.includes(newStatus)) return;
     setFilterByStatusList((previousState) => structuredClone([...previousState, newStatus]));
   };
 
-  const removeFromFilterByStatusList = (oldStatus: permittedStatus) => {
+  const removeFromFilterByStatusList = (oldStatus: TypeStatus) => {
     if (!filterByStatusList.includes(oldStatus)) return;
     setFilterByStatusList((previousState) => previousState.filter((status) => status !== oldStatus));
   };

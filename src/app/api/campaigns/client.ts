@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { TypeRequirementData, TypeTriggerData, TypeVariationData } from '@/types/db';
+import { TypeStatus, TypeOrderDirection, TypeRequirementData, TypeTriggerData, TypeVariationData } from '@/types/db';
 
 const url = '/api/campaigns';
 
@@ -7,10 +7,10 @@ export type TypeGet = {
   queryParams: {
     name: string;
     orderBy: 'name' | 'id' | 'status';
-    orderDirection: 'asc' | 'desc';
+    orderDirection: TypeOrderDirection;
     page: number;
     quantity: number;
-    statusList: ('active' | 'deleted' | 'inactive')[];
+    statusList: TypeStatus[];
   };
   response: {
     campaigns: {
@@ -25,7 +25,7 @@ export type TypeGet = {
       } & {
         type: 'node';
       };
-      status: 'active' | 'deleted' | 'inactive';
+      status: TypeStatus;
       triggers: TypeTriggerData[];
       variations: TypeVariationData[];
     }[];
@@ -61,7 +61,7 @@ export type TypePost = {
       };
       type: 'node';
     };
-    status: 'active' | 'deleted' | 'inactive';
+    status: TypeStatus;
     triggers: (
       | {
           data: {

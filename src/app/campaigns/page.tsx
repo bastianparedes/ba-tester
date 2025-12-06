@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import IndexComponents from './_components';
 import { FiltersProvider } from './_components/context/filters';
 import commonConstants from '../../config/common/constants';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeOrderBy, TypeOrderDirection, TypeCampaign } from '@/types/db';
 import Loader from './_components/Loader';
 import api from '@/app/api';
 
@@ -16,8 +16,8 @@ const Page = () => {
     commonConstants.status.active,
   ]);
   const [filterByname, setFilterByName] = useState('');
-  const [orderBy, setOrderBy] = useState<'status' | 'name' | 'id'>('name');
-  const [order, setOrder] = useState<'asc' | 'desc'>('desc');
+  const [orderBy, setOrderBy] = useState<TypeOrderBy>('name');
+  const [order, setOrder] = useState<TypeOrderDirection>('desc');
   const [quantity, setQuantity] = useState(15);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);

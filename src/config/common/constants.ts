@@ -1,9 +1,14 @@
-import { TypeStatus } from '@/types/db';
+import { TypeStatus, TypeOrderDirection } from '@/types/db';
 
 const status = Object.freeze({
   active: 'active',
   deleted: 'deleted',
   inactive: 'inactive',
+});
+
+const orderDirections = Object.freeze({
+  asc: 'asc',
+  desc: 'desc',
 });
 
 const booleanOperators = Object.freeze({
@@ -72,7 +77,8 @@ const devices = Object.freeze({
   mobile: 'mobile',
 });
 
-const campaignStatus = [status.inactive, status.active, status.deleted] as const;
+const campaignStatus = [status.inactive, status.active, status.deleted] as const satisfies TypeStatus[];
+const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeOrderDirection[];
 
 const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
 const campaignRequirements = [
@@ -89,6 +95,7 @@ const constants = Object.freeze({
   booleanOperators,
   campaignRequirements,
   campaignStatus,
+  campaignOrderDirection,
   comparisons,
   devices,
   limitTypes,
