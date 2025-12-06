@@ -6,9 +6,7 @@ import { useTranslationContext } from '../../../../../../_contexts/useTranslatio
 
 interface Props {
   requirement: TypeCampaignExtended['requirements']['data']['children'][number];
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {

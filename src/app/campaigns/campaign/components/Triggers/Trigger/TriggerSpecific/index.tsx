@@ -8,9 +8,7 @@ import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 
 interface Props {
   trigger: TypeTriggerData;
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Element = ({ setCampaign, trigger }: Props) => {

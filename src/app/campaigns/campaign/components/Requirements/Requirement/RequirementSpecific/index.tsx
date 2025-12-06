@@ -9,9 +9,7 @@ import type { TypeCampaignExtended } from '@/types/db';
 
 interface Props {
   requirement: Exclude<TypeCampaignExtended['requirements']['data']['children'][number], { type: 'node' }>;
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {

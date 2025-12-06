@@ -9,9 +9,7 @@ import AddButton from '../AddButton';
 
 interface Props {
   variations: TypeVariationData[];
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Variations = ({ setCampaign, variations }: Props) => {

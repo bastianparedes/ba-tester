@@ -9,9 +9,7 @@ import AddButton from '../AddButton';
 
 interface Props {
   triggers: TypeTriggerData[];
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Triggers = ({ setCampaign, triggers }: Props) => {

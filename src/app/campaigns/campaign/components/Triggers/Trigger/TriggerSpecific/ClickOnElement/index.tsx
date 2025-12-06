@@ -5,9 +5,7 @@ import { useTranslationContext } from '../../../../../../_contexts/useTranslatio
 
 interface Props {
   trigger: TypeTriggerData & { type: 'clickOnElement' };
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Trigger = ({ setCampaign, trigger }: Props) => {

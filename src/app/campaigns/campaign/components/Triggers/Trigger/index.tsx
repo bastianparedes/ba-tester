@@ -12,9 +12,7 @@ import { useTranslationContext } from '../../../../_contexts/useTranslation';
 interface Props {
   index: number;
   trigger: TypeTriggerData;
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Trigger = ({ index, setCampaign, trigger }: Props) => {

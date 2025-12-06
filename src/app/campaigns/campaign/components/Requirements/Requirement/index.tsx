@@ -17,9 +17,7 @@ interface Props {
   index: number;
   parentNode: TypeCampaignExtended['requirements'] | null;
   requirement: TypeCampaignExtended['requirements']['data']['children'][number];
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {

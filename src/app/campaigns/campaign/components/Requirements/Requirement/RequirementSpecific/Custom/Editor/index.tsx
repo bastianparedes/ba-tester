@@ -12,9 +12,7 @@ import 'react-tabs/style/react-tabs.css';
 interface Props {
   setShowEditor: (arg0: boolean) => void;
   requirement: TypeRequirementData & { type: 'custom' };
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Editor = ({ setCampaign, requirement, setShowEditor }: Props) => {

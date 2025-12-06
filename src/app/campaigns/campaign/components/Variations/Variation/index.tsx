@@ -11,9 +11,7 @@ import { variationsWithDistributedTraffic } from '../util';
 
 interface Props {
   variation: TypeVariationData;
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Variation = ({ setCampaign, variation }: Props) => {

@@ -13,9 +13,7 @@ import 'react-tabs/style/react-tabs.css';
 interface Props {
   setShowEditor: (arg0: boolean) => void;
   variation: TypeVariationData;
-  setCampaign: (
-    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
-  ) => void;
+  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
 const Editor = ({ setCampaign, variation, setShowEditor }: Props) => {
