@@ -1,80 +1,322 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-
-import IndexComponents from './_components';
-import { FiltersProvider } from './_components/context/filters';
-import commonConstants from '../../config/common/constants';
-import type { TypeOrderBy, TypeOrderDirection, TypeCampaign } from '@/types/db';
-import Loader from './_components/Loader';
+import { useState, useEffect, useReducer } from 'react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import api from '@/app/api';
+import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/db/index';
+import config from '@/config/constants';
+import { useLoader } from '@/app/_common/contexts/Loader';
 
-const Page = () => {
-  const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
-  const [filterByStatusList, setFilterByStatusList] = useState<(typeof commonConstants)['campaignStatus'][number][]>([
-    commonConstants.status.inactive,
-    commonConstants.status.active,
-  ]);
-  const [filterByname, setFilterByName] = useState('');
-  const [orderBy, setOrderBy] = useState<TypeOrderBy>('name');
-  const [order, setOrder] = useState<TypeOrderDirection>('desc');
-  const [quantity, setQuantity] = useState(15);
-  const [page, setPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const response = await api.getCampaigns({
-        queryParams: {
-          name: filterByname,
-          orderBy: orderBy,
-          orderDirection: order,
-          page: page,
-          quantity: quantity,
-          statusList: filterByStatusList,
-        },
-      });
-      if (!response.ok) {
-        setIsLoading(false);
-        return;
-      }
-      const json = await response.json();
-      setCampaigns(json.data.campaigns);
-      setCount(json.data.count);
-      setIsLoading(false);
-    })();
-  }, [filterByStatusList, filterByname, order, orderBy, page, quantity]);
-
-  useEffect(() => {
-    setPage(0);
-  }, [filterByStatusList, filterByname, quantity, setPage]);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-
-  return (
-    <FiltersProvider
-      count={count}
-      filterByStatusList={filterByStatusList}
-      filterByname={filterByname}
-      order={order}
-      orderBy={orderBy}
-      page={page}
-      quantity={quantity}
-      setFilterByStatusList={setFilterByStatusList}
-      setFilterByName={setFilterByName}
-      setOrder={setOrder}
-      setOrderBy={setOrderBy}
-      setPage={setPage}
-      setQuantity={setQuantity}
-    >
-      {isLoading && <Loader />}
-      <IndexComponents campaigns={campaigns} />
-    </FiltersProvider>
-  );
+type UiState = {
+  sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
+  statusFilter: TypeStatus;
+  nameFilter: string;
+  itemsPerPage: number;
+  totalItems: number;
+  currentPage: number;
 };
 
-export default Page;
+type UiAction =
+  | { type: 'SET_SORT'; payload: TypeOrderBy }
+  | { type: 'SET_STATUS_FILTER'; payload: TypeStatus }
+  | { type: 'SET_NAME_FILTER'; payload: string }
+  | { type: 'SET_ITEMS_PER_PAGE'; payload: number }
+  | { type: 'SET_TOTAL_ITEMS'; payload: number }
+  | { type: 'SET_CURRENT_PAGE'; payload: number };
+
+export default function Page() {
+  const loader = useLoader();
+
+  const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
+  const [state, dispatch] = useReducer(
+    (state: UiState, action: UiAction): UiState => {
+      switch (action.type) {
+        case 'SET_SORT': {
+          if (state.sortConfig.key !== action.payload)
+            return { ...state, sortConfig: { key: action.payload, direction: 'asc' }, currentPage: 0 };
+
+          const newDirection = {
+            asc: 'desc' as const,
+            desc: 'asc' as const,
+          }[state.sortConfig.direction];
+          return { ...state, sortConfig: { ...state.sortConfig, direction: newDirection }, currentPage: 0 };
+        }
+        case 'SET_NAME_FILTER':
+          return { ...state, nameFilter: action.payload };
+        case 'SET_STATUS_FILTER':
+          return { ...state, statusFilter: action.payload };
+        case 'SET_ITEMS_PER_PAGE':
+          return { ...state, itemsPerPage: action.payload };
+        case 'SET_TOTAL_ITEMS':
+          return { ...state, totalItems: action.payload };
+        case 'SET_CURRENT_PAGE':
+          return { ...state, currentPage: action.payload };
+        default:
+          return state;
+      }
+    },
+    {
+      sortConfig: { key: 'id', direction: 'asc' },
+      statusFilter: 'active',
+      nameFilter: '',
+      itemsPerPage: config.quantitiesAvailable[0],
+      totalItems: 0,
+      currentPage: 0,
+    },
+  );
+
+  const queryCampaigns = async (
+    args: Partial<{
+      name: string;
+      orderBy: 'name' | 'id' | 'status';
+      orderDirection: TypeOrderDirection;
+      page: number;
+      quantity: number;
+      statusList: TypeStatus[];
+    }> = {},
+  ) => {
+    loader.showLoader();
+    const result = await api.getCampaigns({
+      queryParams: {
+        name: state.nameFilter,
+        orderBy: state.sortConfig.key,
+        orderDirection: state.sortConfig.direction,
+        page: state.currentPage,
+        quantity: state.itemsPerPage,
+        statusList: [state.statusFilter],
+        ...args,
+      },
+    });
+
+    if (result.ok) {
+      const json = await result.json();
+      setCampaigns(json.data.campaigns);
+      dispatch({ type: 'SET_TOTAL_ITEMS', payload: json.data.count });
+    }
+    loader.hideLoader();
+  };
+  const totalPages = Math.ceil(state.totalItems / state.itemsPerPage);
+
+  useEffect(() => {
+    queryCampaigns();
+  }, [state.currentPage, state.sortConfig]);
+
+  const onApplyFilters = () => {
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: 0 });
+    queryCampaigns({ page: 0 });
+  };
+
+  const getStatusColor = (status: TypeStatus) => {
+    switch (status) {
+      case 'active':
+        return 'bg-green-100 text-green-800';
+      case 'inactive':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'deleted':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const SortIcon = ({ column }: { column: TypeOrderBy }) => {
+    if (state.sortConfig.key !== column) {
+      return <span className="text-slate-400 ml-1">⇅</span>;
+    }
+    return state.sortConfig.direction === 'asc' ? (
+      <ChevronUp className="w-4 h-4 ml-1 inline" />
+    ) : (
+      <ChevronDown className="w-4 h-4 ml-1 inline" />
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 flex">
+      {/* Main Content */}
+      <div className="flex-1 p-8">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">Tests A/B</h1>
+            <p className="text-slate-600">Gestión de experimentos y variaciones</p>
+          </div>
+          <a
+            href={config.pages.campaign}
+            className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg flex items-center gap-2"
+          >
+            <span className="text-xl">+</span>
+            Nueva Campaña
+          </a>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-800 text-white">
+                <tr>
+                  <th
+                    onClick={() => dispatch({ type: 'SET_SORT', payload: 'id' })}
+                    className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
+                  >
+                    ID
+                    <SortIcon column="id" />
+                  </th>
+                  <th
+                    onClick={() => dispatch({ type: 'SET_SORT', payload: 'name' })}
+                    className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
+                  >
+                    Name
+                    <SortIcon column="name" />
+                  </th>
+                  <th
+                    onClick={() => dispatch({ type: 'SET_SORT', payload: 'status' })}
+                    className="px-6 py-4 text-center text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
+                  >
+                    Status
+                    <SortIcon column="status" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {campaigns.length > 0 ? (
+                  campaigns.map((campaign) => (
+                    <tr key={campaign.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-6 py-4 text-slate-700 font-medium">
+                        <a href={`${config.pages.campaign}?id=${campaign.id}`}>{campaign.id}</a>
+                      </td>
+                      <td className="px-6 py-4 text-slate-900 font-semibold">
+                        <a href={`${config.pages.campaign}?id=${campaign.id}`}>{campaign.name}</a>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(campaign.status)}`}
+                        >
+                          <a href={`${config.pages.campaign}?id=${campaign.id}`}>
+                            {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
+                          </a>
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
+                      No se encontraron tests que coincidan con los filtros
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Paginación */}
+        <div className="mt-6 flex items-center justify-between bg-white rounded-lg shadow p-4">
+          <div className="text-sm text-slate-600">
+            Mostrando <span className="font-semibold">{campaigns.length}</span> de{' '}
+            <span className="font-semibold">{state.totalItems}</span> resultados
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: 0 })}
+              disabled={state.currentPage === 0}
+              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
+            >
+              Primera
+            </button>
+
+            <button
+              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: state.currentPage - 1 })}
+              disabled={state.currentPage === 0}
+              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
+            >
+              Anterior
+            </button>
+
+            <div className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium">
+              {state.currentPage + 1}
+            </div>
+
+            <button
+              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: state.currentPage + 1 })}
+              disabled={state.currentPage === totalPages - 1}
+              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
+            >
+              Siguiente
+            </button>
+
+            <button
+              onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: totalPages - 1 })}
+              disabled={state.currentPage === totalPages - 1}
+              className="px-3 py-2 border border-slate-300 rounded-lg disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors text-slate-700 font-medium"
+            >
+              Última
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar */}
+      <div className="w-64 bg-white shadow-lg p-6">
+        <h2 className="text-xl font-bold text-slate-900 mb-6">Filtros</h2>
+
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Buscar por nombre</label>
+          <input
+            type="text"
+            placeholder="Buscar test..."
+            value={state.nameFilter}
+            onChange={(e) => dispatch({ type: 'SET_NAME_FILTER', payload: e.target.value })}
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Estado</label>
+          <select
+            value={state.statusFilter}
+            onChange={(e) => dispatch({ type: 'SET_STATUS_FILTER', payload: e.target.value as TypeStatus })}
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="deleted">Deleted</option>
+          </select>
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Elementos por página</label>
+          <select
+            value={state.itemsPerPage}
+            onChange={(e) => dispatch({ type: 'SET_ITEMS_PER_PAGE', payload: Number(e.target.value) })}
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+          >
+            {config.quantitiesAvailable.map((qty) => (
+              <option key={qty} value={qty}>
+                {qty}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          onClick={onApplyFilters}
+          className="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+        >
+          Aplicar Filtros
+        </button>
+
+        <div className="mt-6 pt-6 border-t border-slate-200">
+          <div className="text-sm text-slate-600">
+            <div className="mb-2">
+              <span className="font-semibold">Total:</span> {campaigns.length}
+            </div>
+            <div>
+              <span className="font-semibold">Mostrando:</span> {campaigns.length}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

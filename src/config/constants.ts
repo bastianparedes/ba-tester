@@ -24,7 +24,7 @@ const constants = Object.freeze({
     campaigns: '/campaigns',
     example: '/example',
   },
-  quantitiesAvailable: [5, 20, 50, 100, 200],
+  quantitiesAvailable: [5, 20, 50, 100, 200] as number[],
 } as const);
 
 export default constants;

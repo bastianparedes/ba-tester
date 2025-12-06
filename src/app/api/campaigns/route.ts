@@ -2,21 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { zodRequirementsCampaign } from './validator.helper';
 import commonConstants from '@/config/common/constants';
-import constants from '@/config/constants';
+import config from '@/config/constants';
 import db from '@/libs/db';
 import { TypeGet, TypePost } from './client';
 import { TypeApiResponse } from '@/types/api';
 
 const getSchema = z.object({
   name: z.string(),
-  orderBy: z.enum([
-    constants.database.campaign.status,
-    constants.database.campaign.name,
-    constants.database.campaign.id,
-  ]),
+  orderBy: z.enum([config.database.campaign.status, config.database.campaign.name, config.database.campaign.id]),
   orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int().nonnegative(),
-  quantity: z.coerce.number().int().nonnegative(),
+  quantity: z.coerce.number().refine((val) => config.quantitiesAvailable.includes(val), {
+    message: `Debe ser uno de: ${config.quantitiesAvailable.join(', ')}`,
+  }),
   statusList: z
     .union([z.string().transform((val) => [val]), z.array(z.string())])
     .pipe(z.array(z.enum(commonConstants.campaignStatus))),

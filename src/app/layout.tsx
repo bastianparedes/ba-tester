@@ -1,6 +1,8 @@
 import React from 'react';
 import './styles/global.css';
-import './styles/normalize.css';
+// import './styles/normalize.css';
+import { ToastProvider } from './_common/contexts/ToastEmitter';
+import { LoaderProvider } from './_common/contexts/Loader';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -13,7 +15,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <meta charSet="utf-8" />
         <title>Bastián Paredes</title>
       </head>
-      <body>{children}</body>
+      <body>
+        <LoaderProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </LoaderProvider>
+      </body>
     </html>
   );
 };

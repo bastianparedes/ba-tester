@@ -1,0 +1,51 @@
+import { X, Check, AlertCircle, Info, Image as ImageIcon } from 'lucide-react';
+import type { Severity } from '../types/types';
+import type { ReactNode } from 'react';
+import './styles.css';
+
+type Props = {
+  severity: Severity;
+  text: ReactNode;
+  onClose?: () => void;
+};
+
+const Toast = ({ severity, text, onClose }: Props) => {
+  const Icon = {
+    success: Check,
+    information: Info,
+    warning: AlertCircle,
+    error: AlertCircle,
+    neutral: ImageIcon,
+  }[severity];
+
+  const severityClasses: Record<Severity, string> = {
+    success: 'bg-green-100 border border-green-200 text-green-800',
+    information: 'bg-blue-100 border border-blue-200 text-blue-800',
+    warning: 'bg-yellow-100 border border-yellow-300 text-yellow-800',
+    error: 'bg-red-100 border border-red-300 text-red-700 flex items-start gap-1 p-3',
+    neutral: 'bg-gray-900 border border-gray-800 text-gray-100',
+  };
+
+  return (
+    <div
+      className={`w-[320px] max-w-[calc(100svw-64px)] max-h-[calc(100svh-64px)] flex items-center gap-3 relative overflow-hidden rounded-md shadow-lg p-4 animate-toast-in ${severityClasses[severity]}`}
+    >
+      {onClose && (
+        <button
+          className="absolute top-2 right-2 h-3 w-3 flex items-center justify-center text-inherit hover:opacity-70"
+          data-testid="close-button"
+          role="button"
+          onClick={onClose}
+        >
+          <X className="w-5 h-5" />
+        </button>
+      )}
+      <Icon className="w-5 h-5 shrink-0" />
+      <div className={`font-normal text-[14px] leading-4 pr-4 ${severity === 'error' ? 'text-red-600 leading-5' : ''}`}>
+        {text}
+      </div>
+    </div>
+  );
+};
+
+export default Toast;
