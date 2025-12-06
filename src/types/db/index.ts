@@ -1,4 +1,3 @@
-import { keyof } from 'zod';
 import { type TypeRequirementData } from './requirement';
 import { type TypeTriggerData } from './trigger';
 
@@ -20,7 +19,7 @@ export type TypeCampaign = {
   status: TypeStatus;
 };
 
-export type TypeOrderBy = ('name' | 'id' | 'status') satisfies keyof TypeOrderBy;
+export type TypeOrderBy = 'name' | 'id' | 'status';
 export type TypeCampaignExtended = TypeCampaign & {
   triggers: TypeTriggerData[];
   requirements: TypeRequirementData & {
