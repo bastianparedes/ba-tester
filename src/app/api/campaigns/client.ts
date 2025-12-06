@@ -1,0 +1,109 @@
+import { restClient } from '@/libs/restClient';
+import { RequirementDataCampaign, TriggerData, VariationData } from '@/types/databaseObjects';
+
+const url = '/api/campaigns';
+
+export type TypeGet = {
+  queryParams: {
+    name: string;
+    orderBy: 'name' | 'id' | 'lastModifiedDate' | 'status';
+    orderDirection: 'asc' | 'desc';
+    page: number;
+    quantity: number;
+    statusList: ('active' | 'deleted' | 'inactive')[];
+  };
+  response: {
+    campaigns: {
+      id: number;
+      lastModifiedDate: Date;
+      name: string;
+      requirements: {
+        type: 'node';
+        data: {
+          children: RequirementDataCampaign[];
+          operator: 'and' | 'or';
+        };
+      } & {
+        type: 'node';
+      };
+      status: 'active' | 'deleted' | 'inactive';
+      triggers: TriggerData[];
+      variations: VariationData[];
+    }[];
+    count: number;
+  };
+};
+
+export const getCampaigns = async ({ queryParams }: { queryParams: TypeGet['queryParams'] }) => {
+  const params = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(queryParams)) {
+    if (Array.isArray(value)) {
+      value.forEach((item) => params.append(key, item.toString()));
+    } else if (value !== null && value !== undefined) {
+      params.append(key, value.toString());
+    }
+  }
+
+  const response = await restClient.get<TypeGet['response']>({
+    url: `${url}?${params.toString()}`,
+  });
+
+  return response;
+};
+
+export type TypePost = {
+  body: {
+    name: string;
+    requirements: {
+      data: {
+        children: RequirementDataCampaign[];
+        operator: 'and' | 'or';
+      };
+      type: 'node';
+    };
+    status: 'active' | 'deleted' | 'inactive';
+    triggers: (
+      | {
+          data: {
+            selector: string;
+          };
+          id: number;
+          type: 'clickOnElement';
+        }
+      | {
+          data: {
+            javascript: string;
+            name: string;
+          };
+          id: number;
+          type: 'custom';
+        }
+      | {
+          data: Record<string, never>;
+          id: number;
+          type: 'pageLoad';
+        }
+      | {
+          data: {
+            seconds: number;
+          };
+          id: number;
+          type: 'timeOnPage';
+        }
+    )[];
+    variations: {
+      css: string;
+      html: string;
+      id: number;
+      javascript: string;
+      name: string;
+      traffic: number;
+    }[];
+  };
+  response: never;
+};
+export const postCampaigns = async ({ body }: { body: TypePost['body'] }) => {
+  const response = await restClient.post<TypePost['response']>({ url, body });
+  return response;
+};
