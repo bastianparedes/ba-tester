@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodRequirementsCampaign } from '../validator.helper';
 import commonConstants from '@/config/common/constants';
 import { updateCampaign } from '@/libs/db/functions';
+import { TypePut } from './client';
 
 const updateCampaignSchema = z.object({
   name: z.string(),
@@ -53,25 +54,14 @@ const updateCampaignSchema = z.object({
 });
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const id = parseInt(params.id);
+  const id = parseInt(params.id);
+  const body = await request.json();
+  const parseResult = updateCampaignSchema.safeParse(body);
+  if (!parseResult.success)
+    return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
+  const validated: TypePut['body'] = parseResult.data;
 
-    if (isNaN(id)) {
-      return NextResponse.json({ error: 'Invalid campaign ID' }, { status: 400 });
-    }
+  const result = await updateCampaign(id, validated);
 
-    const body = await request.json();
-    const validated = updateCampaignSchema.parse(body);
-
-    const result = await updateCampaign(id, validated);
-
-    return NextResponse.json(result);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Validation error', details: error.errors }, { status: 400 });
-    }
-
-    console.error('Error updating campaign:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
+  return NextResponse.json(result);
 }
