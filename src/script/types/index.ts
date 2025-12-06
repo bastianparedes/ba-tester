@@ -1,6 +1,6 @@
 import type { getCampaignsForScript } from '@/script/utils/database';
 
-type ba_tester = {
+type TypeBaTester = {
   campaignsData: Awaited<ReturnType<typeof getCampaignsForScript>>;
   cookie: {
     get: ({ name }: { name: string }) => string | null;
@@ -20,4 +20,4 @@ type ba_tester = {
   device: 'desktop' | 'mobile';
 };
 
-export type { ba_tester };
+export type { TypeBaTester };

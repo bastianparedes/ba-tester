@@ -1,4 +1,4 @@
-import type { ba_tester } from '../types';
+import type { TypeBaTester } from '../types';
 
 const get = ({ name }: { name: string }) => {
   const cookies = document.cookie.split(';');
@@ -32,6 +32,6 @@ const remove = ({ name }: { name: string }) => {
   set({ name, value: '', exdays: -1 });
 };
 
-const cookie: ba_tester['cookie'] = { get, remove, set };
+const cookie: TypeBaTester['cookie'] = { get, remove, set };
 
 export default cookie;

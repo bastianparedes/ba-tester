@@ -1,11 +1,11 @@
 import Requirement from './Requirement';
 import type Trigger from './Trigger';
 import type Variation from './Variation';
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 import { getId } from '@/script/utils/info';
 import queryParam from '@/script/utils/queryParam';
 
-type TypeRequirementData = ba_tester['campaignsData'][number]['requirements'];
+type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements'];
 
 class Campaign {
   id: number;

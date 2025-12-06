@@ -7,9 +7,9 @@ import requirementQueryParam from './queryParam';
 import requirementSessionStorage from './sessionStorage';
 import requirementUrl from './url';
 import commonConstants from '../../../config/common/constants';
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 
-type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementSpecific = {
   cookie: requirementCookie,

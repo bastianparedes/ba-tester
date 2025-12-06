@@ -1,11 +1,11 @@
 import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Trigger';
 import Variation from '../classes/Variation';
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 
 declare global {
   interface Window {
-    ba_tester: ba_tester;
+    ba_tester: TypeBaTester;
   }
 }
 

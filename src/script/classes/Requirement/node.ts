@@ -1,8 +1,8 @@
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 
 import Requirement from './index';
 
-type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementNode = (requirement: TypeRequirementData & { type: 'node' }) =>
   Promise.all(requirement.data.children.map((childData) => new Requirement(childData).evaluate())).then((results) => {

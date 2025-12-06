@@ -1,8 +1,8 @@
 import comparatorResolver from './comparatorResolver';
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 import cookie from '@/script/utils/cookie';
 
-type TypeRequirementData = ba_tester['campaignsData'][number]['requirements']['data']['children'][number];
+type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
 
 const requirementCookie = (requirement: TypeRequirementData) => {
   if (requirement.type !== 'cookie') throw new Error('Type cookie expected in requirement');

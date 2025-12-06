@@ -1,10 +1,10 @@
 import commonConstants from '../../config/common/constants';
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 import cookie from '@/script/utils/cookie';
 
 declare global {
   interface Window {
-    ba_tester: ba_tester;
+    ba_tester: TypeBaTester;
   }
 }
 

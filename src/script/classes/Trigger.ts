@@ -1,6 +1,6 @@
-import type { ba_tester } from '@/script/types';
+import type { TypeBaTester } from '@/script/types';
 
-type TypeTriggerData = ba_tester['campaignsData'][number]['triggers'][number];
+type TypeTriggerData = TypeBaTester['campaignsData'][number]['triggers'][number];
 
 class Trigger {
   trigger: TypeTriggerData;
