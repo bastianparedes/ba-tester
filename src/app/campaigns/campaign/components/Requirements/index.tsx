@@ -2,13 +2,13 @@ import React from 'react';
 
 import Requirement from './Requirement';
 import styles from './styles.module.scss';
-import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 
 interface Props {
-  requirements: TypeCampaignExtendedWithoutDate['requirements'];
+  requirements: TypeCampaignExtended['requirements'];
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

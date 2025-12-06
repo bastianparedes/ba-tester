@@ -4,12 +4,12 @@ import ClickOnElement from './ClickOnElement';
 import Custom from './Custom';
 import PageLoad from './PageLoad';
 import TimeOnPage from './TimeOnPage';
-import type { TypeCampaignExtendedWithoutDate, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
 
 interface Props {
   trigger: TypeTriggerData;
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

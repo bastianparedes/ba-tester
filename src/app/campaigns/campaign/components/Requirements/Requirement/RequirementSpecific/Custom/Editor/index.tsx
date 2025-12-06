@@ -4,7 +4,7 @@ import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../../../../_components/Modal';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtendedWithoutDate, TypeRequirementData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeRequirementData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
@@ -13,7 +13,7 @@ interface Props {
   setShowEditor: (arg0: boolean) => void;
   requirement: TypeRequirementData & { type: 'custom' };
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

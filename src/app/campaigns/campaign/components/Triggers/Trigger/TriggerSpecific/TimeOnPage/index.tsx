@@ -1,13 +1,13 @@
 import React from 'react';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtendedWithoutDate, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
   trigger: TypeTriggerData & { type: 'timeOnPage' };
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

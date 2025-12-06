@@ -2,13 +2,13 @@ import Cancel from './Cancel';
 import Save from './Save';
 import styles from './styles.module.scss';
 import constants from '../../../../../config/constants';
-import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/databaseObjects';
 import api from '@/app/api';
 import Loader from '../../../_components/Loader';
 import { useState } from 'react';
 
 interface Props {
-  campaign: TypeCampaignExtendedWithoutDate;
+  campaign: TypeCampaignExtended;
 }
 
 const Buttons = ({ campaign }: Props) => {

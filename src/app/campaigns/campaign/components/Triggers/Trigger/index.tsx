@@ -6,14 +6,14 @@ import { MdDelete } from 'react-icons/md';
 import styles from './styles.module.scss';
 import TriggerSpecific from './TriggerSpecific';
 import commonConstants from '../../../../../../config/common/constants';
-import type { TypeCampaignExtendedWithoutDate, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 interface Props {
   index: number;
   trigger: TypeTriggerData;
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

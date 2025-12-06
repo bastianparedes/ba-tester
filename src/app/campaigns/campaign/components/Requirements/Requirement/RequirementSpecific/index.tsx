@@ -5,12 +5,12 @@ import Device from './Device';
 import Storage from './Storage';
 import Url from './Url';
 import commonConstants from '../../../../../../../config/common/constants';
-import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/databaseObjects';
 
 interface Props {
-  requirement: Exclude<TypeCampaignExtendedWithoutDate['requirements']['data']['children'][number], { type: 'node' }>;
+  requirement: Exclude<TypeCampaignExtended['requirements']['data']['children'][number], { type: 'node' }>;
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

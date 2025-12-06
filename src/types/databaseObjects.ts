@@ -28,11 +28,11 @@ type TypeTriggerData = {
     }
 );
 
-type TypeRequirementDataCampaign =
+type TypeRequirementData =
   | {
       type: 'node';
       data: {
-        children: TypeRequirementDataCampaign[];
+        children: TypeRequirementData[];
         operator: 'and' | 'or';
       };
     }
@@ -72,8 +72,6 @@ type TypeRequirementDataCampaign =
       };
     };
 
-type TypeRequirementData = TypeRequirementDataCampaign;
-
 interface TypeVariationData {
   css: string;
   html: string;
@@ -89,19 +87,12 @@ interface TypeCampaign {
   status: (typeof commonConstants.campaignStatus)[number];
 }
 
-type TypeCampaignExtendedWithoutDate = TypeCampaign & {
+type TypeCampaignExtended = TypeCampaign & {
   triggers: TypeTriggerData[];
-  requirements: TypeRequirementDataCampaign & {
+  requirements: TypeRequirementData & {
     type: 'node';
   };
   variations: TypeVariationData[];
 };
 
-export type {
-  TypeTriggerData,
-  TypeRequirementData,
-  TypeVariationData,
-  TypeCampaign,
-  TypeCampaignExtendedWithoutDate,
-  TypeRequirementDataCampaign,
-};
+export type { TypeTriggerData, TypeRequirementData, TypeVariationData, TypeCampaign, TypeCampaignExtended };

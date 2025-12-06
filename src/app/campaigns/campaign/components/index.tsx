@@ -8,10 +8,10 @@ import Requirements from './Requirements';
 import styles from './styles.module.scss';
 import Triggers from './Triggers';
 import Variations from './Variations';
-import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/databaseObjects';
 
 type Props = {
-  initialCampaign: TypeCampaignExtendedWithoutDate;
+  initialCampaign: TypeCampaignExtended;
 };
 
 const Components = ({ initialCampaign }: Props) => {

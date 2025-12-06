@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { TypeRequirementDataCampaign, TypeTriggerData, TypeVariationData } from '@/types/databaseObjects';
+import { TypeRequirementData, TypeTriggerData, TypeVariationData } from '@/types/databaseObjects';
 
 const url = '/api/campaigns/';
 
@@ -11,7 +11,7 @@ export type TypeGet = {
       requirements: {
         type: 'node';
         data: {
-          children: TypeRequirementDataCampaign[];
+          children: TypeRequirementData[];
           operator: 'and' | 'or';
         };
       } & {
@@ -37,7 +37,7 @@ export type TypePut = {
     name: string;
     requirements: {
       data: {
-        children: TypeRequirementDataCampaign[];
+        children: TypeRequirementData[];
         operator: 'and' | 'or';
       };
       type: 'node';

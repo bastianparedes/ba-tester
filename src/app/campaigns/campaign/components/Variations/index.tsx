@@ -3,14 +3,14 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { variationsWithDistributedTraffic } from './util';
 import Variation from './Variation';
-import type { TypeCampaignExtendedWithoutDate, TypeVariationData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeVariationData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import AddButton from '../AddButton';
 
 interface Props {
   variations: TypeVariationData[];
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

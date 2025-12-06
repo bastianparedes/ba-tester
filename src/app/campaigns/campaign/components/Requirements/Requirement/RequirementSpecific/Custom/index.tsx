@@ -4,13 +4,13 @@ import { MdEdit } from 'react-icons/md';
 
 import Editor from './Editor';
 import styles from './styles.module.scss';
-import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
-  requirement: TypeCampaignExtendedWithoutDate['requirements']['data']['children'][number];
+  requirement: TypeCampaignExtended['requirements']['data']['children'][number];
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

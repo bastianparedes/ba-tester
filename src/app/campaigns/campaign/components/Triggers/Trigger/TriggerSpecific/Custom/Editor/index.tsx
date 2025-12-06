@@ -5,7 +5,7 @@ import { Modal } from '../../../../../../../_components/Modal';
 import type { editor } from 'monaco-editor';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtendedWithoutDate, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
@@ -14,7 +14,7 @@ interface Props {
   setShowEditor: (arg0: boolean) => void;
   trigger: TypeTriggerData & { type: 'custom' };
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

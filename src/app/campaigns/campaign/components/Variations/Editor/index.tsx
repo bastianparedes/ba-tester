@@ -5,7 +5,7 @@ import { Modal } from '../../../../_components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtendedWithoutDate, TypeVariationData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeVariationData } from '@/types/databaseObjects';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
@@ -14,7 +14,7 @@ interface Props {
   setShowEditor: (arg0: boolean) => void;
   variation: TypeVariationData;
   setCampaign: (
-    campaign: (TypeCampaignExtendedWithoutDate: TypeCampaignExtendedWithoutDate) => TypeCampaignExtendedWithoutDate,
+    campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended,
   ) => void;
 }
 

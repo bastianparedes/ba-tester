@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, inArray, like, sql } from 'drizzle-orm';
 
 import * as schema from './schema';
-import type { TypeCampaignExtendedWithoutDate } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/databaseObjects';
 
 import db from './client';
 
@@ -13,10 +13,10 @@ export const insertCampaign = async ({
   variations,
 }: {
   name: string;
-  requirements: TypeCampaignExtendedWithoutDate['requirements'];
-  status: TypeCampaignExtendedWithoutDate['status'];
-  triggers: TypeCampaignExtendedWithoutDate['triggers'];
-  variations: TypeCampaignExtendedWithoutDate['variations'];
+  requirements: TypeCampaignExtended['requirements'];
+  status: TypeCampaignExtended['status'];
+  triggers: TypeCampaignExtended['triggers'];
+  variations: TypeCampaignExtended['variations'];
 }) => {
   return await db
     .insert(schema.campaigns)
@@ -34,10 +34,10 @@ export const updateCampaign = async (
   id: number,
   values: {
     name: string;
-    requirements: TypeCampaignExtendedWithoutDate['requirements'];
-    status: TypeCampaignExtendedWithoutDate['status'];
-    triggers: TypeCampaignExtendedWithoutDate['triggers'];
-    variations: TypeCampaignExtendedWithoutDate['variations'];
+    requirements: TypeCampaignExtended['requirements'];
+    status: TypeCampaignExtended['status'];
+    triggers: TypeCampaignExtended['triggers'];
+    variations: TypeCampaignExtended['variations'];
   },
 ) => {
   return await db
@@ -61,7 +61,7 @@ export const getCampaigns = async ({
   orderDirection,
   orderBy,
 }: {
-  statusList: TypeCampaignExtendedWithoutDate['status'][];
+  statusList: TypeCampaignExtended['status'][];
   name: string;
   quantity: number;
   page: number;
