@@ -2,7 +2,7 @@ import React from 'react';
 
 import Requirement from './Requirement';
 import styles from './styles.module.scss';
-import type { TypeCampaignExtended } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 
 interface Props {

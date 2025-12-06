@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { TypeRequirementData, TypeTriggerData, TypeVariationData } from '@/types/databaseObjects';
+import { TypeRequirementData, TypeTriggerData, TypeVariationData } from '@/types/db';
 
 const url = '/api/campaigns';
 

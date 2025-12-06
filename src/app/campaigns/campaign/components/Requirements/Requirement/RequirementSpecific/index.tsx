@@ -5,7 +5,7 @@ import Device from './Device';
 import Storage from './Storage';
 import Url from './Url';
 import commonConstants from '../../../../../../../config/common/constants';
-import type { TypeCampaignExtended } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/db';
 
 interface Props {
   requirement: Exclude<TypeCampaignExtended['requirements']['data']['children'][number], { type: 'node' }>;

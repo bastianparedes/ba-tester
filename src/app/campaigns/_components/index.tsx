@@ -6,7 +6,7 @@ import Header from './Header';
 import StatusSpan from './StatusSpan';
 import styles from './styles.module.scss';
 import constants from '../../../config/constants';
-import type { TypeCampaign } from '@/types/databaseObjects';
+import type { TypeCampaign } from '@/types/db';
 import { useTranslationContext } from '../_contexts/useTranslation';
 import Table from './Table';
 import Pagination from '@mui/material/Pagination';

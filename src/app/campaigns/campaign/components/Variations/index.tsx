@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { variationsWithDistributedTraffic } from './util';
 import Variation from './Variation';
-import type { TypeCampaignExtended, TypeVariationData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import AddButton from '../AddButton';
 

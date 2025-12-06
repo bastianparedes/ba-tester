@@ -8,7 +8,7 @@ import Requirements from './Requirements';
 import styles from './styles.module.scss';
 import Triggers from './Triggers';
 import Variations from './Variations';
-import type { TypeCampaignExtended } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/db';
 
 type Props = {
   initialCampaign: TypeCampaignExtended;

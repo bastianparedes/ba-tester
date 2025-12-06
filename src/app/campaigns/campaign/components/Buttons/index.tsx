@@ -2,7 +2,7 @@ import Cancel from './Cancel';
 import Save from './Save';
 import styles from './styles.module.scss';
 import constants from '../../../../../config/constants';
-import type { TypeCampaignExtended } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/db';
 import api from '@/app/api';
 import Loader from '../../../_components/Loader';
 import { useState } from 'react';

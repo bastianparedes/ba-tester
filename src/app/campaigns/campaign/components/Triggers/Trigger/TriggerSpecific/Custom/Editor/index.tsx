@@ -5,7 +5,7 @@ import { Modal } from '../../../../../../../_components/Modal';
 import type { editor } from 'monaco-editor';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';

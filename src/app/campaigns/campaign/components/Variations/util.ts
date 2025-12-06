@@ -1,4 +1,4 @@
-import type { TypeVariationData } from '@/types/databaseObjects';
+import type { TypeVariationData } from '@/types/db';
 
 const variationsWithDistributedTraffic = (variations: TypeVariationData[]) => {
   if (variations.length === 0) return variations;

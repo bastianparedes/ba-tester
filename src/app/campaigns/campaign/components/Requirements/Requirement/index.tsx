@@ -7,7 +7,7 @@ import { TbBracketsContain } from 'react-icons/tb';
 import RequirementSpecific from './RequirementSpecific';
 import styles from './styles.module.scss';
 import commonConstants from '../../../../../../config/common/constants';
-import type { TypeCampaignExtended } from '@/types/databaseObjects';
+import type { TypeCampaignExtended } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import AddButton from '../../AddButton';
 

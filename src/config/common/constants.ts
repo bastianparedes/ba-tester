@@ -1,3 +1,5 @@
+import { TypeStatus } from '@/types/db';
+
 const status = Object.freeze({
   active: 'active',
   deleted: 'deleted',

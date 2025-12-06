@@ -4,7 +4,7 @@ import ClickOnElement from './ClickOnElement';
 import Custom from './Custom';
 import PageLoad from './PageLoad';
 import TimeOnPage from './TimeOnPage';
-import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 
 interface Props {
   trigger: TypeTriggerData;

@@ -6,7 +6,7 @@ import { MdDelete } from 'react-icons/md';
 import styles from './styles.module.scss';
 import TriggerSpecific from './TriggerSpecific';
 import commonConstants from '../../../../../../config/common/constants';
-import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 interface Props {

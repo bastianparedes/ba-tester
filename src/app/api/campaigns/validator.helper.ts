@@ -1,7 +1,7 @@
 import { literal, z } from 'zod';
 
 import constants from '@/config/common/constants';
-import type { TypeRequirementData } from '@/types/databaseObjects';
+import type { TypeRequirementData } from '@/types/db';
 
 const zodRequirementsCampaign = (() => {
   const requirements: z.ZodType<TypeRequirementData> = z.discriminatedUnion('type', [

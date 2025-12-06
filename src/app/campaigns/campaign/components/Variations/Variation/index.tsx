@@ -4,7 +4,7 @@ import { cx } from 'class-variance-authority';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtended, TypeVariationData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import Editor from '../Editor';
 import { variationsWithDistributedTraffic } from '../util';

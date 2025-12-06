@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import IndexComponents from './_components';
 import { FiltersProvider } from './_components/context/filters';
 import commonConstants from '../../config/common/constants';
-import type { TypeCampaign } from '@/types/databaseObjects';
+import type { TypeCampaign } from '@/types/db';
 import Loader from './_components/Loader';
 import api from '@/app/api';
 

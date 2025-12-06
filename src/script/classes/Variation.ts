@@ -1,4 +1,4 @@
-import type { TypeVariationData } from '@/types/databaseObjects';
+import type { TypeVariationData } from '@/types/db';
 
 class Variation {
   data: TypeVariationData;

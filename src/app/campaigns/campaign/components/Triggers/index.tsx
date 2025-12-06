@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import Trigger from './Trigger';
 import commonConstants from '../../../../../config/common/constants';
-import type { TypeCampaignExtended, TypeTriggerData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import AddButton from '../AddButton';
 

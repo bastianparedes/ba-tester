@@ -5,7 +5,7 @@ import { Modal } from '../../../../_components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
 import styles from './styles.module.scss';
-import type { TypeCampaignExtended, TypeVariationData } from '@/types/databaseObjects';
+import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
