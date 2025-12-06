@@ -1,25 +1,37 @@
-const get = (cookieName: string) => {
+import type { ba_tester } from '../types';
+
+const get = ({ name }: { name: string }) => {
   const cookies = document.cookie.split(';');
   for (const cookie of cookies) {
-    const [name, value] = cookie.trim().split('=');
-    if (name === cookieName) {
+    const [cookieName, value] = cookie.trim().split('=');
+    if (cookieName === name) {
       return decodeURIComponent(value);
     }
   }
   return null;
 };
 
-const set = (name: string, value: string | number, exdays: number, path = '/', domain = '') => {
+const set = ({
+  name,
+  value,
+  exdays,
+  path = '/',
+}: {
+  name: string;
+  value: string | number;
+  exdays: number;
+  path?: string;
+}) => {
   const date = new Date();
   date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * exdays);
   const expires = date.toUTCString();
-  document.cookie = `${name}=${String(value)};expires=${expires};path=${path};domain=.${domain}`;
+  document.cookie = `${name}=${value};expires=${expires};path=${path}`;
 };
 
-const remove = (cname: string) => {
-  set(cname, '', -1);
+const remove = ({ name }: { name: string }) => {
+  set({ name, value: '', exdays: -1 });
 };
 
-const cookie = { get, remove, set };
+const cookie: ba_tester['cookie'] = { get, remove, set };
 
 export default cookie;

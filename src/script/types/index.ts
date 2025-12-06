@@ -3,9 +3,19 @@ import type { getCampaignsForScript } from '@/script/utils/database';
 type ba_tester = {
   campaignsData: Awaited<ReturnType<typeof getCampaignsForScript>>;
   cookie: {
-    get: (arg0: string) => string | null;
-    set: (arg0: string, arg01: string | number, arg02: number, arg03: string, arg04: string) => void;
-    remove: (arg0: string) => void;
+    get: ({ name }: { name: string }) => string | null;
+    set: ({
+      name,
+      value,
+      exdays,
+      path,
+    }: {
+      name: string;
+      value: string | number;
+      exdays: number;
+      path?: string | undefined;
+    }) => void;
+    remove: ({ name }: { name: string }) => void;
   };
   device: 'desktop' | 'mobile';
 };
