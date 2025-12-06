@@ -53,8 +53,8 @@ const updateCampaignSchema = z.object({
   ),
 });
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id);
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const id = parseInt((await params).id);
   const body = await request.json();
   const parseResult = updateCampaignSchema.safeParse(body);
   if (!parseResult.success)
