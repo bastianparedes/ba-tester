@@ -1,7 +1,7 @@
 import commonConstants from '../../../../../config/common/constants';
 import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
-import { Plus, Trash2 } from 'lucide-react';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import Editor from './TriggerEditor';
 
 interface Props {
@@ -106,15 +106,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                   ))}
                 </select>
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M5 7.5L10 12.5L15 7.5"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <ChevronDown />
                 </div>
               </div>
 

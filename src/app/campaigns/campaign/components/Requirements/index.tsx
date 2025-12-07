@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Requirement from './Requirement';
-import styles from './styles.module.scss';
 import type { TypeCampaignExtended } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 
@@ -14,20 +13,18 @@ const Requirements = ({ setCampaign, requirements }: Props) => {
   const translation = useTranslationContext();
 
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>{translation.campaign.requirements.title}</h2>
-      </header>
-      <div className={styles.requirementsContainer}>
-        <Requirement
-          grandParentNode={null}
-          id={'0'}
-          index={0}
-          parentNode={null}
-          requirement={requirements}
-          setCampaign={setCampaign}
-        />
+    <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-blue-900">{translation.campaign.requirements.title}</h2>
       </div>
+      <Requirement
+        grandParentNode={null}
+        id={'0'}
+        index={0}
+        parentNode={null}
+        requirement={requirements}
+        setCampaign={setCampaign}
+      />
     </div>
   );
 };

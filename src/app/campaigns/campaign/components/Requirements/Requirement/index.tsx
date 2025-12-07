@@ -1,15 +1,12 @@
 import React from 'react';
 
 import { cx } from 'class-variance-authority';
-import { MdDelete } from 'react-icons/md';
-import { TbBracketsContain } from 'react-icons/tb';
 
 import RequirementSpecific from './RequirementSpecific';
-import styles from './styles.module.scss';
-import commonConstants from '../../../../../../config/common/constants';
+import commonConstants from '@/config/common/constants';
 import type { TypeCampaignExtended } from '@/types/db';
-import { useTranslationContext } from '../../../../_contexts/useTranslation';
-import AddButton from '../../AddButton';
+import { useTranslationContext } from '@/app/campaigns/_contexts/useTranslation';
+import { Trash2, Brackets, ChevronDown } from 'lucide-react';
 
 interface Props {
   grandParentNode: TypeCampaignExtended['requirements'] | null;
@@ -57,34 +54,43 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
     };
 
     return (
-      <div className={styles.nodeContainer}>
-        {!isRootNode && <div className={styles.bordeSuperior}></div>}
-        <div className={cx(styles.nodeContent, !isRootNode && styles.internalNodeContent)}>
+      <div className={`${!isRootNode ? 'relative py-4' : ''}`}>
+        {/* Corchete izquierdo */}
+        {!isRootNode && (
+          <div className="absolute left-0 top-0 bottom-0 w-6">
+            <div className="absolute top-0 left-0 w-full h-6 border-l-4 border-t-4 border-black"></div>
+            <div className="absolute top-6 bottom-6 left-0 w-1 border-l-4 border-black"></div>
+            <div className="absolute bottom-0 left-0 w-full h-6 border-l-4 border-b-4 border-black"></div>
+          </div>
+        )}
+        <div className={cx('flex-col flex', !isRootNode && 'mx-4')}>
           {requirement.data.children.map((childNode, indexChild) => (
             <div key={id + '-' + String(indexChild)}>
               {indexChild > 0 && (
-                <>
+                <div className="flex justify-start items-center gap-2 my-3 ml-4">
                   <button
-                    className={cx(
-                      styles.andOr,
-                      requirement.data.operator === commonConstants.booleanOperators.and && styles.andOrSelected,
-                    )}
-                    disabled={requirement.data.operator === commonConstants.booleanOperators.and}
                     onClick={switchToAnd}
+                    disabled={requirement.data.operator === commonConstants.booleanOperators.and}
+                    className={`px-3 py-1 rounded font-medium transition-all text-sm ${
+                      requirement.data.operator === commonConstants.booleanOperators.and
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 text-black hover:text-blue-600'
+                    }`}
                   >
-                    {translation.common.requirement.operator.and}
+                    and
                   </button>
                   <button
-                    className={cx(
-                      styles.andOr,
-                      requirement.data.operator === commonConstants.booleanOperators.or && styles.andOrSelected,
-                    )}
-                    disabled={requirement.data.operator === commonConstants.booleanOperators.or}
                     onClick={switchToOr}
+                    disabled={requirement.data.operator === commonConstants.booleanOperators.or}
+                    className={`px-3 py-1 rounded font-medium transition-all text-sm ${
+                      requirement.data.operator === commonConstants.booleanOperators.or
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 text-black hover:text-blue-600'
+                    }`}
                   >
-                    {translation.common.requirement.operator.or}
+                    or
                   </button>
-                </>
+                </div>
               )}
               <Requirement
                 grandParentNode={parentNode}
@@ -97,11 +103,21 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
               />
             </div>
           ))}
-          <AddButton className={styles.addButtonMargin} onClick={addNewRequirement}>
+          <button
+            className="w-fit px-4 py-2 mt-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            onClick={addNewRequirement}
+          >
             {translation.campaign.requirements.newRequirement}
-          </AddButton>
+          </button>
         </div>
-        {!isRootNode && <div className={styles.bordeInferior}></div>}
+        {/* Corchete derecho */}
+        {!isRootNode && (
+          <div className="absolute right-0 top-0 bottom-0 w-6">
+            <div className="absolute top-0 right-0 w-full h-6 border-r-4 border-t-4 border-black"></div>
+            <div className="absolute top-6 bottom-6 right-0 w-1 border-r-4 border-black"></div>
+            <div className="absolute bottom-0 right-0 w-full h-6 border-r-4 border-b-4 border-black"></div>
+          </div>
+        )}
       </div>
     );
   }
@@ -196,21 +212,33 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
   };
 
   return (
-    <div className={styles.leafContainer}>
-      <select onChange={handleOnChangeType} value={requirement.type}>
-        {commonConstants.campaignRequirements.map((type) => (
-          <option key={type} value={type}>
-            {translation.common.requirement.type[type]}
-          </option>
-        ))}
-      </select>
+    <div className="flex items-center gap-3">
+      <div className="flex-1 relative">
+        <select
+          className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
+          onChange={handleOnChangeType}
+          value={requirement.type}
+        >
+          {commonConstants.campaignRequirements.map((type) => (
+            <option key={type} value={type}>
+              {translation.common.requirement.type[type]}
+            </option>
+          ))}
+        </select>
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600">
+          <ChevronDown />
+        </div>
+      </div>
       <RequirementSpecific setCampaign={setCampaign} requirement={requirement} />
-      <button className={styles.button} onClick={removeRequirement}>
-        <MdDelete />
+      <button onClick={removeRequirement} className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+        <Trash2 size={20} />
       </button>
+      {/* <button className="p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">
+        <Copy size={20} />
+      </button> */}
       {hasSiblings && (
-        <button className={styles.button} onClick={addNewNode}>
-          <TbBracketsContain />
+        <button onClick={addNewNode} className="p-3 text-black hover:bg-gray-200 rounded-lg transition-colors">
+          <Brackets size={20} />
         </button>
       )}
     </div>

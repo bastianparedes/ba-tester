@@ -3,6 +3,7 @@ import React from 'react';
 import commonConstants from '../../../../../../../../config/common/constants';
 import type { TypeCampaignExtended } from '@/types/db';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
+import { ChevronDown } from 'lucide-react';
 
 interface Props {
   requirement: TypeCampaignExtended['requirements']['data']['children'][number];
@@ -73,14 +74,25 @@ const Element = ({ setCampaign, requirement }: Props) => {
         onChange={handleOnChangeName}
         placeholder={translation.common.requirement.placeholder[requirement.type].name}
         type="text"
+        className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
       />
-      <select onChange={handleOnChangeComparator} value={requirement.data.comparator}>
-        {comparatorPermittedValues.map((value) => (
-          <option key={value} value={value}>
-            {translation.common.requirement.comparator[value]}
-          </option>
-        ))}
-      </select>
+
+      <div className="flex-1 relative">
+        <select
+          className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
+          onChange={handleOnChangeComparator}
+          value={requirement.data.comparator}
+        >
+          {comparatorPermittedValues.map((value) => (
+            <option key={value} value={value}>
+              {translation.common.requirement.comparator[value]}
+            </option>
+          ))}
+        </select>
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-blue-600">
+          <ChevronDown />
+        </div>
+      </div>
       {(requirement.data.comparator === commonConstants.comparisons.contains ||
         requirement.data.comparator === commonConstants.comparisons.doesNotContain ||
         requirement.data.comparator === commonConstants.comparisons.is ||
@@ -90,6 +102,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
           onChange={handleOnChangeValue}
           placeholder={translation.common.requirement.placeholder[requirement.type].value}
           type="text"
+          className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
         />
       )}
     </>

@@ -3,25 +3,23 @@ import React, { useState } from 'react';
 import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../../../../_components/Modal';
 
-import styles from './styles.module.scss';
 import type { TypeCampaignExtended, TypeRequirementData } from '@/types/db';
 import { useTranslationContext } from '../../../../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
+import { Pencil } from 'lucide-react';
 
 interface Props {
-  setShowEditor: (arg0: boolean) => void;
   requirement: TypeRequirementData & { type: 'custom' };
   setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
-const Editor = ({ setCampaign, requirement, setShowEditor }: Props) => {
+const Editor = ({ setCampaign, requirement }: Props) => {
   const translation = useTranslationContext();
-
+  const [showEditor, setShowEditor] = useState(false);
   const [javascript, setJavascript] = useState(String(requirement.data.javascript));
 
   const monacoConfig = {
-    className: styles.monaco,
     options: {
       minimap: {
         enabled: false,
@@ -37,7 +35,7 @@ const Editor = ({ setCampaign, requirement, setShowEditor }: Props) => {
     value: javascript,
   };
 
-  const handleOnSave = () => {
+  const onSave = () => {
     setCampaign((campaign) => {
       requirement.data.javascript = javascript;
 
@@ -46,15 +44,35 @@ const Editor = ({ setCampaign, requirement, setShowEditor }: Props) => {
     setShowEditor(false);
   };
 
+  const onCloseModal = () => {
+    setJavascript(requirement.data.javascript);
+    setShowEditor(false);
+  };
+
   return (
-    <Modal setModalVisible={setShowEditor}>
-      <div className={styles.container}>
-        <button onClick={handleOnSave}>{translation.campaign.save}</button>
-        <div className={styles.monacoContainer}>
-          <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
-        </div>
-      </div>
-    </Modal>
+    <>
+      <button
+        className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+        onClick={() => setShowEditor(true)}
+      >
+        <Pencil size={20} />
+      </button>
+      {showEditor && (
+        <Modal setModalVisible={() => onCloseModal()}>
+          <div className="flex flex-col items-start gap-4 p-4">
+            <button
+              onClick={onSave}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              {translation.campaign.save}
+            </button>
+            <div className="w-[80vw] h-[80vh]">
+              <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
+            </div>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 };
 

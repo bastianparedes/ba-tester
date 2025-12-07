@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-
-import { MdEdit } from 'react-icons/md';
+import type React from 'react';
 
 import Editor from './Editor';
-import styles from './styles.module.scss';
 import type { TypeCampaignExtended } from '@/types/db';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
@@ -16,11 +13,6 @@ const Requirement = ({ setCampaign, requirement }: Props) => {
   const translation = useTranslationContext();
 
   if (requirement.type !== 'custom') throw new Error('Type custom expected in requirement');
-
-  const [showEditor, setShowEditor] = useState(false);
-  const openEditor = () => {
-    setShowEditor(true);
-  };
 
   const handleOnChangeName = (event: React.FocusEvent<HTMLInputElement>) => {
     setCampaign((campaign) => {
@@ -36,11 +28,9 @@ const Requirement = ({ setCampaign, requirement }: Props) => {
         onChange={handleOnChangeName}
         placeholder={translation.common.requirement.placeholder[requirement.type].name}
         type="text"
+        className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
       />
-      <button className={styles.button} onClick={openEditor}>
-        <MdEdit />
-      </button>
-      {showEditor && <Editor requirement={requirement} setCampaign={setCampaign} setShowEditor={setShowEditor} />}
+      <Editor requirement={requirement} setCampaign={setCampaign} />
     </>
   );
 };

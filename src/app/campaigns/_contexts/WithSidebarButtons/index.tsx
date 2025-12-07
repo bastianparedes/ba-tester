@@ -1,6 +1,5 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
 import { FlaskConical, Code, Eye } from 'lucide-react';
 import constants from '@/config/constants';
 
@@ -10,7 +9,7 @@ interface Props {
 
 const WithSidebarButtons = ({ children }: Props) => {
   return (
-    <div className={styles.container}>
+    <div className="flex">
       <div className="min-h-svh w-16 bg-gray-900 flex flex-col items-center py-6 gap-6">
         <a
           href={constants.pages.campaigns}
@@ -33,7 +32,7 @@ const WithSidebarButtons = ({ children }: Props) => {
           <Eye className="w-6 h-6 text-white" />
         </a>
       </div>
-      <section className={styles.section}>{children}</section>
+      <section className="flex-1 ml-16">{children}</section>
     </div>
   );
 };
