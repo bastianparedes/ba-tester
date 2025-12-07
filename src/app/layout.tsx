@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/global.css';
-import './styles/normalize.css';
+// import './styles/normalize.css';
 import { ToastProvider } from './_common/contexts/ToastEmitter';
 import { LoaderProvider } from './_common/contexts/Loader';
 

@@ -11,7 +11,7 @@ interface Props {
 const WithSidebarButtons = ({ children }: Props) => {
   return (
     <div className={styles.container}>
-      <div className="w-16 bg-gray-900 flex flex-col items-center py-6 gap-6">
+      <div className="min-h-svh w-16 bg-gray-900 flex flex-col items-center py-6 gap-6">
         <a
           href={constants.pages.campaigns}
           className="w-12 h-12 flex items-center justify-center rounded-lg bg-linear-to-br from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
