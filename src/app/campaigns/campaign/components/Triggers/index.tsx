@@ -1,5 +1,3 @@
-import React from 'react';
-
 import commonConstants from '../../../../../config/common/constants';
 import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';

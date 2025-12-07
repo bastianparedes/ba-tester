@@ -4,26 +4,26 @@ import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../_components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
-import styles from './styles.module.scss';
+
 import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
+import { Pencil } from 'lucide-react';
 
 interface Props {
-  setShowEditor: (arg0: boolean) => void;
   variation: TypeVariationData;
   setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
 }
 
-const Editor = ({ setCampaign, variation, setShowEditor }: Props) => {
+const Editor = ({ setCampaign, variation }: Props) => {
   const translation = useTranslationContext();
+  const [showEditor, setShowEditor] = useState(false);
   const [html, setHtml] = useState(variation.html);
   const [css, setCss] = useState(variation.css);
   const [javascript, setJavascript] = useState(variation.javascript);
 
   const monacoConfig = {
-    className: styles.monaco,
     options: {
       minimap: {
         enabled: false,
@@ -53,7 +53,7 @@ const Editor = ({ setCampaign, variation, setShowEditor }: Props) => {
     value: javascript,
   };
 
-  const handleOnSave = () => {
+  const onSave = () => {
     setCampaign((campaign) => {
       variation.html = html;
       variation.css = css;
@@ -64,36 +64,56 @@ const Editor = ({ setCampaign, variation, setShowEditor }: Props) => {
     setShowEditor(false);
   };
 
+  const onCloseModal = () => {
+    setHtml(variation.html);
+    setCss(variation.css);
+    setJavascript(variation.javascript);
+    setShowEditor(false);
+  };
+
   return (
-    <Modal setModalVisible={setShowEditor}>
-      <div className={styles.container}>
-        <button className={styles.buttonSave} onClick={handleOnSave}>
-          {translation.campaign.save}
-        </button>
-        <Tabs>
-          <TabList>
-            <Tab>HTML</Tab>
-            <Tab>CSS</Tab>
-            <Tab>JavaScript</Tab>
-          </TabList>
-          <TabPanel>
-            <div className={styles.monacoContainer}>
-              <Monaco {...monacoConfig} {...monacoHtmlConfig} language="html" />
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className={styles.monacoContainer}>
-              <Monaco {...monacoConfig} {...monacoCssConfig} language="css" />
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className={styles.monacoContainer}>
-              <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
-            </div>
-          </TabPanel>
-        </Tabs>
-      </div>
-    </Modal>
+    <>
+      <button
+        className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+        onClick={() => setShowEditor(true)}
+      >
+        <Pencil size={20} />
+      </button>
+      {showEditor && (
+        <Modal setModalVisible={() => onCloseModal()}>
+          <div className="flex flex-col items-start gap-4 p-4">
+            <button
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              onClick={onSave}
+            >
+              {translation.campaign.save}
+            </button>
+            <Tabs>
+              <TabList>
+                <Tab>HTML</Tab>
+                <Tab>CSS</Tab>
+                <Tab>JavaScript</Tab>
+              </TabList>
+              <TabPanel>
+                <div className="w-[80vw] h-[80vh]">
+                  <Monaco {...monacoConfig} {...monacoHtmlConfig} language="html" />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="w-[80vw] h-[80vh]">
+                  <Monaco {...monacoConfig} {...monacoCssConfig} language="css" />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="w-[80vw] h-[80vh]">
+                  <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
+                </div>
+              </TabPanel>
+            </Tabs>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 };
 

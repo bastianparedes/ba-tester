@@ -1,11 +1,9 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
 import { variationsWithDistributedTraffic } from './util';
-import Variation from './Variation';
 import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
-import { useTranslationContext } from '../../../_contexts/useTranslation';
-import AddButton from '../AddButton';
+import { Plus, Trash2 } from 'lucide-react';
+import Editor from './Editor';
 
 interface Props {
   variations: TypeVariationData[];
@@ -13,8 +11,6 @@ interface Props {
 }
 
 const Variations = ({ setCampaign, variations }: Props) => {
-  const translation = useTranslationContext();
-
   const addNewVariation = () => {
     setCampaign((campaign) => {
       const newCampaign = structuredClone(campaign);
@@ -36,31 +32,93 @@ const Variations = ({ setCampaign, variations }: Props) => {
   };
 
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <h2 className={styles.title}>{translation.campaign.variations.title}</h2>
-        <AddButton onClick={addNewVariation}>{translation.campaign.variations.newVariation}</AddButton>
-      </header>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.th}>
-              <span>{translation.campaign.variations.table.id}</span>
-            </th>
-            <th className={styles.th}>
-              <span>{translation.campaign.variations.table.name}</span>
-            </th>
-            <th className={styles.th}>
-              <span>{translation.campaign.variations.table.traffic}</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {variations.map((variation) => (
-            <Variation key={variation.id} setCampaign={setCampaign} variation={variation} />
-          ))}
-        </tbody>
-      </table>
+    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-blue-900">Variations</h2>
+        <button
+          onClick={addNewVariation}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <Plus size={18} />
+          New Variation
+        </button>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b-2 border-blue-100">
+              <th className="text-left py-3 px-4 text-blue-900 font-semibold">ID</th>
+              <th className="text-left py-3 px-4 text-blue-900 font-semibold">Name</th>
+              <th className="text-left py-3 px-4 text-blue-900 font-semibold">Traffic</th>
+              <th className="text-right py-3 px-4 text-blue-900 font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {variations.map((variation, index) => (
+              <tr key={variation.id} className="border-b border-blue-50 transition-colors">
+                <td className="py-4 px-4 text-blue-900">{index + 1}</td>
+                <td className="py-4 px-4">
+                  <input
+                    type="text"
+                    value={variation.name}
+                    onChange={(event) => {
+                      setCampaign((campaign) => {
+                        variation.name = event.target.value;
+                        return structuredClone(campaign);
+                      });
+                    }}
+                    className="px-3 py-2 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 w-full"
+                  />
+                </td>
+                <td className="py-4 px-4">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      value={variation.traffic}
+                      onChange={(event) => {
+                        const valueAsNumber = Math.round(event.target.valueAsNumber);
+                        let newTraffic = Number.isNaN(valueAsNumber) ? 0 : valueAsNumber;
+                        newTraffic = Math.trunc(newTraffic);
+                        if (newTraffic < 0) newTraffic = 0;
+                        else if (newTraffic > 100) newTraffic = 100;
+                        event.target.value = String(newTraffic);
+                        variation.traffic = newTraffic;
+                        setCampaign((campaign) => {
+                          return structuredClone(campaign);
+                        });
+                      }}
+                      className="px-3 py-2 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 w-24"
+                    />
+                    <span className="text-blue-600">%</span>
+                  </div>
+                </td>
+                <td className="py-4 px-4">
+                  <div className="flex items-center justify-end gap-2">
+                    <Editor setCampaign={setCampaign} variation={variation} />
+                    <button
+                      onClick={() => {
+                        setCampaign((campaign) => {
+                          campaign.variations = campaign.variations.filter(
+                            (variationInList) => variationInList.id !== variation.id,
+                          );
+
+                          campaign.variations = variationsWithDistributedTraffic(campaign.variations);
+
+                          return structuredClone(campaign);
+                        });
+                      }}
+                      className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
