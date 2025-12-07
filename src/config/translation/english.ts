@@ -67,6 +67,9 @@ const labels = Object.freeze({
       createCampaignButton: 'Create new campaign',
       title: 'Campaigns',
     },
+    table: {
+      noData: 'No se encontraron tests que coincidan con los filtros',
+    },
   },
   common: {
     requirement: {
@@ -133,9 +136,6 @@ const labels = Object.freeze({
     },
     symbols: {
       percentage: '%',
-    },
-    table: {
-      noData: 'No Data',
     },
   },
 });

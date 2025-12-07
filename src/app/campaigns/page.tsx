@@ -5,12 +5,14 @@ import { ChevronUp, ChevronDown } from 'lucide-react';
 import api from '@/app/api';
 import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/db/index';
 import config from '@/config/constants';
+import constants from '@/config/common/constants';
 import { useLoader } from '@/app/_common/contexts/Loader';
 import Pagination from '@mui/material/Pagination';
+import { useTranslationContext } from './_contexts/useTranslation';
 
 type UiState = {
   sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
-  statusFilter: TypeStatus;
+  statusFilter: TypeStatus[];
   nameFilter: string;
   itemsPerPage: number;
   totalItems: number;
@@ -27,6 +29,7 @@ type UiAction =
 
 export default function Page() {
   const loader = useLoader();
+  const translation = useTranslationContext();
 
   const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
   const [state, dispatch] = useReducer(
@@ -44,8 +47,13 @@ export default function Page() {
         }
         case 'SET_NAME_FILTER':
           return { ...state, nameFilter: action.payload };
-        case 'SET_STATUS_FILTER':
-          return { ...state, statusFilter: action.payload };
+        case 'SET_STATUS_FILTER': {
+          if (state.statusFilter.includes(action.payload)) {
+            const newStatusFilter = state.statusFilter.filter((status) => status !== action.payload);
+            return { ...state, statusFilter: newStatusFilter };
+          }
+          return { ...state, statusFilter: [...state.statusFilter, action.payload] };
+        }
         case 'SET_ITEMS_PER_PAGE':
           return { ...state, itemsPerPage: action.payload };
         case 'SET_TOTAL_ITEMS':
@@ -58,7 +66,7 @@ export default function Page() {
     },
     {
       sortConfig: { key: 'id', direction: 'asc' },
-      statusFilter: 'active',
+      statusFilter: ['active', 'inactive'],
       nameFilter: '',
       itemsPerPage: config.quantitiesAvailable[0],
       totalItems: 0,
@@ -84,7 +92,7 @@ export default function Page() {
         orderDirection: state.sortConfig.direction,
         page: state.currentPage,
         quantity: state.itemsPerPage,
-        statusList: [state.statusFilter],
+        statusList: state.statusFilter,
         ...args,
       },
     });
@@ -132,7 +140,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen flex">
       {/* Main Content */}
       <div className="flex-1 p-8">
         <div className="mb-8 flex items-center justify-between">
@@ -145,7 +153,7 @@ export default function Page() {
             className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg flex items-center gap-2"
           >
             <span className="text-xl">+</span>
-            Nueva Campaña
+            {translation.campaigns.header.createCampaignButton}
           </a>
         </div>
 
@@ -158,21 +166,21 @@ export default function Page() {
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'id' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    ID
+                    {translation.campaigns.camapaignsTable.id}
                     <SortIcon column="id" />
                   </th>
                   <th
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'name' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    Name
+                    {translation.campaigns.camapaignsTable.campaignName}
                     <SortIcon column="name" />
                   </th>
                   <th
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'status' })}
                     className="px-6 py-4 text-center text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    Status
+                    {translation.campaigns.camapaignsTable.status}
                     <SortIcon column="status" />
                   </th>
                 </tr>
@@ -192,7 +200,7 @@ export default function Page() {
                           className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(campaign.status)}`}
                         >
                           <a href={`${config.pages.campaign}?id=${campaign.id}`}>
-                            {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
+                            {translation.common.statusLabels[campaign.status]}
                           </a>
                         </span>
                       </td>
@@ -201,7 +209,7 @@ export default function Page() {
                 ) : (
                   <tr>
                     <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
-                      No se encontraron tests que coincidan con los filtros
+                      {translation.campaigns.table.noData}
                     </td>
                   </tr>
                 )}
@@ -233,15 +241,19 @@ export default function Page() {
 
         <div className="mb-6">
           <label className="block text-sm font-semibold text-slate-700 mb-2">Estado</label>
-          <select
-            value={state.statusFilter}
-            onChange={(e) => dispatch({ type: 'SET_STATUS_FILTER', payload: e.target.value as TypeStatus })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            <option value="deleted">Deleted</option>
-          </select>
+          <div className="space-y-2">
+            {constants.campaignStatus.map((status) => (
+              <label key={status} className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={state.statusFilter.includes(status)}
+                  onChange={() => dispatch({ type: 'SET_STATUS_FILTER', payload: status })}
+                  className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="ml-2 text-sm text-slate-700">{translation.common.statusLabels[status]}</span>
+              </label>
+            ))}
+          </div>
         </div>
 
         <div className="mb-6">

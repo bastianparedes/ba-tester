@@ -67,6 +67,9 @@ const labels = Object.freeze({
       createCampaignButton: 'Crear nueva campaña',
       title: 'Campañas',
     },
+    table: {
+      noData: 'Sin datos',
+    },
   },
   common: {
     requirement: {
@@ -133,9 +136,6 @@ const labels = Object.freeze({
     },
     symbols: {
       percentage: '%',
-    },
-    table: {
-      noData: 'Sin datos',
     },
   },
 });

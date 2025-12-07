@@ -8,6 +8,8 @@ import Requirements from './Requirements';
 import Triggers from './Triggers';
 import Variations from './Variations';
 import type { TypeCampaignExtended } from '@/types/db';
+import config from '@/config/common/constants';
+import { ChevronDown } from 'lucide-react';
 
 type Props = {
   initialCampaign: TypeCampaignExtended;
@@ -18,6 +20,39 @@ const Components = ({ initialCampaign }: Props) => {
 
   return (
     <div className="w-4/5 mx-auto my-8 relative flex flex-col gap-8">
+      <div className="mb-8">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-blue-900 mb-2">A/B Testing Campaign</h1>
+            <p className="text-blue-600">Configure your testing parameters and variations</p>
+          </div>
+          <div className="flex gap-3">
+            <div className="relative">
+              <select
+                value={campaign.status}
+                onChange={(e) => setCampaign({ ...campaign, status: e.target.value as typeof campaign.status })}
+                className={`outline-none px-6 py-2 rounded-lg font-semibold transition-all shadow-md appearance-none cursor-pointer pr-10 ${
+                  campaign.status === 'active'
+                    ? 'bg-green-500 text-white hover:bg-green-600'
+                    : campaign.status === 'inactive'
+                      ? 'bg-gray-400 text-white hover:bg-gray-500'
+                      : 'bg-red-500 text-white hover:bg-red-600'
+                }`}
+              >
+                {config.campaignStatus.map((status) => (
+                  <option key={status} value={status}>
+                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white">
+                <ChevronDown />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* NAME */}
       <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
         <h2 className="text-xl font-semibold text-blue-900 mb-4">Name</h2>
