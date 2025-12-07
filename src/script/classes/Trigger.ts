@@ -12,8 +12,9 @@ class Trigger {
   }
 
   setFire(fire: () => Promise<void>) {
-    if (this.trigger.type === 'clickOnElement') {
-      const valueStringOne = (this.trigger.data as any).selector;
+    const trigger = this.trigger;
+    if (trigger.type === 'clickOnElement') {
+      const valueStringOne = trigger.data.selector;
       const fn = (event: MouseEvent) => {
         if ((event.target as HTMLElement).closest(valueStringOne) !== null) {
           window.removeEventListener('click', fn);
@@ -22,21 +23,19 @@ class Trigger {
       };
 
       window.addEventListener('click', fn);
-    } else if (this.trigger.type === 'custom') {
+    } else if (trigger.type === 'custom') {
       try {
-        eval((this.trigger.data as any).javascript);
+        eval(trigger.data.javascript);
       } catch (error) {
         console.log(error);
       }
-    } else if (this.trigger.type === 'pageLoad') fire();
-    else if (this.trigger.type === 'timeOnPage') {
+    } else if (trigger.type === 'pageLoad') fire();
+    else if (trigger.type === 'timeOnPage') {
       const timePassed = new Date().getTime() - performance.timeOrigin;
-      setTimeout(
-        () => {
-          fire();
-        },
-        (this.trigger.data as any).seconds * 1000 - timePassed,
-      );
+      const time = trigger.data.milliseconds - timePassed;
+      setTimeout(() => {
+        fire();
+      }, time);
     }
   }
 }

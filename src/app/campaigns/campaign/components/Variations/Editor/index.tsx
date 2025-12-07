@@ -4,7 +4,6 @@ import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../_components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
-
 import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 

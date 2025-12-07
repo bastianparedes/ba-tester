@@ -69,7 +69,7 @@ const insertCampaignSchema = z.object({
       }),
       z.object({
         data: z.object({
-          seconds: z.number().int().nonnegative(),
+          milliseconds: z.number().int().nonnegative(),
         }),
         id: z.number().readonly(),
         type: z.literal(commonConstants.triggerTypes.timeOnPage),

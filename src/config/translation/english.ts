@@ -28,7 +28,7 @@ const labels = Object.freeze({
           valueStringOne: 'Name',
         },
       },
-      seconds: 'Seconds',
+      milliseconds: 'Milliseconds',
       table: {
         name: 'Name',
       },
@@ -58,14 +58,17 @@ const labels = Object.freeze({
       status: 'Status',
     },
     filters: {
-      name: 'Name',
+      title: 'Filters',
+      name: 'Search by name',
       page: 'Page',
       quantity: 'Quantity',
       status: 'Status',
+      applyFilters: 'Apply Filters',
     },
     header: {
       createCampaignButton: 'Create new campaign',
       title: 'Campaigns',
+      subTitle: 'Gestión de experimentos y variaciones',
     },
     table: {
       noData: 'No se encontraron tests que coincidan con los filtros',

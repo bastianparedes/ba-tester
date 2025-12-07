@@ -66,7 +66,7 @@ export type TypePut = {
         }
       | {
           data: {
-            seconds: number;
+            milliseconds: number;
           };
           id: number;
           type: 'timeOnPage';

@@ -85,7 +85,7 @@ export type TypePost = {
         }
       | {
           data: {
-            seconds: number;
+            milliseconds: number;
           };
           id: number;
           type: 'timeOnPage';

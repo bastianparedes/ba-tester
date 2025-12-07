@@ -28,7 +28,7 @@ const labels = Object.freeze({
           valueStringOne: 'Name',
         },
       },
-      seconds: 'Seconds',
+      milliseconds: 'Milliseconds',
       table: {
         name: 'Name',
       },

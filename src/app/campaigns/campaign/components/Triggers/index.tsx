@@ -59,7 +59,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
       else if (newType === 'timeOnPage')
         campaign.triggers[index] = {
           data: {
-            seconds: 1,
+            milliseconds: 1000,
           },
           id: trigger.id,
           type: newType,
@@ -160,16 +160,16 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                       if (newSeconds < 0) newSeconds = 0;
                       else if (newSeconds > 60000) newSeconds = 60000;
                       event.target.value = String(newSeconds);
-                      trigger.data.seconds = newSeconds;
+                      trigger.data.milliseconds = newSeconds;
                       setCampaign((campaign) => {
                         return structuredClone(campaign);
                       });
                     }}
                     step={1}
                     type="number"
-                    value={trigger.data.seconds}
+                    value={trigger.data.milliseconds}
                   />
-                  <span className="text-blue-600 font-medium">{translation.campaign.triggers.seconds}</span>
+                  <span className="text-blue-600 font-medium">{translation.campaign.triggers.milliseconds}</span>
                 </div>
               )}
 

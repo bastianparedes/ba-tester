@@ -145,8 +145,8 @@ export default function Page() {
       <div className="flex-1 p-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-slate-900 mb-2">Tests A/B</h1>
-            <p className="text-slate-600">Gestión de experimentos y variaciones</p>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">{translation.campaigns.header.title}</h1>
+            <p className="text-slate-600">{translation.campaigns.header.subTitle}</p>
           </div>
           <a
             href={config.pages.campaign}
@@ -226,10 +226,12 @@ export default function Page() {
 
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg p-6">
-        <h2 className="text-xl font-bold text-slate-900 mb-6">Filtros</h2>
+        <h2 className="text-xl font-bold text-slate-900 mb-6">{translation.campaigns.filters.title}</h2>
 
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Buscar por nombre</label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            {translation.campaigns.filters.name}
+          </label>
           <input
             type="text"
             placeholder="Buscar test..."
@@ -240,7 +242,9 @@ export default function Page() {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Estado</label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            {translation.campaigns.filters.status}
+          </label>
           <div className="space-y-2">
             {constants.campaignStatus.map((status) => (
               <label key={status} className="flex items-center cursor-pointer">
@@ -257,7 +261,9 @@ export default function Page() {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Elementos por página</label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            {translation.campaigns.filters.quantity}
+          </label>
           <select
             value={state.itemsPerPage}
             onChange={(e) => dispatch({ type: 'SET_ITEMS_PER_PAGE', payload: Number(e.target.value) })}
@@ -275,19 +281,8 @@ export default function Page() {
           onClick={onApplyFilters}
           className="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
         >
-          Aplicar Filtros
+          {translation.campaigns.filters.applyFilters}
         </button>
-
-        <div className="mt-6 pt-6 border-t border-slate-200">
-          <div className="text-sm text-slate-600">
-            <div className="mb-2">
-              <span className="font-semibold">Total:</span> {campaigns.length}
-            </div>
-            <div>
-              <span className="font-semibold">Mostrando:</span> {campaigns.length}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

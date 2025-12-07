@@ -25,7 +25,7 @@ export type TypePageLoadTrigger = TypeBaseTriggerData & {
 export type TypeTimeOnPageTrigger = TypeBaseTriggerData & {
   type: 'timeOnPage';
   data: {
-    seconds: number;
+    milliseconds: number;
   };
 };
 

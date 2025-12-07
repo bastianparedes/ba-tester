@@ -28,7 +28,7 @@ const labels = Object.freeze({
           valueStringOne: 'Nombre',
         },
       },
-      seconds: 'Segundos',
+      milliseconds: 'Milisegundos',
       table: {
         name: 'Nombre',
       },
@@ -58,14 +58,17 @@ const labels = Object.freeze({
       status: 'Estado',
     },
     filters: {
-      name: 'Nombre',
+      title: 'Filtros',
+      name: 'Buscar por nombre',
       page: 'Página',
       quantity: 'Cantidad',
       status: 'Estado',
+      applyFilters: 'Aplicar filtros',
     },
     header: {
       createCampaignButton: 'Crear nueva campaña',
       title: 'Campañas',
+      subTitle: 'Gestión de experimentos y variaciones',
     },
     table: {
       noData: 'Sin datos',
