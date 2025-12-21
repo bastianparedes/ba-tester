@@ -1,10 +1,10 @@
 import constants from '@/config/constants';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeCampaign } from '@/types/db';
 import api from '@/app/api';
 import { useLoader } from '@/app/_common/contexts/Loader';
 
 interface Props {
-  campaign: TypeCampaignExtended;
+  campaign: TypeCampaign;
 }
 
 const Buttons = ({ campaign }: Props) => {

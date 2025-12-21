@@ -1,12 +1,12 @@
 import type React from 'react';
 
 import Editor from './Editor';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeCampaign } from '@/types/db';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 
 interface Props {
-  requirement: TypeCampaignExtended['requirements']['data']['children'][number];
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  requirement: TypeCampaign['requirements']['data']['children'][number];
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Requirement = ({ setCampaign, requirement }: Props) => {

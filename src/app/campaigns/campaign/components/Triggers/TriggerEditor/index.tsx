@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../_components/Modal';
 import type { editor } from 'monaco-editor';
 
-import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
+import type { TypeCampaign, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 import { Pencil } from 'lucide-react';
 
@@ -12,7 +12,7 @@ import 'react-tabs/style/react-tabs.css';
 
 interface Props {
   trigger: TypeTriggerData & { type: 'custom' };
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Editor = ({ setCampaign, trigger }: Props) => {

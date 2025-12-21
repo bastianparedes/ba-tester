@@ -4,17 +4,17 @@ import { cx } from 'class-variance-authority';
 
 import RequirementSpecific from './RequirementSpecific';
 import commonConstants from '@/config/common/constants';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeCampaign } from '@/types/db';
 import { useTranslationContext } from '@/app/campaigns/_contexts/useTranslation';
 import { Trash2, Brackets, ChevronDown } from 'lucide-react';
 
 interface Props {
-  grandParentNode: TypeCampaignExtended['requirements'] | null;
+  grandParentNode: TypeCampaign['requirements'] | null;
   id: string;
   index: number;
-  parentNode: TypeCampaignExtended['requirements'] | null;
-  requirement: TypeCampaignExtended['requirements']['data']['children'][number];
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  parentNode: TypeCampaign['requirements'] | null;
+  requirement: TypeCampaign['requirements']['data']['children'][number];
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {

@@ -1,13 +1,13 @@
 import React from 'react';
 
 import commonConstants from '../../../../../../../../config/common/constants';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeCampaign } from '@/types/db';
 import { useTranslationContext } from '../../../../../../_contexts/useTranslation';
 import { ChevronDown } from 'lucide-react';
 
 interface Props {
-  requirement: TypeCampaignExtended['requirements']['data']['children'][number];
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  requirement: TypeCampaign['requirements']['data']['children'][number];
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {

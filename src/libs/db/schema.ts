@@ -1,7 +1,7 @@
 import { pgTable, serial, jsonb, varchar, pgEnum } from 'drizzle-orm/pg-core';
 
 import commonConstants from '../../config/common/constants';
-import type { TypeCampaignExtended } from '../../types/db';
+import type { TypeCampaign } from '../../types/db';
 
 export const statusEnum = pgEnum('status_enum', commonConstants.campaignStatus);
 
@@ -9,11 +9,11 @@ export const campaigns = pgTable('campaigns', {
   id: serial('id').primaryKey().unique(),
 
   name: varchar('name', { length: 255 }).notNull().default(''),
-  requirements: jsonb('requirements').$type<TypeCampaignExtended['requirements']>().notNull(),
+  requirements: jsonb('requirements').$type<TypeCampaign['requirements']>().notNull(),
   status: statusEnum('status').notNull().default('inactive'),
 
-  triggers: jsonb('triggers').$type<TypeCampaignExtended['triggers']>().notNull(),
-  variations: jsonb('variations').$type<TypeCampaignExtended['variations']>().notNull(),
+  triggers: jsonb('triggers').$type<TypeCampaign['triggers']>().notNull(),
+  variations: jsonb('variations').$type<TypeCampaign['variations']>().notNull(),
 });
 
 export const users = pgTable('users', {

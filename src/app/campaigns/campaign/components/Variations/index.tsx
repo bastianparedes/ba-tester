@@ -1,13 +1,11 @@
-import React from 'react';
-
 import { variationsWithDistributedTraffic } from './util';
-import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
+import type { TypeCampaign, TypeVariationData } from '@/types/db';
 import { Plus, Trash2 } from 'lucide-react';
 import Editor from './Editor';
 
 interface Props {
   variations: TypeVariationData[];
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Variations = ({ setCampaign, variations }: Props) => {

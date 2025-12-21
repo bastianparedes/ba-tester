@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, inArray, like, sql } from 'drizzle-orm';
 
 import * as schema from './schema';
-import type { TypeOrderBy, TypeOrderDirection, TypeCampaignExtended } from '@/types/db';
+import type { TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/db';
 
 import db from './client';
 
@@ -13,10 +13,10 @@ export const insertCampaign = async ({
   variations,
 }: {
   name: string;
-  requirements: TypeCampaignExtended['requirements'];
-  status: TypeCampaignExtended['status'];
-  triggers: TypeCampaignExtended['triggers'];
-  variations: TypeCampaignExtended['variations'];
+  requirements: TypeCampaign['requirements'];
+  status: TypeCampaign['status'];
+  triggers: TypeCampaign['triggers'];
+  variations: TypeCampaign['variations'];
 }) => {
   return await db
     .insert(schema.campaigns)
@@ -34,10 +34,10 @@ export const updateCampaign = async (
   id: number,
   values: {
     name: string;
-    requirements: TypeCampaignExtended['requirements'];
-    status: TypeCampaignExtended['status'];
-    triggers: TypeCampaignExtended['triggers'];
-    variations: TypeCampaignExtended['variations'];
+    requirements: TypeCampaign['requirements'];
+    status: TypeCampaign['status'];
+    triggers: TypeCampaign['triggers'];
+    variations: TypeCampaign['variations'];
   },
 ) => {
   return await db
@@ -61,7 +61,7 @@ export const getCampaigns = async ({
   orderDirection,
   orderBy,
 }: {
-  statusList: TypeCampaignExtended['status'][];
+  statusList: TypeCampaign['status'][];
   name: string;
   quantity: number;
   page: number;
@@ -109,17 +109,17 @@ export const getCampaign = async ({ id }: { id: number }) =>
     where: eq(schema.campaigns.id, id),
   });
 
-export const getCampaignsForScript = async () => {
-  return (
-    await db.query.campaigns.findMany({
-      columns: {
-        id: true,
-        name: true,
-        requirements: true,
-        triggers: true,
-        variations: true,
-      },
-      where: (campaign) => eq(campaign.status, 'active'),
-    })
-  ).filter((campaign) => campaign.variations.length > 0 && campaign.triggers.length > 0);
+export const getCampaignsForScript = async (): Promise<TypeCampaignScript[]> => {
+  const campaigns = await db.query.campaigns.findMany({
+    columns: {
+      id: true,
+      name: true,
+      requirements: true,
+      triggers: true,
+      variations: true,
+    },
+    where: (campaign) => eq(campaign.status, 'active'),
+  });
+
+  return campaigns.filter((campaign) => campaign.variations.length > 0 && campaign.triggers.length > 0);
 };

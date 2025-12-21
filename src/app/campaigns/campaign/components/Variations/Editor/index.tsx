@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../_components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
-import type { TypeCampaignExtended, TypeVariationData } from '@/types/db';
+import type { TypeCampaign, TypeVariationData } from '@/types/db';
 import { useTranslationContext } from '../../../../_contexts/useTranslation';
 
 import 'react-tabs/style/react-tabs.css';
@@ -12,7 +12,7 @@ import { Pencil } from 'lucide-react';
 
 interface Props {
   variation: TypeVariationData;
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Editor = ({ setCampaign, variation }: Props) => {

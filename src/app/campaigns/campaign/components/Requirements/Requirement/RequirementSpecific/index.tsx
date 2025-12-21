@@ -1,15 +1,13 @@
-import React from 'react';
-
 import Custom from './Custom';
 import Device from './Device';
 import Storage from './Storage';
 import Url from './Url';
 import commonConstants from '../../../../../../../config/common/constants';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeCampaign } from '@/types/db';
 
 interface Props {
-  requirement: Exclude<TypeCampaignExtended['requirements']['data']['children'][number], { type: 'node' }>;
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  requirement: Exclude<TypeCampaign['requirements']['data']['children'][number], { type: 'node' }>;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {

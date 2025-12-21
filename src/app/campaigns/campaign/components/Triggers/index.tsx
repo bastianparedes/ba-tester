@@ -1,12 +1,12 @@
 import commonConstants from '../../../../../config/common/constants';
-import type { TypeCampaignExtended, TypeTriggerData } from '@/types/db';
+import type { TypeCampaign, TypeTriggerData } from '@/types/db';
 import { useTranslationContext } from '../../../_contexts/useTranslation';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import Editor from './TriggerEditor';
 
 interface Props {
   triggers: TypeTriggerData[];
-  setCampaign: (campaign: (TypeCampaignExtended: TypeCampaignExtended) => TypeCampaignExtended) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
 const Triggers = ({ setCampaign, triggers }: Props) => {

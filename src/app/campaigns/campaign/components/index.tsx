@@ -1,18 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Buttons from './Buttons';
 import Requirements from './Requirements';
 
 import Triggers from './Triggers';
 import Variations from './Variations';
-import type { TypeCampaignExtended } from '@/types/db';
+import type { TypeCampaign } from '@/types/db';
 import config from '@/config/common/constants';
 import { ChevronDown } from 'lucide-react';
 
 type Props = {
-  initialCampaign: TypeCampaignExtended;
+  initialCampaign: TypeCampaign;
 };
 
 const Components = ({ initialCampaign }: Props) => {

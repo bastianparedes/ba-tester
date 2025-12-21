@@ -7,20 +7,27 @@ export type TypeOrderDirection = 'asc' | 'desc';
 export type TypeVariationData = {
   css: string;
   html: string;
-  readonly id: number;
+  id: number;
   javascript: string;
   name: string;
   traffic: number;
 };
 
+export type TypeOrderBy = 'name' | 'id' | 'status';
 export type TypeCampaign = {
-  readonly id: number | undefined;
+  id: number | undefined;
   name: string;
   status: TypeStatus;
+  triggers: TypeTriggerData[];
+  requirements: TypeRequirementData & {
+    type: 'node';
+  };
+  variations: TypeVariationData[];
 };
 
-export type TypeOrderBy = 'name' | 'id' | 'status';
-export type TypeCampaignExtended = TypeCampaign & {
+export type TypeCampaignScript = {
+  id: number;
+  name: string;
   triggers: TypeTriggerData[];
   requirements: TypeRequirementData & {
     type: 'node';

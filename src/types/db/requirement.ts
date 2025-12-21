@@ -6,7 +6,7 @@ export type TypeNodeRequirement = {
   };
 };
 
-export type TypeStorageComparisonData =
+type TypeStorageComparisonData =
   | {
       name: string;
       comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
@@ -15,7 +15,7 @@ export type TypeStorageComparisonData =
   | {
       name: string;
       comparator: 'exists' | 'doesNotExist';
-      value?: undefined;
+      value?: never;
     };
 
 export type TypeCookieRequirement = {
