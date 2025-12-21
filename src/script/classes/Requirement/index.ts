@@ -6,20 +6,7 @@ import requirementNode from './node';
 import requirementQueryParam from './queryParam';
 import requirementSessionStorage from './sessionStorage';
 import requirementUrl from './url';
-import commonConstants from '../../../config/common/constants';
-import type { TypeBaTester } from '@/script/types';
-
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
-
-const requirementSpecific = {
-  cookie: requirementCookie,
-  custom: requirementCustom,
-  device: requirementDevice,
-  localStorage: requirementLocalStorage,
-  queryParam: requirementQueryParam,
-  sessionStorage: requirementSessionStorage,
-  url: requirementUrl,
-};
+import type { TypeRequirementData } from '@/types/db/requirement';
 
 class Requirement {
   readonly requirementData: TypeRequirementData;
@@ -29,11 +16,15 @@ class Requirement {
   }
 
   async evaluate(): Promise<boolean> {
-    const { requirementData } = this;
-    if (requirementData.type === commonConstants.requirementTypes.node) return requirementNode(requirementData);
-
-    const fn = requirementSpecific[requirementData.type];
-    return fn(requirementData);
+    if (this.requirementData.type === 'cookie') return requirementCookie(this.requirementData);
+    if (this.requirementData.type === 'custom') return requirementCustom(this.requirementData);
+    if (this.requirementData.type === 'device') return requirementDevice(this.requirementData);
+    if (this.requirementData.type === 'localStorage') return requirementLocalStorage(this.requirementData);
+    if (this.requirementData.type === 'queryParam') return requirementQueryParam(this.requirementData);
+    if (this.requirementData.type === 'sessionStorage') return requirementSessionStorage(this.requirementData);
+    if (this.requirementData.type === 'url') return requirementUrl(this.requirementData);
+    if (this.requirementData.type === 'node') return requirementNode(this.requirementData);
+    return false;
   }
 }
 

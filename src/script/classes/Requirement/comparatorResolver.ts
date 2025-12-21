@@ -32,7 +32,7 @@ const doesNotExist = (obtainedValue: obtainedValue) => obtainedValue === null ||
 
 const exists = (obtainedValue: obtainedValue) => obtainedValue !== null && obtainedValue !== undefined;
 
-const resolver = (
+export const comparatorResolver = (
   data:
     | {
         comparator: 'atLeast' | 'atMost' | 'exactly' | 'lessThan' | 'moreThan';
@@ -62,5 +62,3 @@ const resolver = (
   const fn = fns[data.comparator];
   return fn(data.obtainedValue, data.expectedValue);
 };
-
-export default resolver;

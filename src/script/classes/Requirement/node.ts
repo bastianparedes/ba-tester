@@ -1,10 +1,8 @@
-import type { TypeBaTester } from '@/script/types';
+import { type TypeNodeRequirement } from '@/types/db/requirement';
 
-import Requirement from './index';
+import Requirement from '.';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
-
-const requirementNode = (requirement: TypeRequirementData & { type: 'node' }) =>
+const requirementNode = (requirement: TypeNodeRequirement) =>
   Promise.all(requirement.data.children.map((childData) => new Requirement(childData).evaluate())).then((results) => {
     const fns = Object.freeze({
       and: 'every',

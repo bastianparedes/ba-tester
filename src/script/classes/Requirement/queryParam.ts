@@ -1,11 +1,8 @@
-import comparatorResolver from './comparatorResolver';
-import type { TypeBaTester } from '@/script/types';
+import { comparatorResolver } from './comparatorResolver';
 import queryParam from '@/script/utils/queryParam';
+import { type TypeQueryParamRequirement } from '@/types/db/requirement';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
-
-const requirementQueryParam = (requirement: TypeRequirementData) => {
-  if (requirement.type !== 'queryParam') throw new Error('Type queryParam expected in requirement');
+const requirementQueryParam = (requirement: TypeQueryParamRequirement) => {
   const queryParamValue = queryParam.get(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,

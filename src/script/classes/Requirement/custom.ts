@@ -1,19 +1,18 @@
-import type { TypeBaTester } from '@/script/types';
+import { type TypeCustomRequirement } from '@/types/db/requirement';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
+const requirementCustom = async (requirement: TypeCustomRequirement) => {
+  try {
+    const result = await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(false);
+      }, 5000);
 
-const requirementCustom = (requirement: TypeRequirementData) => {
-  if (requirement.type !== 'custom') throw new Error('Type custom expected in requirement');
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(false);
-    }, 5000);
-
-    eval(requirement.data.javascript);
-  })
-    .then((result) => Boolean(result))
-    .catch(() => false);
+      eval(requirement.data.javascript);
+    });
+    return Boolean(result);
+  } catch {
+    return false;
+  }
 };
 
 export default requirementCustom;

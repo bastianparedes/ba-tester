@@ -1,11 +1,8 @@
-import comparatorResolver from './comparatorResolver';
-import type { TypeBaTester } from '@/script/types';
+import { comparatorResolver } from './comparatorResolver';
 import cookie from '@/script/utils/cookie';
+import { type TypeCookieRequirement } from '@/types/db/requirement';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
-
-const requirementCookie = (requirement: TypeRequirementData) => {
-  if (requirement.type !== 'cookie') throw new Error('Type cookie expected in requirement');
+const requirementCookie = (requirement: TypeCookieRequirement) => {
   const cookieValue = cookie.get({ name: requirement.data.name });
   return comparatorResolver({
     comparator: requirement.data.comparator,

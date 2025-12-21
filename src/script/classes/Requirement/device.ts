@@ -1,12 +1,8 @@
-import comparatorResolver from './comparatorResolver';
+import { comparatorResolver } from './comparatorResolver';
 import commonConstants from '../../../config/common/constants';
-import type { TypeBaTester } from '@/script/types';
+import { type TypeDeviceRequirement } from '@/types/db/requirement';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements']['data']['children'][number];
-
-const requirementDevice = (requirement: TypeRequirementData) => {
-  if (requirement.type !== 'device') throw new Error('Type device expected in requirement');
-
+const requirementDevice = (requirement: TypeDeviceRequirement) => {
   const isMobile =
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(
       navigator.userAgent,
