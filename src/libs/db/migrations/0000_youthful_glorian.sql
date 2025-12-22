@@ -1,7 +1,6 @@
 CREATE TYPE "public"."status_enum" AS ENUM('inactive', 'active', 'deleted');--> statement-breakpoint
 CREATE TABLE "campaigns" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"last_modified_date" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"name" varchar(255) DEFAULT '' NOT NULL,
 	"requirements" jsonb NOT NULL,
 	"status" "status_enum" DEFAULT 'inactive' NOT NULL,
