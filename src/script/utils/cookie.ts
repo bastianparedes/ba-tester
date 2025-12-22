@@ -16,7 +16,7 @@ const set = ({
   value,
   exdays,
   path = '/',
-  domain = window.location.host,
+  domain = window.location.hostname,
 }: {
   name: string;
   value: string | number;
