@@ -16,16 +16,18 @@ const set = ({
   value,
   exdays,
   path = '/',
+  domain = window.location.host,
 }: {
   name: string;
   value: string | number;
   exdays: number;
   path?: string;
+  domain?: string;
 }) => {
   const date = new Date();
   date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * exdays);
   const expires = date.toUTCString();
-  document.cookie = `${name}=${value};expires=${expires};path=${path}`;
+  document.cookie = `${name}=${value};expires=${expires};path=${path};domain=${domain}`;
 };
 
 const remove = ({ name }: { name: string }) => {

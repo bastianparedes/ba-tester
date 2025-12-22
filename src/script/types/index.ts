@@ -9,11 +9,13 @@ type TypeBaTester = {
       value,
       exdays,
       path,
+      domain,
     }: {
       name: string;
       value: string | number;
       exdays: number;
       path?: string | undefined;
+      domain?: string | undefined;
     }) => void;
     remove: ({ name }: { name: string }) => void;
   };
