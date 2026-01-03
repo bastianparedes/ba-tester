@@ -1,5 +1,6 @@
 'use client';
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { Loader } from '@/app/_common/components/Loader';
 
 type LoaderContextType = {
   showLoader: () => void;
@@ -21,11 +22,7 @@ export const LoaderProvider = ({ children }: LoaderProviderProps) => {
   return (
     <LoaderContext.Provider value={{ showLoader, hideLoader }}>
       {children}
-      {counter > 0 && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/75 z-9999">
-          <div className="w-12 h-12 border-4 border-t-blue-500 border-gray-200 rounded-full animate-spin"></div>
-        </div>
-      )}
+      {counter > 0 && <Loader />}
     </LoaderContext.Provider>
   );
 };
