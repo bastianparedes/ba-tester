@@ -1,0 +1,30 @@
+services:
+
+  database:
+    tty: true
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: postgres
+    volumes:
+      - ./src/libs/db/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+
+  app:
+    tty: true
+    command: sh -c "npm run postinstall && npm run dev"
+    build:
+      context: .
+    image: ba-tester
+    environment:
+      DATABASE_URL: "postgresql://postgres:12345678@database:5432/postgres?sslmode=disable"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - database
