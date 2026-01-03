@@ -32,7 +32,7 @@ type PageProps = {
 };
 export function ClientPage({ tenantId }: PageProps) {
   const loader = useLoader();
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
 
   const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
   const [state, dispatch] = useReducer(

@@ -13,7 +13,7 @@ interface Props {
 const Element = ({ setCampaign, requirement }: Props) => {
   if (requirement.type !== 'url') throw new Error('Type url expected in requirement');
 
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
   const comparatorPermittedValues = [
     commonConstants.comparisons.contains,
     commonConstants.comparisons.doesNotContain,

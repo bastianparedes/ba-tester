@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Requirement = ({ setCampaign, requirement }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
 
   if (requirement.type !== 'custom') throw new Error('Type custom expected in requirement');
 

@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
 
   if (requirement.type !== 'device') throw new Error('Type device expected in requirement');
 

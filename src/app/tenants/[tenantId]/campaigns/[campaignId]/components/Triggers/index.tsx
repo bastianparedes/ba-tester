@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Triggers = ({ setCampaign, triggers }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
 
   const addNewTrigger = () => {
     setCampaign((campaign) => {

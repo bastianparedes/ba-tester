@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="es-ES">
       <body>
-        <TranslationProvider languaje="english">
+        <TranslationProvider initialLanguage="english">
           <LoaderProvider>
             <ToastProvider>
               <DialogProvider>{children}</DialogProvider>

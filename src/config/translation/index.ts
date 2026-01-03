@@ -1,7 +1,7 @@
 import english from './english';
 import spanish from './spanish';
 
-const languajes = { english, spanish };
+const languages = { english, spanish };
 
 export { english, spanish };
-export default languajes;
+export default languages;

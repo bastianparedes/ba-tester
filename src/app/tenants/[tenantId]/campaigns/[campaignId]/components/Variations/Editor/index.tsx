@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Editor = ({ setCampaign, variation }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
   const [showEditor, setShowEditor] = useState(false);
   const [html, setHtml] = useState(variation.html);
   const [css, setCss] = useState(variation.css);

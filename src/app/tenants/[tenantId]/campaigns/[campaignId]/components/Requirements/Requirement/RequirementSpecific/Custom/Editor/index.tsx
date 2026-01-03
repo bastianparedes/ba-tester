@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Editor = ({ setCampaign, requirement }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
   const [showEditor, setShowEditor] = useState(false);
   const [javascript, setJavascript] = useState(String(requirement.data.javascript));
 

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Requirements = ({ setCampaign, requirements }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">

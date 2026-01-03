@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Editor = ({ setCampaign, trigger }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
   const [showEditor, setShowEditor] = useState(false);
   const [errors, setErrors] = useState<{ javascript: editor.IMarker[] }>({
     javascript: [],

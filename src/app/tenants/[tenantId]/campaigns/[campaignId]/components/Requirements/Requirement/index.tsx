@@ -19,7 +19,7 @@ interface Props {
 }
 
 const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {
-  const translation = useTranslationContext();
+  const { translation } = useTranslationContext();
 
   const getSiblings = () => {
     if (parentNode === null) return [];
