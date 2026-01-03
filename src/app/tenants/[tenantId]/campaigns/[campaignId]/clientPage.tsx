@@ -43,7 +43,7 @@ const ClientPage = ({ initialCampaign }: Props) => {
               >
                 {commonConstants.campaignStatus.map((status) => (
                   <option key={status} value={status}>
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                    {translation.campaign[status]}
                   </option>
                 ))}
               </select>

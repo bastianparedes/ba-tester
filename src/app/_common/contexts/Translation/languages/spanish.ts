@@ -40,7 +40,9 @@ const labels: typeof englishLabels = {
     title: 'Campaña de A/B Testing',
     description: 'Configura los parámetros de prueba y las variaciones',
     name: 'Nombre',
-
+    active: 'Activo',
+    inactive: 'Inactivo',
+    deleted: 'Eliminado',
     requirementsTitle: 'Restricciones',
     newRequirement: 'Nueva restricción',
     triggersTitle: 'Disparadores',

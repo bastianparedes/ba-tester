@@ -38,7 +38,9 @@ const labels = {
     title: 'A/B Testing Campaign',
     description: 'Configure your testing parameters and variations',
     name: 'Name',
-
+    active: 'Active',
+    inactive: 'Inactive',
+    deleted: 'Deleted',
     requirementsTitle: 'Restrictions',
     newRequirement: 'New Restriction',
     triggersTitle: 'Triggers',
