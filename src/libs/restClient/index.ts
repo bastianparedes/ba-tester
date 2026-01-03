@@ -1,4 +1,8 @@
+import { useLoaderStore } from '@/app/_common/contexts/Loader/state';
+
 const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
+  const { showLoader, hideLoader } = useLoaderStore.getState();
+
   const requestFunction = async <T extends Record<string, unknown> | unknown[]>({
     url,
     body,
@@ -8,6 +12,7 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
   }): Promise<
     { ok: true; json: () => Promise<{ data: T }> } | { ok: false; json: () => Promise<{ errors: string[] }> }
   > => {
+    showLoader();
     try {
       const response = await fetch(url, {
         method,
@@ -19,6 +24,8 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     } catch (error) {
       console.error(error);
       return { ok: false, json: async () => ({ errors: ['Network error'] }) };
+    } finally {
+      hideLoader();
     }
   };
   return requestFunction;

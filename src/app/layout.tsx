@@ -2,7 +2,7 @@ import React from 'react';
 import './styles/global.css';
 // import './styles/normalize.css';
 import { ToastProvider } from './_common/contexts/ToastEmitter';
-import { LoaderProvider } from './_common/contexts/Loader';
+import { Loader } from './_common/contexts/Loader/Component';
 import { Metadata } from 'next';
 import { DialogProvider } from './_common/contexts/Dialog';
 import { TranslationProvider } from './_common/contexts/Translation';
@@ -23,12 +23,11 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="es-ES">
       <body>
+        <Loader />
         <TranslationProvider language={languageInCookie}>
-          <LoaderProvider>
-            <ToastProvider>
-              <DialogProvider>{children}</DialogProvider>
-            </ToastProvider>
-          </LoaderProvider>
+          <ToastProvider>
+            <DialogProvider>{children}</DialogProvider>
+          </ToastProvider>
         </TranslationProvider>
       </body>
     </html>

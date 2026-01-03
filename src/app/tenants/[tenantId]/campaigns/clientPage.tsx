@@ -6,7 +6,6 @@ import api from '@/app/api';
 import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/db/index';
 import config from '@/config/constants';
 import commonConstants from '@/config/common/constants';
-import { useLoader } from '@/app/_common/contexts/Loader';
 import Pagination from '@mui/material/Pagination';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
@@ -31,7 +30,6 @@ type PageProps = {
   tenantId: number;
 };
 export function ClientPage({ tenantId }: PageProps) {
-  const loader = useLoader();
   const { translation } = useTranslationContext();
 
   const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
@@ -87,7 +85,6 @@ export function ClientPage({ tenantId }: PageProps) {
       statusList: TypeStatus[];
     }> = {},
   ) => {
-    loader.showLoader();
     const result = await api.getCampaigns({
       pathParams: { tenantId },
       queryParams: {
@@ -106,7 +103,6 @@ export function ClientPage({ tenantId }: PageProps) {
       setCampaigns(json.data.campaigns);
       dispatch({ type: 'SET_TOTAL_ITEMS', payload: json.data.count });
     }
-    loader.hideLoader();
   };
   const totalPages = Math.ceil(state.totalItems / state.itemsPerPage);
 

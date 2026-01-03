@@ -1,21 +1,17 @@
 import constants from '@/config/constants';
 import type { TypeCampaign } from '@/types/db';
 import api from '@/app/api';
-import { useLoader } from '@/app/_common/contexts/Loader';
 
 interface Props {
   campaign: TypeCampaign;
 }
 
 const Buttons = ({ campaign }: Props) => {
-  const loader = useLoader();
-
   const returnToCampaigns = () => {
     location.href = constants.pages.campaigns({ tenantId: campaign.tenantId });
   };
 
   const handleOnSave = async () => {
-    loader.showLoader();
     if (campaign.id === undefined) {
       await api.createCampaign({ pathParams: { tenantId: campaign.tenantId }, body: campaign });
     } else {
@@ -24,7 +20,6 @@ const Buttons = ({ campaign }: Props) => {
         body: campaign,
       });
     }
-    loader.hideLoader();
     location.href = constants.pages.campaigns({ tenantId: campaign.tenantId });
   };
 

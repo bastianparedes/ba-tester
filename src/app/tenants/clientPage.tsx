@@ -7,7 +7,6 @@ import { useDialog } from '@/app/_common/contexts/Dialog';
 import { TypeTenant } from '@/types/db';
 import api from '@/app/api';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { useLoader } from '@/app/_common/contexts/Loader';
 
 type Props = {
   initialTenants: TypeTenant[];
@@ -16,7 +15,6 @@ type Props = {
 export function ClientPage({ initialTenants }: Props) {
   const { translation } = useTranslationContext();
   const dialog = useDialog();
-  const loader = useLoader();
   const [tenants, setTenants] = useState(initialTenants);
 
   const getTenantFromDialog = async (initialData: { name: string; description: string; domain: string }) => {
@@ -50,7 +48,6 @@ export function ClientPage({ initialTenants }: Props) {
   const createTenant = async () => {
     const data = await getTenantFromDialog({ name: '', description: '', domain: '' });
     if (!data) return;
-    loader.showLoader();
     const result = await api.createTenant({
       body: {
         name: data.name,
@@ -58,7 +55,6 @@ export function ClientPage({ initialTenants }: Props) {
         domain: data.domain,
       },
     });
-    loader.hideLoader();
     if (!result.ok) return;
     const { data: newTenant } = await result.json();
     setTenants([...tenants, newTenant]);
@@ -94,7 +90,6 @@ export function ClientPage({ initialTenants }: Props) {
     );
     if (!data) return;
 
-    loader.showLoader();
     const result = await api.updateTenant({
       pathParams: { tenantId: tenant.id },
       body: {
@@ -103,7 +98,6 @@ export function ClientPage({ initialTenants }: Props) {
         domain: data.domain,
       },
     });
-    loader.hideLoader();
     if (!result.ok) return;
 
     const { data: updatedTenant } = await result.json();
