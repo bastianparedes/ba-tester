@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, createContext, useContext } from 'react';
-import translations from '../../../config/translation';
+import translations from './translations';
 import type React from 'react';
 
 type Language = 'english' | 'spanish';

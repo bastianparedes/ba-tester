@@ -26,7 +26,7 @@ const Requirement = ({ setCampaign, requirement }: Props) => {
       <input
         value={requirement.data.name}
         onChange={handleOnChangeName}
-        placeholder={translation.common.requirement.placeholder[requirement.type].name}
+        placeholder={translation.campaign.placeholderName}
         type="text"
         className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
       />

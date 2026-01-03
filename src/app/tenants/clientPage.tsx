@@ -6,34 +6,36 @@ import constants from '@/config/constants';
 import { useDialog } from '@/app/_common/contexts/Dialog';
 import { TypeTenant } from '@/types/db';
 import api from '@/app/api';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 type Props = {
   initialTenants: TypeTenant[];
 };
 
 export function ClientPage({ initialTenants }: Props) {
+  const { translation } = useTranslationContext();
   const dialog = useDialog();
   const [tenants, setTenants] = useState(initialTenants);
 
   const getTenantFromDialog = async (initialData: { name: string; description: string; domain: string }) => {
     const data = await dialog.getDataFromForm(
       {
-        title: 'Ingresa los datos del tenant',
+        title: translation.tenants.createTenantTitle,
       },
       {
         name: {
-          label: 'Name',
+          label: translation.tenants.name,
           type: 'text',
           value: initialData.name,
           required: true,
         },
         description: {
-          label: 'Description',
+          label: translation.tenants.description,
           type: 'textarea',
           value: initialData.description,
         },
         domain: {
-          label: 'Domain',
+          label: translation.tenants.domain,
           type: 'text',
           value: initialData.domain,
           required: true,
@@ -64,22 +66,22 @@ export function ClientPage({ initialTenants }: Props) {
 
     const data = await dialog.getDataFromForm(
       {
-        title: 'Editar tenant',
+        title: translation.tenants.editTenantTitle,
       },
       {
         name: {
-          label: 'Name',
+          label: translation.tenants.name,
           type: 'text',
           value: tenant.name,
           required: true,
         },
         description: {
-          label: 'Description',
+          label: translation.tenants.description,
           type: 'textarea',
           value: tenant.description,
         },
         domain: {
-          label: 'Domain',
+          label: translation.tenants.domain,
           type: 'text',
           value: tenant.domain,
           required: true,
@@ -111,12 +113,12 @@ export function ClientPage({ initialTenants }: Props) {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Tenants</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{translation.tenants.tenants}</h1>
           <button
             onClick={() => createTenant()}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition"
           >
-            + Crear Tenant
+            {translation.tenants.createTenant}
           </button>
         </div>
 
@@ -130,13 +132,13 @@ export function ClientPage({ initialTenants }: Props) {
                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
               />
             </svg>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No hay tenants creados</h3>
-            <p className="text-gray-500 mb-6">Comienza creando tu primer tenant para gestionar tus pruebas A/B</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{translation.tenants.noTenants}</h3>
+            <p className="text-gray-500 mb-6">{translation.tenants.noTenantsDescription}</p>
             <button
               onClick={() => createTenant()}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition"
             >
-              Crear primer tenant
+              {translation.tenants.noTenantsCreateFirst}
             </button>
           </div>
         ) : (

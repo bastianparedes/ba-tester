@@ -72,7 +72,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
       <input
         value={requirement.data.name}
         onChange={handleOnChangeName}
-        placeholder={translation.common.requirement.placeholder[requirement.type].name}
+        placeholder={translation.campaign.placeholderName}
         type="text"
         className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
       />
@@ -85,7 +85,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
         >
           {comparatorPermittedValues.map((value) => (
             <option key={value} value={value}>
-              {translation.common.requirement.comparator[value]}
+              {translation.campaign[value]}
             </option>
           ))}
         </select>
@@ -100,7 +100,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
         <input
           value={requirement.data.value}
           onChange={handleOnChangeValue}
-          placeholder={translation.common.requirement.placeholder[requirement.type].value}
+          placeholder={translation.campaign.placeholderValue}
           type="text"
           className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
         />

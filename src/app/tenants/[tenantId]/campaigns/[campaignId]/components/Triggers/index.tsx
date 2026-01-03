@@ -79,13 +79,13 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-blue-900">Triggers</h2>
+        <h2 className="text-xl font-semibold text-blue-900">{translation.campaign.triggersTitle}</h2>
         <button
           onClick={addNewTrigger}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus size={18} />
-          New Trigger
+          {translation.campaign.newTrigger}
         </button>
       </div>
 
@@ -101,7 +101,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                 >
                   {commonConstants.triggers.map((type) => (
                     <option key={type} value={type}>
-                      {translation.campaign.triggers.types[type]}
+                      {translation.campaign[type]}
                     </option>
                   ))}
                 </select>
@@ -121,7 +121,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                       return structuredClone(campaign);
                     })
                   }
-                  placeholder={translation.campaign.triggers.placeholder[trigger.type].valueStringOne}
+                  placeholder={translation.campaign.placeholderCssSelector}
                   className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
                 />
               )}
@@ -137,7 +137,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                         return structuredClone(campaign);
                       });
                     }}
-                    placeholder={translation.campaign.triggers.placeholder[trigger.type].valueStringOne}
+                    placeholder={translation.campaign.placeholderName}
                     type="text"
                     className="flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
                   />
@@ -169,7 +169,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                     type="number"
                     value={trigger.data.milliseconds}
                   />
-                  <span className="text-blue-600 font-medium">{translation.campaign.triggers.milliseconds}</span>
+                  <span className="text-blue-600 font-medium">{translation.campaign.milliseconds}</span>
                 </div>
               )}
 

@@ -108,7 +108,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
             className="w-fit px-4 py-2 mt-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             onClick={addNewRequirement}
           >
-            {translation.campaign.requirements.newRequirement}
+            {translation.campaign.newRequirement}
           </button>
         </div>
         {/* Corchete derecho */}
@@ -247,7 +247,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
         >
           {commonConstants.campaignRequirements.map((type) => (
             <option key={type} value={type}>
-              {translation.common.requirement.type[type]}
+              {translation.campaign[type]}
             </option>
           ))}
         </select>

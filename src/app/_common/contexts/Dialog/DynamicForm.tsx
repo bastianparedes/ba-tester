@@ -6,6 +6,7 @@ import { Textarea } from '@/app/_common/components/textarea';
 import { Label } from '@/app/_common/components/label';
 import { Switch } from '@/app/_common/components/switch';
 import { Card } from '@/app/_common/components/card';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 type TypeSelectArgs<T extends { label: string; value: string }[]> = {
   options: T;
@@ -129,6 +130,7 @@ const transformFieldsToResponse = <T extends TypeArgs>(
 };
 
 export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; resolver: (arg: unknown) => void }) => {
+  const { translation } = useTranslationContext();
   const {
     control,
     handleSubmit,
@@ -281,10 +283,10 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
       </div>
       <div className="px-8 py-6 flex justify-end gap-4">
         <Button onClick={onCancel} variant="destructive">
-          Cancel
+          {translation.common.cancel}
         </Button>
         <Button onClick={handleSubmit(onSubmit)} variant="default">
-          Accept
+          {translation.common.accept}
         </Button>
       </div>
     </>

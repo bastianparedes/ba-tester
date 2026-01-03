@@ -44,7 +44,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
         >
           {comparatorPermittedValues.map((value) => (
             <option key={value} value={value}>
-              {translation.common.requirement.comparator[value]}
+              {translation.campaign[value]}
             </option>
           ))}
         </select>
@@ -61,7 +61,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
         >
           {devicePermittedValues.map((value) => (
             <option key={value} value={value}>
-              {translation.common.requirement.device[value]}
+              {translation.campaign[value]}
             </option>
           ))}
         </select>

@@ -149,15 +149,15 @@ export function ClientPage({ tenantId }: PageProps) {
       <div className="flex-1 p-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-slate-900 mb-2">{translation.campaigns.header.title}</h1>
-            <p className="text-slate-600">{translation.campaigns.header.subTitle}</p>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">{translation.campaigns.headerTitle}</h1>
+            <p className="text-slate-600">{translation.campaigns.headerSubTitle}</p>
           </div>
           <a
             href={config.pages.campaign({ tenantId, campaignId: undefined })}
             className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg flex items-center gap-2"
           >
             <span className="text-xl">+</span>
-            {translation.campaigns.header.createCampaignButton}
+            {translation.campaigns.createCampaignButton}
           </a>
         </div>
 
@@ -170,21 +170,21 @@ export function ClientPage({ tenantId }: PageProps) {
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'id' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    {translation.campaigns.camapaignsTable.id}
+                    {translation.campaigns.tableId}
                     <SortIcon column="id" />
                   </th>
                   <th
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'name' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    {translation.campaigns.camapaignsTable.campaignName}
+                    {translation.campaigns.tableName}
                     <SortIcon column="name" />
                   </th>
                   <th
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'status' })}
                     className="px-6 py-4 text-center text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    {translation.campaigns.camapaignsTable.status}
+                    {translation.campaigns.tableStatus}
                     <SortIcon column="status" />
                   </th>
                 </tr>
@@ -204,7 +204,7 @@ export function ClientPage({ tenantId }: PageProps) {
                           className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(campaign.status)}`}
                         >
                           <a href={config.pages.campaign({ tenantId, campaignId: campaign.id })}>
-                            {translation.common.statusLabels[campaign.status]}
+                            {translation.campaigns.status[campaign.status]}
                           </a>
                         </span>
                       </td>
@@ -213,7 +213,7 @@ export function ClientPage({ tenantId }: PageProps) {
                 ) : (
                   <tr>
                     <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
-                      {translation.campaigns.table.noData}
+                      {translation.campaigns.noData}
                     </td>
                   </tr>
                 )}
@@ -230,15 +230,12 @@ export function ClientPage({ tenantId }: PageProps) {
 
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg p-6">
-        <h2 className="text-xl font-bold text-slate-900 mb-6">{translation.campaigns.filters.title}</h2>
+        <h2 className="text-xl font-bold text-slate-900 mb-6">{translation.campaigns.filtersTitle}</h2>
 
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            {translation.campaigns.filters.name}
-          </label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">{translation.campaigns.filtersName}</label>
           <input
             type="text"
-            placeholder="Buscar test..."
             value={state.nameFilter}
             onChange={(e) => dispatch({ type: 'SET_NAME_FILTER', payload: e.target.value })}
             className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -247,7 +244,7 @@ export function ClientPage({ tenantId }: PageProps) {
 
         <div className="mb-6">
           <label className="block text-sm font-semibold text-slate-700 mb-2">
-            {translation.campaigns.filters.status}
+            {translation.campaigns.filtersStatus}
           </label>
           <div className="space-y-2">
             {commonConstants.campaignStatus.map((status) => (
@@ -258,7 +255,7 @@ export function ClientPage({ tenantId }: PageProps) {
                   onChange={() => dispatch({ type: 'SET_STATUS_FILTER', payload: status })}
                   className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500"
                 />
-                <span className="ml-2 text-sm text-slate-700">{translation.common.statusLabels[status]}</span>
+                <span className="ml-2 text-sm text-slate-700">{translation.campaigns.status[status]}</span>
               </label>
             ))}
           </div>
@@ -266,7 +263,7 @@ export function ClientPage({ tenantId }: PageProps) {
 
         <div className="mb-6">
           <label className="block text-sm font-semibold text-slate-700 mb-2">
-            {translation.campaigns.filters.quantity}
+            {translation.campaigns.filtersQuantity}
           </label>
           <select
             value={state.itemsPerPage}
@@ -285,7 +282,7 @@ export function ClientPage({ tenantId }: PageProps) {
           onClick={onApplyFilters}
           className="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
         >
-          {translation.campaigns.filters.applyFilters}
+          {translation.campaigns.applyFilters}
         </button>
       </div>
     </div>
