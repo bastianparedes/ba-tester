@@ -46,7 +46,7 @@ export default async function RootLayout(props: LayoutProps) {
           <Eye className="w-6 h-6 text-white" />
         </a>
       </div>
-      <section className="flex-1 ml-16">{props.children}</section>
+      <section className="flex-1">{props.children}</section>
     </div>
   );
 }
