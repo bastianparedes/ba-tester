@@ -2,7 +2,7 @@ import type React from 'react';
 import { redirect } from 'next/navigation';
 import constants from '@/config/constants';
 import db from '@/libs/db';
-import { Component, FlaskConical, Code, Eye } from 'lucide-react';
+import { Boxes, FlaskConical, Code, Eye } from 'lucide-react';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -22,7 +22,7 @@ export default async function RootLayout(props: LayoutProps) {
           href={constants.pages.tenants()}
           className="w-12 h-12 flex items-center justify-center rounded-lg bg-linear-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg"
         >
-          <Component className="w-6 h-6 text-white" />
+          <Boxes className="w-6 h-6 text-white" />
         </a>
 
         <a
