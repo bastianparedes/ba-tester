@@ -4,7 +4,7 @@ import './styles/global.css';
 import { ToastProvider } from './_common/contexts/ToastEmitter';
 import { Loader } from './_common/contexts/Loader/Component';
 import { Metadata } from 'next';
-import { DialogProvider } from './_common/contexts/Dialog';
+import { DynamicDialog } from './_common/contexts/Dialog/Component';
 import { TranslationProvider } from './_common/contexts/Translation';
 import { cookies } from 'next/headers';
 
@@ -26,7 +26,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <Loader />
         <TranslationProvider language={languageInCookie}>
           <ToastProvider>
-            <DialogProvider>{children}</DialogProvider>
+            <DynamicDialog />
+            {children}
           </ToastProvider>
         </TranslationProvider>
       </body>

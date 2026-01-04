@@ -3,7 +3,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import constants from '@/config/constants';
-import { useDialog } from '@/app/_common/contexts/Dialog';
+import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { TypeTenant } from '@/types/db';
 import api from '@/app/api';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
@@ -14,11 +14,11 @@ type Props = {
 
 export function ClientPage({ initialTenants }: Props) {
   const { translation } = useTranslationContext();
-  const dialog = useDialog();
+  const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const [tenants, setTenants] = useState(initialTenants);
 
   const getTenantFromDialog = async (initialData: { name: string; description: string; domain: string }) => {
-    const data = await dialog.getDataFromForm(
+    const data = await getDataFromForm(
       {
         title: translation.tenants.createTenantTitle,
       },
@@ -64,7 +64,7 @@ export function ClientPage({ initialTenants }: Props) {
     e.preventDefault();
     e.stopPropagation();
 
-    const data = await dialog.getDataFromForm(
+    const data = await getDataFromForm(
       {
         title: translation.tenants.editTenantTitle,
       },
