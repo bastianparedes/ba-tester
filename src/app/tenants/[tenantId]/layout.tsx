@@ -2,7 +2,7 @@ import type React from 'react';
 import { redirect } from 'next/navigation';
 import constants from '@/config/constants';
 import db from '@/libs/db';
-import { FlaskConical, Code, Eye } from 'lucide-react';
+import { Component, FlaskConical, Code, Eye } from 'lucide-react';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -19,6 +19,13 @@ export default async function RootLayout(props: LayoutProps) {
     <div className="flex">
       <div className="min-h-svh w-16 bg-gray-900 flex flex-col items-center py-6 gap-6">
         <a
+          href={constants.pages.tenants()}
+          className="w-12 h-12 flex items-center justify-center rounded-lg bg-linear-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg"
+        >
+          <Component className="w-6 h-6 text-white" />
+        </a>
+
+        <a
           href={constants.pages.campaigns({ tenantId })}
           className="w-12 h-12 flex items-center justify-center rounded-lg bg-linear-to-br from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 transition-all duration-200 shadow-lg"
         >
@@ -34,7 +41,7 @@ export default async function RootLayout(props: LayoutProps) {
 
         <a
           href={constants.pages.example({ tenantId })}
-          className="w-12 h-12 flex items-center justify-center rounded-lg bg-blue-500 hover:bg-blue-600 transition-all duration-200 shadow-lg"
+          className="w-12 h-12 flex items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 shadow-lg"
         >
           <Eye className="w-6 h-6 text-white" />
         </a>
