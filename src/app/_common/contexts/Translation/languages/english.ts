@@ -27,7 +27,7 @@ const labels = {
     },
     noData: 'No tests found that match the filters',
     filtersTitle: 'Filters',
-    filtersName: 'Search by name',
+    filtersText: 'Search by text',
     filtersQuantity: 'Quantity',
     filtersStatus: 'Status',
     applyFilters: 'Apply Filters',

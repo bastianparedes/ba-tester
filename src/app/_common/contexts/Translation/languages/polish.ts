@@ -29,7 +29,7 @@ const labels: typeof englishLabels = {
     },
     noData: 'Nie znaleziono testów pasujących do filtrów',
     filtersTitle: 'Filtry',
-    filtersName: 'Szukaj po nazwie',
+    filtersText: 'Szukaj po tekście',
     filtersQuantity: 'Ilość',
     filtersStatus: 'Status',
     applyFilters: 'Zastosuj filtry',
