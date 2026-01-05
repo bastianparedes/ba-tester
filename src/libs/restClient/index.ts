@@ -1,4 +1,4 @@
-import { withLoader } from '../hof';
+import { withLoader } from '../../utils/hof';
 
 const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
   const requestFunction = async <T extends Record<string, unknown> | unknown[]>({
