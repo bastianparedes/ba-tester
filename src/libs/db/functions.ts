@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, inArray, like, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray, ilike, or, sql } from 'drizzle-orm';
 
 import * as schema from './schema';
 import type { TypeTenant, TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/db';
@@ -114,14 +114,14 @@ export const getCampaigns = async (
   { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
   {
     statusList,
-    name,
+    textSearch,
     quantity,
     page,
     orderDirection,
     orderBy,
   }: {
     statusList: TypeCampaign['status'][];
-    name: string;
+    textSearch: string;
     quantity: number;
     page: number;
     orderDirection: TypeOrderDirection;
@@ -133,13 +133,20 @@ export const getCampaigns = async (
     desc,
   }[orderDirection];
 
+  const treatedTextSearch = `%${textSearch.trim()}%`;
+
   const campaigns = await db
     .select()
     .from(schema.campaigns)
     .where(
       and(
         eq(schema.campaigns.tenantId, tenantId),
-        like(schema.campaigns.name, '%' + name.trim().split('').join('%') + '%'),
+        or(
+          ilike(schema.campaigns.name, treatedTextSearch),
+          sql`${schema.campaigns.triggers}::text ILIKE ${treatedTextSearch}`,
+          sql`${schema.campaigns.requirements}::text ILIKE ${treatedTextSearch}`,
+          sql`${schema.campaigns.variations}::text ILIKE ${treatedTextSearch}`,
+        ),
         inArray(schema.campaigns.status, statusList),
       ),
     )
@@ -154,7 +161,13 @@ export const getCampaigns = async (
     .from(schema.campaigns)
     .where(
       and(
-        like(schema.campaigns.name, name.trim().split('').join('%') + '%'),
+        eq(schema.campaigns.tenantId, tenantId),
+        or(
+          ilike(schema.campaigns.name, treatedTextSearch),
+          sql`${schema.campaigns.triggers}::text ILIKE ${treatedTextSearch}`,
+          sql`${schema.campaigns.requirements}::text ILIKE ${treatedTextSearch}`,
+          sql`${schema.campaigns.variations}::text ILIKE ${treatedTextSearch}`,
+        ),
         inArray(schema.campaigns.status, statusList),
       ),
     );

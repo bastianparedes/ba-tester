@@ -5,7 +5,7 @@ const url = ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}/ca
 
 export type TypeGet = {
   queryParams: {
-    name: string;
+    textSearch: string;
     orderBy: 'name' | 'id' | 'status';
     orderDirection: TypeOrderDirection;
     page: number;

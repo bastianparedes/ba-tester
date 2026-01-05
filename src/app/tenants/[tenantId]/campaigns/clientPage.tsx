@@ -77,7 +77,7 @@ export function ClientPage({ tenantId }: PageProps) {
 
   const queryCampaigns = async (
     args: Partial<{
-      name: string;
+      textSearch: string;
       orderBy: 'name' | 'id' | 'status';
       orderDirection: TypeOrderDirection;
       page: number;
@@ -88,7 +88,7 @@ export function ClientPage({ tenantId }: PageProps) {
     const result = await api.getCampaigns({
       pathParams: { tenantId },
       queryParams: {
-        name: state.nameFilter,
+        textSearch: state.nameFilter,
         orderBy: state.sortConfig.key,
         orderDirection: state.sortConfig.direction,
         page: state.currentPage,

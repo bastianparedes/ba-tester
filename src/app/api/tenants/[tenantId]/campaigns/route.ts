@@ -8,7 +8,7 @@ import { TypeGet, TypePost } from './client';
 import { TypeApiResponse } from '@/types/api';
 
 const getSchema = z.object({
-  name: z.string(),
+  textSearch: z.string(),
   orderBy: z.enum([config.database.campaign.status, config.database.campaign.name, config.database.campaign.id]),
   orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int().nonnegative(),
@@ -28,7 +28,7 @@ export async function GET(
   const tenantId = parseInt(params.tenantId);
   const searchParams = req.nextUrl.searchParams;
   const queryParams = {
-    name: searchParams.get('name'),
+    textSearch: searchParams.get('textSearch'),
     orderBy: searchParams.get('orderBy'),
     orderDirection: searchParams.get('orderDirection'),
     page: searchParams.get('page'),
