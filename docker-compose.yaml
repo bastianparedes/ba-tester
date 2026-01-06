@@ -1,8 +1,6 @@
-version: '3.9'
-
 services:
 
-  database:
+  db-postgres:
     tty: true
     image: postgres
     ports:
@@ -15,10 +13,19 @@ services:
     volumes:
       - ./src/libs/db/migrations:/docker-entrypoint-initdb.d
 
-  cache:
+  db-redis:
     image: redis
     ports:
       - "6379:6379"
+
+  db-mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo123
+      MONGO_INITDB_DATABASE: appdb
 
   app:
     tty: true
@@ -27,13 +34,15 @@ services:
       context: .
     image: ba-tester
     environment:
-      DATABASE_URL: "postgresql://postgres:12345678@database:5432/postgres?sslmode=disable"
-      CACHE_URL: "redis://cache:6379"
+      DATABASE_URL_POSTGRES: "postgresql://postgres:12345678@db-postgres:5432/postgres?sslmode=disable"
+      DATABASE_URL_REDIS: "redis://db-redis:6379"
+      DATABASE_URL_MONGODB: "mongodb://mongo:mongo123@db-mongodb:27017/appdb?authSource=admin"
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
     depends_on:
-      - database
-      - cache
+      - db-postgres
+      - db-redis
+      - db-mongodb

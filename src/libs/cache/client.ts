@@ -2,7 +2,7 @@ import { createClient } from 'redis';
 import env from '../env';
 
 const client = createClient({
-  url: env.CACHE_URL,
+  url: env.DATABASE_URL_REDIS,
 });
 await client.connect();
 
