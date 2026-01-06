@@ -1,0 +1,5 @@
+const permissions = {
+  admin: ['read', 'write', 'delete'],
+  user: ['read', 'write'],
+  guest: ['read'],
+};

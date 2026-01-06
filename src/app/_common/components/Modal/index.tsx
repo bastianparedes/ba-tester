@@ -1,7 +1,5 @@
 import React, { JSX } from 'react';
-
-import { MdClose } from 'react-icons/md';
-
+import { X } from 'lucide-react';
 import Shadow from '../Shadow';
 
 interface props {
@@ -22,7 +20,7 @@ const Modal = ({ children, setModalVisible }: props): JSX.Element => {
           data-testid="data-testid-button-closer-modal"
           onClick={handleOnClose}
         >
-          <MdClose />
+          <X size={24} />
         </button>
         <div className="overflow-auto">{children}</div>
       </div>
