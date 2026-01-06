@@ -1,7 +1,7 @@
 import type React from 'react';
 import { redirect } from 'next/navigation';
 import constants from '@/config/constants';
-import db from '@/libs/db';
+import db from '@/libs/db/postgres';
 import { Boxes, FlaskConical, Code, Eye } from 'lucide-react';
 
 type LayoutProps = {

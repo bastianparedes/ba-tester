@@ -1,5 +1,5 @@
 import { ClientPage } from './clientPage';
-import db from '@/libs/db';
+import db from '@/libs/db/postgres';
 
 export default async function Page() {
   const tenants = await db.tenants.getAll();

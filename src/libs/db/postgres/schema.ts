@@ -2,7 +2,7 @@ import { pgTable, serial, jsonb, varchar, pgEnum, integer } from 'drizzle-orm/pg
 import { relations } from 'drizzle-orm';
 
 import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '../../types/db';
+import type { TypeCampaign } from '../../../types/db';
 
 export const statusEnum = pgEnum('status_enum', commonConstants.campaignStatus);
 

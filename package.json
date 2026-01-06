@@ -12,8 +12,7 @@
     "postinstall": "webpack",
     "test": "jest --ci --passWithNoTests",
     "test:u": "jest --ci --u",
-    "fix": "npm run lint:fix && npm run test:u",
-    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/libs/db/schema.ts --out=./src/libs/db/migrations"
+    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/libs/db/postgres/schema.ts --out=./src/libs/db/postgres/migrations"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

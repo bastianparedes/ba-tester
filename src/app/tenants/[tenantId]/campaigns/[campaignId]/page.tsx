@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { ClientPage } from './clientPage';
 import constants from '../../../../../config/constants';
-import db from '@/libs/db';
+import db from '@/libs/db/postgres';
 
 type PageProps = {
   params: Promise<{
