@@ -41,7 +41,7 @@ export const GET = async (_req: NextRequest, { params: promiseParams }: { params
   const script = fs.readFileSync(path.join(process.cwd(), 'dist', 'script.js'), 'utf-8');
   const fullScript = stringWindow + script;
 
-  await cache.save({ key: cacheKey, value: fullScript, ttlMinutes: 60 * 1 });
+  await cache.save({ key: cacheKey, value: fullScript, ttlMinutes: 1 });
   return new Response(fullScript, {
     headers: {
       'Access-Control-Allow-Origin': '*',

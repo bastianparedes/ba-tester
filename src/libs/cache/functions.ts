@@ -5,7 +5,7 @@ export const save = async ({ key, value, ttlMinutes }: { key: string; value: str
     await client.set(key, value);
     return;
   }
-  await client.setEx(key, 30, value);
+  await client.setEx(key, 60 * ttlMinutes, value);
 };
 
 export const get = async (key: string) => {
