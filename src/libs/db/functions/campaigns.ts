@@ -1,63 +1,11 @@
 import { and, asc, desc, eq, inArray, ilike, or, sql } from 'drizzle-orm';
 
-import * as schema from './schema';
-import type { TypeTenant, TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/db';
+import * as schema from '../schema';
+import type { TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/db';
 
-import db from './client';
+import db from '../client';
 
-export const insertTenant = async ({
-  name,
-  description,
-  domain,
-}: {
-  name: TypeTenant['name'];
-  description: TypeTenant['description'];
-  domain: TypeTenant['domain'];
-}) => {
-  const results = await db
-    .insert(schema.tenants)
-    .values({
-      name,
-      description,
-      domain,
-    })
-    .returning();
-  return results[0];
-};
-
-export const updateTenant = async (
-  tenantId: TypeTenant['id'],
-  values: {
-    name: TypeTenant['name'];
-    description: TypeTenant['description'];
-    domain: TypeTenant['domain'];
-  },
-) => {
-  const result = await db
-    .update(schema.tenants)
-    .set({
-      name: values.name,
-      description: values.description,
-      domain: values.domain,
-    })
-    .where(eq(schema.tenants.id, tenantId))
-    .returning();
-  return result[0];
-};
-
-export const getTenant = async ({ tenantId }: { tenantId: number }) => {
-  const tenant = await db.query.tenants.findFirst({
-    where: eq(schema.tenants.id, tenantId),
-  });
-  return tenant;
-};
-
-export const getTenants = async () => {
-  const tenants = await db.select().from(schema.tenants).orderBy(asc(schema.tenants.id));
-  return tenants;
-};
-
-export const insertCampaign = async (
+export const create = async (
   { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
 
   {
@@ -87,7 +35,7 @@ export const insertCampaign = async (
     .returning();
 };
 
-export const updateCampaign = async (
+export const update = async (
   { tenantId, campaignId }: { tenantId: number; campaignId: number },
   values: {
     name: TypeCampaign['name'];
@@ -110,7 +58,7 @@ export const updateCampaign = async (
     .returning();
 };
 
-export const getCampaigns = async (
+export const getMany = async (
   { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
   {
     statusList,
@@ -178,12 +126,12 @@ export const getCampaigns = async (
   };
 };
 
-export const getCampaign = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) =>
+export const get = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) =>
   await db.query.campaigns.findFirst({
     where: and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)),
   });
 
-export const getCampaignsForScript = async ({ tenantId }: { tenantId: number }): Promise<TypeCampaignScript[]> => {
+export const getAllForScript = async ({ tenantId }: { tenantId: number }): Promise<TypeCampaignScript[]> => {
   const campaigns = await db.query.campaigns.findMany({
     columns: {
       id: true,

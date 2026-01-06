@@ -33,15 +33,6 @@ export const campaigns = pgTable('campaigns', {
   variations: jsonb('variations').$type<TypeCampaign['variations']>().notNull(),
 });
 
-export const users = pgTable('users', {
-  id: serial('id').primaryKey().unique().notNull(),
-
-  firstName: varchar('first_name', { length: 255 }).notNull(),
-  lastName: varchar('last_name', { length: 255 }).notNull(),
-  email: varchar('email', { length: 255 }).unique().notNull(),
-  passwordHash: varchar('password_hash', { length: 255 }).notNull(),
-});
-
 // -------------------- RELATIONS --------------------
 
 export const tenantsRelations = relations(tenants, ({ many }) => ({

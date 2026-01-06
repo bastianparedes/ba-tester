@@ -22,7 +22,7 @@ export async function PUT(
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePut['body'] = parseResult.data;
 
-  const result = await db.updateTenant(tenantId, validated);
+  const result = await db.tenants.update(tenantId, validated);
 
   return NextResponse.json({
     data: result,

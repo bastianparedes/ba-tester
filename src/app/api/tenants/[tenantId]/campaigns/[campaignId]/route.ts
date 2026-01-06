@@ -66,6 +66,6 @@ export async function PUT(
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePut['body'] = parseResult.data;
 
-  await db.updateCampaign({ tenantId, campaignId }, validated);
+  await db.campaigns.update({ tenantId, campaignId }, validated);
   return NextResponse.json({});
 }

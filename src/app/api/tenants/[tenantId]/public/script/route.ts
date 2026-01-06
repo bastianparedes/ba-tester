@@ -28,7 +28,7 @@ export const GET = async (_req: NextRequest, { params: promiseParams }: { params
       },
     });
 
-  const campaigns: TypeCampaignScript[] = await db.getCampaignsForScript({ tenantId: Number(params.tenantId) });
+  const campaigns: TypeCampaignScript[] = await db.campaigns.getAllForScript({ tenantId: Number(params.tenantId) });
   if (campaigns.length === 0)
     return new Response('', {
       headers: {

@@ -13,7 +13,7 @@ type LayoutProps = {
 export default async function RootLayout(props: LayoutProps) {
   const params = await props.params;
   const tenantId = Number(params.tenantId);
-  const tenant = await db.getTenant({ tenantId });
+  const tenant = await db.tenants.get({ tenantId });
   if (!tenant) redirect(constants.pages.tenants());
   return (
     <div className="flex">

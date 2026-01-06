@@ -15,7 +15,7 @@ const Page = async (props: PageProps) => {
   const tenantId = Number(params.tenantId);
   const campaignId = Number(params.campaignId);
 
-  const initialCampaign = await db.getCampaign({ tenantId, campaignId });
+  const initialCampaign = await db.campaigns.get({ tenantId, campaignId });
   const redirectUrl = constants.pages.campaigns({ tenantId });
   if (initialCampaign === undefined) redirect(redirectUrl);
 

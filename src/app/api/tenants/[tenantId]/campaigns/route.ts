@@ -40,7 +40,7 @@ export async function GET(
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   }
   const validated: TypeGet['queryParams'] = parseResult.data;
-  const result = await db.getCampaigns({ tenantId }, validated);
+  const result = await db.campaigns.getMany({ tenantId }, validated);
   return NextResponse.json({
     data: result,
   });
@@ -104,6 +104,6 @@ export async function POST(
   if (!parseResult.success)
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePost['body'] = parseResult.data;
-  await db.insertCampaign({ tenantId }, validated);
+  await db.campaigns.create({ tenantId }, validated);
   return NextResponse.json({});
 }

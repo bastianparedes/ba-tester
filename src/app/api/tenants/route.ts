@@ -5,7 +5,7 @@ import { TypeGet, TypePost } from './client';
 import { TypeApiResponse } from '@/types/api';
 
 export async function GET(): TypeApiResponse<TypeGet['response']> {
-  const tenants = await db.getTenants();
+  const tenants = await db.tenants.getAll();
   return NextResponse.json({ data: { tenants } });
 }
 
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest): TypeApiResponse<TypePost['resp
   if (!parseResult.success)
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePost['body'] = parseResult.data;
-  const newTenant = await db.insertTenant(validated);
+  const newTenant = await db.tenants.create(validated);
   return NextResponse.json({
     data: newTenant,
   });

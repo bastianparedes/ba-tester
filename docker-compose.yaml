@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: postgres
     volumes:
-      - ./src/libs/db/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - ./src/libs/db/migrations:/docker-entrypoint-initdb.d
 
   cache:
     image: redis
