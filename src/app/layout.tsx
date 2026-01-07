@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import { DynamicDialog } from './_common/contexts/Dialog/Component';
 import { TranslationProvider } from './_common/contexts/Translation';
 import { cookies } from 'next/headers';
+import { Navigation } from '@/app/_common/components/navigation/Sidebar';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -28,6 +29,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           <ToastProvider>
             <DynamicDialog />
             {children}
+            {/* <Navigation>{children}</Navigation> */}
           </ToastProvider>
         </TranslationProvider>
       </body>

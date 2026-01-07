@@ -3,7 +3,7 @@ import env from '../../env';
 
 mongoose
   .connect(env.DATABASE_URL_MONGODB)
-  .then(() => console.log('Conectado a MongoDB'))
-  .catch((err) => console.error('Error de conexión:', err));
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Error in conection to MongoDB:', err));
 
 export default mongoose;

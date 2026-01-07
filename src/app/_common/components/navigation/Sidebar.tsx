@@ -1,0 +1,57 @@
+import React from 'react';
+import { Shield, FlaskConical, Building2, UserCog } from 'lucide-react';
+import { TypeTenant } from '@/types/db';
+import constants from '@/config/constants';
+
+type Props = {
+  children: React.ReactNode;
+  tenant?: TypeTenant;
+};
+
+export function Sidebar({ children, tenant }: Props) {
+  return (
+    <div className="flex h-screen bg-gray-50">
+      {/* Sidebar */}
+      <aside className="w-64 bg-gray-900 text-white">
+        <div className="flex flex-col h-full">
+          {/* Navigation */}
+          <nav className="flex-1 p-4 overflow-y-auto">
+            {/* AB Tests Section */}
+            {tenant && (
+              <div className="mb-6">
+                <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
+                <a
+                  href={constants.pages.campaigns({ tenantId: tenant.id })}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                >
+                  <FlaskConical className="w-5 h-5" />
+                  <span className="text-sm font-medium">AB Tests</span>
+                </a>
+              </div>
+            )}
+
+            {/* Administration Section */}
+            <div className="mb-6">
+              <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
+              <button className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
+                <Building2 className="w-5 h-5" />
+                <span className="text-sm font-medium">Administrar Tenants</span>
+              </button>
+              <button className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
+                <Shield className="w-5 h-5" />
+                <span className="text-sm font-medium">Permisos de Roles</span>
+              </button>
+              <button className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
+                <UserCog className="w-5 h-5" />
+                <span className="text-sm font-medium">Gestión de Usuarios</span>
+              </button>
+            </div>
+          </nav>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1">{children}</div>
+    </div>
+  );
+}
