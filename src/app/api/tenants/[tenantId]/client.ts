@@ -16,13 +16,7 @@ export type TypePut = {
     domain: TypeTenant['domain'];
   };
 };
-export const updateTenant = async ({
-  pathParams,
-  body,
-}: {
-  pathParams: { tenantId: number };
-  body: TypePut['body'];
-}) => {
+export const update = async ({ pathParams, body }: { pathParams: { tenantId: number }; body: TypePut['body'] }) => {
   const response = await restClient.put<TypePut['response']>({ url: url({ tenantId: pathParams.tenantId }), body });
   return response;
 };

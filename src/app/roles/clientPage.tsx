@@ -38,7 +38,7 @@ export function ClientPage({ initialRoles }: Props) {
         },
         description: {
           label: 'Descripción',
-          type: 'text',
+          type: 'textarea',
           value: '',
           required: true,
         },

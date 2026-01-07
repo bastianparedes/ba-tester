@@ -24,8 +24,7 @@ const usersSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     passwordHash: { type: String, required: true },
-    permissions: { type: [String], required: true },
-    roles: { type: [roleSubSchema], required: true, default: [] },
+    roles: { type: roleSubSchema, required: true },
   },
   { timestamps: true },
 );

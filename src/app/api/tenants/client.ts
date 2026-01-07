@@ -9,7 +9,7 @@ export type TypeGet = {
   };
 };
 
-export const getTentants = async () => {
+export const getAll = async () => {
   const response = await restClient.get<TypeGet['response']>({
     url: url(),
   });
@@ -25,7 +25,7 @@ export type TypePost = {
   };
   response: TypeTenant;
 };
-export const createTenant = async ({ body }: { body: TypePost['body'] }) => {
+export const create = async ({ body }: { body: TypePost['body'] }) => {
   const response = await restClient.post<TypePost['response']>({ url: url(), body });
   return response;
 };

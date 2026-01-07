@@ -55,7 +55,7 @@ export type TypePut = {
   };
   response: never;
 };
-export const updateCampaign = async ({
+export const update = async ({
   pathParams,
   body,
 }: {

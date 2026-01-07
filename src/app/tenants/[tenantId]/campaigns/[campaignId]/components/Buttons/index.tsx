@@ -13,9 +13,9 @@ const Buttons = ({ campaign }: Props) => {
 
   const handleOnSave = async () => {
     if (campaign.id === undefined) {
-      await api.createCampaign({ pathParams: { tenantId: campaign.tenantId }, body: campaign });
+      await api.campaigns.create({ pathParams: { tenantId: campaign.tenantId }, body: campaign });
     } else {
-      await api.updateCampaign({
+      await api.campaign.update({
         pathParams: { tenantId: campaign.tenantId, campaignId: campaign.id },
         body: campaign,
       });

@@ -48,7 +48,7 @@ export function ClientPage({ initialTenants }: Props) {
   const createTenant = async () => {
     const data = await getTenantFromDialog({ name: '', description: '', domain: '' });
     if (!data) return;
-    const result = await api.createTenant({
+    const result = await api.tenants.create({
       body: {
         name: data.name,
         description: data.description,
@@ -90,7 +90,7 @@ export function ClientPage({ initialTenants }: Props) {
     );
     if (!data) return;
 
-    const result = await api.updateTenant({
+    const result = await api.tenant.update({
       pathParams: { tenantId: tenant.id },
       body: {
         name: data.name,

@@ -4,8 +4,8 @@ import * as campaigns from './tenants/[tenantId]/campaigns/client';
 import * as campaign from './tenants/[tenantId]/campaigns/[campaignId]/client';
 
 export default {
-  ...tenants,
-  ...tenant,
-  ...campaigns,
-  ...campaign,
+  tenants,
+  tenant,
+  campaigns,
+  campaign,
 };

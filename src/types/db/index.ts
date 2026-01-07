@@ -8,6 +8,13 @@ export type TypeRole = {
   permissions: string[];
 };
 
+export type TypeUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: TypeRole;
+};
+
 export type TypeTenant = {
   id: number;
   name: string;

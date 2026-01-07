@@ -34,7 +34,7 @@ export type TypeGet = {
   };
 };
 
-export const getCampaigns = async ({
+export const getMany = async ({
   pathParams,
   queryParams,
 }: {
@@ -109,13 +109,7 @@ export type TypePost = {
   };
   response: never;
 };
-export const createCampaign = async ({
-  pathParams,
-  body,
-}: {
-  pathParams: { tenantId: number };
-  body: TypePost['body'];
-}) => {
+export const create = async ({ pathParams, body }: { pathParams: { tenantId: number }; body: TypePost['body'] }) => {
   const response = await restClient.post<TypePost['response']>({ url: url({ tenantId: pathParams.tenantId }), body });
   return response;
 };

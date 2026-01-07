@@ -85,7 +85,7 @@ export function ClientPage({ tenantId }: PageProps) {
       statusList: TypeStatus[];
     }> = {},
   ) => {
-    const result = await api.getCampaigns({
+    const result = await api.campaigns.getMany({
       pathParams: { tenantId },
       queryParams: {
         textSearch: state.nameFilter,
