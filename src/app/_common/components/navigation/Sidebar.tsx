@@ -17,42 +17,45 @@ export function Sidebar({ children, tenant }: Props) {
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
             {/* AB Tests Section */}
-            {tenant && (
-              <div className="mb-6">
-                <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
-                <a
-                  href={constants.pages.campaigns({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <FlaskConical className="w-5 h-5" />
-                  <span className="text-sm font-medium">AB Tests</span>
-                </a>
-              </div>
-            )}
 
-            {/* Administration Section */}
             <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
+              <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
+
               <a
                 href={constants.pages.tenants()}
                 className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
               >
                 <Building2 className="w-5 h-5" />
-                <span className="text-sm font-medium">Administrar Tenants</span>
+                <span className="text-sm font-medium">Tenants</span>
               </a>
+
+              {tenant && (
+                <a
+                  href={constants.pages.campaigns({ tenantId: tenant.id })}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                >
+                  <FlaskConical className="w-5 h-5" />
+                  <span className="text-sm font-medium">Campaigns</span>
+                </a>
+              )}
+            </div>
+
+            {/* Administration Section */}
+            <div className="mb-6">
+              <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
               <a
                 href={constants.pages.roles()}
                 className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
               >
                 <Shield className="w-5 h-5" />
-                <span className="text-sm font-medium">Permisos de Roles</span>
+                <span className="text-sm font-medium">Roles</span>
               </a>
               <a
                 href={constants.pages.users()}
                 className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
               >
                 <UserCog className="w-5 h-5" />
-                <span className="text-sm font-medium">Gestión de Usuarios</span>
+                <span className="text-sm font-medium">Usuarios</span>
               </a>
             </div>
           </nav>
