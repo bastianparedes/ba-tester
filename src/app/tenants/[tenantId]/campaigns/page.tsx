@@ -18,7 +18,7 @@ export default async function Page({ params }: PageProps) {
   if (!tenant) return redirect(constants.pages.tenants());
 
   return (
-    <Sidebar>
+    <Sidebar tenant={tenant}>
       <Navbar
         breadcrumb={[
           { name: 'Tenants', path: constants.pages.tenants() },

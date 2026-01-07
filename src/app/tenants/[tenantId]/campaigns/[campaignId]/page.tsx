@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
-
+import { Navbar } from '@/app/_common/components/navigation/Navbar';
+import { Sidebar } from '@/app/_common/components/navigation/Sidebar';
 import { ClientPage } from './clientPage';
 import constants from '../../../../../config/constants';
 import db from '@/libs/db/postgres';
@@ -15,11 +16,26 @@ const Page = async (props: PageProps) => {
   const tenantId = Number(params.tenantId);
   const campaignId = Number(params.campaignId);
 
-  const initialCampaign = await db.campaigns.get({ tenantId, campaignId });
-  const redirectUrl = constants.pages.campaigns({ tenantId });
-  if (initialCampaign === undefined) redirect(redirectUrl);
+  const tenant = await db.tenants.get({ tenantId });
+  if (!tenant) return redirect(constants.pages.tenants());
 
-  return <ClientPage initialCampaign={initialCampaign} />;
+  const initialCampaign = await db.campaigns.get({ tenantId, campaignId });
+  if (initialCampaign === undefined) redirect(constants.pages.campaigns({ tenantId }));
+
+  return (
+    <Sidebar tenant={tenant}>
+      <Navbar
+        breadcrumb={[
+          { name: 'Tenants', path: constants.pages.tenants() },
+          { name: tenant.name },
+          { name: 'Campaigns', path: constants.pages.campaigns({ tenantId }) },
+          { name: initialCampaign.name, path: constants.pages.campaigns({ tenantId }) },
+        ]}
+      >
+        <ClientPage initialCampaign={initialCampaign} />
+      </Navbar>
+    </Sidebar>
+  );
 };
 
 export default Page;
