@@ -8,7 +8,7 @@ const rolesSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-const Roles = mongoose.model('Role', rolesSchema);
+const Roles = mongoose.models.Role || mongoose.model('Role', rolesSchema);
 
 const roleSubSchema = new mongoose.Schema(
   {
@@ -29,6 +29,6 @@ const usersSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-const Users = mongoose.model('User', usersSchema);
+const Users = mongoose.models.User || mongoose.model('User', usersSchema);
 
 export { Roles, Users };

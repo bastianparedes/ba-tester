@@ -1,6 +1,13 @@
 import { type TypeRequirementData } from './requirement';
 import { type TypeTriggerData } from './trigger';
 
+export type TypeRole = {
+  id: string;
+  name: string;
+  description: string;
+  permissions: string[];
+};
+
 export type TypeTenant = {
   id: number;
   name: string;

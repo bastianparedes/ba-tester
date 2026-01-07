@@ -15,21 +15,9 @@ export function flattenObject<T extends string | number | boolean>(obj: NestedOb
       const nestedValues = flattenObject(value as NestedObject<T>);
       nestedValues.forEach((value) => result.push(value));
     } else {
-      value
+      result.push(value as T);
     }
   });
 
   return result;
-
-  function recurse(value: string | NestedStringObject) {
-    if (typeof value === 'string') {
-      result.push(value);
-    } else {
-      for (const key in value) {
-        recurse(value[key]);
-      }
-    }
-  }
-  recurse(obj);
-  return result as FlattenValues<T>;
 }

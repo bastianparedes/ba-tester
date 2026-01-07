@@ -35,7 +35,7 @@ export const updateUser = async (
   return updatedUser;
 };
 
-export const getUser = async ({ userId }: { userId: string }) => {
+export const get = async ({ userId }: { userId: string }) => {
   const user = await Users.findById(userId).select('-passwordHash');
   if (!user) return null;
   return {
@@ -44,7 +44,7 @@ export const getUser = async ({ userId }: { userId: string }) => {
   };
 };
 
-export const getAllUsers = async () => {
+export const getAll = async () => {
   const users = await Users.find().select('-passwordHash');
   return users.map((user) => ({
     ...user,

@@ -20,12 +20,19 @@ export const update = async (
 
 export const get = async ({ roleId }: { roleId: string }) => {
   const role = await Roles.findById(roleId);
-  return role;
+  if (!role) return null;
+  return {
+    ...role,
+    id: role._id.toString(),
+  };
 };
 
 export const getAll = async () => {
   const roles = await Roles.find();
-  return roles;
+  return roles.map((role) => ({
+    ...role,
+    id: role._id.toString(),
+  }));
 };
 
 export const remove = async ({ roleId }: { roleId: string }) => {
