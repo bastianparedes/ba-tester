@@ -27,17 +27,17 @@ export const Dialog: React.FC<DialogProps> = ({ onClose, title, description, con
 
         {/* Title */}
         {(title || description) && (
-          <div className="px-6 pt-6 pb-4 border-b border-gray-200">
-            {title && <div className="mb-2">{title}</div>}
+          <div className="px-6 pt-6">
+            {title && <div className="text-xl">{title}</div>}
             {description && <div className="text-sm text-gray-600">{description}</div>}
           </div>
         )}
 
         {/* Content */}
-        {content && <div className="px-6 py-4 flex-1 overflow-y-auto">{content}</div>}
+        {content && <div className="px-6 flex-1 overflow-y-auto">{content}</div>}
 
         {/* Footer */}
-        {footer && <div className="px-6 py-4 border-t border-gray-200">{footer}</div>}
+        {footer && <div className="px-6">{footer}</div>}
       </div>
     </div>
   );

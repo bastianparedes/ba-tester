@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Trash2, Save } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { TypeRole } from '@/types/db';
 import { flatPermissions } from '@/libs/permissions';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
@@ -14,9 +14,11 @@ type Props = {
 
 export function ClientPage({ initialRoles }: Props) {
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
+  const confirm = useDialogStore((state) => state.confirm);
   const [roles, setRoles] = useState(initialRoles);
-
   const [selectedRoleId, setSelectedRole] = useState<string | null>(null);
+
+  const currentRole = roles.find((r) => r.id === selectedRoleId);
 
   const addRole = async () => {
     const data = await getDataFromForm(
@@ -59,31 +61,40 @@ export function ClientPage({ initialRoles }: Props) {
       ]);
   };
 
-  const deleteRole = (roleId: string) => {
-    api.role
-    setRoles((currentState) => currentState.filter((role) => role.id !== roleId));
+  const deleteRole = async (role: TypeRole) => {
+    const result = await confirm({ title: `Borrar role ${role.name}`, description: 'hola' });
+    if (!result) return;
+    console.log('ayuda result', result);
+    const apiResult = await api.role.remove({ pathParams: { roleId: role.id } });
+    if (!apiResult.ok) return;
+    setRoles((currentState) => currentState.filter((role) => role.id !== role.id));
   };
 
-  const togglePermission = ({ roleId, permission }: { roleId: string; permission: string }) => {
+  const togglePermission = async ({ role, permission }: { role: TypeRole; permission: string }) => {
+    const newPermissions = role.permissions.includes(permission)
+      ? role.permissions.filter((p) => p !== permission)
+      : [...role.permissions, permission];
+    const newRole = {
+      ...role,
+      permissions: newPermissions,
+    };
+
+    const apiResult = await api.role.update({
+      body: newRole,
+      pathParams: {
+        roleId: role.id,
+      },
+    });
+
+    if (!apiResult.ok) return;
+
     setRoles((currentState) =>
-      currentState.map((role) => {
-        if (role.id === roleId) {
-          const newPermissions = role.permissions.includes(permission)
-            ? role.permissions.filter((p) => p !== permission)
-            : [...role.permissions, permission];
-          return {
-            ...role,
-            permissions: newPermissions,
-          };
-        }
-        return role;
+      currentState.map((roleInArray) => {
+        if (roleInArray.id === newRole.id) return newRole;
+        return roleInArray;
       }),
     );
   };
-
-  const savePermissions = () => {};
-
-  const currentRole = roles.find((r) => r.id === selectedRoleId);
 
   return (
     <div className="flex h-screen bg-blue-50">
@@ -119,7 +130,7 @@ export function ClientPage({ initialRoles }: Props) {
                   <div className="text-sm text-gray-500">{role.permissions.length} permisos asignados</div>
                 </div>
                 <div
-                  onClick={() => deleteRole(role.id)}
+                  onClick={() => deleteRole(role)}
                   className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg"
                   title="Eliminar rol"
                 >
@@ -140,13 +151,6 @@ export function ClientPage({ initialRoles }: Props) {
                 <h2 className="text-2xl font-bold text-gray-900">{currentRole.name}</h2>
                 <p className="text-sm text-gray-500 mt-1">Activa o desactiva los permisos para este rol</p>
               </div>
-              <button
-                onClick={savePermissions}
-                className="flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all 'bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <Save className="w-5 h-5" />
-                <span>Guardar cambios</span>
-              </button>
             </div>
           </div>
 
@@ -165,10 +169,7 @@ export function ClientPage({ initialRoles }: Props) {
                         <h3 className="font-semibold text-gray-900">{permission}</h3>
                         <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p>
                       </div>
-                      <Switch
-                        checked={isActive}
-                        onChange={() => togglePermission({ roleId: currentRole.id, permission })}
-                      />
+                      <Switch checked={isActive} onChange={() => togglePermission({ role: currentRole, permission })} />
                     </div>
                   </div>
                 );

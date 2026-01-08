@@ -281,7 +281,7 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
           </div>
         )}
       </div>
-      <div className="px-8 py-6 flex justify-end gap-4">
+      <div className="px-8 pb-6 flex justify-end gap-4">
         <Button onClick={onCancel} variant="destructive">
           {translation.common.cancel}
         </Button>

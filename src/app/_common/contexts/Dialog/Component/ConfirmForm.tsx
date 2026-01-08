@@ -1,18 +1,20 @@
 'use client';
 
 import { Button } from '@/app/_common/components/button';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 export const ConfirmForm = ({ resolver }: { resolver: (arg: boolean) => void }) => {
+  const { translation } = useTranslationContext();
   const onReject = () => resolver(false);
   const onAccept = () => resolver(true);
 
   return (
-    <div className="px-8 py-6 border-t border-border flex justify-end gap-4">
-      <Button onClick={onReject} className="bg-white text-black border border-black font-normal cursor-pointer">
-        Cancelar
+    <div className="px-8 pb-6 flex justify-end gap-4">
+      <Button onClick={onReject} variant="destructive">
+        {translation.common.cancel}
       </Button>
-      <Button onClick={onAccept} className="bg-black text-white border border-white font-normal cursor-pointer">
-        Aceptar
+      <Button onClick={onAccept} variant="default">
+        {translation.common.accept}
       </Button>
     </div>
   );
