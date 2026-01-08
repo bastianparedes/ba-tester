@@ -64,10 +64,9 @@ export function ClientPage({ initialRoles }: Props) {
   const deleteRole = async (role: TypeRole) => {
     const result = await confirm({ title: `Borrar role ${role.name}`, description: 'hola' });
     if (!result) return;
-    console.log('ayuda result', result);
     const apiResult = await api.role.remove({ pathParams: { roleId: role.id } });
     if (!apiResult.ok) return;
-    setRoles((currentState) => currentState.filter((role) => role.id !== role.id));
+    setRoles((currentState) => currentState.filter((roleInList) => roleInList.id !== role.id));
   };
 
   const togglePermission = async ({ role, permission }: { role: TypeRole; permission: string }) => {
