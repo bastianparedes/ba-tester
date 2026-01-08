@@ -19,7 +19,7 @@ export function Sidebar({ children, tenant }: Props) {
             {/* AB Tests Section */}
 
             <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
 
               <a
                 href={constants.pages.tenants()}
@@ -42,7 +42,7 @@ export function Sidebar({ children, tenant }: Props) {
 
             {/* Administration Section */}
             <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
               <a
                 href={constants.pages.roles()}
                 className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
