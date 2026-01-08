@@ -16,7 +16,7 @@ import {
   type TypeQueryParamRequirement,
   type TypeSessionStorageRequirement,
   type TypeUrlRequirement,
-} from '@/types/db/requirement';
+} from '@/types/domain/requirement';
 
 // ------------------------------
 // Requirement evaluation functions

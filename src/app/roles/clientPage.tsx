@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { TypeRole } from '@/types/db';
+import { TypeRole } from '@/types/domain';
 import { flatPermissions } from '@/libs/permissions';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { Switch } from '@/app/_common/components/switch';

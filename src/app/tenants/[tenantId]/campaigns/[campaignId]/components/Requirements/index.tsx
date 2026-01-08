@@ -1,5 +1,5 @@
 import Requirement from './Requirement';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeCampaign } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 interface Props {

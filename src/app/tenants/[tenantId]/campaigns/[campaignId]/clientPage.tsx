@@ -7,7 +7,7 @@ import Requirements from './components/Requirements';
 
 import Triggers from './components/Triggers';
 import Variations from './components/Variations';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeCampaign } from '@/types/domain';
 import commonConstants from '@/config/common/constants';
 import { ChevronDown } from 'lucide-react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { type TypeCampaignScript } from '@/types/db';
+import { type TypeCampaignScript } from '@/types/domain';
 import { NextRequest } from 'next/server';
 import db from '@/libs/db/postgres';
 import cache from '@/libs/db/redis';

@@ -3,7 +3,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import api from '@/app/api';
-import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/db/index';
+import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/domain/index';
 import config from '@/config/constants';
 import commonConstants from '@/config/common/constants';
 import Pagination from '@mui/material/Pagination';

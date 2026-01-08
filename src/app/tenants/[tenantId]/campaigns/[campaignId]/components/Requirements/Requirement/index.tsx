@@ -4,7 +4,7 @@ import { cx } from 'class-variance-authority';
 
 import RequirementSpecific from './RequirementSpecific';
 import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeCampaign } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { Trash2, Brackets, ChevronDown } from 'lucide-react';
 import { TypeRequirementType } from '@/types/constants';

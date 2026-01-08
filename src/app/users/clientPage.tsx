@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Pencil, Trash2, Plus } from 'lucide-react';
-import { TypeUser, TypeRole } from '@/types/db';
+import { TypeUser, TypeRole } from '@/types/domain';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 
 type Props = {

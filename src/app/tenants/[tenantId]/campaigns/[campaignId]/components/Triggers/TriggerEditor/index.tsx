@@ -4,7 +4,7 @@ import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../../../../_common/components/Modal';
 import type { editor } from 'monaco-editor';
 
-import type { TypeCampaign, TypeTriggerData } from '@/types/db';
+import type { TypeCampaign, TypeTriggerData } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { Pencil } from 'lucide-react';
 

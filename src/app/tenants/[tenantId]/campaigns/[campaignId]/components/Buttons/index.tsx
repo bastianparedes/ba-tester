@@ -1,5 +1,5 @@
 import constants from '@/config/constants';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeCampaign } from '@/types/domain';
 import api from '@/app/api';
 
 interface Props {

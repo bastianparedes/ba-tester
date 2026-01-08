@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { TypeStatus, TypeRequirementData } from '@/types/db';
+import { TypeStatus, TypeRequirementData } from '@/types/domain';
 
 const url = ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) =>
   `/api/tenants/${tenantId}/campaigns/${campaignId}`;

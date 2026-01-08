@@ -1,7 +1,7 @@
 import { asc, eq } from 'drizzle-orm';
 
 import * as schema from '../schema';
-import type { TypeTenant } from '@/types/db';
+import type { TypeTenant } from '@/types/domain';
 
 import db from '../client';
 

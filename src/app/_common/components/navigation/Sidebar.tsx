@@ -1,6 +1,6 @@
 import React from 'react';
 import { Shield, FlaskConical, Building2, UserCog } from 'lucide-react';
-import { TypeTenant } from '@/types/db';
+import { TypeTenant } from '@/types/domain';
 import constants from '@/config/constants';
 
 type Props = {

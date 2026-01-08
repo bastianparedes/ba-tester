@@ -3,7 +3,7 @@ import Device from './Device';
 import Storage from './Storage';
 import Url from './Url';
 import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeCampaign } from '@/types/domain';
 
 interface Props {
   requirement: Exclude<TypeCampaign['requirements']['data']['children'][number], { type: 'node' }>;

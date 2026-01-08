@@ -1,4 +1,4 @@
-import { TypeStatus, TypeOrderDirection } from '@/types/db';
+import { TypeStatus, TypeOrderDirection } from '@/types/domain';
 import {
   TypeDirection,
   TypeBooleanOperator,

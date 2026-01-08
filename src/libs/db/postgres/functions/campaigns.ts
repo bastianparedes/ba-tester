@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, inArray, ilike, or, sql } from 'drizzle-orm';
 
 import * as schema from '../schema';
-import type { TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/db';
+import type { TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/domain';
 
 import db from '../client';
 

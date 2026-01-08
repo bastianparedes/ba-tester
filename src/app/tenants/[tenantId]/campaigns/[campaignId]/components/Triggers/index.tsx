@@ -1,5 +1,5 @@
 import commonConstants from '@/config/common/constants';
-import type { TypeCampaign, TypeTriggerData } from '@/types/db';
+import type { TypeCampaign, TypeTriggerData } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import Editor from './TriggerEditor';

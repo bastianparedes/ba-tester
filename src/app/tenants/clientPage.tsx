@@ -4,7 +4,7 @@ import type React from 'react';
 import { useState } from 'react';
 import constants from '@/config/constants';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
-import { TypeTenant } from '@/types/db';
+import { TypeTenant } from '@/types/domain';
 import api from '@/app/api';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 

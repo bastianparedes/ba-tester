@@ -1,7 +1,7 @@
 import type React from 'react';
 
 import Editor from './Editor';
-import type { TypeCampaign } from '@/types/db';
+import type { TypeCampaign } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 interface Props {

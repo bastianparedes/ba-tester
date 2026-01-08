@@ -1,5 +1,5 @@
 import { variationsWithDistributedTraffic } from './util';
-import type { TypeCampaign, TypeVariationData } from '@/types/db';
+import type { TypeCampaign, TypeVariationData } from '@/types/domain';
 import { Plus, Trash2 } from 'lucide-react';
 import Editor from './Editor';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';

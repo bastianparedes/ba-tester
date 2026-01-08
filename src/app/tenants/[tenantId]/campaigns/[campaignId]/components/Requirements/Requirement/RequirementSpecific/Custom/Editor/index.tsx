@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Monaco from '@monaco-editor/react';
 import { Modal } from '../../../../../../../../../../_common/components/Modal';
 
-import type { TypeCampaign, TypeRequirementData } from '@/types/db';
+import type { TypeCampaign, TypeRequirementData } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 import 'react-tabs/style/react-tabs.css';
