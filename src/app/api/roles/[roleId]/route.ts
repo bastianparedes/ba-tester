@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import db from '@/libs/db/mongodb';
-import { TypePut } from './client';
+import { TypePut, TypeDelete } from './client';
 import { TypeApiResponse } from '@/types/api';
 import { flatPermissions } from '@/libs/permissions';
 
@@ -37,9 +37,9 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params: promiseParams }: { params: Promise<{ roleId: string }> },
-): TypeApiResponse<TypePut['response']> {
+): TypeApiResponse<TypeDelete['response']> {
   const params = await promiseParams;
   const roleId = params.roleId;
 

@@ -19,19 +19,20 @@ export const update = async (
 };
 
 export const get = async ({ roleId }: { roleId: string }) => {
-  const role = await Roles.findById(roleId);
+  const role = await Roles.findById(roleId).lean();
   if (!role) return null;
+  const { _id, ...rest } = role;
   return {
-    ...role,
-    id: role._id.toString(),
+    ...rest,
+    id: _id.toString(),
   };
 };
 
 export const getAll = async () => {
-  const roles = await Roles.find();
-  return roles.map((role) => ({
-    ...role,
-    id: role._id.toString(),
+  const roles = await Roles.find().lean();
+  return roles.map(({ _id, ...rest }) => ({
+    ...rest,
+    id: _id.toString(),
   }));
 };
 

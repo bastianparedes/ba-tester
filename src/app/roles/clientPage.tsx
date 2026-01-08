@@ -6,6 +6,7 @@ import { TypeRole } from '@/types/db';
 import { flatPermissions } from '@/libs/permissions';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { Switch } from '@/app/_common/components/switch';
+import api from '@/app/api';
 
 type Props = {
   initialRoles: TypeRole[];
@@ -13,14 +14,7 @@ type Props = {
 
 export function ClientPage({ initialRoles }: Props) {
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
-  const [roles, setRoles] = useState([
-    {
-      id: 'ID',
-      name: 'PRIMERO',
-      description: 'Descripción',
-      permissions: [] as string[],
-    },
-  ]);
+  const [roles, setRoles] = useState(initialRoles);
 
   const [selectedRoleId, setSelectedRole] = useState<string | null>(null);
 
@@ -45,18 +39,28 @@ export function ClientPage({ initialRoles }: Props) {
       },
     );
     if (!data) return;
-    setRoles((currentState) => [
-      ...currentState,
-      {
-        id: String(currentState.length),
+    const apiResult = await api.roles.create({
+      body: {
         name: data.name,
         description: data.description,
         permissions: [],
       },
-    ]);
+    });
+
+    if (apiResult.ok)
+      setRoles((currentState) => [
+        ...currentState,
+        {
+          id: String(currentState.length),
+          name: data.name,
+          description: data.description,
+          permissions: [],
+        },
+      ]);
   };
 
   const deleteRole = (roleId: string) => {
+    api.role
     setRoles((currentState) => currentState.filter((role) => role.id !== roleId));
   };
 

@@ -13,3 +13,14 @@ export const update = async ({ pathParams, body }: { pathParams: { roleId: strin
   });
   return response;
 };
+
+export type TypeDelete = {
+  body: never;
+  response: never;
+};
+export const remove = async ({ pathParams }: { pathParams: { roleId: string } }) => {
+  const response = await restClient.delete<TypeDelete['response']>({
+    url: url({ roleId: pathParams.roleId }),
+  });
+  return response;
+};
