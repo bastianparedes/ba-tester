@@ -1,33 +1,33 @@
-import { Users } from '../models';
+import { Roles, Users } from '../models';
 
 export const create = async (data: {
   name: string;
   email: string;
   passwordHash: string;
-  permissions: string[];
-  roles: {
-    roleId: string;
-    name: string;
-    description: string;
-    permissions: string[];
-  }[];
+  role: {
+    id: string;
+  };
 }) => {
-  const newUser = new Users(data);
+  const rawRole = await Roles.findById(data.role.id).lean();
+  if (!rawRole) throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
+  const { _id, ...rest } = rawRole;
+  const role = {
+    ...rest,
+    id: _id.toString(),
+  };
+
+  const newUser = new Users({ ...data, role });
   await newUser.save();
-  return newUser;
 };
 
-export const updateUser = async (
+export const update = async (
   { userId }: { userId: string },
   updates: {
     name: string;
     email: string;
     permissions: string[];
     roles: {
-      roleId: string;
-      name: string;
-      description: string;
-      permissions: string[];
+      id: string;
     }[];
   },
 ) => {
@@ -37,7 +37,7 @@ export const updateUser = async (
 
 export const get = async ({ userId }: { userId: string }) => {
   const user = await Users.findById(userId).select('-passwordHash');
-  if (!user) return null;
+  if (!user) throw new Error(`user (${userId}) doesn't exist`);
   return {
     ...user,
     id: user._id.toString(),

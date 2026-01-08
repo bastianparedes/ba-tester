@@ -20,7 +20,7 @@ export const update = async (
 
 export const get = async ({ roleId }: { roleId: string }) => {
   const role = await Roles.findById(roleId).lean();
-  if (!role) return null;
+  if (!role) throw new Error(`Role (${roleId}) doesn't exist`);
   const { _id, ...rest } = role;
   return {
     ...rest,
@@ -38,7 +38,7 @@ export const getAll = async () => {
 
 export const remove = async ({ roleId }: { roleId: string }) => {
   const deletedRole = await Roles.findByIdAndDelete(roleId);
-  if (!deletedRole) return;
+  if (!deletedRole) throw new Error(`Role (${roleId}) doesn't exist`);
 
   await Users.updateMany({ 'roles.roleId': roleId }, { $pull: { roles: { roleId } } });
 };

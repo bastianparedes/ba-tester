@@ -28,7 +28,7 @@ export const Roles: mongoose.Model<IRole> = mongoose.models.Role || mongoose.mod
 ======================= */
 
 export interface IRoleSub {
-  roleId: mongoose.Types.ObjectId;
+  id: mongoose.Types.ObjectId;
   name: string;
   description: string;
   permissions: string[];
@@ -38,14 +38,14 @@ export interface IUser extends mongoose.Document {
   name: string;
   email: string;
   passwordHash: string;
-  roles: IRoleSub[];
+  roles?: IRoleSub;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const roleSubSchema = new mongoose.Schema<IRoleSub>(
   {
-    roleId: {
+    id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Role',
       required: true,
@@ -62,7 +62,7 @@ const usersSchema = new mongoose.Schema<IUser>(
     name: { type: String, required: true },
     email: { type: String, required: true },
     passwordHash: { type: String, required: true },
-    roles: { type: [roleSubSchema], required: true },
+    roles: { type: roleSubSchema, required: false },
   },
   { timestamps: true },
 );
