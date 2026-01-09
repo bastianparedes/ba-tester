@@ -25,6 +25,7 @@
     "envalid": "^8.1.1",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.562.0",
+    "magic-regexp": "^0.10.0",
     "monaco-editor": "^0.55.1",
     "mongoose": "^9.1.2",
     "next": "16.1.1",

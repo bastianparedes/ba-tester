@@ -1,6 +1,6 @@
 import { restClient } from '@/libs/restClient';
 
-const url = () => '/api/auth/log-in';
+const url = () => '/api/public/auth/log-in';
 
 export type TypePost = {
   body: {

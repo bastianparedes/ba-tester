@@ -1,6 +1,6 @@
-import { restClient } from '../../../../libs/restClient';
+import { restClient } from '@/libs/restClient';
 
-const url = '/api/auth/log-out';
+const url = '/api/public/auth/log-out';
 
 export type TypeGet = {
   response: never;

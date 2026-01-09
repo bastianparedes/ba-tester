@@ -6,4 +6,6 @@ export default cleanEnv(process.env, {
   DATABASE_URL_POSTGRES: str(),
   DATABASE_URL_MONGODB: str(),
   DATABASE_URL_REDIS: str(),
+  SUPER_ADMIN_EMAIL: str({ default: undefined }),
+  SUPER_ADMIN_PASSWORD: str({ default: undefined }),
 });
