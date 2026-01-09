@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
-import { Navbar } from '@/app/_common/components/navigation/Navbar';
-import { Sidebar } from '@/app/_common/components/navigation/Sidebar';
+import { Navigation } from '@/app/_common/components/navigation';
 import { ClientPage } from './clientPage';
 import constants from '@/config/constants';
 import db from '@/libs/db/postgres';
@@ -23,7 +22,8 @@ const Page = async (props: PageProps) => {
   if (initialCampaign === undefined) redirect(constants.pages.campaigns({ tenantId }));
 
   return (
-    <Navbar
+    <Navigation
+      tenant={tenant}
       breadcrumb={[
         { name: 'Tenants', path: constants.pages.tenants() },
         { name: tenant.name },
@@ -31,10 +31,8 @@ const Page = async (props: PageProps) => {
         { name: initialCampaign.name, path: constants.pages.campaigns({ tenantId }) },
       ]}
     >
-      <Sidebar tenant={tenant}>
-        <ClientPage initialCampaign={initialCampaign} />
-      </Sidebar>
-    </Navbar>
+      <ClientPage initialCampaign={initialCampaign} />
+    </Navigation>
   );
 };
 

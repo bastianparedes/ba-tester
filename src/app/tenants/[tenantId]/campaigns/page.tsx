@@ -1,8 +1,7 @@
 'use server';
 
 import { ClientPage } from './clientPage';
-import { Navbar } from '@/app/_common/components/navigation/Navbar';
-import { Sidebar } from '@/app/_common/components/navigation/Sidebar';
+import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
 import db from '@/libs/db/postgres';
 import { redirect } from 'next/navigation';
@@ -18,12 +17,11 @@ export default async function Page({ params }: PageProps) {
   if (!tenant) return redirect(constants.pages.tenants());
 
   return (
-    <Navbar
+    <Navigation
+      tenant={tenant}
       breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}
     >
-      <Sidebar tenant={tenant}>
-        <ClientPage tenantId={tenantId} />
-      </Sidebar>
-    </Navbar>
+      <ClientPage tenantId={tenantId} />
+    </Navigation>
   );
 }

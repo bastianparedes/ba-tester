@@ -1,7 +1,6 @@
 import { ClientPage } from '../[campaignId]/clientPage';
 import commonConstants from '@/config/common/constants';
-import { Navbar } from '@/app/_common/components/navigation/Navbar';
-import { Sidebar } from '@/app/_common/components/navigation/Sidebar';
+import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
 import db from '@/libs/db/postgres';
 import { redirect } from 'next/navigation';
@@ -19,7 +18,8 @@ const Page = async (props: PageProps) => {
   if (!tenant) return redirect(constants.pages.tenants());
 
   return (
-    <Navbar
+    <Navigation
+      tenant={tenant}
       breadcrumb={[
         { name: 'Tenants', path: constants.pages.tenants() },
         { name: tenant.name },
@@ -27,26 +27,24 @@ const Page = async (props: PageProps) => {
         { name: 'New campaign' },
       ]}
     >
-      <Sidebar tenant={tenant}>
-        <ClientPage
-          initialCampaign={{
-            id: undefined,
-            tenantId,
-            name: 'New Campaign Name',
-            requirements: {
-              data: {
-                children: [],
-                operator: 'and',
-              },
-              type: 'node',
+      <ClientPage
+        initialCampaign={{
+          id: undefined,
+          tenantId,
+          name: 'New Campaign Name',
+          requirements: {
+            data: {
+              children: [],
+              operator: 'and',
             },
-            status: commonConstants.status.inactive,
-            triggers: [],
-            variations: [],
-          }}
-        />
-      </Sidebar>
-    </Navbar>
+            type: 'node',
+          },
+          status: commonConstants.status.inactive,
+          triggers: [],
+          variations: [],
+        }}
+      />
+    </Navigation>
   );
 };
 
