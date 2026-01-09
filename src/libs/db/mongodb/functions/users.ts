@@ -28,10 +28,20 @@ export const update = async (
   return withMapId(updatedUser);
 };
 
+export const get = async ({ userId }: { userId: string }): Promise<TypeUser> => {
+  const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
+  if (!user) throw new Error(`user (${userId}) doesn't exist`);
+  const userPopulated = withMapId({
+    ...user,
+    role: withMapId(user.role),
+  });
+  return userPopulated;
+};
+
 export const getForLogin = async ({ email }: { email: string }) => {
   const user = await Users.findOne({ email }).lean();
   if (!user) throw new Error(`user with email (${email}) doesn't exist`);
-  return withMapId(user);
+  return { email: user.email, passwordHash: user.passwordHash };
 };
 
 export const getAll = async (): Promise<TypeUser[]> => {
