@@ -1,6 +1,6 @@
 import { restClient } from '@/libs/restClient';
 
-const url = ({ userId }: { userId: string }) => `/api/users/${userId}`;
+const url = ({ userId }: { userId: string }) => `/api/admin/users/${userId}`;
 
 export type TypePut = {
   body: {

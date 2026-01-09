@@ -25,8 +25,8 @@ const constants = Object.freeze({
       `/tenants/${tenantId}/campaigns/${campaignId}`,
     campaigns: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/campaigns`,
     example: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/example`,
-    roles: () => '/roles',
-    users: () => '/users',
+    roles: () => '/admin/roles',
+    users: () => '/admin/users',
   },
   quantitiesAvailable: [25, 50, 100, 200, 500] as number[],
 } as const);

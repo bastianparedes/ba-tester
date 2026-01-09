@@ -1,7 +1,7 @@
 import { restClient } from '@/libs/restClient';
 import { TypeRole } from '@/types/domain';
 
-const url = () => `/api/roles`;
+const url = () => `/api/admin/roles`;
 
 export type TypePost = {
   body: {

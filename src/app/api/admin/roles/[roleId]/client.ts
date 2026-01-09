@@ -1,6 +1,6 @@
 import { restClient } from '@/libs/restClient';
 
-const url = ({ roleId }: { roleId: string }) => `/api/roles/${roleId}`;
+const url = ({ roleId }: { roleId: string }) => `/api/admin/roles/${roleId}`;
 
 export type TypePut = {
   body: { name: string; description: string; permissions: string[] };
