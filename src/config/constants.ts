@@ -27,6 +27,7 @@ const constants = Object.freeze({
     example: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/example`,
     roles: () => '/admin/roles',
     users: () => '/admin/users',
+    logIn: () => '/auth/log-in',
   },
   quantitiesAvailable: [25, 50, 100, 200, 500] as number[],
 } as const);

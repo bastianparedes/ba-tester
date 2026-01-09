@@ -36,6 +36,7 @@ services:
       context: .
     image: ba-tester
     environment:
+      JWT_SECRET: "abc123"
       DATABASE_URL_POSTGRES: "postgresql://admin:12345678@db-postgres:5432/db?sslmode=disable"
       DATABASE_URL_REDIS: "redis://db-redis:6379"
       DATABASE_URL_MONGODB: "mongodb://admin:12345678@db-mongodb:27017/db?authSource=admin"
