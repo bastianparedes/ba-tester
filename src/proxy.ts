@@ -4,7 +4,6 @@ import { tokenName, getTokenData } from '@/libs/auth/jwt';
 import db from '@/libs/db/mongodb';
 import { permissions } from '@/libs/permissions';
 import { charNotIn, createRegExp, exactly, oneOrMore } from 'magic-regexp';
-import { cookies } from 'next/headers';
 import env from '@/libs/env';
 
 const pathRegexPermissions: {
@@ -13,7 +12,7 @@ const pathRegexPermissions: {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }[] = [
   {
-    regex: createRegExp(exactly('/admin/roles').at.lineStart()),
+    regex: createRegExp(exactly('/admin/roles')),
     permission: permissions.role.read,
     method: 'GET',
   },
@@ -44,10 +43,68 @@ const pathRegexPermissions: {
     permission: permissions.campaign.read,
     method: 'GET',
   },
+  { regex: createRegExp(exactly('/api/admin/roles')), permission: permissions.role.write, method: 'POST' },
+  {
+    regex: createRegExp(exactly('/api/admin/roles').at.lineStart(), oneOrMore(charNotIn('/'))),
+    permission: permissions.role.write,
+    method: 'PUT',
+  },
+  {
+    regex: createRegExp(exactly('/api/admin/roles').at.lineStart(), oneOrMore(charNotIn('/'))),
+    permission: permissions.role.delete,
+    method: 'DELETE',
+  },
+  { regex: createRegExp(exactly('/api/admin/users')), permission: permissions.user.write, method: 'POST' },
+  {
+    regex: createRegExp(exactly('/api/admin/users').at.lineStart(), oneOrMore(charNotIn('/'))),
+    permission: permissions.user.write,
+    method: 'PUT',
+  },
+  {
+    regex: createRegExp(exactly('/api/admin/users').at.lineStart(), oneOrMore(charNotIn('/'))),
+    permission: permissions.user.delete,
+    method: 'DELETE',
+  },
+  { regex: createRegExp(exactly('/api/tenants')), permission: permissions.tenant.write, method: 'POST' },
+  {
+    regex: createRegExp(exactly('/api/tenants').at.lineStart(), oneOrMore(charNotIn('/'))),
+    permission: permissions.tenant.write,
+    method: 'PUT',
+  },
+  {
+    regex: createRegExp(exactly('/api/tenants').at.lineStart(), oneOrMore(charNotIn('/'))),
+    permission: permissions.tenant.delete,
+    method: 'DELETE',
+  },
+
+  {
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns'),
+    permission: permissions.campaign.write,
+    method: 'POST',
+  },
+  {
+    regex: createRegExp(
+      exactly('/api/tenants/').at.lineStart(),
+      oneOrMore(charNotIn('/')),
+      '/campaigns/',
+      oneOrMore(charNotIn('/')).at.lineEnd(),
+    ),
+    permission: permissions.tenant.write,
+    method: 'PUT',
+  },
+  {
+    regex: createRegExp(
+      exactly('/api/tenants/').at.lineStart(),
+      oneOrMore(charNotIn('/')),
+      '/campaigns/',
+      oneOrMore(charNotIn('/')).at.lineEnd(),
+    ),
+    permission: permissions.tenant.delete,
+    method: 'DELETE',
+  },
 ];
 
 export async function proxy(request: NextRequest) {
-  console.log('ayuda', request.nextUrl.pathname);
   const response = NextResponse.next();
   if (env.isDevelopment) return response;
 
@@ -59,8 +116,7 @@ export async function proxy(request: NextRequest) {
     return new NextResponse(null, { status: 404 });
   };
 
-  const cookieStore = await cookies();
-  const tokenCookie = cookieStore.get(tokenName)?.value;
+  const tokenCookie = request.cookies.get(tokenName)?.value;
   if (!tokenCookie) return handleUnauthorized();
 
   const tokenData = getTokenData({ token: tokenCookie, purpose: 'session' });

@@ -19,7 +19,6 @@ export const permissions = Object.freeze({
   campaign: {
     read: 'campaign.read',
     write: 'campaign.write',
-    delete: 'campaign.delete',
   },
 });
 

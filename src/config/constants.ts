@@ -19,6 +19,7 @@ const constants = Object.freeze({
     },
   },
   pages: {
+    home: () => '/',
     tenants: () => '/tenants',
     bundle: ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}/public/script`,
     campaign: ({ tenantId, campaignId }: { tenantId: number; campaignId: number | undefined }) =>
