@@ -16,7 +16,7 @@ export const Dialog: React.FC<DialogProps> = ({ onClose, title, description, con
       <div className="absolute inset-0 bg-black/75" onClick={onClose} />
 
       {/* Dialog */}
-      <div className="relative bg-white rounded-lg shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] flex flex-col">
+      <div className="relative bg-white rounded-lg shadow-2xl min-w-md max-w-4xl mx-4 max-h-[90vh] flex flex-col">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -27,7 +27,7 @@ export const Dialog: React.FC<DialogProps> = ({ onClose, title, description, con
 
         {/* Title */}
         {(title || description) && (
-          <div className="px-6 pt-6">
+          <div className="px-6 pt-6 mb-10">
             {title && <div className="text-xl">{title}</div>}
             {description && <div className="text-sm text-gray-600">{description}</div>}
           </div>

@@ -157,7 +157,7 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
 
   return (
     <>
-      <div className="px-8 py-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+      <div className="px-8 pb-6 overflow-y-auto min-w-3xl">
         {fields.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">No fields to display</div>
         ) : (
