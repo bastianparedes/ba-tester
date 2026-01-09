@@ -5,7 +5,6 @@ import { Pencil, Trash2, Plus } from 'lucide-react';
 import { TypeUser, TypeRole } from '@/types/domain';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import api from '@/app/api';
-import { useRouter } from 'next/navigation';
 
 type Props = {
   initialUsers: TypeUser[];
@@ -13,7 +12,6 @@ type Props = {
 };
 
 export function ClientPage({ initialUsers, roles }: Props) {
-  const router = useRouter();
   const [users, setUsers] = useState(initialUsers);
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const confirm = useDialogStore((state) => state.confirm);
@@ -63,13 +61,13 @@ export function ClientPage({ initialUsers, roles }: Props) {
         },
       },
     });
-    if (apiResponse.ok) return router.refresh();
+    if (apiResponse.ok) return window.location.reload();
   };
 
   const handleEdit = async ({ user }: { user: TypeUser }) => {
     const data = await getDataFromForm(
       {
-        title: 'Nuevo rol',
+        title: `Editar usuario "${user.name}"`,
       },
       {
         name: {
@@ -105,7 +103,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
       },
       pathParams: { userId: user.id },
     });
-    if (apiResponse.ok) return router.refresh();
+    if (apiResponse.ok) return window.location.reload();
   };
 
   const handleDelete = async ({ user }: { user: TypeUser }) => {

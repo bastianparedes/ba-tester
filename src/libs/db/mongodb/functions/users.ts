@@ -20,7 +20,7 @@ export const update = async (
     };
   },
 ) => {
-  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role }, { new: true })
+  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role.id }, { new: true })
     .select('-passwordHash')
     .populate<{ role: IRole }>('role')
     .lean();
