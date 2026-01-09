@@ -7,18 +7,16 @@ import { flatPermissions } from '@/libs/permissions';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { Switch } from '@/app/_common/components/switch';
 import api from '@/app/api';
-import { useRouter } from 'next/navigation';
 
 type Props = {
   initialRoles: TypeRole[];
 };
 
 export function ClientPage({ initialRoles }: Props) {
-  const router = useRouter();
-  const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
-  const confirm = useDialogStore((state) => state.confirm);
   const [roles, setRoles] = useState(initialRoles);
   const [selectedRoleId, setSelectedRole] = useState<string | null>(null);
+  const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
+  const confirm = useDialogStore((state) => state.confirm);
 
   const currentRole = roles.find((r) => r.id === selectedRoleId);
 
@@ -50,8 +48,10 @@ export function ClientPage({ initialRoles }: Props) {
         permissions: [],
       },
     });
-
-    if (apiResult.ok) return router.refresh();
+    if (apiResult.ok) {
+      const json = await apiResult.json();
+      setRoles((state) => [...state, json.data]);
+    }
   };
 
   const deleteRole = async (role: TypeRole) => {

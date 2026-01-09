@@ -1,4 +1,5 @@
 import { restClient } from '@/libs/restClient';
+import { TypeRole } from '@/types/domain';
 
 const url = () => `/api/roles`;
 
@@ -8,7 +9,7 @@ export type TypePost = {
     description: string;
     permissions: string[];
   };
-  response: never;
+  response: TypeRole;
 };
 export const create = async ({ body }: { body: TypePost['body'] }) => {
   const response = await restClient.post<TypePost['response']>({ url: url(), body });

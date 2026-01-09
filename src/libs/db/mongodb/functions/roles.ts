@@ -2,10 +2,10 @@ import { Roles, Users } from '../models';
 import { withMapId } from './utils';
 import { TypeRole } from '@/types/domain';
 
-export const create = async (data: { name: string; description: string; permissions: string[] }) => {
+export const create = async (data: { name: string; description: string; permissions: string[] }): Promise<TypeRole> => {
   const newRole = new Roles(data);
-
-  await newRole.save();
+  const result = (await newRole.save()).toJSON();
+  return withMapId(result);
 };
 
 export const update = async (

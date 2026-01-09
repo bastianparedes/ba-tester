@@ -19,6 +19,8 @@ export async function POST(request: NextRequest): TypeApiResponse<TypePost['resp
   if (!parseResult.success)
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePost['body'] = parseResult.data;
-  await db.roles.create(validated);
-  return NextResponse.json({});
+  const user = await db.roles.create(validated);
+  return NextResponse.json({
+    data: user,
+  });
 }
