@@ -9,7 +9,9 @@ const updateUserSchema = z.object({
     message: "Name can't be 'SuperAdmin'",
   }),
   email: z.string(),
-  roleId: z.string(),
+  role: z.object({
+    id: z.string(),
+  }),
 });
 
 export async function PUT(
@@ -29,7 +31,7 @@ export async function PUT(
     {
       name: validated.name,
       email: validated.email,
-      roleId: validated.roleId,
+      role: validated.role,
     },
   );
   return NextResponse.json({});

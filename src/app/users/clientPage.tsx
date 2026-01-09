@@ -99,7 +99,9 @@ export function ClientPage({ initialUsers, roles }: Props) {
       body: {
         name: data.name,
         email: data.email,
-        roleId: data.roleId,
+        role: {
+          id: data.roleId,
+        },
       },
       pathParams: { userId: user.id },
     });

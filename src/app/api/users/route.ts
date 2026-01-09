@@ -10,7 +10,9 @@ const insertUserSchema = z.object({
   }),
   email: z.string(),
   password: z.string(),
-  roleId: z.string(),
+  role: z.object({
+    id: z.string(),
+  }),
 });
 
 export async function POST(request: NextRequest): TypeApiResponse<TypePost['response']> {

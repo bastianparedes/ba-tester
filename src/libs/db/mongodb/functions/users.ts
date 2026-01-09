@@ -2,9 +2,9 @@ import { IRole, Roles, Users } from '../models';
 import { withMapId } from './utils';
 import { TypeUser } from '@/types/domain';
 
-export const create = async (data: { name: string; email: string; passwordHash: string; roleId: string }) => {
-  const role = await Roles.findById(data.roleId).lean();
-  if (!role) throw new Error(`Role (${data.roleId}) doesn't exist when creating user`);
+export const create = async (data: { name: string; email: string; passwordHash: string; role: { id: string } }) => {
+  const role = await Roles.findById(data.role.id).lean();
+  if (!role) throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
 
   const newUser = new Users({ ...data, role: role._id });
   await newUser.save();
@@ -15,10 +15,12 @@ export const update = async (
   updates: {
     name: string;
     email: string;
-    roleId: string;
+    role: {
+      id: string;
+    };
   },
 ) => {
-  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.roleId }, { new: true })
+  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role }, { new: true })
     .select('-passwordHash')
     .populate<{ role: IRole }>('role')
     .lean();
