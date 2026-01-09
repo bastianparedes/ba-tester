@@ -1,5 +1,11 @@
 import { restClient } from '@/libs/restClient';
-import { TypeStatus, TypeOrderDirection, TypeRequirementData, TypeTriggerData, TypeVariationData } from '@/types/domain';
+import {
+  TypeStatus,
+  TypeOrderDirection,
+  TypeRequirementData,
+  TypeTriggerData,
+  TypeVariationData,
+} from '@/types/domain';
 
 const url = ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}/campaigns`;
 

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { Navbar } from '@/app/_common/components/navigation/Navbar';
 import { Sidebar } from '@/app/_common/components/navigation/Sidebar';
 import { ClientPage } from './clientPage';
-import constants from '../../../../../config/constants';
+import constants from '@/config/constants';
 import db from '@/libs/db/postgres';
 
 type PageProps = {
@@ -23,18 +23,18 @@ const Page = async (props: PageProps) => {
   if (initialCampaign === undefined) redirect(constants.pages.campaigns({ tenantId }));
 
   return (
-    <Sidebar tenant={tenant}>
-      <Navbar
-        breadcrumb={[
-          { name: 'Tenants', path: constants.pages.tenants() },
-          { name: tenant.name },
-          { name: 'Campaigns', path: constants.pages.campaigns({ tenantId }) },
-          { name: initialCampaign.name, path: constants.pages.campaigns({ tenantId }) },
-        ]}
-      >
+    <Navbar
+      breadcrumb={[
+        { name: 'Tenants', path: constants.pages.tenants() },
+        { name: tenant.name },
+        { name: 'Campaigns', path: constants.pages.campaigns({ tenantId }) },
+        { name: initialCampaign.name, path: constants.pages.campaigns({ tenantId }) },
+      ]}
+    >
+      <Sidebar tenant={tenant}>
         <ClientPage initialCampaign={initialCampaign} />
-      </Navbar>
-    </Sidebar>
+      </Sidebar>
+    </Navbar>
   );
 };
 

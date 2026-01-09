@@ -8,10 +8,10 @@ export default async function Page() {
   const roles = await db.roles.getAll();
 
   return (
-    <Sidebar>
-      <Navbar breadcrumb={[{ name: 'Roles' }]}>
+    <Navbar breadcrumb={[{ name: 'Users' }]}>
+      <Sidebar>
         <ClientPage initialUsers={users} roles={roles} />
-      </Navbar>
-    </Sidebar>
+      </Sidebar>
+    </Navbar>
   );
 }

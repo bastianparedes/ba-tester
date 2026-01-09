@@ -6,10 +6,10 @@ import db from '@/libs/db/mongodb';
 export default async function Page() {
   const roles = await db.roles.getAll();
   return (
-    <Sidebar>
-      <Navbar breadcrumb={[{ name: 'Roles' }]}>
+    <Navbar breadcrumb={[{ name: 'Roles' }]}>
+      <Sidebar>
         <ClientPage initialRoles={roles} />
-      </Navbar>
-    </Sidebar>
+      </Sidebar>
+    </Navbar>
   );
 }
