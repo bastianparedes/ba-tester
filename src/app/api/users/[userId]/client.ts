@@ -6,10 +6,7 @@ export type TypePut = {
   body: {
     name: string;
     email: string;
-    description: string;
-    role: {
-      id: string;
-    };
+    roleId: string;
   };
   response: never;
 };

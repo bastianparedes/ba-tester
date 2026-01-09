@@ -7,12 +7,14 @@ import { flatPermissions } from '@/libs/permissions';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { Switch } from '@/app/_common/components/switch';
 import api from '@/app/api';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   initialRoles: TypeRole[];
 };
 
 export function ClientPage({ initialRoles }: Props) {
+  const router = useRouter();
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const confirm = useDialogStore((state) => state.confirm);
   const [roles, setRoles] = useState(initialRoles);
@@ -49,24 +51,14 @@ export function ClientPage({ initialRoles }: Props) {
       },
     });
 
-    if (apiResult.ok)
-      setRoles((currentState) => [
-        ...currentState,
-        {
-          id: String(currentState.length),
-          name: data.name,
-          description: data.description,
-          permissions: [],
-        },
-      ]);
+    if (apiResult.ok) return router.refresh();
   };
 
   const deleteRole = async (role: TypeRole) => {
-    const result = await confirm({ title: `Borrar role ${role.name}`, description: 'hola' });
+    const result = await confirm({ title: `Borrar role ${role.name}` });
     if (!result) return;
     const apiResult = await api.role.remove({ pathParams: { roleId: role.id } });
-    if (!apiResult.ok) return;
-    setRoles((currentState) => currentState.filter((roleInList) => roleInList.id !== role.id));
+    if (apiResult.ok) setRoles((currentState) => currentState.filter((roleInList) => roleInList.id !== role.id));
   };
 
   const togglePermission = async ({ role, permission }: { role: TypeRole; permission: string }) => {
@@ -166,7 +158,7 @@ export function ClientPage({ initialRoles }: Props) {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900">{permission}</h3>
-                        <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p>
+                        {/* <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p> */}
                       </div>
                       <Switch checked={isActive} onChange={() => togglePermission({ role: currentRole, permission })} />
                     </div>

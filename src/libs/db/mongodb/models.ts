@@ -14,9 +14,9 @@ export interface IRole extends mongoose.Document {
 
 const rolesSchema = new mongoose.Schema<IRole>(
   {
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    permissions: { type: [String], required: true },
+    name: { type: String, unique: true, required: true },
+    description: { type: String, unique: true, required: true },
+    permissions: { type: [String], default: [] },
   },
   { timestamps: true },
 );
@@ -27,42 +27,25 @@ export const Roles: mongoose.Model<IRole> = mongoose.models.Role || mongoose.mod
   USERS
 ======================= */
 
-export interface IRoleSub {
-  id: mongoose.Types.ObjectId;
-  name: string;
-  description: string;
-  permissions: string[];
-}
-
 export interface IUser extends mongoose.Document {
   name: string;
   email: string;
   passwordHash: string;
-  roles?: IRoleSub;
+  role: mongoose.Types.ObjectId | IRole;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const roleSubSchema = new mongoose.Schema<IRoleSub>(
+const usersSchema = new mongoose.Schema<IUser>(
   {
-    id: {
+    name: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
+    passwordHash: { type: String, required: true },
+    role: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Role',
       required: true,
     },
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    permissions: { type: [String], required: true },
-  },
-  { _id: false },
-);
-
-const usersSchema = new mongoose.Schema<IUser>(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    passwordHash: { type: String, required: true },
-    roles: { type: roleSubSchema, required: false },
   },
   { timestamps: true },
 );

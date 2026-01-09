@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 import { TypeUser, TypeRole } from '@/types/domain';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
+import api from '@/app/api';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   initialUsers: TypeUser[];
@@ -11,13 +13,105 @@ type Props = {
 };
 
 export function ClientPage({ initialUsers, roles }: Props) {
+  const router = useRouter();
   const [users, setUsers] = useState(initialUsers);
+  const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
+  const confirm = useDialogStore((state) => state.confirm);
 
-  const handleAdd = () => {};
+  const handleAdd = async () => {
+    const data = await getDataFromForm(
+      {
+        title: 'Nuevo usuario',
+      },
+      {
+        name: {
+          label: 'Nombre',
+          type: 'text',
+          value: '',
+          required: true,
+        },
+        email: {
+          label: 'Email',
+          type: 'email',
+          value: '',
+          required: true,
+        },
+        password: {
+          label: 'Password',
+          type: 'password',
+          value: '',
+          required: true,
+        },
+        roleId: {
+          label: 'Role',
+          type: 'select',
+          options: roles.map((role) => ({ label: role.name, value: role.id })),
+          value: roles[0].id,
+          required: true,
+        },
+      },
+    );
+    if (!data) return;
 
-  const handleEdit = ({ userId }: { userId: string }) => {};
+    const apiResponse = await api.users.create({
+      body: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: {
+          id: data.roleId,
+        },
+      },
+    });
+    if (apiResponse.ok) return router.refresh();
+  };
 
-  const handleDelete = ({ userId }: { userId: string }) => {};
+  const handleEdit = async ({ user }: { user: TypeUser }) => {
+    const data = await getDataFromForm(
+      {
+        title: 'Nuevo rol',
+      },
+      {
+        name: {
+          label: 'Nombre',
+          type: 'text',
+          value: user.name,
+          required: true,
+        },
+        email: {
+          label: 'Email',
+          type: 'email',
+          value: user.email,
+          required: true,
+        },
+        roleId: {
+          label: 'Role',
+          type: 'select',
+          options: roles.map((role) => ({ label: role.name, value: role.id })),
+          value: user.role.id,
+          required: true,
+        },
+      },
+    );
+    if (!data) return;
+
+    const apiResponse = await api.user.update({
+      body: {
+        name: data.name,
+        email: data.email,
+        roleId: data.roleId,
+      },
+      pathParams: { userId: user.id },
+    });
+    if (apiResponse.ok) return router.refresh();
+  };
+
+  const handleDelete = async ({ user }: { user: TypeUser }) => {
+    const result = await confirm({ title: `¿Borrar usuario "${user.name}"?` });
+    if (!result) return;
+    const apiResponse = await api.user.remove({ pathParams: { userId: user.id } });
+    if (apiResponse.ok) setUsers((currentState) => currentState.filter((userInArray) => userInArray.id !== user.id));
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4">
@@ -27,10 +121,15 @@ export function ClientPage({ initialUsers, roles }: Props) {
             <h1 className="text-2xl font-bold text-gray-800">Gestión de Usuarios</h1>
             <button
               onClick={handleAdd}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition"
+              disabled={roles.length === 0}
+              className="group relative bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
             >
-              <Plus size={20} />
-              Agregar Usuario
+              <Plus size={20} /> Agregar Usuario
+              {roles.length === 0 && (
+                <span className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                  Create roles first
+                </span>
+              )}
             </button>
           </div>
 
@@ -57,7 +156,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {users.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50">
+                  <tr key={user.email} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -67,7 +166,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
-                        onClick={() => handleEdit({ userId: user.id })}
+                        onClick={() => handleEdit({ user })}
                         className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition inline-flex items-center gap-1"
                       >
                         <Pencil size={16} />
@@ -76,7 +175,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
-                        onClick={() => handleDelete({ userId: user.id })}
+                        onClick={() => handleDelete({ user })}
                         className="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition inline-flex items-center gap-1"
                       >
                         <Trash2 size={16} />

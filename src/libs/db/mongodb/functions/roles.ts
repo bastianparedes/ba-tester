@@ -1,4 +1,6 @@
 import { Roles, Users } from '../models';
+import { withMapId } from './utils';
+import { TypeRole } from '@/types/domain';
 
 export const create = async (data: { name: string; description: string; permissions: string[] }) => {
   const newRole = new Roles(data);
@@ -18,22 +20,15 @@ export const update = async (
   return updatedRole;
 };
 
-export const get = async ({ roleId }: { roleId: string }) => {
+export const get = async ({ roleId }: { roleId: string }): Promise<TypeRole> => {
   const role = await Roles.findById(roleId).lean();
   if (!role) throw new Error(`Role (${roleId}) doesn't exist`);
-  const { _id, ...rest } = role;
-  return {
-    ...rest,
-    id: _id.toString(),
-  };
+  return withMapId(role);
 };
 
-export const getAll = async () => {
+export const getAll = async (): Promise<TypeRole[]> => {
   const roles = await Roles.find().lean();
-  return roles.map(({ _id, ...rest }) => ({
-    ...rest,
-    id: _id.toString(),
-  }));
+  return roles.map((role) => withMapId(role));
 };
 
 export const remove = async ({ roleId }: { roleId: string }) => {

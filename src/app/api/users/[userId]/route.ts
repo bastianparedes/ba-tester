@@ -3,34 +3,33 @@ import { z } from 'zod';
 import db from '@/libs/db/mongodb';
 import { TypePut, TypeDelete } from './client';
 import { TypeApiResponse } from '@/types/api';
-import { flatPermissions } from '@/libs/permissions';
 
-const insertRoleSchema = z.object({
+const updateUserSchema = z.object({
   name: z.string().refine((val) => val !== 'SuperAdmin', {
     message: "Name can't be 'SuperAdmin'",
   }),
-  description: z.string(),
-  permissions: z.array(z.enum(flatPermissions)),
+  email: z.string(),
+  roleId: z.string(),
 });
 
 export async function PUT(
   request: NextRequest,
-  { params: promiseParams }: { params: Promise<{ roleId: string }> },
+  { params: promiseParams }: { params: Promise<{ userId: string }> },
 ): TypeApiResponse<TypePut['response']> {
   const params = await promiseParams;
-  const roleId = params.roleId;
+  const userId = params.userId;
 
   const body = await request.json();
-  const parseResult = insertRoleSchema.safeParse(body);
+  const parseResult = updateUserSchema.safeParse(body);
   if (!parseResult.success)
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePut['body'] = parseResult.data;
-  await db.roles.update(
-    { roleId },
+  await db.users.update(
+    { userId },
     {
       name: validated.name,
-      description: validated.description,
-      permissions: validated.permissions,
+      email: validated.email,
+      roleId: validated.roleId,
     },
   );
   return NextResponse.json({});
@@ -38,11 +37,11 @@ export async function PUT(
 
 export async function DELETE(
   _request: NextRequest,
-  { params: promiseParams }: { params: Promise<{ roleId: string }> },
+  { params: promiseParams }: { params: Promise<{ userId: string }> },
 ): TypeApiResponse<TypeDelete['response']> {
   const params = await promiseParams;
-  const roleId = params.roleId;
+  const userId = params.userId;
 
-  await db.roles.remove({ roleId });
+  await db.users.remove({ userId });
   return NextResponse.json({});
 }

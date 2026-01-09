@@ -7,9 +7,7 @@ export type TypePost = {
     name: string;
     email: string;
     password: string;
-    role: {
-      id: string;
-    };
+    roleId: string;
   };
   response: never;
 };
