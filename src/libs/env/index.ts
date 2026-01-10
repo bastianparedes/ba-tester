@@ -1,5 +1,6 @@
 import { cleanEnv, str, makeValidator } from 'envalid';
 import { z } from 'zod';
+import { getPasswordHashed } from '@/libs/auth/password';
 
 export const superAdminsValidator = makeValidator((value: string) => {
   const UsersArraySchema = z
@@ -18,7 +19,11 @@ export const superAdminsValidator = makeValidator((value: string) => {
 
   try {
     const json = JSON.parse(value);
-    return UsersArraySchema.parse(json);
+    return UsersArraySchema.parse(json).map((userData) => ({
+      name: userData.name,
+      email: userData.email,
+      passwordHash: getPasswordHashed(userData.password),
+    }));
   } catch {
     throw new Error(
       'SUPER_ADMINS must be a valid JSON array with at least two users. Each user must include a name, email, password address and a password.',

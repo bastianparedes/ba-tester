@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { useForm } from 'react-hook-form';
+import api from '@/app/api';
+import constants from '@/config/constants';
 
 interface LoginFormData {
   email: string;
@@ -15,9 +16,17 @@ export default function Page() {
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log('Login data:', data);
-    alert(`Login attempt with email: ${data.email}`);
+  const onSubmit = async (data: LoginFormData) => {
+    const apiResponse = await api.auth.logIn({
+      body: {
+        email: data.email,
+        password: data.password,
+      },
+    });
+    if (apiResponse.ok) {
+      location.href = constants.pages.tenants();
+      return;
+    }
   };
 
   return (
@@ -50,7 +59,6 @@ export default function Page() {
               <input
                 id="email"
                 type="email"
-                placeholder="tu@email.com"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 {...register('email', {
                   required: 'El correo es requerido',
@@ -71,14 +79,9 @@ export default function Page() {
               <input
                 id="password"
                 type="password"
-                placeholder="••••••••"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 {...register('password', {
                   required: 'La contraseña es requerida',
-                  minLength: {
-                    value: 6,
-                    message: 'La contraseña debe tener al menos 6 caracteres',
-                  },
                 })}
               />
               {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>}

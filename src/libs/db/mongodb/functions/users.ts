@@ -41,7 +41,7 @@ export const get = async ({ userId }: { userId: string }): Promise<TypeUser> => 
 export const getForLogin = async ({ email }: { email: string }) => {
   const user = await Users.findOne({ email }).lean();
   if (!user) throw new Error(`user with email (${email}) doesn't exist`);
-  return { email: user.email, passwordHash: user.passwordHash };
+  return { id: user._id.toString(), email: user.email, passwordHash: user.passwordHash };
 };
 
 export const getAll = async (): Promise<TypeUser[]> => {

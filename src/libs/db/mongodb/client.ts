@@ -72,7 +72,7 @@ mongoose
             $setOnInsert: {
               name: superAdmin.name,
               email: superAdmin.email,
-              passwordHash: superAdmin.password,
+              passwordHash: superAdmin.passwordHash,
               role: superAdminRole._id,
             },
           },

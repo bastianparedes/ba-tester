@@ -4,6 +4,7 @@ import db from '@/libs/db/mongodb';
 import { TypePost } from './client';
 import { TypeApiResponse } from '@/types/api';
 import constants from '@/config/constants';
+import { getPasswordHashed } from '@/libs/auth/password';
 
 const insertUserSchema = z.object({
   name: z.string().refine((val) => val !== constants.superAdminRoleName, {
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest): TypeApiResponse<TypePost['resp
   if (!parseResult.success)
     return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePost['body'] = parseResult.data;
-  const passwordHash = validated.password;
+  const passwordHash = await getPasswordHashed(validated.password);
   await db.users.create({ ...validated, passwordHash });
   return NextResponse.json({});
 }
