@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import env from '@/libs/env';
 import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/libs/permissions';
+import constants from '@/config/constants';
 
 export interface IRole extends mongoose.Document {
   name: string;
@@ -54,9 +55,9 @@ mongoose
   .connect(env.DATABASE_URL_MONGODB)
   .then(async () => {
     const superAdminRole = await Roles.findOneAndUpdate(
-      { name: 'SuperAdminRole' },
+      { name: constants.superAdminRoleName },
       {
-        name: 'SuperAdminRole',
+        name: constants.superAdminRoleName,
         description: 'Access to all',
         permissions: [...flatPermissions, ...flatSuperAdminOnlyPermissions],
       },
