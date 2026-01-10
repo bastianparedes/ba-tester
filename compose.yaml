@@ -40,7 +40,7 @@ services:
       DATABASE_URL_POSTGRES: "postgresql://admin:12345678@db-postgres:5432/db?sslmode=disable"
       DATABASE_URL_REDIS: "redis://db-redis:6379"
       DATABASE_URL_MONGODB: "mongodb://admin:12345678@db-mongodb:27017/db?authSource=admin"
-      SUPER_ADMINS: '[{ "name": "Bastian", "email": "bastian.p@outlook.com", "password": "abc" }, { "name": "Bastian", "email": "bparedesp@falabella.com", "password": "abc2" }]'
+      SUPER_ADMINS: '[{ "name": "Bastian", "email": "bastian.p@outlook.com", "password": "abc" }, { "name": "Bastian", "email": "bparedesp@falabella.com", "password": "abc" }]'
     ports:
       - "3000:3000"
     volumes:

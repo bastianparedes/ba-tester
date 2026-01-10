@@ -6,7 +6,7 @@ export const superAdminsValidator = makeValidator((value: string) => {
     .array(
       z.object({
         name: z.string(),
-        email: z.string().email(),
+        email: z.email(),
         password: z.string(),
       }),
     )
