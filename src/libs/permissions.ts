@@ -21,5 +21,7 @@ export const permissions = Object.freeze({
     write: 'campaign.write',
   },
 });
+export const superAdminOnlyPermissions = Object.freeze({});
 
 export const flatPermissions = flattenObject(permissions);
+export const flatSuperAdminOnlyPermissions = flattenObject(superAdminOnlyPermissions);

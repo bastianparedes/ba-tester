@@ -1,4 +1,4 @@
-import { IRole, Roles, Users } from '../models';
+import { IRole, Roles, Users } from '../client';
 import { withMapId } from './utils';
 import { TypeUser } from '@/types/domain';
 
