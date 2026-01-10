@@ -1,5 +1,3 @@
-'use server';
-
 import { ClientPage } from './clientPage';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';

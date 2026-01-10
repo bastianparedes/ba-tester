@@ -17,6 +17,13 @@ export function Sidebar({ children, tenant }: Props) {
         <div className="flex flex-col h-full">
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
+            {/* Language Section */}
+
+            <div className="mb-6">
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Language</div>
+              <ComponentLanguage />
+            </div>
+
             {/* AB Tests Section */}
 
             <div className="mb-6">
@@ -60,7 +67,6 @@ export function Sidebar({ children, tenant }: Props) {
               </a>
             </div>
           </nav>
-          <ComponentLanguage />
         </div>
       </aside>
 

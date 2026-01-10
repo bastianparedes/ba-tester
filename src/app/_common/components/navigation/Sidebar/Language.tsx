@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { Globe } from 'lucide-react';
 
 export const ComponentLanguage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,14 +13,9 @@ export const ComponentLanguage = () => {
   };
 
   return (
-    <div className="p-4 border-t border-gray-800 relative">
-      <div className="flex items-center gap-2 mb-2">
-        <Globe className="w-4 h-4 text-gray-400" />
-        <span className="text-xs text-gray-400 uppercase font-semibold">Idioma</span>
-      </div>
-
+    <div className="border-t border-gray-800 relative">
       {isOpen && (
-        <div className="absolute bottom-full mb-2 left-4 right-4 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden">
+        <div className="absolute top-full mb-2 left-4 right-4 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden cursor-pointer">
           {languages.map((language) => (
             <button
               key={language.key}
