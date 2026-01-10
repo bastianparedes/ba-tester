@@ -7,6 +7,7 @@ import { flatPermissions } from '@/libs/permissions';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { Switch } from '@/app/_common/components/switch';
 import api from '@/app/api';
+import { isUserSuperAdmin } from '@/utils/user';
 
 type Props = {
   initialRoles: TypeRole[];

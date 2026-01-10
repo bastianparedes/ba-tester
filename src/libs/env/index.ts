@@ -1,6 +1,5 @@
-import { cleanEnv, str, makeValidator } from 'envalid';
+import { cleanEnv, str, makeValidator, num } from 'envalid';
 import { z } from 'zod';
-import { getPasswordHashed } from '@/libs/auth/password';
 
 export const superAdminsValidator = makeValidator((value: string) => {
   const UsersArraySchema = z
@@ -19,11 +18,8 @@ export const superAdminsValidator = makeValidator((value: string) => {
 
   try {
     const json = JSON.parse(value);
-    return UsersArraySchema.parse(json).map((userData) => ({
-      name: userData.name,
-      email: userData.email,
-      passwordHash: getPasswordHashed(userData.password),
-    }));
+    const validated = UsersArraySchema.parse(json);
+    return validated;
   } catch {
     throw new Error(
       'SUPER_ADMINS must be a valid JSON array with at least two users. Each user must include a name, email, password address and a password.',
@@ -37,5 +33,6 @@ export default cleanEnv(process.env, {
   DATABASE_URL_POSTGRES: str(),
   DATABASE_URL_MONGODB: str(),
   DATABASE_URL_REDIS: str(),
+  SALT_ROUNDS: num(),
   SUPER_ADMINS: superAdminsValidator(),
 });

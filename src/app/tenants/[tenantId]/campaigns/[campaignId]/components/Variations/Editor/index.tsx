@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Monaco from '@monaco-editor/react';
-import { Modal } from '../../../../../../../_common/components/Modal';
+import { Modal } from '@/app/_common/components/Modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
 import type { TypeCampaign, TypeVariationData } from '@/types/domain';

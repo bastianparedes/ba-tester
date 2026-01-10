@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { tokenName, generateToken, secondsTokenIsValid } from '@/libs/auth/jwt';
+import { generateToken, secondsTokenIsValid } from '@/libs/auth/jwt';
 import db from '@/libs/db/mongodb';
 import { isPasswordCorrect } from '@/libs/auth/password';
 import { TypeApiResponse } from '@/types/api';
 import { TypePost } from './client';
+import constants from '@/config/constants';
 
 const SignInSchema = z.object({
   email: z.string().toLowerCase().email(),
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest): TypeApiResponse<TypePost['response
     const token = generateToken({ id: user.id, purpose: 'session' });
 
     const res = NextResponse.json({});
-    res.cookies.set(tokenName, token, {
+    res.cookies.set(constants.cookieNames.token, token, {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',

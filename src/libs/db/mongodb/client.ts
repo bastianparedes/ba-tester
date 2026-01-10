@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import env from '@/libs/env';
 import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/libs/permissions';
 import constants from '@/config/constants';
+import { getPasswordHashed } from '@/libs/auth/password';
 
 export interface IRole extends mongoose.Document {
   name: string;
@@ -72,7 +73,7 @@ mongoose
             $setOnInsert: {
               name: superAdmin.name,
               email: superAdmin.email,
-              passwordHash: superAdmin.passwordHash,
+              passwordHash: getPasswordHashed(superAdmin.password),
               role: superAdminRole._id,
             },
           },

@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { tokenName, getTokenData } from '@/libs/auth/jwt';
+import { getTokenData } from '@/libs/auth/jwt';
 import db from '@/libs/db/mongodb';
 import { permissions } from '@/libs/permissions';
 import { charNotIn, createRegExp, exactly, oneOrMore } from 'magic-regexp';
 import env from '@/libs/env';
+import constants from '@/config/constants';
 
 const pathRegexPermissions: {
   regex: RegExp;
@@ -116,7 +117,7 @@ export async function proxy(request: NextRequest) {
     return new NextResponse(null, { status: 404 });
   };
 
-  const tokenCookie = request.cookies.get(tokenName)?.value;
+  const tokenCookie = request.cookies.get(constants.cookieNames.token)?.value;
   if (!tokenCookie) return handleUnauthorized();
 
   const tokenData = getTokenData({ token: tokenCookie, purpose: 'session' });

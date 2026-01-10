@@ -1,12 +1,11 @@
 import bcrypt from 'bcrypt';
+import env from '@/libs/env';
 
-const saltRounds = 10;
-
-export async function getPasswordHashed(password: string) {
-  const hash = await bcrypt.hash(password, saltRounds);
+export function getPasswordHashed(password: string) {
+  const hash = bcrypt.hashSync(password, env.SALT_ROUNDS);
   return hash;
 }
 
-export const isPasswordCorrect = async ({ password, passwordHash }: { password: string; passwordHash: string }) => {
-  return await bcrypt.compare(password, passwordHash);
+export const isPasswordCorrect = ({ password, passwordHash }: { password: string; passwordHash: string }) => {
+  return bcrypt.compareSync(password, passwordHash);
 };

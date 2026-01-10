@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Monaco from '@monaco-editor/react';
-import { Modal } from '../../../../../../../../../../_common/components/Modal';
+import { Modal } from '@/app/_common/components/Modal';
 
 import type { TypeCampaign, TypeRequirementData } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
