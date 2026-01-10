@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import { DynamicDialog } from './_common/contexts/Dialog/Component';
 import { TranslationProvider } from './_common/contexts/Translation';
 import { cookies } from 'next/headers';
+import constants from '@/config/constants';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
-  const languageInCookie = cookieStore.get('lang')?.value || 'english';
+  const languageInCookie = cookieStore.get(constants.cookieNames.lang)?.value || 'english';
 
   return (
     <html lang="es-ES">

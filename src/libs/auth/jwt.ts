@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import env from '@/libs/env';
-import constants from '@/config/constants';
 
 type TokenPurpose = 'session' | 'password_recovery';
 type TokenData = { valid: true; id: string } | { valid: false; id: null };

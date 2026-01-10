@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getTokenData } from '@/libs/auth/jwt';
-import db from '@/libs/db/mongodb';
 import { permissions } from '@/libs/permissions';
 import { charNotIn, createRegExp, exactly, oneOrMore } from 'magic-regexp';
-import env from '@/libs/env';
-import constants from '@/config/constants';
+import { getUserFromCookies } from '@/utils/user';
 
 const pathRegexPermissions: {
   regex: RegExp;
@@ -46,34 +43,34 @@ const pathRegexPermissions: {
   },
   { regex: createRegExp(exactly('/api/admin/roles')), permission: permissions.role.create, method: 'POST' },
   {
-    regex: createRegExp(exactly('/api/admin/roles').at.lineStart(), oneOrMore(charNotIn('/'))),
+    regex: createRegExp(exactly('/api/admin/roles/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.role.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(exactly('/api/admin/roles').at.lineStart(), oneOrMore(charNotIn('/'))),
+    regex: createRegExp(exactly('/api/admin/roles/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.role.delete,
     method: 'DELETE',
   },
   { regex: createRegExp(exactly('/api/admin/users')), permission: permissions.user.create, method: 'POST' },
   {
-    regex: createRegExp(exactly('/api/admin/users').at.lineStart(), oneOrMore(charNotIn('/'))),
+    regex: createRegExp(exactly('/api/admin/users/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.user.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(exactly('/api/admin/users').at.lineStart(), oneOrMore(charNotIn('/'))),
+    regex: createRegExp(exactly('/api/admin/users/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.user.delete,
     method: 'DELETE',
   },
   { regex: createRegExp(exactly('/api/tenants')), permission: permissions.tenant.create, method: 'POST' },
   {
-    regex: createRegExp(exactly('/api/tenants').at.lineStart(), oneOrMore(charNotIn('/'))),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.tenant.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(exactly('/api/tenants').at.lineStart(), oneOrMore(charNotIn('/'))),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.tenant.delete,
     method: 'DELETE',
   },
@@ -107,7 +104,7 @@ const pathRegexPermissions: {
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next();
-  if (env.isDevelopment) return response;
+  /* if (env.isDevelopment) return response; */
 
   const handleUnauthorized = () => {
     const isApi = request.nextUrl.pathname.startsWith('/api');
@@ -117,13 +114,7 @@ export async function proxy(request: NextRequest) {
     return new NextResponse(null, { status: 404 });
   };
 
-  const tokenCookie = request.cookies.get(constants.cookieNames.token)?.value;
-  if (!tokenCookie) return handleUnauthorized();
-
-  const tokenData = getTokenData({ token: tokenCookie, purpose: 'session' });
-  if (!tokenData.valid) return handleUnauthorized();
-  const userId = tokenData.id;
-  const user = await db.users.get({ userId });
+  const user = await getUserFromCookies();
   if (!user) return handleUnauthorized();
 
   const pathRegexPermission = pathRegexPermissions.find(

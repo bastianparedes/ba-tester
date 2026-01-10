@@ -15,7 +15,7 @@ export interface IRole extends mongoose.Document {
 const rolesSchema = new mongoose.Schema<IRole>(
   {
     name: { type: String, unique: true, required: true },
-    description: { type: String, unique: true, required: true },
+    description: { type: String, required: false, default: '' },
     permissions: { type: [String], default: [] },
   },
   { timestamps: true },

@@ -1,4 +1,4 @@
-import * as auth from './auth/log-in/client';
+import * as auth from './public/auth/session/client';
 import * as roles from './admin/roles/client';
 import * as role from './admin/roles/[roleId]/client';
 import * as users from './admin/users/client';

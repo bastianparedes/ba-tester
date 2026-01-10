@@ -1,6 +1,14 @@
 import { restClient } from '@/libs/restClient';
 
-const url = () => '/api/public/auth/log-in';
+const url = () => '/api/public/auth/session';
+
+export type TypeGet = {
+  response: never;
+};
+export const logOut = async () => {
+  const response = await restClient.get<TypeGet['response']>({ url: url() });
+  return response;
+};
 
 export type TypePost = {
   body: {

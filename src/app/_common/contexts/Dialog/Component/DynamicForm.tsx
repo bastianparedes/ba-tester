@@ -19,10 +19,10 @@ export type TypeArgs = {
     description?: string;
     required?: boolean;
   } & (
-    | { type: 'text'; value: string }
-    | { type: 'textarea'; value: string }
-    | { type: 'email'; value: string }
-    | { type: 'password'; value: string }
+    | { type: 'text'; value: string; forbiddenValues?: string[] }
+    | { type: 'textarea'; value: string; forbiddenValues?: string[] }
+    | { type: 'email'; value: string; forbiddenValues?: string[] }
+    | { type: 'password'; value: string; forbiddenValues?: string[] }
     | { type: 'time'; value: string }
     | { type: 'number'; value: number }
     | { type: 'switch'; value: boolean }
@@ -40,29 +40,38 @@ export type TypeResponse<T extends TypeArgs> = {
         : never;
 };
 
-export type TypeField = {
+type TypeField = {
   name: string;
   label: string;
   description?: string;
   required?: boolean;
 } & (
-  | { type: 'text'; value: string }
-  | { type: 'textarea'; value: string }
-  | { type: 'email'; value: string }
-  | { type: 'password'; value: string }
+  | { type: 'text'; value: string; forbiddenValues: string[] }
+  | { type: 'textarea'; value: string; forbiddenValues: string[] }
+  | { type: 'email'; value: string; forbiddenValues: string[] }
+  | { type: 'password'; value: string; forbiddenValues: string[] }
   | { type: 'time'; value: string }
   | { type: 'number'; value: number }
   | { type: 'switch'; value: boolean }
   | { type: 'select'; value: string; options: { label: string; value: string }[] }
 );
 
-export const transformArgsToFields = (args: TypeArgs): TypeField[] => {
+const transformArgsToFields = (args: TypeArgs): TypeField[] => {
   return Object.entries(args).map(([name, arg]) => {
     switch (arg.type) {
       case 'text':
       case 'textarea':
       case 'email':
       case 'password':
+        return {
+          name,
+          label: arg.label,
+          description: arg.description,
+          type: arg.type,
+          value: arg.value,
+          required: arg.required,
+          forbiddenValues: arg.forbiddenValues || [],
+        };
       case 'time':
         return {
           name,
@@ -176,6 +185,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
                           required: field.required && 'Este campo es obligatorio',
+                          validate: (value) =>
+                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -185,7 +196,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                       <Textarea
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          validate: (value) =>
+                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -201,6 +213,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                             message: 'Formato de email inválido',
                           },
+                          validate: (value) =>
+                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -212,6 +226,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
                           required: field.required && 'Este campo es obligatorio',
+                          validate: (value) =>
+                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
