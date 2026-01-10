@@ -2,6 +2,7 @@ import React from 'react';
 import { Shield, FlaskConical, Building2, UserCog } from 'lucide-react';
 import { TypeTenant } from '@/types/domain';
 import constants from '@/config/constants';
+import { ComponentLanguage } from './Language';
 
 type Props = {
   children: React.ReactNode;
@@ -59,6 +60,7 @@ export function Sidebar({ children, tenant }: Props) {
               </a>
             </div>
           </nav>
+          <ComponentLanguage />
         </div>
       </aside>
 

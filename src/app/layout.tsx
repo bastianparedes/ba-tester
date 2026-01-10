@@ -24,8 +24,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="es-ES">
       <body>
-        <Loader />
         <TranslationProvider language={languageInCookie}>
+          <Loader />
           <ToastProvider>
             <DynamicDialog />
             {children}
