@@ -3,10 +3,11 @@ import { z } from 'zod';
 import db from '@/libs/db/mongodb';
 import { TypePut, TypeDelete } from './client';
 import { TypeApiResponse } from '@/types/api';
+import constants from '@/config/constants';
 
 const updateUserSchema = z.object({
-  name: z.string().refine((val) => val !== 'SuperAdmin', {
-    message: "Name can't be 'SuperAdmin'",
+  name: z.string().refine((val) => val !== constants.superAdminRoleName, {
+    message: `Name can't be "${constants.superAdminRoleName}"`,
   }),
   email: z.string(),
   role: z.object({

@@ -3,25 +3,35 @@ import { flattenObject } from '@/utils/object';
 export const permissions = Object.freeze({
   role: {
     read: 'role.read',
-    write: 'role.write',
+    create: 'role.create',
+    update: 'role.update',
     delete: 'role.delete',
   },
   user: {
     read: 'user.read',
-    write: 'user.write',
+    create: 'user.create',
+    update: 'user.update',
     delete: 'user.delete',
   },
   tenant: {
     read: 'tenant.read',
-    write: 'tenant.write',
+    create: 'tenant.create',
+    update: 'tenant.update',
     delete: 'tenant.delete',
   },
   campaign: {
     read: 'campaign.read',
-    write: 'campaign.write',
+    create: 'campaign.create',
+    update: 'campaign.update',
   },
 });
-export const superAdminOnlyPermissions = Object.freeze({});
+export const superAdminOnlyPermissions = Object.freeze({
+  superAdmin: {
+    read: 'superAdmin.read',
+    write: 'superAdmin.write',
+    delete: 'superAdmin.delete',
+  },
+});
 
 export const flatPermissions = flattenObject(permissions);
 export const flatSuperAdminOnlyPermissions = flattenObject(superAdminOnlyPermissions);

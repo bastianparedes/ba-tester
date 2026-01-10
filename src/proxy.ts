@@ -25,7 +25,7 @@ const pathRegexPermissions: {
   },
   {
     regex: createRegExp(exactly('/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns/undefined'),
-    permission: permissions.campaign.write,
+    permission: permissions.campaign.create,
     method: 'GET',
   },
   {
@@ -43,10 +43,10 @@ const pathRegexPermissions: {
     permission: permissions.campaign.read,
     method: 'GET',
   },
-  { regex: createRegExp(exactly('/api/admin/roles')), permission: permissions.role.write, method: 'POST' },
+  { regex: createRegExp(exactly('/api/admin/roles')), permission: permissions.role.create, method: 'POST' },
   {
     regex: createRegExp(exactly('/api/admin/roles').at.lineStart(), oneOrMore(charNotIn('/'))),
-    permission: permissions.role.write,
+    permission: permissions.role.update,
     method: 'PUT',
   },
   {
@@ -54,10 +54,10 @@ const pathRegexPermissions: {
     permission: permissions.role.delete,
     method: 'DELETE',
   },
-  { regex: createRegExp(exactly('/api/admin/users')), permission: permissions.user.write, method: 'POST' },
+  { regex: createRegExp(exactly('/api/admin/users')), permission: permissions.user.create, method: 'POST' },
   {
     regex: createRegExp(exactly('/api/admin/users').at.lineStart(), oneOrMore(charNotIn('/'))),
-    permission: permissions.user.write,
+    permission: permissions.user.update,
     method: 'PUT',
   },
   {
@@ -65,10 +65,10 @@ const pathRegexPermissions: {
     permission: permissions.user.delete,
     method: 'DELETE',
   },
-  { regex: createRegExp(exactly('/api/tenants')), permission: permissions.tenant.write, method: 'POST' },
+  { regex: createRegExp(exactly('/api/tenants')), permission: permissions.tenant.create, method: 'POST' },
   {
     regex: createRegExp(exactly('/api/tenants').at.lineStart(), oneOrMore(charNotIn('/'))),
-    permission: permissions.tenant.write,
+    permission: permissions.tenant.update,
     method: 'PUT',
   },
   {
@@ -79,7 +79,7 @@ const pathRegexPermissions: {
 
   {
     regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns'),
-    permission: permissions.campaign.write,
+    permission: permissions.campaign.create,
     method: 'POST',
   },
   {
@@ -89,7 +89,7 @@ const pathRegexPermissions: {
       '/campaigns/',
       oneOrMore(charNotIn('/')).at.lineEnd(),
     ),
-    permission: permissions.tenant.write,
+    permission: permissions.tenant.update,
     method: 'PUT',
   },
   {
