@@ -11,14 +11,12 @@ import type { TypeCampaign } from '@/types/domain';
 import commonConstants from '@/config/common/constants';
 import { ChevronDown } from 'lucide-react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { useUser } from '@/app/_common/contexts/User';
 
 type Props = {
   initialCampaign: TypeCampaign;
 };
 
 const ClientPage = ({ initialCampaign }: Props) => {
-  const user = useUser();
   const { translation } = useTranslationContext();
   const [campaign, setCampaign] = useState(initialCampaign);
 
