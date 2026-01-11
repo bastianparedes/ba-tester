@@ -1,4 +1,3 @@
-import { TypeUser } from '@/types/domain';
 import constants from '@/config/constants';
 import { cookies } from 'next/headers';
 import db from '@/libs/db/mongodb';
@@ -16,8 +15,4 @@ export const getUserFromCookies = async () => {
   if (!user) return null;
 
   return user;
-};
-
-export const isUserSuperAdmin = (user: TypeUser) => {
-  return user.role.name === constants.superAdminRoleName;
 };

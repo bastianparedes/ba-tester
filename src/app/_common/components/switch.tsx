@@ -12,7 +12,7 @@ function Switch({ className, ...props }: React.ComponentProps<'input'>) {
         'before:bg-gray-200 before:rounded-full before:transition-all',
         'before:shadow-lg',
         'checked:before:translate-x-6',
-        'disabled:opacity-50',
+        'disabled:opacity-80',
         'disabled:cursor-not-allowed',
         className,
       )}

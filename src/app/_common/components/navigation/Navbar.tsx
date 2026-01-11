@@ -3,6 +3,7 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
 import { cx } from 'class-variance-authority';
+import { useUser } from '@/app/_common/contexts/User';
 
 type Props = {
   children: React.ReactNode;
@@ -10,13 +11,10 @@ type Props = {
     name: string;
     path?: string;
   }[];
-  /* user: {
-    name: string;
-    roles: string[];
-  }; */
 };
 
-export function Navbar({ children, breadcrumb /* , user */ }: Props) {
+export function Navbar({ children, breadcrumb }: Props) {
+  const user = useUser();
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <header className="bg-white border-b border-gray-200 px-6 py-4">
@@ -41,17 +39,16 @@ export function Navbar({ children, breadcrumb /* , user */ }: Props) {
           </div>
 
           {/* Right side: User info */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-3 px-3 py-1.5 bg-gray-50 rounded-lg">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
-                JD
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-medium text-gray-900">John Doe</div>
-                <div className="text-xs text-gray-500">Admin</div>
+          {user.isLogedIn && (
+            <div className="flex items-center">
+              <div className="flex items-center px-3 py-1.5 bg-gray-100 rounded-lg">
+                <div className="text-left">
+                  <div className="text-sm font-medium text-gray-900">{user.data.name}</div>
+                  <div className="text-xs text-gray-500">{user.data.role.name}</div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </header>
 

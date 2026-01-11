@@ -5,6 +5,9 @@ import { Pencil, Trash2, Plus } from 'lucide-react';
 import { TypeUser, TypeRole } from '@/types/domain';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import api from '@/app/api';
+import { useUser } from '@/app/_common/contexts/User';
+import { isRoleSuperAdmin } from '@/utils/roles';
+import { getIsUserSuperAdmin } from '@/utils/user/helper';
 
 type Props = {
   initialUsers: TypeUser[];
@@ -15,8 +18,16 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const [users, setUsers] = useState(initialUsers);
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const confirm = useDialogStore((state) => state.confirm);
+  const currentUser = useUser();
+
+  const thereAreMoreThan2SuperUsers = users.filter((user) => getIsUserSuperAdmin(user)).length > 2;
 
   const handleAdd = async () => {
+    const rolesToUse = roles.filter((role) => {
+      if (isRoleSuperAdmin(role) && !currentUser.permissions.canCreateSuperUser) return false;
+      return true;
+    });
+
     const data = await getDataFromForm(
       {
         title: 'Nuevo usuario',
@@ -33,6 +44,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
           type: 'email',
           value: '',
           required: true,
+          forbiddenValues: users.map((user) => user.email),
         },
         password: {
           label: 'Password',
@@ -43,8 +55,8 @@ export function ClientPage({ initialUsers, roles }: Props) {
         roleId: {
           label: 'Role',
           type: 'select',
-          options: roles.map((role) => ({ label: role.name, value: role.id })),
-          value: roles[0].id,
+          options: rolesToUse.map((role) => ({ label: role.name, value: role.id })),
+          value: '',
           required: true,
         },
       },
@@ -65,6 +77,13 @@ export function ClientPage({ initialUsers, roles }: Props) {
   };
 
   const handleEdit = async ({ user }: { user: TypeUser }) => {
+    const rolesToUse = roles.filter((role) => {
+      if (getIsUserSuperAdmin(user)) {
+        return isRoleSuperAdmin(role) || thereAreMoreThan2SuperUsers;
+      }
+      return !isRoleSuperAdmin(role);
+    });
+
     const data = await getDataFromForm(
       {
         title: `Editar usuario "${user.name}"`,
@@ -81,11 +100,14 @@ export function ClientPage({ initialUsers, roles }: Props) {
           type: 'email',
           value: user.email,
           required: true,
+          forbiddenValues: users
+            .filter((userInArray) => userInArray.email !== user.email)
+            .map((userInArray) => userInArray.email),
         },
         roleId: {
           label: 'Role',
           type: 'select',
-          options: roles.map((role) => ({ label: role.name, value: role.id })),
+          options: rolesToUse.map((role) => ({ label: role.name, value: role.id })),
           value: user.role.id,
           required: true,
         },
@@ -121,15 +143,10 @@ export function ClientPage({ initialUsers, roles }: Props) {
             <h1 className="text-2xl font-bold text-gray-800">Gestión de Usuarios</h1>
             <button
               onClick={handleAdd}
-              disabled={roles.length === 0}
-              className="group relative bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+              disabled={!currentUser.permissions.canCreateUser}
+              className="bg-blue-600 hover:enabled:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition disabled:opacity-80 disabled:cursor-not-allowed"
             >
               <Plus size={20} /> Agregar Usuario
-              {roles.length === 0 && (
-                <span className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                  Create roles first
-                </span>
-              )}
             </button>
           </div>
 
@@ -166,8 +183,14 @@ export function ClientPage({ initialUsers, roles }: Props) {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
+                        disabled={
+                          !(
+                            (getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateSuperUser) ||
+                            (!getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateUser)
+                          )
+                        }
                         onClick={() => handleEdit({ user })}
-                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition inline-flex items-center gap-1"
+                        className="px-3 py-1 rounded inline-flex items-center gap-1 transition bg-blue-100 text-blue-700 hover:enabled:bg-blue-200 disabled:opacity-80 disabled:cursor-not-allowed"
                       >
                         <Pencil size={16} />
                         Editar
@@ -175,8 +198,16 @@ export function ClientPage({ initialUsers, roles }: Props) {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
+                        disabled={
+                          !(
+                            (getIsUserSuperAdmin(user) &&
+                              currentUser.permissions.canDeleteSuperUser &&
+                              thereAreMoreThan2SuperUsers) ||
+                            (!getIsUserSuperAdmin(user) && currentUser.permissions.canDeleteUser)
+                          )
+                        }
                         onClick={() => handleDelete({ user })}
-                        className="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition inline-flex items-center gap-1"
+                        className="px-3 py-1 rounded inline-flex items-center gap-1 transition bg-red-100 text-red-700 hover:enabled:bg-red-200 disabled:opacity-80 disabled:cursor-not-allowed"
                       >
                         <Trash2 size={16} />
                         Eliminar

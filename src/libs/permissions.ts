@@ -27,8 +27,8 @@ export const permissions = Object.freeze({
 });
 export const superAdminOnlyPermissions = Object.freeze({
   superAdmin: {
-    read: 'superAdmin.read',
-    write: 'superAdmin.write',
+    create: 'superAdmin.create',
+    update: 'superAdmin.update',
     delete: 'superAdmin.delete',
   },
 });

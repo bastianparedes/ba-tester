@@ -9,19 +9,18 @@ import { Switch } from '@/app/_common/components/switch';
 import { isRoleSuperAdmin } from '@/utils/roles';
 import api from '@/app/api';
 import constants from '@/config/constants';
+import { useUser } from '@/app/_common/contexts/User';
 
 type Props = {
   initialRoles: TypeRole[];
-  userCanCreateRoles: boolean;
-  userCanModifyRoles: boolean;
-  userCanDeleteRoles: boolean;
 };
 
-export function ClientPage({ initialRoles, userCanCreateRoles, userCanModifyRoles, userCanDeleteRoles }: Props) {
+export function ClientPage({ initialRoles }: Props) {
   const [roles, setRoles] = useState(initialRoles);
   const [selectedRoleId, setSelectedRole] = useState<string | null>(null);
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const confirm = useDialogStore((state) => state.confirm);
+  const user = useUser();
 
   const currentRole = roles.find((r) => r.id === selectedRoleId);
   const currentRoleIsSuperAdmin = !!currentRole && isRoleSuperAdmin(currentRole);
@@ -105,9 +104,9 @@ export function ClientPage({ initialRoles, userCanCreateRoles, userCanModifyRole
 
         <div className="p-4 space-y-2">
           <button
-            disabled={!userCanCreateRoles}
+            disabled={!user.permissions.canCreateRole}
             onClick={() => addRole()}
-            className="w-full p-4 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center space-x-2 text-gray-600 transition-all enabled:hover:border-blue-500 enabled:hover:bg-blue-50 enabled:hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full p-4 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center space-x-2 text-gray-600 transition-all enabled:hover:border-blue-500 enabled:hover:bg-blue-50 enabled:hover:text-blue-600 disabled:opacity-80 disabled:cursor-not-allowed"
           >
             <Plus className="w-5 h-5" />
             <span className="font-semibold">Agregar rol</span>
@@ -128,7 +127,7 @@ export function ClientPage({ initialRoles, userCanCreateRoles, userCanModifyRole
                   <div className="font-semibold text-gray-900">{role.name}</div>
                   <div className="text-sm text-gray-500">{role.permissions.length} permisos asignados</div>
                 </div>
-                {userCanDeleteRoles && !isRoleSuperAdmin(role) && (
+                {user.permissions.canDeleteRole && !isRoleSuperAdmin(role) && (
                   <div
                     onClick={() => deleteRole(role)}
                     className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg"
@@ -171,7 +170,7 @@ export function ClientPage({ initialRoles, userCanCreateRoles, userCanModifyRole
                         {/* <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p> */}
                       </div>
                       <Switch
-                        disabled={!userCanModifyRoles || currentRoleIsSuperAdmin}
+                        disabled={!user.permissions.canUpdateRole || currentRoleIsSuperAdmin}
                         checked={isActive}
                         onChange={() => togglePermission({ role: currentRole, permission })}
                       />
