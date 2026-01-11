@@ -5,7 +5,7 @@ type TokenPurpose = 'session' | 'password_recovery';
 type TokenData = { valid: true; id: string } | { valid: false; id: null };
 type Payload = { id: string; purpose: TokenPurpose };
 
-const secondsTokenIsValid = 60 * 60; // 1 hour
+const secondsTokenIsValid = 60 * 12; // 1 hour
 
 const getTokenData = ({ token, purpose }: { token: string; purpose: TokenPurpose }): TokenData => {
   try {
