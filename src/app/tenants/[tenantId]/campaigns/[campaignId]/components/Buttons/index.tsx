@@ -1,12 +1,18 @@
 import constants from '@/config/constants';
 import type { TypeCampaign } from '@/types/domain';
 import api from '@/app/api';
+import { useUser } from '@/app/_common/contexts/User';
+import { Button } from '@/app/_common/components/button';
 
 interface Props {
   campaign: TypeCampaign;
 }
 
 const Buttons = ({ campaign }: Props) => {
+  const user = useUser();
+
+  const isNewCampaign = campaign.id === undefined;
+
   const returnToCampaigns = () => {
     location.href = constants.pages.campaigns({ tenantId: campaign.tenantId });
   };
@@ -25,18 +31,19 @@ const Buttons = ({ campaign }: Props) => {
 
   return (
     <div className="mt-8 flex justify-end gap-4">
-      <button
-        onClick={returnToCampaigns}
-        className="px-8 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-lg font-semibold shadow-lg"
-      >
+      <Button onClick={returnToCampaigns} variant="destructive">
         Cancel
-      </button>
-      <button
+      </Button>
+      <Button
+        disabled={
+          (isNewCampaign && !user.permissions.canCreateCampaign) ||
+          (!isNewCampaign && !user.permissions.canUpdateCampaign)
+        }
         onClick={handleOnSave}
-        className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold shadow-lg"
+        variant="default"
       >
         Save Campaign
-      </button>
+      </Button>
     </div>
   );
 };

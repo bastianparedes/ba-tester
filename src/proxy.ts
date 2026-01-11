@@ -77,7 +77,7 @@ const pathRegexPermissions: {
 
   {
     regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns'),
-    permission: permissions.campaign.create,
+    permission: permissions.campaign.read,
     method: 'GET',
   },
   {

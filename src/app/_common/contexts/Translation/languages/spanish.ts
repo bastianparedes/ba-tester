@@ -12,7 +12,6 @@ const labels: typeof englishLabels = {
     createTenant: '+ Nuevo Tenant',
     noTenants: 'No se encontraron tenants',
     noTenantsDescription: 'Comienza creando tu primer tenant para gestionar tus pruebas A/B',
-    noTenantsCreateFirst: 'Crear primer tenant',
     name: 'Nombre',
     description: 'Descripción',
     domain: 'Dominio',

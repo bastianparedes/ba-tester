@@ -10,7 +10,6 @@ const labels = {
     createTenant: '+ New Tenant',
     noTenants: 'No tenants found',
     noTenantsDescription: 'Start by creating your first tenant to manage your A/B tests',
-    noTenantsCreateFirst: 'Create first tenant',
     name: 'Name',
     description: 'Description',
     domain: 'Domain',

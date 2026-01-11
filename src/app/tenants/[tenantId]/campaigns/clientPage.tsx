@@ -8,6 +8,7 @@ import config from '@/config/constants';
 import commonConstants from '@/config/common/constants';
 import Pagination from '@mui/material/Pagination';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
+import { useUser } from '@/app/_common/contexts/User';
 
 type UiState = {
   sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
@@ -30,6 +31,7 @@ type PageProps = {
   tenantId: number;
 };
 export function ClientPage({ tenantId }: PageProps) {
+  const user = useUser();
   const { translation } = useTranslationContext();
 
   const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
@@ -149,7 +151,7 @@ export function ClientPage({ tenantId }: PageProps) {
             <p className="text-slate-600">{translation.campaigns.headerSubTitle}</p>
           </div>
           <a
-            href={config.pages.campaign({ tenantId, campaignId: undefined })}
+            href={user.permissions.canCreateCampaign ? config.pages.campaign({ tenantId, campaignId: undefined }) : ''}
             className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg flex items-center gap-2"
           >
             <span className="text-xl">+</span>
@@ -190,16 +192,38 @@ export function ClientPage({ tenantId }: PageProps) {
                   campaigns.map((campaign) => (
                     <tr key={campaign.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 text-slate-700 font-medium">
-                        <a href={config.pages.campaign({ tenantId, campaignId: campaign.id })}>{campaign.id}</a>
+                        <a
+                          href={
+                            user.permissions.canReadCampaign
+                              ? config.pages.campaign({ tenantId, campaignId: campaign.id })
+                              : ''
+                          }
+                        >
+                          {campaign.id}
+                        </a>
                       </td>
                       <td className="px-6 py-4 text-slate-900 font-semibold">
-                        <a href={config.pages.campaign({ tenantId, campaignId: campaign.id })}>{campaign.name}</a>
+                        <a
+                          href={
+                            user.permissions.canReadCampaign
+                              ? config.pages.campaign({ tenantId, campaignId: campaign.id })
+                              : ''
+                          }
+                        >
+                          {campaign.name}
+                        </a>
                       </td>
                       <td className="px-6 py-4 text-center">
                         <span
                           className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(campaign.status)}`}
                         >
-                          <a href={config.pages.campaign({ tenantId, campaignId: campaign.id })}>
+                          <a
+                            href={
+                              user.permissions.canReadCampaign
+                                ? config.pages.campaign({ tenantId, campaignId: campaign.id })
+                                : ''
+                            }
+                          >
                             {translation.campaigns.status[campaign.status]}
                           </a>
                         </span>
