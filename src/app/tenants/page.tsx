@@ -1,5 +1,5 @@
 import { ClientPage } from './clientPage';
-import db from '@/libs/db/postgres';
+import db from '@/libs/db';
 import { Navigation } from '@/app/_common/components/navigation';
 
 export default async function Page() {

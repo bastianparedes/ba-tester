@@ -1,2 +1,4 @@
-import * as db from './functions';
-export default db;
+import * as users from './functions/users';
+import * as roles from './functions/roles';
+
+export default { users, roles };

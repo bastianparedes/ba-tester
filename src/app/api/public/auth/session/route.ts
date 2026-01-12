@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { generateToken, secondsTokenIsValid } from '@/libs/auth/jwt';
-import db from '@/libs/db/mongodb';
+import db from '@/libs/db';
 import bcrypt from 'bcrypt';
 import { TypeApiResponse } from '@/types/api';
 import { TypeGet, TypePost } from './client';

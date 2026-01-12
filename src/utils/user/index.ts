@@ -1,7 +1,7 @@
 import constants from '@/config/constants';
 
 import { cookies } from 'next/headers';
-import db from '@/libs/db/mongodb';
+import db from '@/libs/db';
 import { getTokenData } from '@/libs/auth/jwt';
 import { getUserPermissions, getIsUserSuperAdmin, type TypeFullUser } from './helper';
 

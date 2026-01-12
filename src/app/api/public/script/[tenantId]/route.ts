@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { type TypeCampaignScript } from '@/types/domain';
 import { NextRequest } from 'next/server';
-import db from '@/libs/db/postgres';
-import cache from '@/libs/db/redis';
+import db from '@/libs/db';
+import cache from '@/libs/db';
 
 export const GET = async (_req: NextRequest, { params: promiseParams }: { params: Promise<{ tenantId: string }> }) => {
   const params = await promiseParams;

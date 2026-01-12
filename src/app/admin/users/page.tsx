@@ -1,5 +1,5 @@
 import { ClientPage } from './clientPage';
-import db from '@/libs/db/mongodb';
+import db from '@/libs/db';
 import { Navigation } from '@/app/_common/components/navigation';
 
 export default async function Page() {

@@ -1,7 +1,7 @@
 import type React from 'react';
 import { redirect } from 'next/navigation';
 import constants from '@/config/constants';
-import db from '@/libs/db/postgres';
+import db from '@/libs/db';
 
 type LayoutProps = {
   children: React.ReactNode;

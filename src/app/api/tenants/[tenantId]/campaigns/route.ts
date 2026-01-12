@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { zodRequirementsCampaign } from './validator.helper';
 import commonConstants from '@/config/common/constants';
 import config from '@/config/constants';
-import db from '@/libs/db/postgres';
+import db from '@/libs/db';
 import { TypeGet, TypePost } from './client';
 import { TypeApiResponse } from '@/types/api';
 

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { zodRequirementsCampaign } from '../validator.helper';
 import commonConstants from '@/config/common/constants';
-import db from '@/libs/db/postgres';
+import db from '@/libs/db';
 import { TypePut } from './client';
 import { TypeApiResponse } from '@/types/api';
 
