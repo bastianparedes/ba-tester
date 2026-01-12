@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import env from '@/libs/env';
-import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/libs/permissions';
+/* import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/libs/permissions';
 import constants from '@/config/constants';
-import { getPasswordHashed } from '@/libs/auth/password';
+import { getPasswordHashed } from '@/libs/auth/password'; */
 
 export interface IRole extends mongoose.Document {
   name: string;
