@@ -28,9 +28,9 @@ export const update = async (
   return withMapId(updatedUser);
 };
 
-export const get = async ({ userId }: { userId: string }): Promise<TypeUser> => {
+export const get = async ({ userId }: { userId: string }): Promise<TypeUser | null> => {
   const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
-  if (!user) throw new Error(`user (${userId}) doesn't exist`);
+  if (!user) return null;
   const userPopulated = withMapId({
     ...user,
     role: withMapId(user.role),

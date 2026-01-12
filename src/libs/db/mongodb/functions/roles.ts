@@ -20,7 +20,7 @@ export const update = async (
   return updatedRole;
 };
 
-export const get = async (filters: { id?: string } = {}): Promise<TypeRole | null> => {
+export const get = async (filters: { id?: string; name?: string } = {}): Promise<TypeRole | null> => {
   const role = await Roles.findOne(filters).lean();
   if (!role) return null;
   return withMapId(role);
