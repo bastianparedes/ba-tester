@@ -5,7 +5,6 @@ import { TypePut, TypeDelete } from './client';
 import { TypeApiResponse } from '@/types/api';
 import constants from '@/config/constants';
 import { getUserFromCookies } from '@/utils/user';
-import { isRoleSuperAdmin } from '@/utils/roles';
 import { getIsUserSuperAdmin } from '@/utils/user/helper';
 
 const updateUserSchema = z.object({

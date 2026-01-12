@@ -5,6 +5,7 @@ import { TypePut, TypeDelete } from './client';
 import { TypeApiResponse } from '@/types/api';
 import { flatPermissions } from '@/libs/permissions';
 import constants from '@/config/constants';
+import { isRoleSuperAdmin } from '@/utils/roles';
 
 const insertRoleSchema = z.object({
   name: z.string().refine((val) => val !== constants.superAdminRoleName, {
@@ -43,6 +44,10 @@ export async function DELETE(
 ): TypeApiResponse<TypeDelete['response']> {
   const params = await promiseParams;
   const roleId = params.roleId;
+
+  const role = await db.roles.get({ id: roleId });
+  if (!role) return NextResponse.json({ errors: ['Role does not exist'] });
+  if (isRoleSuperAdmin(role)) return NextResponse.json({ errors: ['Role Super Admin can not be deleted'] });
 
   await db.roles.remove({ roleId });
   return NextResponse.json({});
