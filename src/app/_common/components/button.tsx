@@ -8,14 +8,14 @@ type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg';
 // Variantes del botón
 const buttonVariants: Record<'variant' | 'size', Record<string, string>> = {
   variant: {
-    default: 'bg-blue-600 text-white hover:bg-blue-700',
+    default: 'bg-blue-600 text-white hover:enabled:bg-blue-700',
     destructive:
-      'bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-200 dark:focus-visible:ring-red-900 dark:bg-red-600',
+      'bg-red-500 text-white hover:enabled:bg-red-600 focus-visible:ring-red-200 dark:focus-visible:ring-red-900 dark:bg-red-600',
     outline:
-      'border border-gray-300 bg-white shadow-sm hover:bg-gray-100 hover:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700',
-    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-    ghost: 'hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800',
-    link: 'text-blue-600 underline-offset-4 hover:underline',
+      'border border-gray-300 bg-white shadow-sm hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:hover:enabled:bg-gray-700',
+    secondary: 'bg-gray-200 text-gray-900 hover:enabled:bg-gray-300',
+    ghost: 'hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:hover:enabled:bg-gray-800',
+    link: 'text-blue-600 underline-offset-4 hover:enabled:underline',
   },
   size: {
     default: 'h-9 px-4 py-2',
@@ -31,22 +31,27 @@ const buttonVariants: Record<'variant' | 'size', Record<string, string>> = {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  href?: string;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
-    const baseClasses =
-      'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed';
+export const Button = ({ className, variant = 'default', size = 'default', children, href, ...props }: ButtonProps) => {
+  const baseClasses =
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed';
 
-    const variantClass = buttonVariants.variant[variant] || buttonVariants.variant.default;
-    const sizeClass = buttonVariants.size[size] || buttonVariants.size.default;
+  const variantClass = buttonVariants.variant[variant] ?? buttonVariants.variant.default;
 
+  const sizeClass = buttonVariants.size[size] ?? buttonVariants.size.default;
+
+  if (href)
     return (
-      <button ref={ref} className={cx(className, baseClasses, variantClass, sizeClass)} {...props}>
+      <a href={href} className={cx(className, baseClasses, variantClass, sizeClass)}>
         {children}
-      </button>
+      </a>
     );
-  },
-);
 
-Button.displayName = 'Button';
+  return (
+    <button className={cx(className, baseClasses, variantClass, sizeClass)} {...props}>
+      {children}
+    </button>
+  );
+};

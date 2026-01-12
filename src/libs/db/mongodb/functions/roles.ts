@@ -21,8 +21,16 @@ export const update = async (
 };
 
 export const get = async (filters: { id?: string; name?: string } = {}): Promise<TypeRole | null> => {
-  const role = await Roles.findOne(filters).lean();
+  const { id, ...rest } = filters;
+
+  const query = {
+    ...rest,
+    ...(id ? { _id: id } : {}),
+  };
+
+  const role = await Roles.findOne(query).lean();
   if (!role) return null;
+
   return withMapId(role);
 };
 
@@ -31,8 +39,15 @@ export const getAll = async (): Promise<TypeRole[]> => {
   return roles.map((role) => withMapId(role));
 };
 
-export const getMany = async (filters: { id?: string; name?: string }): Promise<TypeRole[]> => {
-  const roles = await Roles.find(filters).lean();
+export const getMany = async (filters: { id?: string; name?: string } = {}): Promise<TypeRole[]> => {
+  const { id, ...rest } = filters;
+
+  const query = {
+    ...rest,
+    ...(id ? { _id: id } : {}),
+  };
+
+  const roles = await Roles.find(query).lean();
   return roles.map((role) => withMapId(role));
 };
 

@@ -55,15 +55,22 @@ export const getAll = async (): Promise<TypeUser[]> => {
   return safeUsers;
 };
 
-export const getMany = async (filters: { id?: string; name?: string; role?: string }): Promise<TypeUser[]> => {
-  const users = await Users.find(filters).select('-passwordHash').populate<{ role: IRole }>('role').lean();
-  const safeUsers = users.map((user) =>
+export const getMany = async (filters: { id?: string; name?: string; role?: string } = {}): Promise<TypeUser[]> => {
+  const { id, ...rest } = filters;
+
+  const query = {
+    ...rest,
+    ...(id ? { _id: id } : {}),
+  };
+
+  const users = await Users.find(query).select('-passwordHash').populate<{ role: IRole }>('role').lean();
+
+  return users.map((user) =>
     withMapId({
       ...user,
       role: withMapId(user.role),
     }),
   );
-  return safeUsers;
 };
 
 export const remove = async ({ userId }: { userId: string }) => {

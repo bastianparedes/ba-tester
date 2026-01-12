@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useReducer } from 'react';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, PlusCircle } from 'lucide-react';
 import api from '@/app/api';
 import { type TypeStatus, TypeCampaign, TypeOrderBy, TypeOrderDirection } from '@/types/domain/index';
 import config from '@/config/constants';
@@ -9,6 +9,7 @@ import commonConstants from '@/config/common/constants';
 import Pagination from '@mui/material/Pagination';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
+import { Button } from '@/app/_common/components/button';
 
 type UiState = {
   sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
@@ -150,13 +151,17 @@ export function ClientPage({ tenantId }: PageProps) {
             <h1 className="text-4xl font-bold text-slate-900 mb-2">{translation.campaigns.headerTitle}</h1>
             <p className="text-slate-600">{translation.campaigns.headerSubTitle}</p>
           </div>
-          <a
-            href={user.permissions.canCreateCampaign ? config.pages.campaign({ tenantId, campaignId: undefined }) : ''}
-            className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-md hover:shadow-lg flex items-center gap-2"
+          <Button
+            disabled={!user.permissions.canCreateCampaign}
+            href={
+              user.permissions.canCreateCampaign
+                ? config.pages.campaign({ tenantId, campaignId: undefined })
+                : undefined
+            }
           >
-            <span className="text-xl">+</span>
+            <PlusCircle />
             {translation.campaigns.createCampaignButton}
-          </a>
+          </Button>
         </div>
 
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
