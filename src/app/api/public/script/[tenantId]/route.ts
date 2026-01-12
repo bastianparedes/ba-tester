@@ -3,13 +3,12 @@ import path from 'path';
 import { type TypeCampaignScript } from '@/types/domain';
 import { NextRequest } from 'next/server';
 import db from '@/libs/db';
-import cache from '@/libs/db';
 
 export const GET = async (_req: NextRequest, { params: promiseParams }: { params: Promise<{ tenantId: string }> }) => {
   const params = await promiseParams;
 
   const cacheKey = `tenant_${params.tenantId}_public_script`;
-  const cachedScript = await cache.get(cacheKey);
+  const cachedScript = await db.cache.get(cacheKey);
 
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -30,6 +29,6 @@ export const GET = async (_req: NextRequest, { params: promiseParams }: { params
   const script = fs.readFileSync(path.join(process.cwd(), 'dist', 'script.js'), 'utf-8');
   const fullScript = stringWindow + script;
 
-  await cache.save({ key: cacheKey, value: fullScript, ttlMinutes: 1 });
+  await db.cache.save({ key: cacheKey, value: fullScript, ttlMinutes: 1 });
   return new Response(fullScript, { headers });
 };
