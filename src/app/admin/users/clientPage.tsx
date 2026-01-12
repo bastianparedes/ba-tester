@@ -20,11 +20,11 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const confirm = useDialogStore((state) => state.confirm);
   const currentUser = useUser();
 
-  const thereAreMoreThan2SuperUsers = users.filter((user) => getIsUserSuperAdmin(user)).length > 2;
+  const thereAreMoreThan2SuperAdmins = users.filter((user) => getIsUserSuperAdmin(user)).length > 2;
 
   const handleAdd = async () => {
     const rolesToUse = roles.filter((role) => {
-      if (isRoleSuperAdmin(role) && !currentUser.permissions.canCreateSuperUser) return false;
+      if (isRoleSuperAdmin(role) && !currentUser.permissions.canCreateSuperAdmin) return false;
       return true;
     });
 
@@ -79,7 +79,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const handleEdit = async ({ user }: { user: TypeUser }) => {
     const rolesToUse = roles.filter((role) => {
       if (getIsUserSuperAdmin(user)) {
-        return isRoleSuperAdmin(role) || thereAreMoreThan2SuperUsers;
+        return isRoleSuperAdmin(role) || thereAreMoreThan2SuperAdmins;
       }
       return !isRoleSuperAdmin(role);
     });
@@ -185,7 +185,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                       <button
                         disabled={
                           !(
-                            (getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateSuperUser) ||
+                            (getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateSuperAdmin) ||
                             (!getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateUser)
                           )
                         }
@@ -201,8 +201,8 @@ export function ClientPage({ initialUsers, roles }: Props) {
                         disabled={
                           !(
                             (getIsUserSuperAdmin(user) &&
-                              currentUser.permissions.canDeleteSuperUser &&
-                              thereAreMoreThan2SuperUsers) ||
+                              currentUser.permissions.canDeleteSuperAdmin &&
+                              thereAreMoreThan2SuperAdmins) ||
                             (!getIsUserSuperAdmin(user) && currentUser.permissions.canDeleteUser)
                           )
                         }

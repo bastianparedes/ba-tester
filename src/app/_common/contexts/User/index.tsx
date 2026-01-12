@@ -1,21 +1,17 @@
 'use client';
 
 import { createContext, useContext, type ReactNode } from 'react';
-import { TypeUser } from '@/types/domain';
-import { getUserData } from '@/utils/user/clientSide';
-
-type UserContextType = ReturnType<typeof getUserData>;
+import { type TypeFullUser } from '@/utils/user/helper';
 
 type UserProviderProps = {
   children: ReactNode;
-  user: TypeUser | null;
+  user: TypeFullUser;
 };
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<TypeFullUser | undefined>(undefined);
 
 const UserProvider = ({ children, user }: UserProviderProps) => {
-  const userData = getUserData(user);
-  return <UserContext.Provider value={userData}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 const useUser = () => {

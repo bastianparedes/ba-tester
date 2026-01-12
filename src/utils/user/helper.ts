@@ -7,6 +7,7 @@ export type TypeFullUser =
       isLogedIn: true;
       data: TypeUser;
       isSuperAdmin: boolean;
+      rawPermissions: string[];
       permissions: {
         canReadRole: boolean;
         canCreateRole: boolean;
@@ -27,15 +28,16 @@ export type TypeFullUser =
         canCreateCampaign: boolean;
         canUpdateCampaign: boolean;
 
-        canCreateSuperUser: boolean;
-        canUpdateSuperUser: boolean;
-        canDeleteSuperUser: boolean;
+        canCreateSuperAdmin: boolean;
+        canUpdateSuperAdmin: boolean;
+        canDeleteSuperAdmin: boolean;
       };
     }
   | {
       isLogedIn: false;
       data: null;
       isSuperAdmin: false;
+      rawPermissions: string[];
       permissions: {
         canReadRole: false;
         canCreateRole: false;
@@ -56,9 +58,9 @@ export type TypeFullUser =
         canCreateCampaign: false;
         canUpdateCampaign: false;
 
-        canCreateSuperUser: false;
-        canUpdateSuperUser: false;
-        canDeleteSuperUser: false;
+        canCreateSuperAdmin: false;
+        canUpdateSuperAdmin: false;
+        canDeleteSuperAdmin: false;
       };
     };
 export const getUserPermissions = (user: TypeUser | null) => ({
@@ -81,9 +83,9 @@ export const getUserPermissions = (user: TypeUser | null) => ({
   canCreateCampaign: !!user && user.role.permissions.includes(permissions.campaign.create),
   canUpdateCampaign: !!user && user.role.permissions.includes(permissions.campaign.update),
 
-  canCreateSuperUser: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create),
-  canUpdateSuperUser: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update),
-  canDeleteSuperUser: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete),
+  canCreateSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create),
+  canUpdateSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update),
+  canDeleteSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete),
 });
 
 export const getIsUserSuperAdmin = (user: TypeUser | null) => !!user && user.role.name === constants.superAdminRoleName;

@@ -119,14 +119,13 @@ export async function proxy(request: NextRequest) {
   };
 
   const user = await getUserFromCookies();
-  if (!user) return handleUnauthorized();
 
   const pathRegexPermission = pathRegexPermissions.find(
     ({ regex, method }) => regex.test(request.nextUrl.pathname) && method === request.method,
   );
   if (!pathRegexPermission) return handleUnauthorized();
 
-  const userHasPermission = user.role.permissions.includes(pathRegexPermission.permission);
+  const userHasPermission = user.rawPermissions.includes(pathRegexPermission.permission);
   if (!userHasPermission) return handleUnauthorized();
 
   return response;

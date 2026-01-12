@@ -20,14 +20,19 @@ export const update = async (
   return updatedRole;
 };
 
-export const get = async ({ roleId }: { roleId: string }): Promise<TypeRole> => {
-  const role = await Roles.findById(roleId).lean();
-  if (!role) throw new Error(`Role (${roleId}) doesn't exist`);
+export const get = async (filters: { id?: string } = {}): Promise<TypeRole | null> => {
+  const role = await Roles.findOne(filters).lean();
+  if (!role) return null;
   return withMapId(role);
 };
 
 export const getAll = async (): Promise<TypeRole[]> => {
   const roles = await Roles.find().lean();
+  return roles.map((role) => withMapId(role));
+};
+
+export const getMany = async (filters: { id?: string; name?: string }): Promise<TypeRole[]> => {
+  const roles = await Roles.find(filters).lean();
   return roles.map((role) => withMapId(role));
 };
 
