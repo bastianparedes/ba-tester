@@ -55,7 +55,7 @@ export const Users: mongoose.Model<IUser> = mongoose.models.User || mongoose.mod
 mongoose
   .connect(env.DATABASE_URL_MONGODB)
   .then(async () => {
-    const superAdminRole = await Roles.findOneAndUpdate(
+    /* const superAdminRole = await Roles.findOneAndUpdate(
       { name: constants.superAdminRoleName },
       {
         name: constants.superAdminRoleName,
@@ -63,9 +63,8 @@ mongoose
         permissions: [...flatPermissions, ...flatSuperAdminOnlyPermissions],
       },
       { upsert: true, new: true },
-    );
-
-    Promise.all(
+    ); */
+    /* Promise.all(
       env.SUPER_ADMINS.map((superAdmin) =>
         Users.findOneAndUpdate(
           { email: superAdmin.email },
@@ -80,7 +79,7 @@ mongoose
           { upsert: true, new: true },
         ),
       ),
-    );
+    ); */
   })
   .catch((err) => console.error('Error in conection to MongoDB:', err));
 
