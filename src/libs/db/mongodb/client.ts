@@ -64,7 +64,7 @@ mongoose
       },
       { upsert: true, new: true },
     );
-    Promise.all(
+    await Promise.all(
       env.SUPER_ADMINS.map((superAdmin) =>
         Users.findOneAndUpdate(
           { email: superAdmin.email },
