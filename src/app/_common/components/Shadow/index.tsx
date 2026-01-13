@@ -16,6 +16,7 @@ const Shadow = ({ children, setVisible = null, blur = false }: Props) => {
   };
 
   return (
+    <>
     <button
       type="button"
       data-testid="data-testid-shadow"
@@ -25,9 +26,12 @@ const Shadow = ({ children, setVisible = null, blur = false }: Props) => {
         bg-black/50
         ${blur ? 'backdrop-blur-[5px]' : ''}
       `}
-    >
+    />
+    <div className="fixed inset-0 z-1100 w-fit h-fit m-auto">
       {children}
-    </button>
+    </div>
+
+    </>
   );
 };
 
