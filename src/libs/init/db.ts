@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
 import constants from '@/config/constants';
 import { getPasswordHashed } from '@/libs/auth/password';
-import { Roles, Users } from '@/libs/db/mongodb/client';
+import { connect, disconnect } from '@/libs/db/mongodb/client';
+import Roles from '@/libs/db/mongodb/models/Role';
+import Users from '@/libs/db/mongodb/models/User';
 import env from '@/libs/env';
 import {
   flatPermissions,
@@ -10,8 +11,7 @@ import {
 
 async function seedDB() {
   try {
-    console.log('Connecting to mongoDB for seed');
-    await mongoose.connect(env.DATABASE_URL_MONGODB);
+    await connect();
 
     const superAdminRole = await Roles.findOneAndUpdate(
       { name: constants.superAdminRoleName },
@@ -42,7 +42,7 @@ async function seedDB() {
     console.error('❌ MongoDB seed failed:', error);
   } finally {
     console.log('Disconnecting MongoDB for seed');
-    await mongoose.disconnect();
+    await disconnect();
     process.exit(0);
   }
 }

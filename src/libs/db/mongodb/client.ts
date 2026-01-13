@@ -2,7 +2,10 @@ import importedMongoose from 'mongoose';
 import env from '@/libs/env';
 
 declare global {
-  var mongoose: { conn: typeof importedMongoose | null, promise: Promise<typeof importedMongoose> | null};
+  var mongoose: {
+    conn: typeof importedMongoose | null;
+    promise: Promise<typeof importedMongoose> | null;
+  };
 }
 
 let cached = global.mongoose;
@@ -48,4 +51,19 @@ export async function connect() {
   }
 
   return cached.conn;
+}
+
+export async function disconnect() {
+  if (!cached.conn) {
+    return;
+  }
+
+  console.log('---Disconnecting from MongoDB---');
+
+  await importedMongoose.disconnect();
+
+  cached.conn = null;
+  cached.promise = null;
+
+  console.log('---Disconnected!---');
 }
