@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, LogOut, User } from 'lucide-react';
 import { cx } from 'class-variance-authority';
+import { ChevronDown, ChevronRight, LogOut, User } from 'lucide-react';
+import React, { useState } from 'react';
 import { useUser } from '@/app/_common/contexts/User';
 import api from '@/app/api';
 import constants from '@/config/constants';
@@ -38,8 +38,10 @@ export function Navbar({ children, breadcrumb }: Props) {
                 <a
                   href={crumb.path}
                   className={cx({
-                    'transition-colors duration-200': index < breadcrumb.length - 1,
-                    'text-slate-900 font-medium': index === breadcrumb.length - 1,
+                    'transition-colors duration-200':
+                      index < breadcrumb.length - 1,
+                    'text-slate-900 font-medium':
+                      index === breadcrumb.length - 1,
                     'hover:text-blue-600': !!crumb.path,
                   })}
                 >
@@ -53,6 +55,7 @@ export function Navbar({ children, breadcrumb }: Props) {
           {user.isLogedIn && (
             <div className="relative">
               <button
+                type="button"
                 onClick={() => setShowDropdown(!showDropdown)}
                 className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200 border border-gray-200 hover:border-gray-300"
               >
@@ -60,8 +63,12 @@ export function Navbar({ children, breadcrumb }: Props) {
                   <User className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
-                  <div className="text-sm font-medium text-gray-900">{user.data.name}</div>
-                  <div className="text-xs text-gray-500">{user.data.role.name}</div>
+                  <div className="text-sm font-medium text-gray-900">
+                    {user.data.name}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {user.data.role.name}
+                  </div>
                 </div>
                 <ChevronDown
                   className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
@@ -72,6 +79,7 @@ export function Navbar({ children, breadcrumb }: Props) {
               {showDropdown && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
                   <button
+                    type="button"
                     onClick={() => {
                       setShowDropdown(false);
                       onLogout();

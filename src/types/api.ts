@@ -1,4 +1,4 @@
-import { type NextResponse } from 'next/server';
+import type { NextResponse } from 'next/server';
 
 export type TypeApiResponse<T extends Record<string, unknown>> = Promise<
   NextResponse<

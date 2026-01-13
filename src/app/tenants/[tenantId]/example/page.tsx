@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/a11y/noSvgWithoutTitle: <Lo puedo cambiar después> */
 export default function Page() {
   return (
     <div className="min-h-screen bg-gray-50">
@@ -10,23 +11,48 @@ export default function Page() {
                 BA Tester
               </h1>
               <nav id="main-nav" className="hidden md:flex space-x-6">
-                <button id="nav-home" className="text-gray-700 hover:text-indigo-600">
+                <button
+                  type="button"
+                  id="nav-home"
+                  className="text-gray-700 hover:text-indigo-600"
+                >
                   Inicio
                 </button>
-                <button id="nav-products" className="text-gray-700 hover:text-indigo-600">
+                <button
+                  type="button"
+                  id="nav-products"
+                  className="text-gray-700 hover:text-indigo-600"
+                >
                   Productos
                 </button>
-                <button id="nav-offers" className="text-gray-700 hover:text-indigo-600">
+                <button
+                  type="button"
+                  id="nav-offers"
+                  className="text-gray-700 hover:text-indigo-600"
+                >
                   Ofertas
                 </button>
-                <button id="nav-contact" className="text-gray-700 hover:text-indigo-600">
+                <button
+                  type="button"
+                  id="nav-contact"
+                  className="text-gray-700 hover:text-indigo-600"
+                >
                   Contacto
                 </button>
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <button id="search-icon" className="text-gray-700 hover:text-indigo-600">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button
+                type="button"
+                id="search-icon"
+                className="text-gray-700 hover:text-indigo-600"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -35,8 +61,17 @@ export default function Page() {
                   />
                 </svg>
               </button>
-              <button id="user-icon" className="text-gray-700 hover:text-indigo-600">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button
+                type="button"
+                id="user-icon"
+                className="text-gray-700 hover:text-indigo-600"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -45,8 +80,17 @@ export default function Page() {
                   />
                 </svg>
               </button>
-              <button id="cart-icon" className="relative text-gray-700 hover:text-indigo-600">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button
+                type="button"
+                id="cart-icon"
+                className="relative text-gray-700 hover:text-indigo-600"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -77,7 +121,11 @@ export default function Page() {
                 placeholder="Buscar productos..."
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
-              <button id="search-button" className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+              <button
+                type="button"
+                id="search-button"
+                className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              >
                 Buscar
               </button>
             </div>
@@ -89,7 +137,9 @@ export default function Page() {
       <div id="filters-section" className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex flex-wrap gap-4 items-center">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+            <span className="block text-sm font-medium text-gray-700 mb-1">
+              Categoría
+            </span>
             <select
               id="category-filter"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -102,7 +152,9 @@ export default function Page() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+            <span className="block text-sm font-medium text-gray-700 mb-1">
+              Precio
+            </span>
             <select
               id="price-filter"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -114,7 +166,9 @@ export default function Page() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+            <span className="block text-sm font-medium text-gray-700 mb-1">
+              Marca
+            </span>
             <input
               id="brand-filter"
               type="text"
@@ -123,23 +177,36 @@ export default function Page() {
             />
           </div>
           <div className="flex items-center mt-6">
-            <input type="checkbox" id="stock-filter" className="w-4 h-4 text-indigo-600" />
-            <label htmlFor="stock-filter" className="ml-2 text-sm text-gray-700">
-              Solo en stock
-            </label>
+            <input
+              type="checkbox"
+              id="stock-filter"
+              className="w-4 h-4 text-indigo-600"
+            />
+            <span className="ml-2 text-sm text-gray-700">Solo en stock</span>
           </div>
-          <button id="clear-filters" className="mt-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+          <button
+            type="button"
+            id="clear-filters"
+            className="mt-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+          >
             Limpiar filtros
           </button>
         </div>
       </div>
 
       {/* Test Banner */}
-      <div id="test-banner" className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+      <div
+        id="test-banner"
+        className="bg-yellow-50 border-l-4 border-yellow-400 p-4"
+      >
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center">
             <div className="shrink-0">
-              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+              <svg
+                className="h-5 w-5 text-yellow-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
                 <path
                   fillRule="evenodd"
                   d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
@@ -149,8 +216,9 @@ export default function Page() {
             </div>
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                <span className="font-semibold">PÁGINA DE PRUEBA A/B TEST</span> - Esta es una página estática de
-                demostración para realizar pruebas de testing. Ningún botón o función es real.
+                <span className="font-semibold">PÁGINA DE PRUEBA A/B TEST</span>{' '}
+                - Esta es una página estática de demostración para realizar
+                pruebas de testing. Ningún botón o función es real.
               </p>
             </div>
           </div>
@@ -161,7 +229,12 @@ export default function Page() {
       <div id="main-content" className="max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-100 rounded-full mb-6">
-            <svg className="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-10 h-10 text-indigo-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -173,46 +246,63 @@ export default function Page() {
           <h2 id="main-title" className="text-4xl font-bold text-gray-900 mb-4">
             Página de Prueba para A/B Testing
           </h2>
-          <p id="main-description" className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-            Esta es una página estática diseñada para probar diferentes elementos de interfaz, botones y formularios sin
-            funcionalidad real.
+          <p
+            id="main-description"
+            className="text-xl text-gray-600 max-w-2xl mx-auto mb-8"
+          >
+            Esta es una página estática diseñada para probar diferentes
+            elementos de interfaz, botones y formularios sin funcionalidad real.
           </p>
           <div
             id="variant-badge"
             className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg"
           >
-            <svg className="w-5 h-5 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 text-blue-500 mr-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path
                 fillRule="evenodd"
                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-sm text-blue-800 font-medium">Variante de prueba: Control v1.0</span>
+            <span className="text-sm text-blue-800 font-medium">
+              Variante de prueba: Control v1.0
+            </span>
           </div>
         </div>
 
         {/* Sample Actions Grid */}
-        <div id="actions-grid" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div
+          id="actions-grid"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+        >
           <div
             id="primary-actions"
             className="bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:border-indigo-500 transition-colors"
           >
-            <h3 className="text-lg font-semibold mb-3 text-gray-900">Acciones Principales</h3>
+            <h3 className="text-lg font-semibold mb-3 text-gray-900">
+              Acciones Principales
+            </h3>
             <div className="space-y-2">
               <button
+                type="button"
                 id="primary-action-1"
                 className="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
               >
                 Acción Principal 1
               </button>
               <button
+                type="button"
                 id="primary-action-2"
                 className="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
               >
                 Acción Principal 2
               </button>
               <button
+                type="button"
                 id="primary-action-3"
                 className="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
               >
@@ -225,21 +315,26 @@ export default function Page() {
             id="secondary-actions"
             className="bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:border-green-500 transition-colors"
           >
-            <h3 className="text-lg font-semibold mb-3 text-gray-900">Acciones Secundarias</h3>
+            <h3 className="text-lg font-semibold mb-3 text-gray-900">
+              Acciones Secundarias
+            </h3>
             <div className="space-y-2">
               <button
+                type="button"
                 id="secondary-action-1"
                 className="w-full py-2 px-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Acción Secundaria 1
               </button>
               <button
+                type="button"
                 id="secondary-action-2"
                 className="w-full py-2 px-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Acción Secundaria 2
               </button>
               <button
+                type="button"
                 id="secondary-action-3"
                 className="w-full py-2 px-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
@@ -252,21 +347,26 @@ export default function Page() {
             id="alert-actions"
             className="bg-white p-6 rounded-lg shadow-md border-2 border-transparent hover:border-red-500 transition-colors"
           >
-            <h3 className="text-lg font-semibold mb-3 text-gray-900">Acciones de Alerta</h3>
+            <h3 className="text-lg font-semibold mb-3 text-gray-900">
+              Acciones de Alerta
+            </h3>
             <div className="space-y-2">
               <button
+                type="button"
                 id="alert-action-1"
                 className="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
                 Acción de Alerta 1
               </button>
               <button
+                type="button"
                 id="warning-action"
                 className="w-full py-2 px-4 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
               >
                 Acción de Advertencia
               </button>
               <button
+                type="button"
                 id="success-action"
                 className="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
@@ -278,10 +378,14 @@ export default function Page() {
 
         {/* Form Testing Section */}
         <div id="test-form" className="bg-white p-8 rounded-lg shadow-md mb-12">
-          <h3 className="text-2xl font-bold mb-6 text-gray-900">Formulario de Prueba</h3>
+          <h3 className="text-2xl font-bold mb-6 text-gray-900">
+            Formulario de Prueba
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo</label>
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Nombre completo
+              </span>
               <input
                 id="form-name"
                 type="text"
@@ -290,7 +394,9 @@ export default function Page() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </span>
               <input
                 id="form-email"
                 type="email"
@@ -299,7 +405,9 @@ export default function Page() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Teléfono
+              </span>
               <input
                 id="form-phone"
                 type="tel"
@@ -308,7 +416,9 @@ export default function Page() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Fecha</label>
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Fecha
+              </span>
               <input
                 id="form-date"
                 type="date"
@@ -316,15 +426,31 @@ export default function Page() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Rango de precio</label>
-              <input id="form-range" type="range" min="0" max="1000" className="w-full" />
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Rango de precio
+              </span>
+              <input
+                id="form-range"
+                type="range"
+                min="0"
+                max="1000"
+                className="w-full"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Color preferido</label>
-              <input id="form-color" type="color" className="w-full h-10 border border-gray-300 rounded-lg" />
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Color preferido
+              </span>
+              <input
+                id="form-color"
+                type="color"
+                className="w-full h-10 border border-gray-300 rounded-lg"
+              />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
+              <span className="block text-sm font-medium text-gray-700 mb-2">
+                Mensaje
+              </span>
               <textarea
                 id="form-message"
                 rows={4}
@@ -334,46 +460,71 @@ export default function Page() {
             </div>
             <div className="md:col-span-2 space-y-3">
               <div className="flex items-center">
-                <input type="checkbox" id="form-terms" className="w-4 h-4 text-indigo-600" />
-                <label htmlFor="form-terms" className="ml-2 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  id="form-terms"
+                  className="w-4 h-4 text-indigo-600"
+                />
+                <span className="ml-2 text-sm text-gray-700">
                   Acepto los términos y condiciones
-                </label>
+                </span>
               </div>
               <div className="flex items-center">
-                <input type="checkbox" id="form-newsletter" className="w-4 h-4 text-indigo-600" />
-                <label htmlFor="form-newsletter" className="ml-2 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  id="form-newsletter"
+                  className="w-4 h-4 text-indigo-600"
+                />
+                <span className="ml-2 text-sm text-gray-700">
                   Deseo recibir noticias y promociones
-                </label>
+                </span>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center">
-                  <input type="radio" name="plan" id="form-plan-basic" className="w-4 h-4 text-indigo-600" />
-                  <label htmlFor="form-plan-basic" className="ml-2 text-sm text-gray-700">
+                  <input
+                    type="radio"
+                    name="plan"
+                    id="form-plan-basic"
+                    className="w-4 h-4 text-indigo-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">
                     Plan Básico
-                  </label>
+                  </span>
                 </div>
                 <div className="flex items-center">
-                  <input type="radio" name="plan" id="form-plan-premium" className="w-4 h-4 text-indigo-600" />
-                  <label htmlFor="form-plan-premium" className="ml-2 text-sm text-gray-700">
+                  <input
+                    type="radio"
+                    name="plan"
+                    id="form-plan-premium"
+                    className="w-4 h-4 text-indigo-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">
                     Plan Premium
-                  </label>
+                  </span>
                 </div>
                 <div className="flex items-center">
-                  <input type="radio" name="plan" id="form-plan-enterprise" className="w-4 h-4 text-indigo-600" />
-                  <label htmlFor="form-plan-enterprise" className="ml-2 text-sm text-gray-700">
+                  <input
+                    type="radio"
+                    name="plan"
+                    id="form-plan-enterprise"
+                    className="w-4 h-4 text-indigo-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">
                     Plan Empresarial
-                  </label>
+                  </span>
                 </div>
               </div>
             </div>
             <div className="md:col-span-2 flex gap-4">
               <button
+                type="button"
                 id="form-submit"
                 className="flex-1 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold"
               >
                 Enviar Formulario
               </button>
               <button
+                type="button"
                 id="form-cancel"
                 className="flex-1 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-semibold"
               >
@@ -384,22 +535,35 @@ export default function Page() {
         </div>
 
         {/* Button Variations */}
-        <div id="button-variations" className="bg-white p-8 rounded-lg shadow-md">
-          <h3 className="text-2xl font-bold mb-6 text-gray-900">Variaciones de Botones para Prueba</h3>
+        <div
+          id="button-variations"
+          className="bg-white p-8 rounded-lg shadow-md"
+        >
+          <h3 className="text-2xl font-bold mb-6 text-gray-900">
+            Variaciones de Botones para Prueba
+          </h3>
           <div className="space-y-6">
             <div>
-              <h4 className="text-sm font-semibold text-gray-700 mb-3">Tamaños</h4>
+              <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                Tamaños
+              </h4>
               <div className="flex flex-wrap gap-3">
                 <button
+                  type="button"
                   id="btn-size-small"
                   className="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700"
                 >
                   Pequeño
                 </button>
-                <button id="btn-size-medium" className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                <button
+                  type="button"
+                  id="btn-size-medium"
+                  className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                >
                   Mediano
                 </button>
                 <button
+                  type="button"
                   id="btn-size-large"
                   className="px-6 py-3 bg-indigo-600 text-white text-lg rounded hover:bg-indigo-700"
                 >
@@ -408,21 +572,33 @@ export default function Page() {
               </div>
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-gray-700 mb-3">Estilos</h4>
+              <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                Estilos
+              </h4>
               <div className="flex flex-wrap gap-3">
-                <button id="btn-style-solid" className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                <button
+                  type="button"
+                  id="btn-style-solid"
+                  className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                >
                   Sólido
                 </button>
                 <button
+                  type="button"
                   id="btn-style-outline"
                   className="px-4 py-2 border-2 border-indigo-600 text-indigo-600 rounded hover:bg-indigo-50"
                 >
                   Outline
                 </button>
-                <button id="btn-style-text" className="px-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded">
+                <button
+                  type="button"
+                  id="btn-style-text"
+                  className="px-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded"
+                >
                   Texto
                 </button>
                 <button
+                  type="button"
                   id="btn-style-gradient"
                   className="px-4 py-2 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded hover:from-indigo-700 hover:to-purple-700"
                 >
@@ -431,22 +607,33 @@ export default function Page() {
               </div>
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-gray-700 mb-3">Estados</h4>
+              <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                Estados
+              </h4>
               <div className="flex flex-wrap gap-3">
                 <button
+                  type="button"
                   id="btn-state-normal"
                   className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                 >
                   Normal
                 </button>
                 <button
+                  type="button"
                   id="btn-state-disabled"
                   className="px-4 py-2 bg-indigo-600 text-white rounded opacity-50 cursor-not-allowed"
                 >
                   Deshabilitado
                 </button>
-                <button id="btn-state-loading" className="px-4 py-2 bg-indigo-600 text-white rounded flex items-center">
-                  <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+                <button
+                  type="button"
+                  id="btn-state-loading"
+                  className="px-4 py-2 bg-indigo-600 text-white rounded flex items-center"
+                >
+                  <svg
+                    className="animate-spin h-4 w-4 mr-2"
+                    viewBox="0 0 24 24"
+                  >
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -489,6 +676,7 @@ export default function Page() {
               className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none"
             />
             <button
+              type="button"
               id="newsletter-submit"
               className="px-6 py-3 bg-white text-indigo-600 rounded-lg hover:bg-gray-100 font-semibold"
             >
@@ -506,13 +694,19 @@ export default function Page() {
               <h3 className="text-white font-semibold mb-4">Sobre Nosotros</h3>
               <ul className="space-y-2">
                 <li>
-                  <button className="hover:text-white">Quiénes somos</button>
+                  <button type="button" className="hover:text-white">
+                    Quiénes somos
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Trabaja con nosotros</button>
+                  <button type="button" className="hover:text-white">
+                    Trabaja con nosotros
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Prensa</button>
+                  <button type="button" className="hover:text-white">
+                    Prensa
+                  </button>
                 </li>
               </ul>
             </div>
@@ -520,16 +714,24 @@ export default function Page() {
               <h3 className="text-white font-semibold mb-4">Ayuda</h3>
               <ul className="space-y-2">
                 <li>
-                  <button className="hover:text-white">Preguntas frecuentes</button>
+                  <button type="button" className="hover:text-white">
+                    Preguntas frecuentes
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Envíos</button>
+                  <button type="button" className="hover:text-white">
+                    Envíos
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Devoluciones</button>
+                  <button type="button" className="hover:text-white">
+                    Devoluciones
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Garantía</button>
+                  <button type="button" className="hover:text-white">
+                    Garantía
+                  </button>
                 </li>
               </ul>
             </div>
@@ -537,22 +739,34 @@ export default function Page() {
               <h3 className="text-white font-semibold mb-4">Contacto</h3>
               <ul className="space-y-2">
                 <li>
-                  <button className="hover:text-white">Soporte</button>
+                  <button type="button" className="hover:text-white">
+                    Soporte
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Chat en vivo</button>
+                  <button type="button" className="hover:text-white">
+                    Chat en vivo
+                  </button>
                 </li>
                 <li>
-                  <button className="hover:text-white">Email</button>
+                  <button type="button" className="hover:text-white">
+                    Email
+                  </button>
                 </li>
               </ul>
             </div>
             <div>
               <h3 className="text-white font-semibold mb-4">Síguenos</h3>
               <div className="flex space-x-4">
-                <button className="hover:text-white">Facebook</button>
-                <button className="hover:text-white">Twitter</button>
-                <button className="hover:text-white">Instagram</button>
+                <button type="button" className="hover:text-white">
+                  Facebook
+                </button>
+                <button type="button" className="hover:text-white">
+                  Twitter
+                </button>
+                <button type="button" className="hover:text-white">
+                  Instagram
+                </button>
               </div>
             </div>
           </div>

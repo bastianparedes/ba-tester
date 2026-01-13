@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
-import env from '@/libs/env';
-import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/libs/permissions';
 import constants from '@/config/constants';
 import { getPasswordHashed } from '@/libs/auth/password';
 import { Roles, Users } from '@/libs/db/mongodb/client';
+import env from '@/libs/env';
+import {
+  flatPermissions,
+  flatSuperAdminOnlyPermissions,
+} from '@/libs/permissions';
 
 async function seedDB() {
   try {

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Shield, FlaskConical, Building2, UserCog } from 'lucide-react';
-import { TypeTenant } from '@/types/domain';
+import { Building2, FlaskConical, Shield, UserCog } from 'lucide-react';
+import type React from 'react';
 import constants from '@/config/constants';
+import type { TypeTenant } from '@/types/domain';
 import { ComponentLanguage } from './Language';
 
 type Props = {
@@ -20,14 +20,18 @@ export function Sidebar({ children, tenant }: Props) {
             {/* Language Section */}
 
             <div className="mb-6">
-              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Language</div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">
+                Language
+              </div>
               <ComponentLanguage />
             </div>
 
             {/* AB Tests Section */}
 
             <div className="mb-6">
-              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">
+                Testing
+              </div>
 
               <a
                 href={constants.pages.tenants()}
@@ -50,7 +54,9 @@ export function Sidebar({ children, tenant }: Props) {
 
             {/* Administration Section */}
             <div className="mb-6">
-              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">
+                Administración
+              </div>
               <a
                 href={constants.pages.roles()}
                 className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"

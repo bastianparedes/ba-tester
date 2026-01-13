@@ -1,8 +1,8 @@
+import { Button } from '@/app/_common/components/button';
+import { useUser } from '@/app/_common/contexts/User';
+import api from '@/app/api';
 import constants from '@/config/constants';
 import type { TypeCampaign } from '@/types/domain';
-import api from '@/app/api';
-import { useUser } from '@/app/_common/contexts/User';
-import { Button } from '@/app/_common/components/button';
 
 interface Props {
   campaign: TypeCampaign;
@@ -19,7 +19,10 @@ const Buttons = ({ campaign }: Props) => {
 
   const handleOnSave = async () => {
     if (campaign.id === undefined) {
-      await api.campaigns.create({ pathParams: { tenantId: campaign.tenantId }, body: campaign });
+      await api.campaigns.create({
+        pathParams: { tenantId: campaign.tenantId },
+        body: campaign,
+      });
     } else {
       await api.campaign.update({
         pathParams: { tenantId: campaign.tenantId, campaignId: campaign.id },

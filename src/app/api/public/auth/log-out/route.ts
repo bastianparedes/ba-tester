@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { TypeApiResponse } from '@/types/api';
-import { TypeGet } from './client';
 import constants from '@/config/constants';
+import type { TypeApiResponse } from '@/types/api';
+import type { TypeGet } from './client';
 
 export async function GET(): TypeApiResponse<TypeGet['response']> {
   const res = NextResponse.json({});

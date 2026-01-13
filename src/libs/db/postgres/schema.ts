@@ -1,5 +1,12 @@
-import { pgTable, serial, jsonb, varchar, pgEnum, integer } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
+import {
+  integer,
+  jsonb,
+  pgEnum,
+  pgTable,
+  serial,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 import commonConstants from '@/config/common/constants';
 import type { TypeCampaign } from '@/types/domain';
@@ -26,7 +33,9 @@ export const campaigns = pgTable('campaigns', {
     }),
 
   name: varchar('name', { length: 255 }).notNull().default(''),
-  requirements: jsonb('requirements').$type<TypeCampaign['requirements']>().notNull(),
+  requirements: jsonb('requirements')
+    .$type<TypeCampaign['requirements']>()
+    .notNull(),
   status: statusEnum('status').notNull().default('inactive'),
 
   triggers: jsonb('triggers').$type<TypeCampaign['triggers']>().notNull(),

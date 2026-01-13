@@ -1,5 +1,5 @@
-import React from 'react';
-import { TypeTenant } from '@/types/domain';
+import type React from 'react';
+import type { TypeTenant } from '@/types/domain';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
 

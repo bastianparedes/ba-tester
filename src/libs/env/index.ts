@@ -1,4 +1,4 @@
-import { cleanEnv, str, makeValidator, num } from 'envalid';
+import { cleanEnv, makeValidator, num, str } from 'envalid';
 import { z } from 'zod';
 
 export const superAdminsValidator = makeValidator((value: string) => {
@@ -28,7 +28,10 @@ export const superAdminsValidator = makeValidator((value: string) => {
 });
 
 export default cleanEnv(process.env, {
-  NODE_ENV: str({ choices: ['development', 'test', 'production'], default: process.env.NODE_ENV }),
+  NODE_ENV: str({
+    choices: ['development', 'test', 'production'],
+    default: process.env.NODE_ENV,
+  }),
   JWT_SECRET: str(),
   DATABASE_URL_POSTGRES: str(),
   DATABASE_URL_MONGODB: str(),

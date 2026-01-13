@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { cx } from 'class-variance-authority';
+import type * as React from 'react';
 
 function Switch({ className, ...props }: React.ComponentProps<'input'>) {
   return (

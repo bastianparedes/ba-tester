@@ -1,6 +1,14 @@
 import client from './client';
 
-export const save = async ({ key, value, ttlMinutes }: { key: string; value: string; ttlMinutes?: number }) => {
+export const save = async ({
+  key,
+  value,
+  ttlMinutes,
+}: {
+  key: string;
+  value: string;
+  ttlMinutes?: number;
+}) => {
   if (ttlMinutes === undefined) {
     await client.set(key, value);
     return;

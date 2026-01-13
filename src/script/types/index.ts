@@ -1,4 +1,4 @@
-import { type TypeCampaignScript } from '@/types/domain';
+import type { TypeCampaignScript } from '@/types/domain';
 
 type TypeBaTester = {
   campaignsData: TypeCampaignScript[];

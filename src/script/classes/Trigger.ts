@@ -1,6 +1,7 @@
 import type { TypeBaTester } from '@/script/types';
 
-type TypeTriggerData = TypeBaTester['campaignsData'][number]['triggers'][number];
+type TypeTriggerData =
+  TypeBaTester['campaignsData'][number]['triggers'][number];
 
 class Trigger {
   trigger: TypeTriggerData;
@@ -31,7 +32,7 @@ class Trigger {
       }
     } else if (trigger.type === 'pageLoad') fire();
     else if (trigger.type === 'timeOnPage') {
-      const timePassed = new Date().getTime() - performance.timeOrigin;
+      const timePassed = Date.now() - performance.timeOrigin;
       const time = trigger.data.milliseconds - timePassed;
       setTimeout(() => {
         fire();

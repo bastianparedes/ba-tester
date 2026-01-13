@@ -1,7 +1,7 @@
 'use client';
 
-import { createContext, useContext, type ReactNode } from 'react';
-import { type TypeFullUser } from '@/utils/user/helper';
+import { createContext, type ReactNode, useContext } from 'react';
+import type { TypeFullUser } from '@/utils/user/helper';
 
 type UserProviderProps = {
   children: ReactNode;

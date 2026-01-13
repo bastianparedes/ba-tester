@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, createContext, useContext } from 'react';
-import languagesObject from './languages';
 import type React from 'react';
-import cookie from '@/utils/cookie';
+import { createContext, useContext, useState } from 'react';
 import constants from '@/config/constants';
+import cookie from '@/utils/cookie';
+import languagesObject from './languages';
 
 type Language = keyof typeof languagesObject;
 const languageKeys = Object.keys(languagesObject) as Language[];
@@ -22,19 +22,30 @@ type TranslationContextType = {
   };
   setLanguage: (arg: Language) => void;
 };
-const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
+const TranslationContext = createContext<TranslationContextType | undefined>(
+  undefined,
+);
 
 type TranslationProviderProps = {
   children: React.ReactNode;
   language: string;
 };
-export function TranslationProvider({ children, language }: TranslationProviderProps) {
-  const initialLanguage: Language = languageKeys.includes(language as Language) ? (language as Language) : 'english';
+export function TranslationProvider({
+  children,
+  language,
+}: TranslationProviderProps) {
+  const initialLanguage: Language = languageKeys.includes(language as Language)
+    ? (language as Language)
+    : 'english';
   const [selectedLanguage, setSelectedLanguage] = useState(initialLanguage);
 
   const setLanguage = (newLanguage: Language) => {
     setSelectedLanguage(newLanguage);
-    cookie.set({ name: constants.cookieNames.lang, value: newLanguage, exdays: 365 });
+    cookie.set({
+      name: constants.cookieNames.lang,
+      value: newLanguage,
+      exdays: 365,
+    });
   };
 
   const translation = languagesObject[selectedLanguage].labels;
@@ -44,11 +55,19 @@ export function TranslationProvider({ children, language }: TranslationProviderP
     isSelected: key === selectedLanguage,
   }));
 
-  const selectedLanguageObject = { key: selectedLanguage, name: languagesObject[selectedLanguage].name };
+  const selectedLanguageObject = {
+    key: selectedLanguage,
+    name: languagesObject[selectedLanguage].name,
+  };
 
   return (
     <TranslationContext.Provider
-      value={{ translation, selectedLanguage: selectedLanguageObject, languages, setLanguage }}
+      value={{
+        translation,
+        selectedLanguage: selectedLanguageObject,
+        languages,
+        setLanguage,
+      }}
     >
       {children}
     </TranslationContext.Provider>
@@ -57,6 +76,9 @@ export function TranslationProvider({ children, language }: TranslationProviderP
 
 export const useTranslationContext = () => {
   const ctx = useContext(TranslationContext);
-  if (!ctx) throw new Error('useTranslationContext must be used inside TranslationProvider');
+  if (!ctx)
+    throw new Error(
+      'useTranslationContext must be used inside TranslationProvider',
+    );
   return ctx;
 };

@@ -1,4 +1,4 @@
-import englishLabels from './english';
+import type englishLabels from './english';
 
 const labels: typeof englishLabels = {
   common: {
@@ -11,7 +11,8 @@ const labels: typeof englishLabels = {
     tenants: 'Tenants',
     createTenant: '+ Nouveau tenant',
     noTenants: 'Aucun tenant trouvé',
-    noTenantsDescription: 'Commencez par créer votre premier tenant pour gérer vos tests A/B',
+    noTenantsDescription:
+      'Commencez par créer votre premier tenant pour gérer vos tests A/B',
     name: 'Nom',
     description: 'Description',
     domain: 'Domaine',

@@ -1,15 +1,15 @@
-import React from 'react';
+import type React from 'react';
 import './styles/global.css';
-// import './styles/normalize.css';
-import { UserProvider } from './_common/contexts/User';
-import { ToastProvider } from './_common/contexts/ToastEmitter';
-import { Loader } from './_common/contexts/Loader/Component';
-import { Metadata } from 'next';
-import { DynamicDialog } from './_common/contexts/Dialog/Component';
-import { TranslationProvider } from './_common/contexts/Translation';
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import constants from '@/config/constants';
 import { getUserFromCookies } from '@/utils/user';
+import { DynamicDialog } from './_common/contexts/Dialog/Component';
+import { Loader } from './_common/contexts/Loader/Component';
+import { ToastProvider } from './_common/contexts/ToastEmitter';
+import { TranslationProvider } from './_common/contexts/Translation';
+// import './styles/normalize.css';
+import { UserProvider } from './_common/contexts/User';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -21,7 +21,8 @@ export const metadata: Metadata = {
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
-  const languageInCookie = cookieStore.get(constants.cookieNames.lang)?.value || 'english';
+  const languageInCookie =
+    cookieStore.get(constants.cookieNames.lang)?.value || 'english';
   const user = await getUserFromCookies();
 
   return (

@@ -1,9 +1,12 @@
-import { and, asc, desc, eq, inArray, ilike, or, sql } from 'drizzle-orm';
-
-import * as schema from '../schema';
-import type { TypeOrderBy, TypeOrderDirection, TypeCampaign, TypeCampaignScript } from '@/types/domain';
-
+import { and, asc, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
+import type {
+  TypeCampaign,
+  TypeCampaignScript,
+  TypeOrderBy,
+  TypeOrderDirection,
+} from '@/types/domain';
 import db from '../client';
+import * as schema from '../schema';
 
 export const create = async (
   { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
@@ -54,7 +57,12 @@ export const update = async (
       triggers: values.triggers,
       variations: values.variations,
     })
-    .where(and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)))
+    .where(
+      and(
+        eq(schema.campaigns.tenantId, tenantId),
+        eq(schema.campaigns.id, campaignId),
+      ),
+    )
     .returning();
 };
 
@@ -126,12 +134,25 @@ export const getMany = async (
   };
 };
 
-export const get = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) =>
+export const get = async ({
+  tenantId,
+  campaignId,
+}: {
+  tenantId: number;
+  campaignId: number;
+}) =>
   await db.query.campaigns.findFirst({
-    where: and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)),
+    where: and(
+      eq(schema.campaigns.tenantId, tenantId),
+      eq(schema.campaigns.id, campaignId),
+    ),
   });
 
-export const getAllForScript = async ({ tenantId }: { tenantId: number }): Promise<TypeCampaignScript[]> => {
+export const getAllForScript = async ({
+  tenantId,
+}: {
+  tenantId: number;
+}): Promise<TypeCampaignScript[]> => {
   const campaigns = await db.query.campaigns.findMany({
     columns: {
       id: true,
@@ -140,8 +161,12 @@ export const getAllForScript = async ({ tenantId }: { tenantId: number }): Promi
       triggers: true,
       variations: true,
     },
-    where: (campaign) => and(eq(campaign.tenantId, tenantId), eq(campaign.status, 'active')),
+    where: (campaign) =>
+      and(eq(campaign.tenantId, tenantId), eq(campaign.status, 'active')),
   });
 
-  return campaigns.filter((campaign) => campaign.variations.length > 0 && campaign.triggers.length > 0);
+  return campaigns.filter(
+    (campaign) =>
+      campaign.variations.length > 0 && campaign.triggers.length > 0,
+  );
 };

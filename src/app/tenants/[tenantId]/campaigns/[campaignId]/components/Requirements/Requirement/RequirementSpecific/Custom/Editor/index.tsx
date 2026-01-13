@@ -1,10 +1,8 @@
-import { useState } from 'react';
-
 import Monaco from '@monaco-editor/react';
+import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
-
-import type { TypeCampaign, TypeRequirementData } from '@/types/domain';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
+import type { TypeCampaign, TypeRequirementData } from '@/types/domain';
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';
@@ -17,7 +15,9 @@ interface Props {
 const Editor = ({ setCampaign, requirement }: Props) => {
   const { translation } = useTranslationContext();
   const [showEditor, setShowEditor] = useState(false);
-  const [javascript, setJavascript] = useState(String(requirement.data.javascript));
+  const [javascript, setJavascript] = useState(
+    String(requirement.data.javascript),
+  );
 
   const monacoConfig = {
     options: {
@@ -52,6 +52,7 @@ const Editor = ({ setCampaign, requirement }: Props) => {
   return (
     <>
       <button
+        type="button"
         className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
         onClick={() => setShowEditor(true)}
       >
@@ -61,13 +62,18 @@ const Editor = ({ setCampaign, requirement }: Props) => {
         <Modal setModalVisible={() => onCloseModal()}>
           <div className="flex flex-col items-start gap-4 p-4">
             <button
+              type="button"
               onClick={onSave}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               {translation.campaign.save}
             </button>
             <div className="w-[80vw] h-[80vh]">
-              <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
+              <Monaco
+                {...monacoConfig}
+                {...monacoJavascriptConfig}
+                language="javascript"
+              />
             </div>
           </div>
         </Modal>

@@ -1,9 +1,9 @@
-import { ClientPage } from '../[campaignId]/clientPage';
-import commonConstants from '@/config/common/constants';
+import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
+import commonConstants from '@/config/common/constants';
 import constants from '@/config/constants';
 import db from '@/libs/db';
-import { redirect } from 'next/navigation';
+import { ClientPage } from '../[campaignId]/clientPage';
 
 type PageProps = {
   params: Promise<{

@@ -18,6 +18,9 @@ export type TypePost = {
   response: never;
 };
 export const logIn = async ({ body }: { body: TypePost['body'] }) => {
-  const response = await restClient.post<TypePost['response']>({ url: url(), body });
+  const response = await restClient.post<TypePost['response']>({
+    url: url(),
+    body,
+  });
   return response;
 };

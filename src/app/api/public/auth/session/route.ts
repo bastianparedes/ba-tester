@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcrypt';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import constants from '@/config/constants';
 import { generateToken, secondsTokenIsValid } from '@/libs/auth/jwt';
 import db from '@/libs/db';
-import bcrypt from 'bcrypt';
-import { TypeApiResponse } from '@/types/api';
-import { TypeGet, TypePost } from './client';
-import constants from '@/config/constants';
+import type { TypeApiResponse } from '@/types/api';
+import type { TypeGet, TypePost } from './client';
 
 export async function GET(): TypeApiResponse<TypeGet['response']> {
   const res = NextResponse.json({});
@@ -26,22 +26,33 @@ const logInSchema = z.object({
   password: z.string(),
 });
 
-export async function POST(req: NextRequest): TypeApiResponse<TypePost['response']> {
+export async function POST(
+  req: NextRequest,
+): TypeApiResponse<TypePost['response']> {
   const body = await req.json();
   const parseResult = logInSchema.safeParse(body);
   if (!parseResult.success) {
-    return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
+    return NextResponse.json(
+      { errors: parseResult.error.issues.map((error) => error.message) },
+      { status: 400 },
+    );
   }
   const { email, password }: TypePost['body'] = parseResult.data;
 
   const user = await db.users.getForLogin({ email });
   if (!user) {
-    return NextResponse.json({ errors: ['Invalid credentials'] }, { status: 401 });
+    return NextResponse.json(
+      { errors: ['Invalid credentials'] },
+      { status: 401 },
+    );
   }
 
   const passwordIsCorrect = await bcrypt.compare(password, user.passwordHash);
   if (!passwordIsCorrect) {
-    return NextResponse.json({ errors: ['Invalid credentials'] }, { status: 401 });
+    return NextResponse.json(
+      { errors: ['Invalid credentials'] },
+      { status: 401 },
+    );
   }
 
   const token = generateToken({ id: user.id, purpose: 'session' });

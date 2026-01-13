@@ -1,7 +1,7 @@
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/common/constants';
 import type { TypeCampaign, TypeTriggerData } from '@/types/domain';
-import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import Editor from './TriggerEditor';
 
 interface Props {
@@ -15,7 +15,11 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
   const addNewTrigger = () => {
     setCampaign((campaign) => {
       const newCampaign = structuredClone(campaign);
-      const newIdTrigger = triggers.reduce((highest, nextTrigger) => Math.max(highest, nextTrigger.id), 0) + 1;
+      const newIdTrigger =
+        triggers.reduce(
+          (highest, nextTrigger) => Math.max(highest, nextTrigger.id),
+          0,
+        ) + 1;
 
       const newTrigger = {
         data: {},
@@ -29,9 +33,14 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
     });
   };
 
-  const handleOnChangeType = (trigger: TypeTriggerData, newType: (typeof commonConstants)['triggers'][number]) => {
+  const handleOnChangeType = (
+    trigger: TypeTriggerData,
+    newType: (typeof commonConstants)['triggers'][number],
+  ) => {
     setCampaign((campaign) => {
-      const index = campaign.triggers.findIndex((triggerInList) => triggerInList.id === trigger.id);
+      const index = campaign.triggers.findIndex(
+        (triggerInList) => triggerInList.id === trigger.id,
+      );
 
       if (newType === 'clickOnElement')
         campaign.triggers[index] = {
@@ -71,7 +80,9 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
 
   const deleteTrigger = (trigger: TypeTriggerData) => {
     setCampaign((campaign) => {
-      campaign.triggers = campaign.triggers.filter((triggerInList) => triggerInList.id !== trigger.id);
+      campaign.triggers = campaign.triggers.filter(
+        (triggerInList) => triggerInList.id !== trigger.id,
+      );
       return structuredClone(campaign);
     });
   };
@@ -79,8 +90,11 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-blue-900">{translation.campaign.triggersTitle}</h2>
+        <h2 className="text-xl font-semibold text-blue-900">
+          {translation.campaign.triggersTitle}
+        </h2>
         <button
+          type="button"
           onClick={addNewTrigger}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
@@ -96,7 +110,12 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
               <div className="flex-1 relative">
                 <select
                   value={trigger.type}
-                  onChange={(e) => handleOnChangeType(trigger, e.target.value as typeof trigger.type)}
+                  onChange={(e) =>
+                    handleOnChangeType(
+                      trigger,
+                      e.target.value as typeof trigger.type,
+                    )
+                  }
                   className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
                 >
                   {commonConstants.triggers.map((type) => (
@@ -154,8 +173,12 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                     max={60000}
                     min={0}
                     onChange={(event) => {
-                      const valueAsNumber = Math.round(event.target.valueAsNumber);
-                      let newSeconds = Number.isNaN(valueAsNumber) ? 0 : valueAsNumber;
+                      const valueAsNumber = Math.round(
+                        event.target.valueAsNumber,
+                      );
+                      let newSeconds = Number.isNaN(valueAsNumber)
+                        ? 0
+                        : valueAsNumber;
                       newSeconds = Math.trunc(newSeconds);
                       if (newSeconds < 0) newSeconds = 0;
                       else if (newSeconds > 60000) newSeconds = 60000;
@@ -169,11 +192,14 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                     type="number"
                     value={trigger.data.milliseconds}
                   />
-                  <span className="text-blue-600 font-medium">{translation.campaign.milliseconds}</span>
+                  <span className="text-blue-600 font-medium">
+                    {translation.campaign.milliseconds}
+                  </span>
                 </div>
               )}
 
               <button
+                type="button"
                 onClick={() => deleteTrigger(trigger)}
                 className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
               >

@@ -34,4 +34,6 @@ export const superAdminOnlyPermissions = Object.freeze({
 });
 
 export const flatPermissions = flattenObject(permissions);
-export const flatSuperAdminOnlyPermissions = flattenObject(superAdminOnlyPermissions);
+export const flatSuperAdminOnlyPermissions = flattenObject(
+  superAdminOnlyPermissions,
+);

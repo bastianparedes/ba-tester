@@ -1,8 +1,14 @@
-import React from 'react';
 import { cx } from 'class-variance-authority';
+import type React from 'react';
 
 // Tipos para las variantes
-type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+type ButtonVariant =
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | 'link';
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg';
 
 // Variantes del botón
@@ -14,7 +20,8 @@ const buttonVariants: Record<'variant' | 'size', Record<string, string>> = {
     outline:
       'border border-gray-300 bg-white shadow-sm hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:hover:enabled:bg-gray-700',
     secondary: 'bg-gray-200 text-gray-900 hover:enabled:bg-gray-300',
-    ghost: 'hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:hover:enabled:bg-gray-800',
+    ghost:
+      'hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:hover:enabled:bg-gray-800',
     link: 'text-blue-600 underline-offset-4 hover:enabled:underline',
   },
   size: {
@@ -34,23 +41,37 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
 }
 
-export const Button = ({ className, variant = 'default', size = 'default', children, href, ...props }: ButtonProps) => {
+export const Button = ({
+  className,
+  variant = 'default',
+  size = 'default',
+  children,
+  href,
+  ...props
+}: ButtonProps) => {
   const baseClasses =
     'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 cursor-pointer disabled:opacity-80 disabled:cursor-not-allowed';
 
-  const variantClass = buttonVariants.variant[variant] ?? buttonVariants.variant.default;
+  const variantClass =
+    buttonVariants.variant[variant] ?? buttonVariants.variant.default;
 
   const sizeClass = buttonVariants.size[size] ?? buttonVariants.size.default;
 
   if (href)
     return (
-      <a href={href} className={cx(className, baseClasses, variantClass, sizeClass)}>
+      <a
+        href={href}
+        className={cx(className, baseClasses, variantClass, sizeClass)}
+      >
         {children}
       </a>
     );
 
   return (
-    <button className={cx(className, baseClasses, variantClass, sizeClass)} {...props}>
+    <button
+      className={cx(className, baseClasses, variantClass, sizeClass)}
+      {...props}
+    >
       {children}
     </button>
   );

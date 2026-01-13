@@ -1,15 +1,17 @@
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: <I need it> */
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: <I need it> */
 'use client';
 
-import { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { TypeRole } from '@/types/domain';
-import { flatPermissions } from '@/libs/permissions';
-import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
+import { useState } from 'react';
 import { Switch } from '@/app/_common/components/switch';
-import { isRoleSuperAdmin } from '@/utils/roles';
+import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
+import { useUser } from '@/app/_common/contexts/User';
 import api from '@/app/api';
 import constants from '@/config/constants';
-import { useUser } from '@/app/_common/contexts/User';
+import { flatPermissions } from '@/libs/permissions';
+import type { TypeRole } from '@/types/domain';
+import { isRoleSuperAdmin } from '@/utils/roles';
 
 type Props = {
   initialRoles: TypeRole[];
@@ -23,7 +25,8 @@ export function ClientPage({ initialRoles }: Props) {
   const user = useUser();
 
   const currentRole = roles.find((r) => r.id === selectedRoleId);
-  const currentRoleIsSuperAdmin = !!currentRole && isRoleSuperAdmin(currentRole);
+  const currentRoleIsSuperAdmin =
+    !!currentRole && isRoleSuperAdmin(currentRole);
 
   const addRole = async () => {
     const data = await getDataFromForm(
@@ -36,7 +39,10 @@ export function ClientPage({ initialRoles }: Props) {
           type: 'text',
           value: '',
           required: true,
-          forbiddenValues: [constants.superAdminRoleName, ...roles.map((role) => role.name)],
+          forbiddenValues: [
+            constants.superAdminRoleName,
+            ...roles.map((role) => role.name),
+          ],
         },
         description: {
           label: 'Descripción',
@@ -63,11 +69,22 @@ export function ClientPage({ initialRoles }: Props) {
   const deleteRole = async (role: TypeRole) => {
     const result = await confirm({ title: `Delete role "${role.name}"` });
     if (!result) return;
-    const apiResult = await api.role.remove({ pathParams: { roleId: role.id } });
-    if (apiResult.ok) setRoles((currentState) => currentState.filter((roleInList) => roleInList.id !== role.id));
+    const apiResult = await api.role.remove({
+      pathParams: { roleId: role.id },
+    });
+    if (apiResult.ok)
+      setRoles((currentState) =>
+        currentState.filter((roleInList) => roleInList.id !== role.id),
+      );
   };
 
-  const togglePermission = async ({ role, permission }: { role: TypeRole; permission: string }) => {
+  const togglePermission = async ({
+    role,
+    permission,
+  }: {
+    role: TypeRole;
+    permission: string;
+  }) => {
     const newPermissions = role.permissions.includes(permission)
       ? role.permissions.filter((p) => p !== permission)
       : [...role.permissions, permission];
@@ -99,11 +116,14 @@ export function ClientPage({ initialRoles }: Props) {
       <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto">
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900">Roles</h2>
-          <p className="text-sm text-gray-500 mt-1">Selecciona un rol para gestionar sus permisos</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Selecciona un rol para gestionar sus permisos
+          </p>
         </div>
 
         <div className="p-4 space-y-2">
           <button
+            type="button"
             disabled={!user.permissions.canCreateRole}
             onClick={() => addRole()}
             className="w-full p-4 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center space-x-2 text-gray-600 transition-all enabled:hover:border-blue-500 enabled:hover:bg-blue-50 enabled:hover:text-blue-600 disabled:opacity-80 disabled:cursor-not-allowed"
@@ -125,16 +145,19 @@ export function ClientPage({ initialRoles }: Props) {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-semibold text-gray-900">{role.name}</div>
-                  <div className="text-sm text-gray-500">{role.permissions.length} permisos asignados</div>
+                  <div className="text-sm text-gray-500">
+                    {role.permissions.length} permisos asignados
+                  </div>
                 </div>
                 {user.permissions.canDeleteRole && !isRoleSuperAdmin(role) && (
-                  <div
+                  <button
+                    type="button"
                     onClick={() => deleteRole(role)}
                     className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg"
                     title="Eliminar rol"
                   >
                     <Trash2 className="w-4 h-4 text-red-600" />
-                  </div>
+                  </button>
                 )}
               </div>
             </div>
@@ -148,8 +171,12 @@ export function ClientPage({ initialRoles }: Props) {
           <div className="p-6 border-b border-gray-200 bg-white">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">{currentRole.name}</h2>
-                <p className="text-sm text-gray-500 mt-1">Activa o desactiva los permisos para este rol</p>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {currentRole.name}
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">
+                  Activa o desactiva los permisos para este rol
+                </p>
               </div>
             </div>
           </div>
@@ -166,13 +193,20 @@ export function ClientPage({ initialRoles }: Props) {
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900">{permission}</h3>
+                        <h3 className="font-semibold text-gray-900">
+                          {permission}
+                        </h3>
                         {/* <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p> */}
                       </div>
                       <Switch
-                        disabled={!user.permissions.canUpdateRole || currentRoleIsSuperAdmin}
+                        disabled={
+                          !user.permissions.canUpdateRole ||
+                          currentRoleIsSuperAdmin
+                        }
                         checked={isActive}
-                        onChange={() => togglePermission({ role: currentRole, permission })}
+                        onChange={() =>
+                          togglePermission({ role: currentRole, permission })
+                        }
                       />
                     </div>
                   </div>

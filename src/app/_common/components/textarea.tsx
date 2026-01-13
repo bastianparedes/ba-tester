@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { cx } from 'class-variance-authority';
+import type * as React from 'react';
 
 function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
   return (

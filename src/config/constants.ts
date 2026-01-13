@@ -21,11 +21,19 @@ const constants = Object.freeze({
   pages: {
     home: () => '/',
     tenants: () => '/tenants',
-    bundle: ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}/public/script`,
-    campaign: ({ tenantId, campaignId }: { tenantId: number; campaignId: number | undefined }) =>
-      `/tenants/${tenantId}/campaigns/${campaignId}`,
-    campaigns: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/campaigns`,
-    example: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/example`,
+    bundle: ({ tenantId }: { tenantId: number }) =>
+      `/api/tenants/${tenantId}/public/script`,
+    campaign: ({
+      tenantId,
+      campaignId,
+    }: {
+      tenantId: number;
+      campaignId: number | undefined;
+    }) => `/tenants/${tenantId}/campaigns/${campaignId}`,
+    campaigns: ({ tenantId }: { tenantId: number }) =>
+      `/tenants/${tenantId}/campaigns`,
+    example: ({ tenantId }: { tenantId: number }) =>
+      `/tenants/${tenantId}/example`,
     roles: () => '/admin/roles',
     users: () => '/admin/users',
     logIn: () => '/auth/log-in',

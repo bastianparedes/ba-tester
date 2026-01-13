@@ -5,7 +5,9 @@ export const isObject = (object: unknown) => {
 type NestedObject<T extends string | number | boolean> = {
   [key: string]: T | NestedObject<T>;
 };
-export function flattenObject<T extends string | number | boolean>(obj: NestedObject<T>): T[] {
+export function flattenObject<T extends string | number | boolean>(
+  obj: NestedObject<T>,
+): T[] {
   const result: T[] = [];
 
   const keys = Object.keys(obj) as (keyof typeof obj)[];
@@ -13,7 +15,9 @@ export function flattenObject<T extends string | number | boolean>(obj: NestedOb
     const value = obj[key];
     if (isObject(value)) {
       const nestedValues = flattenObject(value as NestedObject<T>);
-      nestedValues.forEach((value) => result.push(value));
+      nestedValues.forEach((value) => {
+        result.push(value);
+      });
     } else {
       result.push(value as T);
     }

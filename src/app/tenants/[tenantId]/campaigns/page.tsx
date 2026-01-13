@@ -1,8 +1,8 @@
-import { ClientPage } from './clientPage';
+import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
 import db from '@/libs/db';
-import { redirect } from 'next/navigation';
+import { ClientPage } from './clientPage';
 
 type PageProps = {
   params: Promise<{
@@ -17,7 +17,11 @@ export default async function Page({ params }: PageProps) {
   return (
     <Navigation
       tenant={tenant}
-      breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}
+      breadcrumb={[
+        { name: 'Tenants', path: constants.pages.tenants() },
+        { name: tenant.name },
+        { name: 'Campaigns' },
+      ]}
     >
       <ClientPage tenantId={tenantId} />
     </Navigation>

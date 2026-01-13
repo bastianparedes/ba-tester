@@ -3,7 +3,11 @@
 import { Button } from '@/app/_common/components/button';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
-export const ConfirmForm = ({ resolver }: { resolver: (arg: boolean) => void }) => {
+export const ConfirmForm = ({
+  resolver,
+}: {
+  resolver: (arg: boolean) => void;
+}) => {
   const { translation } = useTranslationContext();
   const onReject = () => resolver(false);
   const onAccept = () => resolver(true);

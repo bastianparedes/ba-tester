@@ -1,11 +1,10 @@
 'use client';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { Button } from '@/app/_common/components/button';
-import { Input } from '@/app/_common/components/input';
-import { Textarea } from '@/app/_common/components/textarea';
-import { Label } from '@/app/_common/components/label';
-import { Switch } from '@/app/_common/components/switch';
 import { Card } from '@/app/_common/components/card';
+import { Input } from '@/app/_common/components/input';
+import { Switch } from '@/app/_common/components/switch';
+import { Textarea } from '@/app/_common/components/textarea';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 type TypeSelectArgs<T extends { label: string; value: string }[]> = {
@@ -31,7 +30,13 @@ export type TypeArgs = {
 };
 
 export type TypeResponse<T extends TypeArgs> = {
-  [K in keyof T]: T[K]['type'] extends 'text' | 'textarea' | 'email' | 'password' | 'time' | 'select'
+  [K in keyof T]: T[K]['type'] extends
+    | 'text'
+    | 'textarea'
+    | 'email'
+    | 'password'
+    | 'time'
+    | 'select'
     ? T[K]['value']
     : T[K]['type'] extends 'number'
       ? number
@@ -53,10 +58,15 @@ type TypeField = {
   | { type: 'time'; value: string }
   | { type: 'number'; value: number }
   | { type: 'switch'; value: boolean }
-  | { type: 'select'; value: string; options: { label: string; value: string }[] }
+  | {
+      type: 'select';
+      value: string;
+      options: { label: string; value: string }[];
+    }
 );
 
 const transformArgsToFields = (args: TypeArgs): TypeField[] => {
+  // biome-ignore lint/suspicious/useIterableCallbackReturn: <No da error>
   return Object.entries(args).map(([name, arg]) => {
     switch (arg.type) {
       case 'text':
@@ -138,7 +148,13 @@ const transformFieldsToResponse = <T extends TypeArgs>(
   return result;
 };
 
-export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; resolver: (arg: unknown) => void }) => {
+export const DynamicForm = ({
+  args: initialArgs,
+  resolver,
+}: {
+  args: TypeArgs;
+  resolver: (arg: unknown) => void;
+}) => {
   const { translation } = useTranslationContext();
   const {
     control,
@@ -168,25 +184,34 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
     <>
       <div className="px-8 pb-6 overflow-y-auto min-w-3xl">
         {fields.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">No fields to display</div>
+          <div className="text-center py-16 text-muted-foreground">
+            No fields to display
+          </div>
         ) : (
           <div className="space-y-4">
             {fields.map((field, index) => (
-              <Card key={field.id} className="p-4 bg-card border border-gray-200">
+              <Card
+                key={field.id}
+                className="p-4 bg-card border border-gray-200"
+              >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                  <Label htmlFor={field.id} className="text-sm font-medium text-foreground md:w-1/3">
+                  <span className="text-sm font-medium text-foreground md:w-1/3">
                     {field.label}
-                    {field.required && <span className="text-destructive ml-1">*</span>}
-                  </Label>
+                    {field.required && (
+                      <span className="text-destructive ml-1">*</span>
+                    )}
+                  </span>
                   <div className="md:w-2/3">
                     {field.type === 'text' && (
                       <Input
                         type="text"
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          required:
+                            field.required && 'Este campo es obligatorio',
                           validate: (value) =>
-                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
+                            !field.forbiddenValues.includes(String(value)) ||
+                            'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -197,7 +222,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
                           validate: (value) =>
-                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
+                            !field.forbiddenValues.includes(String(value)) ||
+                            'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -208,13 +234,15 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         type="email"
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          required:
+                            field.required && 'Este campo es obligatorio',
                           pattern: {
                             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                             message: 'Formato de email inválido',
                           },
                           validate: (value) =>
-                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
+                            !field.forbiddenValues.includes(String(value)) ||
+                            'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -225,9 +253,11 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         type="password"
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          required:
+                            field.required && 'Este campo es obligatorio',
                           validate: (value) =>
-                            !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
+                            !field.forbiddenValues.includes(String(value)) ||
+                            'Este valor no está permitido',
                         })}
                         defaultValue={field.value}
                       />
@@ -238,9 +268,12 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         type="time"
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          required:
+                            field.required && 'Este campo es obligatorio',
                           validate: (value) => {
-                            return /^([01]\d|2[0-3]):([0-5]\d)$/.test(String(value));
+                            return /^([01]\d|2[0-3]):([0-5]\d)$/.test(
+                              String(value),
+                            );
                           },
                         })}
                         defaultValue={field.value}
@@ -252,7 +285,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         type="number"
                         className="border p-1"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          required:
+                            field.required && 'Este campo es obligatorio',
                         })}
                         defaultValue={field.value}
                       />
@@ -264,7 +298,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                           id={field.id}
                           defaultChecked={field.value}
                           {...register(`items.${index}.value`, {
-                            required: field.required && 'Este campo es obligatorio',
+                            required:
+                              field.required && 'Este campo es obligatorio',
                           })}
                         />
                       </div>
@@ -274,7 +309,8 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                       <select
                         className="border p-2 rounded bg-gray-200 w-full"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
+                          required:
+                            field.required && 'Este campo es obligatorio',
                         })}
                         defaultValue={field.value}
                       >
@@ -288,7 +324,9 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                     )}
 
                     {errors.items?.[index]?.value && (
-                      <p className="text-red-600 text-sm mt-1">{errors.items[index].value.message}</p>
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.items[index].value.message}
+                      </p>
                     )}
                   </div>
                 </div>

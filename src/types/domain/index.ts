@@ -1,5 +1,5 @@
-import { type TypeRequirementData } from './requirement';
-import { type TypeTriggerData } from './trigger';
+import type { TypeRequirementData } from './requirement';
+import type { TypeTriggerData } from './trigger';
 
 export type TypeRole = {
   id: string;

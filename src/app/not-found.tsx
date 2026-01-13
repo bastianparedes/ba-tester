@@ -14,9 +14,12 @@ export default function NotFound() {
         </div>
 
         {/* Mensaje principal */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Página no encontrada</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+          Página no encontrada
+        </h2>
         <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
-          Lo sentimos, la página que buscas no existe o ha sido movida a otra ubicación.
+          Lo sentimos, la página que buscas no existe o ha sido movida a otra
+          ubicación.
         </p>
 
         {/* Botón de acción */}

@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { TypeTenant } from '@/types/domain';
+import type { TypeTenant } from '@/types/domain';
 
 const url = ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}`;
 
@@ -16,7 +16,16 @@ export type TypePut = {
     domain: TypeTenant['domain'];
   };
 };
-export const update = async ({ pathParams, body }: { pathParams: { tenantId: number }; body: TypePut['body'] }) => {
-  const response = await restClient.put<TypePut['response']>({ url: url({ tenantId: pathParams.tenantId }), body });
+export const update = async ({
+  pathParams,
+  body,
+}: {
+  pathParams: { tenantId: number };
+  body: TypePut['body'];
+}) => {
+  const response = await restClient.put<TypePut['response']>({
+    url: url({ tenantId: pathParams.tenantId }),
+    body,
+  });
   return response;
 };

@@ -1,7 +1,7 @@
 import english from './english';
-import spanish from './spanish';
 import french from './french';
 import polish from './polish';
+import spanish from './spanish';
 
 const languages = {
   english: {

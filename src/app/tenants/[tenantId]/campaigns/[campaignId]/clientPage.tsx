@@ -1,16 +1,14 @@
 'use client';
 
+import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
+import commonConstants from '@/config/common/constants';
+import type { TypeCampaign } from '@/types/domain';
 import Buttons from './components/Buttons';
 import Requirements from './components/Requirements';
-
 import Triggers from './components/Triggers';
 import Variations from './components/Variations';
-import type { TypeCampaign } from '@/types/domain';
-import commonConstants from '@/config/common/constants';
-import { ChevronDown } from 'lucide-react';
-import { useTranslationContext } from '@/app/_common/contexts/Translation';
 
 type Props = {
   initialCampaign: TypeCampaign;
@@ -25,14 +23,21 @@ const ClientPage = ({ initialCampaign }: Props) => {
       <div className="mb-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-blue-900 mb-2">{translation.campaign.title}</h1>
+            <h1 className="text-4xl font-bold text-blue-900 mb-2">
+              {translation.campaign.title}
+            </h1>
             <p className="text-blue-600">{translation.campaign.description}</p>
           </div>
           <div className="flex gap-3">
             <div className="relative">
               <select
                 value={campaign.status}
-                onChange={(e) => setCampaign({ ...campaign, status: e.target.value as typeof campaign.status })}
+                onChange={(e) =>
+                  setCampaign({
+                    ...campaign,
+                    status: e.target.value as typeof campaign.status,
+                  })
+                }
                 className={`outline-none px-6 py-2 rounded-lg font-semibold transition-all shadow-md appearance-none cursor-pointer pr-10 ${
                   campaign.status === 'active'
                     ? 'bg-green-500 text-white hover:bg-green-600'
@@ -57,7 +62,9 @@ const ClientPage = ({ initialCampaign }: Props) => {
 
       {/* NAME */}
       <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
-        <h2 className="text-xl font-semibold text-blue-900 mb-4">{translation.campaign.name}</h2>
+        <h2 className="text-xl font-semibold text-blue-900 mb-4">
+          {translation.campaign.name}
+        </h2>
         <input
           type="text"
           value={campaign.name}
@@ -67,7 +74,10 @@ const ClientPage = ({ initialCampaign }: Props) => {
       </div>
 
       <Triggers triggers={campaign.triggers} setCampaign={setCampaign} />
-      <Requirements requirements={campaign.requirements} setCampaign={setCampaign} />
+      <Requirements
+        requirements={campaign.requirements}
+        setCampaign={setCampaign}
+      />
       <Variations setCampaign={setCampaign} variations={campaign.variations} />
       <Buttons campaign={campaign} />
     </div>

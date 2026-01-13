@@ -1,10 +1,16 @@
-import { IRole, Roles, Users } from '../client';
+import type { TypeUser } from '@/types/domain';
+import { type IRole, Roles, Users } from '../client';
 import { withMapId } from './utils';
-import { TypeUser } from '@/types/domain';
 
-export const create = async (data: { name: string; email: string; passwordHash: string; role: { id: string } }) => {
+export const create = async (data: {
+  name: string;
+  email: string;
+  passwordHash: string;
+  role: { id: string };
+}) => {
   const role = await Roles.findById(data.role.id).lean();
-  if (!role) throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
+  if (!role)
+    throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
 
   const newUser = new Users({ ...data, role: role._id });
   await newUser.save();
@@ -20,7 +26,11 @@ export const update = async (
     };
   },
 ) => {
-  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role.id }, { new: true })
+  const updatedUser = await Users.findByIdAndUpdate(
+    userId,
+    { ...updates, role: updates.role.id },
+    { new: true },
+  )
     .select('-passwordHash')
     .populate<{ role: IRole }>('role')
     .lean();
@@ -28,8 +38,15 @@ export const update = async (
   return withMapId(updatedUser);
 };
 
-export const get = async ({ userId }: { userId: string }): Promise<TypeUser | null> => {
-  const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
+export const get = async ({
+  userId,
+}: {
+  userId: string;
+}): Promise<TypeUser | null> => {
+  const user = await Users.findById(userId)
+    .select('-passwordHash')
+    .populate<{ role: IRole }>('role')
+    .lean();
   if (!user) return null;
   const userPopulated = withMapId({
     ...user,
@@ -41,11 +58,18 @@ export const get = async ({ userId }: { userId: string }): Promise<TypeUser | nu
 export const getForLogin = async ({ email }: { email: string }) => {
   const user = await Users.findOne({ email }).lean();
   if (!user) throw new Error(`user with email (${email}) doesn't exist`);
-  return { id: user._id.toString(), email: user.email, passwordHash: user.passwordHash };
+  return {
+    id: user._id.toString(),
+    email: user.email,
+    passwordHash: user.passwordHash,
+  };
 };
 
 export const getAll = async (): Promise<TypeUser[]> => {
-  const users = await Users.find().select('-passwordHash').populate<{ role: IRole }>('role').lean();
+  const users = await Users.find()
+    .select('-passwordHash')
+    .populate<{ role: IRole }>('role')
+    .lean();
   const safeUsers = users.map((user) =>
     withMapId({
       ...user,
@@ -55,7 +79,9 @@ export const getAll = async (): Promise<TypeUser[]> => {
   return safeUsers;
 };
 
-export const getMany = async (filters: { id?: string; name?: string; role?: string } = {}): Promise<TypeUser[]> => {
+export const getMany = async (
+  filters: { id?: string; name?: string; role?: string } = {},
+): Promise<TypeUser[]> => {
   const { id, ...rest } = filters;
 
   const query = {
@@ -63,7 +89,10 @@ export const getMany = async (filters: { id?: string; name?: string; role?: stri
     ...(id ? { _id: id } : {}),
   };
 
-  const users = await Users.find(query).select('-passwordHash').populate<{ role: IRole }>('role').lean();
+  const users = await Users.find(query)
+    .select('-passwordHash')
+    .populate<{ role: IRole }>('role')
+    .lean();
 
   return users.map((user) =>
     withMapId({

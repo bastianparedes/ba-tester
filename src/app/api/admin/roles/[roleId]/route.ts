@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import db from '@/libs/db';
-import { TypePut, TypeDelete } from './client';
-import { TypeApiResponse } from '@/types/api';
-import { flatPermissions } from '@/libs/permissions';
 import constants from '@/config/constants';
+import db from '@/libs/db';
+import { flatPermissions } from '@/libs/permissions';
+import type { TypeApiResponse } from '@/types/api';
 import { isRoleSuperAdmin } from '@/utils/roles';
+import type { TypeDelete, TypePut } from './client';
 
 const insertRoleSchema = z.object({
   name: z.string().refine((val) => val !== constants.superAdminRoleName, {
@@ -25,7 +25,10 @@ export async function PUT(
   const body = await request.json();
   const parseResult = insertRoleSchema.safeParse(body);
   if (!parseResult.success)
-    return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
+    return NextResponse.json(
+      { errors: parseResult.error.issues.map((error) => error.message) },
+      { status: 400 },
+    );
   const validated: TypePut['body'] = parseResult.data;
   await db.roles.update(
     { roleId },
@@ -47,7 +50,10 @@ export async function DELETE(
 
   const role = await db.roles.get({ id: roleId });
   if (!role) return NextResponse.json({ errors: ['Role does not exist'] });
-  if (isRoleSuperAdmin(role)) return NextResponse.json({ errors: ['Role Super Admin can not be deleted'] });
+  if (isRoleSuperAdmin(role))
+    return NextResponse.json({
+      errors: ['Role Super Admin can not be deleted'],
+    });
 
   await db.roles.remove({ roleId });
   return NextResponse.json({});

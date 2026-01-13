@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import db from '@/libs/db';
-import { TypePut } from './client';
-import { TypeApiResponse } from '@/types/api';
+import type { TypeApiResponse } from '@/types/api';
+import type { TypePut } from './client';
 
 const updateTenantSchema = z.object({
   name: z.string(),
@@ -15,11 +15,14 @@ export async function PUT(
   { params: promiseParams }: { params: Promise<{ tenantId: string }> },
 ): TypeApiResponse<TypePut['response']> {
   const params = await promiseParams;
-  const tenantId = parseInt(params.tenantId);
+  const tenantId = parseInt(params.tenantId, 10);
   const body = await request.json();
   const parseResult = updateTenantSchema.safeParse(body);
   if (!parseResult.success)
-    return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
+    return NextResponse.json(
+      { errors: parseResult.error.issues.map((error) => error.message) },
+      { status: 400 },
+    );
   const validated: TypePut['body'] = parseResult.data;
 
   const result = await db.tenants.update(tenantId, validated);

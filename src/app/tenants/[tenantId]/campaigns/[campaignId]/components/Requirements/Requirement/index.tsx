@@ -1,13 +1,11 @@
-import React from 'react';
-
 import { cx } from 'class-variance-authority';
-
-import RequirementSpecific from './RequirementSpecific';
-import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '@/types/domain';
+import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
+import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { Trash2, Brackets, ChevronDown } from 'lucide-react';
-import { TypeRequirementType } from '@/types/constants';
+import commonConstants from '@/config/common/constants';
+import type { TypeRequirementType } from '@/types/constants';
+import type { TypeCampaign } from '@/types/domain';
+import RequirementSpecific from './RequirementSpecific';
 
 interface Props {
   grandParentNode: TypeCampaign['requirements'] | null;
@@ -18,12 +16,21 @@ interface Props {
   setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
-const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {
+const Requirement = ({
+  grandParentNode,
+  id,
+  index,
+  parentNode,
+  requirement,
+  setCampaign,
+}: Props) => {
   const { translation } = useTranslationContext();
 
   const getSiblings = () => {
     if (parentNode === null) return [];
-    return parentNode.data.children.filter((_child, indexChild) => indexChild !== index);
+    return parentNode.data.children.filter(
+      (_child, indexChild) => indexChild !== index,
+    );
   };
 
   const newRequirement = {
@@ -66,10 +73,11 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
         )}
         <div className={cx('flex-col flex', !isRootNode && 'mx-4')}>
           {requirement.data.children.map((childNode, indexChild) => (
-            <div key={id + '-' + String(indexChild)}>
+            <div key={`${id}-${String(indexChild)}`}>
               {indexChild > 0 && (
                 <div className="flex justify-start items-center gap-2 my-3 ml-4">
                   <button
+                    type="button"
                     onClick={switchToAnd}
                     disabled={requirement.data.operator === 'and'}
                     className={`px-3 py-1 rounded font-medium transition-all text-sm ${
@@ -81,6 +89,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
                     and
                   </button>
                   <button
+                    type="button"
                     onClick={switchToOr}
                     disabled={requirement.data.operator === 'or'}
                     className={`px-3 py-1 rounded font-medium transition-all text-sm ${
@@ -95,9 +104,9 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
               )}
               <Requirement
                 grandParentNode={parentNode}
-                id={id + '-' + String(indexChild)}
+                id={`${id}-${String(indexChild)}`}
                 index={indexChild}
-                key={id + '-' + String(indexChild)}
+                key={`${id}-${String(indexChild)}`}
                 parentNode={requirement}
                 requirement={childNode}
                 setCampaign={setCampaign}
@@ -105,6 +114,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
             </div>
           ))}
           <button
+            type="button"
             className="w-fit px-4 py-2 mt-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             onClick={addNewRequirement}
           >
@@ -216,7 +226,9 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
   };
 
   const removeRequirement = () => {
-    const newRequirements = parentNode.data.children.filter((_child, indexChild) => indexChild !== index);
+    const newRequirements = parentNode.data.children.filter(
+      (_child, indexChild) => indexChild !== index,
+    );
 
     parentNode.data.children = newRequirements;
 
@@ -255,15 +267,26 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
           <ChevronDown />
         </div>
       </div>
-      <RequirementSpecific setCampaign={setCampaign} requirement={requirement} />
-      <button onClick={removeRequirement} className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+      <RequirementSpecific
+        setCampaign={setCampaign}
+        requirement={requirement}
+      />
+      <button
+        type="button"
+        onClick={removeRequirement}
+        className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+      >
         <Trash2 size={20} />
       </button>
       {/* <button className="p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">
         <Copy size={20} />
       </button> */}
       {hasSiblings && (
-        <button onClick={addNewNode} className="p-3 text-black hover:bg-gray-200 rounded-lg transition-colors">
+        <button
+          type="button"
+          onClick={addNewNode}
+          className="p-3 text-black hover:bg-gray-200 rounded-lg transition-colors"
+        >
           <Brackets size={20} />
         </button>
       )}

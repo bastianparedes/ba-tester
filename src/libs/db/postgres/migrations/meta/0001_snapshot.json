@@ -60,12 +60,8 @@
           "name": "campaigns_tenant_id_tenants_id_fk",
           "tableFrom": "campaigns",
           "tableTo": "tenants",
-          "columnsFrom": [
-            "tenant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -75,9 +71,7 @@
         "campaigns_id_unique": {
           "name": "campaigns_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -120,9 +114,7 @@
         "tenants_id_unique": {
           "name": "tenants_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -134,11 +126,7 @@
     "public.status_enum": {
       "name": "status_enum",
       "schema": "public",
-      "values": [
-        "inactive",
-        "active",
-        "deleted"
-      ]
+      "values": ["inactive", "active", "deleted"]
     }
   },
   "schemas": {},

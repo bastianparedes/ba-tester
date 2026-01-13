@@ -20,7 +20,10 @@ type DialogStore = {
     formData: { title?: string; description?: string },
     args: T,
   ) => Promise<TypeResponse<T> | null>;
-  confirm: (formData: { title?: string; description?: string }) => Promise<boolean | null>;
+  confirm: (formData: {
+    title?: string;
+    description?: string;
+  }) => Promise<boolean | null>;
   completeResolver: (arg: unknown) => void;
 };
 
@@ -43,7 +46,10 @@ export const useDialogStore = create<DialogStore>((set, get) => ({
     set({ isOpen: true });
     return promise;
   },
-  confirm: (formData: { title?: string; description?: string }): Promise<null | boolean> => {
+  confirm: (formData: {
+    title?: string;
+    description?: string;
+  }): Promise<null | boolean> => {
     if (formData.title) set({ title: formData.title });
     if (formData.description) set({ description: formData.description });
     set({ data: { type: 'confirmDialog' } });

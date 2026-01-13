@@ -1,8 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, type ReactNode, useContext, useState } from 'react';
 import Toast from './Toast';
-import type { Severity, Position } from './types/types';
+import type { Position, Severity } from './types/types';
 
 type EmitToastArgs = {
   severity?: Severity;
@@ -25,7 +25,9 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 const ToastProvider = ({ children }: ToastProviderProps) => {
   const [toastCounter, setToastCounter] = useState(0);
-  const [toasts, setToasts] = useState<Required<EmitToastArgs & { id: number }>[]>([]);
+  const [toasts, setToasts] = useState<
+    Required<EmitToastArgs & { id: number }>[]
+  >([]);
 
   const removeToast = (id: number) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -42,7 +44,15 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
     const id = toastCounter + 1;
     setToastCounter(id);
 
-    const newToast = { severity, position, text, duration, closable, id, deletePrevious };
+    const newToast = {
+      severity,
+      position,
+      text,
+      duration,
+      closable,
+      id,
+      deletePrevious,
+    };
 
     setToasts((prev) => (deletePrevious ? [newToast] : [...prev, newToast]));
 
@@ -52,13 +62,27 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
   };
 
   const toastsTop = toasts.filter((toastData) => toastData.position === 'top');
-  const toastsRightTop = toasts.filter((toastData) => toastData.position === 'right-top');
-  const toastsRight = toasts.filter((toastData) => toastData.position === 'right');
-  const toastsRightBottom = toasts.filter((toastData) => toastData.position === 'right-bottom');
-  const toastsBottom = toasts.filter((toastData) => toastData.position === 'bottom');
-  const toastsLeftBottom = toasts.filter((toastData) => toastData.position === 'left-bottom');
-  const toastsLeft = toasts.filter((toastData) => toastData.position === 'left');
-  const toastsLeftTop = toasts.filter((toastData) => toastData.position === 'left-top');
+  const toastsRightTop = toasts.filter(
+    (toastData) => toastData.position === 'right-top',
+  );
+  const toastsRight = toasts.filter(
+    (toastData) => toastData.position === 'right',
+  );
+  const toastsRightBottom = toasts.filter(
+    (toastData) => toastData.position === 'right-bottom',
+  );
+  const toastsBottom = toasts.filter(
+    (toastData) => toastData.position === 'bottom',
+  );
+  const toastsLeftBottom = toasts.filter(
+    (toastData) => toastData.position === 'left-bottom',
+  );
+  const toastsLeft = toasts.filter(
+    (toastData) => toastData.position === 'left',
+  );
+  const toastsLeftTop = toasts.filter(
+    (toastData) => toastData.position === 'left-top',
+  );
 
   return (
     <ToastContext.Provider value={{ emit }}>

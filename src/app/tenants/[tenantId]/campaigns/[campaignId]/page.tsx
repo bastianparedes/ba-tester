@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
-import { ClientPage } from './clientPage';
 import constants from '@/config/constants';
 import db from '@/libs/db';
+import { ClientPage } from './clientPage';
 
 type PageProps = {
   params: Promise<{
@@ -19,7 +19,8 @@ const Page = async (props: PageProps) => {
   if (!tenant) return redirect(constants.pages.tenants());
 
   const initialCampaign = await db.campaigns.get({ tenantId, campaignId });
-  if (initialCampaign === undefined) redirect(constants.pages.campaigns({ tenantId }));
+  if (initialCampaign === undefined)
+    redirect(constants.pages.campaigns({ tenantId }));
 
   return (
     <Navigation
@@ -28,7 +29,10 @@ const Page = async (props: PageProps) => {
         { name: 'Tenants', path: constants.pages.tenants() },
         { name: tenant.name },
         { name: 'Campaigns', path: constants.pages.campaigns({ tenantId }) },
-        { name: initialCampaign.name, path: constants.pages.campaigns({ tenantId }) },
+        {
+          name: initialCampaign.name,
+          path: constants.pages.campaigns({ tenantId }),
+        },
       ]}
     >
       <ClientPage initialCampaign={initialCampaign} />

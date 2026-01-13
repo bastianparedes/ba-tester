@@ -1,9 +1,12 @@
-import constants from '@/config/constants';
-
 import { cookies } from 'next/headers';
-import db from '@/libs/db';
+import constants from '@/config/constants';
 import { getTokenData } from '@/libs/auth/jwt';
-import { getUserPermissions, getIsUserSuperAdmin, type TypeFullUser } from './helper';
+import db from '@/libs/db';
+import {
+  getIsUserSuperAdmin,
+  getUserPermissions,
+  type TypeFullUser,
+} from './helper';
 
 export const getUserFromCookies = async (): Promise<TypeFullUser> => {
   const cookieStore = await cookies();

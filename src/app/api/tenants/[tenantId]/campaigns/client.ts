@@ -1,13 +1,14 @@
 import { restClient } from '@/libs/restClient';
-import {
-  TypeStatus,
+import type {
   TypeOrderDirection,
   TypeRequirementData,
+  TypeStatus,
   TypeTriggerData,
   TypeVariationData,
 } from '@/types/domain';
 
-const url = ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}/campaigns`;
+const url = ({ tenantId }: { tenantId: number }) =>
+  `/api/tenants/${tenantId}/campaigns`;
 
 export type TypeGet = {
   queryParams: {
@@ -51,7 +52,9 @@ export const getMany = async ({
 
   for (const [key, value] of Object.entries(queryParams)) {
     if (Array.isArray(value)) {
-      value.forEach((item) => params.append(key, item.toString()));
+      value.forEach((item) => {
+        params.append(key, item.toString());
+      });
     } else if (value !== null && value !== undefined) {
       params.append(key, value.toString());
     }
@@ -115,7 +118,16 @@ export type TypePost = {
   };
   response: never;
 };
-export const create = async ({ pathParams, body }: { pathParams: { tenantId: number }; body: TypePost['body'] }) => {
-  const response = await restClient.post<TypePost['response']>({ url: url({ tenantId: pathParams.tenantId }), body });
+export const create = async ({
+  pathParams,
+  body,
+}: {
+  pathParams: { tenantId: number };
+  body: TypePost['body'];
+}) => {
+  const response = await restClient.post<TypePost['response']>({
+    url: url({ tenantId: pathParams.tenantId }),
+    body,
+  });
   return response;
 };

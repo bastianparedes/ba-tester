@@ -18,7 +18,8 @@ const rolesSchema = new mongoose.Schema<IRole>(
   { timestamps: true },
 );
 
-export const Roles: mongoose.Model<IRole> = mongoose.models.Role || mongoose.model<IRole>('Role', rolesSchema);
+export const Roles: mongoose.Model<IRole> =
+  mongoose.models.Role || mongoose.model<IRole>('Role', rolesSchema);
 
 /* =======================
   USERS
@@ -47,7 +48,8 @@ const usersSchema = new mongoose.Schema<IUser>(
   { timestamps: true },
 );
 
-export const Users: mongoose.Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', usersSchema);
+export const Users: mongoose.Model<IUser> =
+  mongoose.models.User || mongoose.model<IUser>('User', usersSchema);
 
 mongoose
   .connect(env.DATABASE_URL_MONGODB)

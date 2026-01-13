@@ -19,19 +19,25 @@ export const ComponentLanguage = () => {
           {languages.map((language) => (
             <button
               key={language.key}
+              type="button"
               onClick={() => handleSetLanguage(language.key)}
               className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-700 transition-colors text-left ${
-                selectedLanguage.key === language.key ? 'bg-blue-600 text-white' : 'text-gray-300'
+                selectedLanguage.key === language.key
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-300'
               }`}
             >
               <span className="font-medium">{language.name}</span>
-              {selectedLanguage.key === language.key && <span className="ml-auto">✓</span>}
+              {selectedLanguage.key === language.key && (
+                <span className="ml-auto">✓</span>
+              )}
             </button>
           ))}
         </div>
       )}
 
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 text-sm hover:bg-gray-750 transition-colors text-left font-medium"
       >

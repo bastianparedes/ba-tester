@@ -1,5 +1,5 @@
-import type React from 'react';
 import { redirect } from 'next/navigation';
+import type React from 'react';
 import constants from '@/config/constants';
 import db from '@/libs/db';
 

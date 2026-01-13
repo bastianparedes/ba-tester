@@ -1,5 +1,5 @@
 import { restClient } from '@/libs/restClient';
-import { TypeTenant } from '@/types/domain';
+import type { TypeTenant } from '@/types/domain';
 
 const url = () => '/api/tenants';
 
@@ -26,6 +26,9 @@ export type TypePost = {
   response: TypeTenant;
 };
 export const create = async ({ body }: { body: TypePost['body'] }) => {
-  const response = await restClient.post<TypePost['response']>({ url: url(), body });
+  const response = await restClient.post<TypePost['response']>({
+    url: url(),
+    body,
+  });
   return response;
 };

@@ -1,11 +1,12 @@
-import Requirement from './Requirement';
-import type Trigger from './Trigger';
-import type Variation from './Variation';
 import type { TypeBaTester } from '@/script/types';
 import { getId } from '@/script/utils/info';
 import queryParam from '@/script/utils/queryParam';
+import Requirement from './Requirement';
+import type Trigger from './Trigger';
+import type Variation from './Variation';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements'];
+type TypeRequirementData =
+  TypeBaTester['campaignsData'][number]['requirements'];
 
 class Campaign {
   id: number;
@@ -42,14 +43,17 @@ class Campaign {
 
   getVariation() {
     if (this.force) {
-      return this.variations.find((variation) => String(variation.data.id) === queryParam.get('ba_tester_variation'));
+      return this.variations.find(
+        (variation) =>
+          String(variation.data.id) === queryParam.get('ba_tester_variation'),
+      );
     }
 
     const numberDecider = ((Math.abs(getId()) + this.id) / 100) % 100;
     let accumulator = 0;
     return this.variations.find((variation) => {
       accumulator += variation.data.traffic;
-      if (accumulator >= numberDecider) return true;
+      return accumulator >= numberDecider;
     });
   }
 
@@ -62,7 +66,9 @@ class Campaign {
     const variation = this.getVariation();
     if (variation === undefined) return;
 
-    console.log(`🚀 BA Tester - Fired Campaign: (id: ${this.id}) ${this.name} - Variation: ${variation.data.name}`);
+    console.log(
+      `🚀 BA Tester - Fired Campaign: (id: ${this.id}) ${this.name} - Variation: ${variation.data.name}`,
+    );
     variation.run();
   }
 }

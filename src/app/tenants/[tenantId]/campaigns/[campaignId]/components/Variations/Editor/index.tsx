@@ -1,11 +1,9 @@
-import { useState } from 'react';
-
 import Monaco from '@monaco-editor/react';
-import { Modal } from '@/app/_common/components/Modal';
+import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-
-import type { TypeCampaign, TypeVariationData } from '@/types/domain';
+import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
+import type { TypeCampaign, TypeVariationData } from '@/types/domain';
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';
@@ -73,6 +71,7 @@ const Editor = ({ setCampaign, variation }: Props) => {
   return (
     <>
       <button
+        type="button"
         className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
         onClick={() => setShowEditor(true)}
       >
@@ -82,6 +81,7 @@ const Editor = ({ setCampaign, variation }: Props) => {
         <Modal setModalVisible={() => onCloseModal()}>
           <div className="flex flex-col items-start gap-4 p-4">
             <button
+              type="button"
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               onClick={onSave}
             >
@@ -95,17 +95,29 @@ const Editor = ({ setCampaign, variation }: Props) => {
               </TabList>
               <TabPanel>
                 <div className="w-[80vw] h-[80vh]">
-                  <Monaco {...monacoConfig} {...monacoHtmlConfig} language="html" />
+                  <Monaco
+                    {...monacoConfig}
+                    {...monacoHtmlConfig}
+                    language="html"
+                  />
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="w-[80vw] h-[80vh]">
-                  <Monaco {...monacoConfig} {...monacoCssConfig} language="css" />
+                  <Monaco
+                    {...monacoConfig}
+                    {...monacoCssConfig}
+                    language="css"
+                  />
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="w-[80vw] h-[80vh]">
-                  <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
+                  <Monaco
+                    {...monacoConfig}
+                    {...monacoJavascriptConfig}
+                    language="javascript"
+                  />
                 </div>
               </TabPanel>
             </Tabs>

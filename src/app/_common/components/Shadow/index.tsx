@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface Props {
   children?: React.ReactNode;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Shadow = ({ children, setVisible = null, blur = false }: Props) => {
-  const handleOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!setVisible) return;
 
     if (event.currentTarget === event.target) {
@@ -16,7 +16,8 @@ const Shadow = ({ children, setVisible = null, blur = false }: Props) => {
   };
 
   return (
-    <div
+    <button
+      type="button"
       data-testid="data-testid-shadow"
       onClick={handleOnClick}
       className={`
@@ -26,7 +27,7 @@ const Shadow = ({ children, setVisible = null, blur = false }: Props) => {
       `}
     >
       {children}
-    </div>
+    </button>
   );
 };
 

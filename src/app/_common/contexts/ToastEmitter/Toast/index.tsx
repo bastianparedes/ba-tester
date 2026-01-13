@@ -1,6 +1,6 @@
-import { X, Check, AlertCircle, Info, Image as ImageIcon } from 'lucide-react';
-import type { Severity } from '../types/types';
+import { AlertCircle, Check, Image as ImageIcon, Info, X } from 'lucide-react';
 import type { ReactNode } from 'react';
+import type { Severity } from '../types/types';
 import './styles.css';
 
 type Props = {
@@ -22,7 +22,8 @@ const Toast = ({ severity, text, onClose }: Props) => {
     success: 'bg-green-100 border border-green-200 text-green-800',
     information: 'bg-blue-100 border border-blue-200 text-blue-800',
     warning: 'bg-yellow-100 border border-yellow-300 text-yellow-800',
-    error: 'bg-red-100 border border-red-300 text-red-700 flex items-start gap-1 p-3',
+    error:
+      'bg-red-100 border border-red-300 text-red-700 flex items-start gap-1 p-3',
     neutral: 'bg-gray-900 border border-gray-800 text-gray-100',
   };
 
@@ -32,16 +33,18 @@ const Toast = ({ severity, text, onClose }: Props) => {
     >
       {onClose && (
         <button
+          type="button"
           className="absolute top-2 right-2 h-3 w-3 flex items-center justify-center text-inherit hover:opacity-70"
           data-testid="close-button"
-          role="button"
           onClick={onClose}
         >
           <X className="w-5 h-5" />
         </button>
       )}
       <Icon className="w-5 h-5 shrink-0" />
-      <div className={`font-normal text-[14px] leading-4 pr-4 ${severity === 'error' ? 'text-red-600 leading-5' : ''}`}>
+      <div
+        className={`font-normal text-[14px] leading-4 pr-4 ${severity === 'error' ? 'text-red-600 leading-5' : ''}`}
+      >
         {text}
       </div>
     </div>

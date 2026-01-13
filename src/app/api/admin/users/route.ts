@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import db from '@/libs/db';
-import { TypePost } from './client';
-import { TypeApiResponse } from '@/types/api';
 import constants from '@/config/constants';
 import { getPasswordHashed } from '@/libs/auth/password';
-import { getUserFromCookies } from '@/utils/user';
+import db from '@/libs/db';
+import type { TypeApiResponse } from '@/types/api';
 import { isRoleSuperAdmin } from '@/utils/roles';
+import { getUserFromCookies } from '@/utils/user';
+import type { TypePost } from './client';
 
 const insertUserSchema = z.object({
   name: z.string().refine((val) => val !== constants.superAdminRoleName, {
@@ -19,11 +19,16 @@ const insertUserSchema = z.object({
   }),
 });
 
-export async function POST(request: NextRequest): TypeApiResponse<TypePost['response']> {
+export async function POST(
+  request: NextRequest,
+): TypeApiResponse<TypePost['response']> {
   const body = await request.json();
   const parseResult = insertUserSchema.safeParse(body);
   if (!parseResult.success)
-    return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
+    return NextResponse.json(
+      { errors: parseResult.error.issues.map((error) => error.message) },
+      { status: 400 },
+    );
   const validated: TypePost['body'] = parseResult.data;
   const passwordHash = getPasswordHashed(validated.password);
 

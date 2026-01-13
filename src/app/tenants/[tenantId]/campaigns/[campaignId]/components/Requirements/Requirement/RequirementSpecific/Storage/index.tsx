@@ -1,9 +1,8 @@
-import React from 'react';
-
+import { ChevronDown } from 'lucide-react';
+import type React from 'react';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/common/constants';
 import type { TypeCampaign } from '@/types/domain';
-import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { ChevronDown } from 'lucide-react';
 
 interface Props {
   requirement: TypeCampaign['requirements']['data']['children'][number];
@@ -18,7 +17,9 @@ const Element = ({ setCampaign, requirement }: Props) => {
     requirement.type !== 'sessionStorage' &&
     requirement.type !== 'queryParam'
   )
-    throw new Error('Type cookie or localStorage or sessionStorage or queryParam expected in requirement');
+    throw new Error(
+      'Type cookie or localStorage or sessionStorage or queryParam expected in requirement',
+    );
 
   const comparatorPermittedValues = [
     commonConstants.comparisons.contains,
@@ -37,11 +38,17 @@ const Element = ({ setCampaign, requirement }: Props) => {
     });
   };
 
-  const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newComparator = event.target.value as (typeof comparatorPermittedValues)[number];
+  const handleOnChangeComparator = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const newComparator = event.target
+      .value as (typeof comparatorPermittedValues)[number];
     requirement.data.comparator = newComparator;
 
-    if (requirement.data.comparator === 'exists' || requirement.data.comparator === 'doesNotExist')
+    if (
+      requirement.data.comparator === 'exists' ||
+      requirement.data.comparator === 'doesNotExist'
+    )
       requirement.data = {
         comparator: requirement.data.comparator,
         name: requirement.data.name,
@@ -55,7 +62,8 @@ const Element = ({ setCampaign, requirement }: Props) => {
   const handleOnChangeValue = (event: React.FocusEvent<HTMLInputElement>) => {
     if (
       requirement.data.comparator !== commonConstants.comparisons.contains &&
-      requirement.data.comparator !== commonConstants.comparisons.doesNotContain &&
+      requirement.data.comparator !==
+        commonConstants.comparisons.doesNotContain &&
       requirement.data.comparator !== commonConstants.comparisons.is &&
       requirement.data.comparator !== commonConstants.comparisons.isNot
     )
@@ -94,7 +102,8 @@ const Element = ({ setCampaign, requirement }: Props) => {
         </div>
       </div>
       {(requirement.data.comparator === commonConstants.comparisons.contains ||
-        requirement.data.comparator === commonConstants.comparisons.doesNotContain ||
+        requirement.data.comparator ===
+          commonConstants.comparisons.doesNotContain ||
         requirement.data.comparator === commonConstants.comparisons.is ||
         requirement.data.comparator === commonConstants.comparisons.isNot) && (
         <input
