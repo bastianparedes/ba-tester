@@ -1,5 +1,7 @@
 import type { TypeUser } from '@/types/domain';
-import { type IRole, Roles, Users } from '../client';
+import { connect } from '../client';
+import Roles, { type IRole } from '../models/Role';
+import Users from '../models/User';
 import { withMapId } from './utils';
 
 export const create = async (data: {
@@ -8,6 +10,7 @@ export const create = async (data: {
   passwordHash: string;
   role: { id: string };
 }) => {
+  await connect();
   const role = await Roles.findById(data.role.id).lean();
   if (!role)
     throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
@@ -26,6 +29,7 @@ export const update = async (
     };
   },
 ) => {
+  await connect();
   const updatedUser = await Users.findByIdAndUpdate(
     userId,
     { ...updates, role: updates.role.id },
@@ -43,6 +47,7 @@ export const get = async ({
 }: {
   userId: string;
 }): Promise<TypeUser | null> => {
+  await connect();
   const user = await Users.findById(userId)
     .select('-passwordHash')
     .populate<{ role: IRole }>('role')
@@ -56,6 +61,7 @@ export const get = async ({
 };
 
 export const getForLogin = async ({ email }: { email: string }) => {
+  await connect();
   const user = await Users.findOne({ email }).lean();
   if (!user) throw new Error(`user with email (${email}) doesn't exist`);
   return {
@@ -66,6 +72,7 @@ export const getForLogin = async ({ email }: { email: string }) => {
 };
 
 export const getAll = async (): Promise<TypeUser[]> => {
+  await connect();
   const users = await Users.find()
     .select('-passwordHash')
     .populate<{ role: IRole }>('role')
@@ -82,6 +89,7 @@ export const getAll = async (): Promise<TypeUser[]> => {
 export const getMany = async (
   filters: { id?: string; name?: string; role?: string } = {},
 ): Promise<TypeUser[]> => {
+  await connect();
   const { id, ...rest } = filters;
 
   const query = {
@@ -103,5 +111,6 @@ export const getMany = async (
 };
 
 export const remove = async ({ userId }: { userId: string }) => {
+  await connect();
   await Users.findByIdAndDelete(userId);
 };

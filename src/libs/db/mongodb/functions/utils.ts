@@ -1,4 +1,4 @@
-import type { mongoose } from '../client';
+import type mongoose from 'mongoose';
 
 export function withMapId<T extends { _id: mongoose.Types.ObjectId }>(
   obj: T,

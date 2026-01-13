@@ -1,5 +1,7 @@
 import type { TypeRole } from '@/types/domain';
-import { Roles, Users } from '../client';
+import { connect } from '../client';
+import Roles from '../models/Role';
+import Users from '../models/User';
 import { withMapId } from './utils';
 
 export const create = async (data: {
@@ -20,6 +22,7 @@ export const update = async (
     permissions: string[];
   },
 ) => {
+  await connect();
   const updatedRole = await Roles.findByIdAndUpdate(roleId, updates, {
     new: true,
   });
@@ -29,6 +32,7 @@ export const update = async (
 export const get = async (
   filters: { id?: string; name?: string } = {},
 ): Promise<TypeRole | null> => {
+  await connect();
   const { id, ...rest } = filters;
 
   const query = {
@@ -43,6 +47,7 @@ export const get = async (
 };
 
 export const getAll = async (): Promise<TypeRole[]> => {
+  await connect();
   const roles = await Roles.find().lean();
   return roles.map((role) => withMapId(role));
 };
@@ -50,6 +55,7 @@ export const getAll = async (): Promise<TypeRole[]> => {
 export const getMany = async (
   filters: { id?: string; name?: string } = {},
 ): Promise<TypeRole[]> => {
+  await connect();
   const { id, ...rest } = filters;
 
   const query = {
@@ -62,6 +68,7 @@ export const getMany = async (
 };
 
 export const remove = async ({ roleId }: { roleId: string }) => {
+  await connect();
   const deletedRole = await Roles.findByIdAndDelete(roleId);
   if (!deletedRole) throw new Error(`Role (${roleId}) doesn't exist`);
 

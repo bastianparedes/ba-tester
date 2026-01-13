@@ -1,59 +1,51 @@
-import mongoose from 'mongoose';
+import importedMongoose from 'mongoose';
 import env from '@/libs/env';
 
-export interface IRole extends mongoose.Document {
-  name: string;
-  description: string;
-  permissions: string[];
-  createdAt: Date;
-  updatedAt: Date;
+declare global {
+  var mongoose: { conn: typeof importedMongoose | null, promise: Promise<typeof importedMongoose> | null};
 }
 
-const rolesSchema = new mongoose.Schema<IRole>(
-  {
-    name: { type: String, unique: true, required: true },
-    description: { type: String, required: false, default: '' },
-    permissions: { type: [String], default: [] },
-  },
-  { timestamps: true },
-);
+let cached = global.mongoose;
 
-export const Roles: mongoose.Model<IRole> =
-  mongoose.models.Role || mongoose.model<IRole>('Role', rolesSchema);
-
-/* =======================
-  USERS
-======================= */
-
-export interface IUser extends mongoose.Document {
-  name: string;
-  email: string;
-  passwordHash: string;
-  role: mongoose.Types.ObjectId | IRole;
-  createdAt: Date;
-  updatedAt: Date;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
-const usersSchema = new mongoose.Schema<IUser>(
-  {
-    name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
-    passwordHash: { type: String, required: true },
-    role: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Role',
-      required: true,
-    },
-  },
-  { timestamps: true },
-);
+export async function connect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
 
-export const Users: mongoose.Model<IUser> =
-  mongoose.models.User || mongoose.model<IUser>('User', usersSchema);
+  if (!cached.promise) {
+    const opts = {
+      maxPoolSize: 2,
+      maxIdleTimeMS: 60000,
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 8000, //Stay within Vercel's 10 second function limit
+      heartbeatFrequencyMS: 10000, //Attempting to see if this reduces query timeouts
+    };
 
-mongoose
-  .connect(env.DATABASE_URL_MONGODB)
-  .then(() => console.log('Connecting to mongoDB'))
-  .catch((err) => console.error('Error in conection to MongoDB:', err));
+    console.log('---Connecting to MongoDB---');
 
-export { mongoose };
+    try {
+      cached.promise = importedMongoose
+        .connect(env.DATABASE_URL_MONGODB, opts)
+        .then((mongooseInstance) => {
+          console.log('---Connected!---');
+          return mongooseInstance;
+        });
+    } catch (e) {
+      console.log('---Error connecting to MongoDB---', e);
+      throw new Error('Error connecting to database');
+    }
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
