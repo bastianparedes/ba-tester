@@ -1,4 +1,4 @@
-import { asc, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import type { TypeTenant } from '@/types/domain';
 import db from '../client';
 import * as schema from '../schema';
@@ -51,9 +51,6 @@ export const get = async ({ tenantId }: { tenantId: number }) => {
 };
 
 export const getAll = async () => {
-  const tenants = await db
-    .select()
-    .from(schema.tenants)
-    .orderBy(asc(schema.tenants.id));
+  const tenants = await db.select().from(schema.tenants);
   return tenants;
 };

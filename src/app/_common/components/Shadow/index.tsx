@@ -17,20 +17,17 @@ const Shadow = ({ children, setVisible = null, blur = false }: Props) => {
 
   return (
     <>
-    <button
-      type="button"
-      data-testid="data-testid-shadow"
-      onClick={handleOnClick}
-      className={`
+      <button
+        type="button"
+        data-testid="data-testid-shadow"
+        onClick={handleOnClick}
+        className={`
         fixed inset-0 w-screen h-screen z-1000
         bg-black/50
         ${blur ? 'backdrop-blur-[5px]' : ''}
       `}
-    />
-    <div className="fixed inset-0 z-1100 w-fit h-fit m-auto">
-      {children}
-    </div>
-
+      />
+      <div className="fixed inset-0 z-1100 w-fit h-fit m-auto">{children}</div>
     </>
   );
 };
