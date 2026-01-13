@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
 import env from '@/libs/env';
-import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/libs/permissions';
-import constants from '@/config/constants';
-import { getPasswordHashed } from '@/libs/auth/password';
 
 export interface IRole extends mongoose.Document {
   name: string;
@@ -54,33 +51,7 @@ export const Users: mongoose.Model<IUser> = mongoose.models.User || mongoose.mod
 
 mongoose
   .connect(env.DATABASE_URL_MONGODB)
-  .then(async () => {
-    const superAdminRole = await Roles.findOneAndUpdate(
-      { name: constants.superAdminRoleName },
-      {
-        name: constants.superAdminRoleName,
-        description: 'Access to all',
-        permissions: [...flatPermissions, ...flatSuperAdminOnlyPermissions],
-      },
-      { upsert: true, new: true },
-    );
-    await Promise.all(
-      env.SUPER_ADMINS.map((superAdmin) =>
-        Users.findOneAndUpdate(
-          { email: superAdmin.email },
-          {
-            $setOnInsert: {
-              name: superAdmin.name,
-              email: superAdmin.email,
-              passwordHash: getPasswordHashed(superAdmin.password),
-              role: superAdminRole._id,
-            },
-          },
-          { upsert: true, new: true },
-        ),
-      ),
-    );
-  })
+  .then(() => console.log('Connecting to mongoDB'))
   .catch((err) => console.error('Error in conection to MongoDB:', err));
 
 export { mongoose };

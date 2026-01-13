@@ -28,7 +28,7 @@ export const superAdminsValidator = makeValidator((value: string) => {
 });
 
 export default cleanEnv(process.env, {
-  NODE_ENV: str({ choices: ['development', 'test', 'production'] }),
+  NODE_ENV: str({ choices: ['development', 'test', 'production'], default: process.env.NODE_ENV }),
   JWT_SECRET: str(),
   DATABASE_URL_POSTGRES: str(),
   DATABASE_URL_MONGODB: str(),
