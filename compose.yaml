@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: db
     volumes:
-      - ./src/libs/db/postgres/migrations:/docker-entrypoint-initdb.d
+      - ./apps/frontend/src/libs/db/postgres/migrations:/docker-entrypoint-initdb.d
 
   db-redis:
     tty: true
@@ -29,13 +29,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: 12345678
       MONGO_INITDB_DATABASE: db
 
-  app:
+  frontend:
     tty: true
-    command: sh -c "npm run postinstall && npm run dev"
+    command: npm run dev
     build:
-      context: .
+      context: ./apps/frontend
       dockerfile: Dockerfile.dev
-    image: ba-tester
+    image: ba-tester/frontend
     environment:
       JWT_SECRET: "abc123"
       DATABASE_URL_POSTGRES: "postgresql://admin:12345678@db-postgres:5432/db?sslmode=disable"
@@ -46,7 +46,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - ./apps/frontend:/app
       - /app/node_modules
     depends_on:
       - db-postgres
