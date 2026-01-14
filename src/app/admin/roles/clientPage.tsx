@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: <I need it> */
-/** biome-ignore-all lint/a11y/useKeyWithClickEvents: <I need it> */
 'use client';
 
 import { Plus, Trash2 } from 'lucide-react';
@@ -135,31 +133,35 @@ export function ClientPage({ initialRoles }: Props) {
           {roles.map((role) => (
             <div
               key={role.id}
-              onClick={() => setSelectedRole(role.id)}
-              className={`w-full text-left p-4 rounded-lg transition-all group ${
+              className={`w-full text-left p-4 rounded-lg transition-all flex justify-between items-center ${
                 selectedRoleId === role.id
                   ? 'bg-blue-50 border-2 border-blue-500'
                   : 'bg-white border-2 border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-semibold text-gray-900">{role.name}</div>
-                  <div className="text-sm text-gray-500">
-                    {role.permissions.length} permisos asignados
-                  </div>
+              {/* Botón principal para seleccionar rol */}
+              <button
+                type="button"
+                onClick={() => setSelectedRole(role.id)}
+                className="flex-1 text-left"
+              >
+                <div className="font-semibold text-gray-900">{role.name}</div>
+                <div className="text-sm text-gray-500">
+                  {role.permissions.length} permisos asignados
                 </div>
-                {user.permissions.canDeleteRole && !isRoleSuperAdmin(role) && (
-                  <button
-                    type="button"
-                    onClick={() => deleteRole(role)}
-                    className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg"
-                    title="Eliminar rol"
-                  >
-                    <Trash2 className="w-4 h-4 text-red-600" />
-                  </button>
-                )}
-              </div>
+              </button>
+
+              {/* Botón independiente para eliminar rol */}
+              {user.permissions.canDeleteRole && !isRoleSuperAdmin(role) && (
+                <button
+                  type="button"
+                  onClick={() => deleteRole(role)}
+                  className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg ml-2"
+                  title="Eliminar rol"
+                >
+                  <Trash2 className="w-4 h-4 text-red-600" />
+                </button>
+              )}
             </div>
           ))}
         </div>

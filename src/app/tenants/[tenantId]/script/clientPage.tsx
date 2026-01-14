@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, Code, Copy, LinkIcon } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   url: string;
@@ -55,9 +55,7 @@ export function ClientPage({ url, script }: Props) {
           </div>
 
           <div className="relative">
-            <div
-              className="w-full bg-white/5 border border-blue-300/30 rounded-lg px-4 py-3 text-white pr-12 break-all"
-            >
+            <div className="w-full bg-white/5 border border-blue-300/30 rounded-lg px-4 py-3 text-white pr-12 break-all">
               {fullUrl}
             </div>
             <button
