@@ -34,6 +34,7 @@ services:
     command: sh -c "npm run postinstall && npm run dev"
     build:
       context: .
+      dockerfile: Dockerfile.dev
     image: ba-tester
     environment:
       JWT_SECRET: "abc123"
