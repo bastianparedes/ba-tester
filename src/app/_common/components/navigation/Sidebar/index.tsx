@@ -1,4 +1,11 @@
-import { Building2, FlaskConical, Shield, UserCog } from 'lucide-react';
+import {
+  Building2,
+  Code,
+  Eye,
+  FlaskConical,
+  Shield,
+  UserCog,
+} from 'lucide-react';
 import type React from 'react';
 import constants from '@/config/constants';
 import type { TypeTenant } from '@/types/domain';
@@ -48,6 +55,26 @@ export function Sidebar({ children, tenant }: Props) {
                 >
                   <FlaskConical className="w-5 h-5" />
                   <span className="text-sm font-medium">Campaigns</span>
+                </a>
+              )}
+
+              {tenant && (
+                <a
+                  href={constants.pages.script({ tenantId: tenant.id })}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                >
+                  <Code className="w-5 h-5" />
+                  <span className="text-sm font-medium">Script and URL</span>
+                </a>
+              )}
+
+              {tenant && (
+                <a
+                  href={constants.pages.example({ tenantId: tenant.id })}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                >
+                  <Eye className="w-5 h-5" />
+                  <span className="text-sm font-medium">Example</span>
                 </a>
               )}
             </div>

@@ -13,7 +13,7 @@ export default async function RootLayout(props: LayoutProps) {
   return (
     <html lang="es-ES">
       <head>
-        <script async src={constants.pages.bundle({ tenantId })}></script>
+        <script async src={constants.pages.apiScript({ tenantId })}></script>
       </head>
       <body>{props.children}</body>
     </html>

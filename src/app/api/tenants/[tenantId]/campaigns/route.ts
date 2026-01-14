@@ -9,11 +9,7 @@ import { zodRequirementsCampaign } from './validator.helper';
 
 const getSchema = z.object({
   textSearch: z.string(),
-  orderBy: z.enum([
-    config.database.campaign.status,
-    config.database.campaign.name,
-    config.database.campaign.id,
-  ]),
+  orderBy: z.enum(['status', 'name', 'id']),
   orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int().nonnegative(),
   quantity: z.coerce
