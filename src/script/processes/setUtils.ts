@@ -19,8 +19,8 @@ const getDevice = () => {
 };
 
 const script = () => {
-  window.ba_tester = {
-    ...(window.ba_tester ?? {}),
+  window[commonConstants.windowKey] = {
+    ...(window[commonConstants.windowKey] ?? {}),
     cookie,
     device: getDevice(),
   };

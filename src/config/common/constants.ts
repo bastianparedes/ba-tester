@@ -106,6 +106,8 @@ const campaignRequirements = [
   requirementTypes.url,
 ] satisfies Exclude<TypeRequirementType, 'node'>[];
 
+const windowKey = 'ba_tester';
+
 const constants = Object.freeze({
   booleanOperators,
   campaignRequirements,
@@ -120,6 +122,7 @@ const constants = Object.freeze({
   triggerTypes,
   triggers,
   typeRepetitions,
+  windowKey,
 });
 
 export default constants;

@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import commonConstants from '@/config/common/constants';
 import db from '@/libs/db';
 import type { TypeCampaignScript } from '@/types/domain';
-
 export const getBuiltScript = async ({
   tenantId,
 }: {
@@ -23,7 +23,7 @@ export const getBuiltScript = async ({
   });
   if (campaigns.length === 0) return '';
 
-  const stringWindow = `window.ba_tester = window.ba_tester || {}\n;window.ba_tester.campaignsData = ${JSON.stringify(campaigns)};`;
+  const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {}\n;window.${commonConstants.windowKey}.campaignsData = ${JSON.stringify(campaigns)};`;
   const script = fs.readFileSync(
     path.join(process.cwd(), 'dist', 'script.js'),
     'utf-8',

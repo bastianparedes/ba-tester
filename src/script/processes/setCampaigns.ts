@@ -1,3 +1,4 @@
+import commonConstants from '@/config/common/constants';
 import type { TypeBaTester } from '@/script/types';
 import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Trigger';
@@ -10,7 +11,7 @@ declare global {
 }
 
 const script = () => {
-  window.ba_tester.campaignsData?.forEach((campaignData) => {
+  window[commonConstants.windowKey].campaignsData?.forEach((campaignData) => {
     const triggers = campaignData.triggers.map(
       (triggerData) => new Trigger(triggerData, campaignData.id),
     );

@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, Code, Copy, LinkIcon } from 'lucide-react';
+import { Check, Code, Copy, Link } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 type Props = {
@@ -38,54 +38,56 @@ export function ClientPage({ url, script }: Props) {
   const fullUrl = `${domain}${url}`;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-blue-900 to-slate-900 p-6 flex items-center justify-center">
+    <div className="min-h-screen bg-white p-6 flex items-center justify-center">
       <div className="max-w-4xl w-full space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-white">
+          <h1 className="text-4xl font-bold text-blue-950">
             Visualizador de Link y Código
           </h1>
         </div>
 
         {/* URL Section */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+        <div className="bg-blue-200 rounded-2xl p-6 shadow-xl border border-blue-600">
           <div className="flex items-center gap-2 mb-4">
-            <LinkIcon className="text-blue-300" size={24} />
-            <h2 className="text-xl font-semibold text-white">URL del Script</h2>
+            <Link className="text-blue-800" size={24} />
+            <h2 className="text-xl font-semibold text-blue-950">
+              URL del Script
+            </h2>
           </div>
 
           <div className="relative">
-            <div className="w-full bg-white/5 border border-blue-300/30 rounded-lg px-4 py-3 text-white pr-12 break-all">
+            <div className="w-full bg-white border border-blue-600 rounded-lg px-4 py-3 text-blue-950 pr-12 break-all">
               {fullUrl}
             </div>
             <button
               onClick={() => copyToClipboard(fullUrl, 'url')}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-blue-300 rounded-lg transition-colors"
               type="button"
               title="Copiar URL"
             >
               {copiedUrl ? (
-                <Check className="text-green-400" size={20} />
+                <Check className="text-blue-800" size={20} />
               ) : (
-                <Copy className="text-blue-300" size={20} />
+                <Copy className="text-blue-800" size={20} />
               )}
             </button>
           </div>
         </div>
 
         {/* JavaScript Code Section */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+        <div className="bg-blue-200 rounded-2xl p-6 shadow-xl border border-blue-600">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Code className="text-blue-300" size={24} />
-              <h2 className="text-xl font-semibold text-white">
+              <Code className="text-blue-800" size={24} />
+              <h2 className="text-xl font-semibold text-blue-950">
                 Código TypeScript
               </h2>
             </div>
             <button
               type="button"
               onClick={() => copyToClipboard(script, 'code')}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-200 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded-lg transition-colors"
             >
               {copiedCode ? (
                 <>
@@ -102,12 +104,12 @@ export function ClientPage({ url, script }: Props) {
           </div>
 
           <div className="relative">
-            <pre className="w-full bg-slate-950/50 border border-blue-300/30 rounded-lg px-4 py-3 text-green-300 font-mono text-sm overflow-x-auto min-h-[600px] whitespace-pre-wrap break-all">
+            <pre className="w-full bg-white border border-blue-600 rounded-lg px-4 py-3 text-blue-950 font-mono text-sm overflow-x-auto min-h-[400px] whitespace-pre-wrap break-all">
               <code>{script}</code>
             </pre>
           </div>
 
-          <div className="mt-3 text-xs text-blue-200/70">
+          <div className="mt-3 text-xs text-blue-900">
             Líneas: {script.split('\n').length} | Caracteres: {script.length}
           </div>
         </div>
