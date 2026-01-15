@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign } from '@/types/domain';
+import type { TypeCampaign } from '@/domain/types';
 import Editor from './Editor';
 
 interface Props {
@@ -11,8 +11,7 @@ interface Props {
 const Requirement = ({ setCampaign, requirement }: Props) => {
   const { translation } = useTranslationContext();
 
-  if (requirement.type !== 'custom')
-    throw new Error('Type custom expected in requirement');
+  if (requirement.type !== 'custom') throw new Error('Type custom expected in requirement');
 
   const handleOnChangeName = (event: React.FocusEvent<HTMLInputElement>) => {
     setCampaign((campaign) => {

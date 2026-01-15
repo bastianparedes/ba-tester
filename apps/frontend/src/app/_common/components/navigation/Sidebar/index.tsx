@@ -1,14 +1,7 @@
-import {
-  Building2,
-  Code,
-  Eye,
-  FlaskConical,
-  Shield,
-  UserCog,
-} from 'lucide-react';
+import { Building2, Code, Eye, FlaskConical, Shield, UserCog } from 'lucide-react';
 import type React from 'react';
 import constants from '@/config/constants';
-import type { TypeTenant } from '@/types/domain';
+import type { TypeTenant } from '@/domain/types';
 import { ComponentLanguage } from './Language';
 
 type Props = {
@@ -27,23 +20,16 @@ export function Sidebar({ children, tenant }: Props) {
             {/* Language Section */}
 
             <div className="mb-6">
-              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">
-                Language
-              </div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Language</div>
               <ComponentLanguage />
             </div>
 
             {/* AB Tests Section */}
 
             <div className="mb-6">
-              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">
-                Testing
-              </div>
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Testing</div>
 
-              <a
-                href={constants.pages.tenants()}
-                className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-              >
+              <a href={constants.pages.tenants()} className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
                 <Building2 className="w-5 h-5" />
                 <span className="text-sm font-medium">Tenants</span>
               </a>
@@ -81,20 +67,12 @@ export function Sidebar({ children, tenant }: Props) {
 
             {/* Administration Section */}
             <div className="mb-6">
-              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">
-                Administración
-              </div>
-              <a
-                href={constants.pages.roles()}
-                className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-              >
+              <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">Administración</div>
+              <a href={constants.pages.roles()} className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
                 <Shield className="w-5 h-5" />
                 <span className="text-sm font-medium">Roles</span>
               </a>
-              <a
-                href={constants.pages.users()}
-                className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-              >
+              <a href={constants.pages.users()} className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
                 <UserCog className="w-5 h-5" />
                 <span className="text-sm font-medium">Usuarios</span>
               </a>

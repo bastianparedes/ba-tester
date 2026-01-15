@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
-import commonConstants from '@/config/common/constants';
 import constants from '@/config/constants';
+import commonConstants from '@/domain/constants';
 import db from '@/libs/db';
 import { ClientPage } from '../[campaignId]/clientPage';
 

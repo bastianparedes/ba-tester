@@ -4,7 +4,7 @@ import type { editor } from 'monaco-editor';
 import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign, TypeTriggerData } from '@/types/domain';
+import type { TypeCampaign, TypeTriggerData } from '@/domain/types';
 
 import 'react-tabs/style/react-tabs.css';
 
@@ -55,11 +55,7 @@ const Editor = ({ setCampaign, trigger }: Props) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-        onClick={() => setShowEditor(true)}
-      >
+      <button type="button" className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" onClick={() => setShowEditor(true)}>
         <Pencil size={20} />
       </button>
       {showEditor && (
@@ -74,11 +70,7 @@ const Editor = ({ setCampaign, trigger }: Props) => {
               {translation.campaign.save}
             </button>
             <div className="w-[80vw] h-[80vh]">
-              <Monaco
-                {...monacoConfig}
-                {...monacoJavascriptConfig}
-                language="javascript"
-              />
+              <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
             </div>
           </div>
         </Modal>

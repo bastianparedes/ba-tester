@@ -1,6 +1,6 @@
-import constants from '@/config/constants';
-import { permissions, superAdminOnlyPermissions } from '@/libs/permissions';
-import type { TypeUser } from '@/types/domain';
+import { superAdminRoleName } from '@/domain/config';
+import { permissions, superAdminOnlyPermissions } from '@/domain/permissions';
+import type { TypeUser } from '@/domain/types';
 
 export type TypeFullUser =
   | {
@@ -65,47 +65,27 @@ export type TypeFullUser =
     };
 export const getUserPermissions = (user: TypeUser | null) => ({
   canReadRole: !!user && user.role.permissions.includes(permissions.role.read),
-  canCreateRole:
-    !!user && user.role.permissions.includes(permissions.role.create),
-  canUpdateRole:
-    !!user && user.role.permissions.includes(permissions.role.update),
-  canDeleteRole:
-    !!user && user.role.permissions.includes(permissions.role.delete),
+  canCreateRole: !!user && user.role.permissions.includes(permissions.role.create),
+  canUpdateRole: !!user && user.role.permissions.includes(permissions.role.update),
+  canDeleteRole: !!user && user.role.permissions.includes(permissions.role.delete),
 
   canReadUser: !!user && user.role.permissions.includes(permissions.user.read),
-  canCreateUser:
-    !!user && user.role.permissions.includes(permissions.user.create),
-  canUpdateUser:
-    !!user && user.role.permissions.includes(permissions.user.update),
-  canDeleteUser:
-    !!user && user.role.permissions.includes(permissions.user.delete),
+  canCreateUser: !!user && user.role.permissions.includes(permissions.user.create),
+  canUpdateUser: !!user && user.role.permissions.includes(permissions.user.update),
+  canDeleteUser: !!user && user.role.permissions.includes(permissions.user.delete),
 
-  canReadTenant:
-    !!user && user.role.permissions.includes(permissions.tenant.read),
-  canCreateTenant:
-    !!user && user.role.permissions.includes(permissions.tenant.create),
-  canUpdateTenant:
-    !!user && user.role.permissions.includes(permissions.tenant.update),
-  canDeleteTenant:
-    !!user && user.role.permissions.includes(permissions.tenant.delete),
+  canReadTenant: !!user && user.role.permissions.includes(permissions.tenant.read),
+  canCreateTenant: !!user && user.role.permissions.includes(permissions.tenant.create),
+  canUpdateTenant: !!user && user.role.permissions.includes(permissions.tenant.update),
+  canDeleteTenant: !!user && user.role.permissions.includes(permissions.tenant.delete),
 
-  canReadCampaign:
-    !!user && user.role.permissions.includes(permissions.campaign.read),
-  canCreateCampaign:
-    !!user && user.role.permissions.includes(permissions.campaign.create),
-  canUpdateCampaign:
-    !!user && user.role.permissions.includes(permissions.campaign.update),
+  canReadCampaign: !!user && user.role.permissions.includes(permissions.campaign.read),
+  canCreateCampaign: !!user && user.role.permissions.includes(permissions.campaign.create),
+  canUpdateCampaign: !!user && user.role.permissions.includes(permissions.campaign.update),
 
-  canCreateSuperAdmin:
-    !!user &&
-    user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create),
-  canUpdateSuperAdmin:
-    !!user &&
-    user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update),
-  canDeleteSuperAdmin:
-    !!user &&
-    user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete),
+  canCreateSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create),
+  canUpdateSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update),
+  canDeleteSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete),
 });
 
-export const getIsUserSuperAdmin = (user: TypeUser | null) =>
-  !!user && user.role.name === constants.superAdminRoleName;
+export const getIsUserSuperAdmin = (user: TypeUser | null) => !!user && user.role.name === superAdminRoleName;

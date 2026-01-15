@@ -6,12 +6,6 @@ export function getPasswordHashed(password: string) {
   return hash;
 }
 
-export const isPasswordCorrect = ({
-  password,
-  passwordHash,
-}: {
-  password: string;
-  passwordHash: string;
-}) => {
+export const isPasswordCorrect = ({ password, passwordHash }: { password: string; passwordHash: string }) => {
   return bcrypt.compareSync(password, passwordHash);
 };

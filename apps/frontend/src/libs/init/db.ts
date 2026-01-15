@@ -1,22 +1,19 @@
-import constants from '@/config/constants';
+import { superAdminRoleName } from '@/domain/config';
+import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/domain/permissions';
 import { getPasswordHashed } from '@/libs/auth/password';
 import { connect, disconnect } from '@/libs/db/mongodb/client';
 import Roles from '@/libs/db/mongodb/models/Role';
 import Users from '@/libs/db/mongodb/models/User';
 import env from '@/libs/env';
-import {
-  flatPermissions,
-  flatSuperAdminOnlyPermissions,
-} from '@/libs/permissions';
 
 async function seedDB() {
   try {
     await connect();
 
     const superAdminRole = await Roles.findOneAndUpdate(
-      { name: constants.superAdminRoleName },
+      { name: superAdminRoleName },
       {
-        name: constants.superAdminRoleName,
+        name: superAdminRoleName,
         description: 'Access to all',
         permissions: [...flatPermissions, ...flatSuperAdminOnlyPermissions],
       },

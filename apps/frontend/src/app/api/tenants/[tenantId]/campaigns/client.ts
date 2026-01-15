@@ -1,14 +1,7 @@
+import type { TypeOrderDirection, TypeRequirementData, TypeStatus, TypeTriggerData, TypeVariationData } from '@/domain/types';
 import { restClient } from '@/libs/restClient';
-import type {
-  TypeOrderDirection,
-  TypeRequirementData,
-  TypeStatus,
-  TypeTriggerData,
-  TypeVariationData,
-} from '@/types/domain';
 
-const url = ({ tenantId }: { tenantId: number }) =>
-  `/api/tenants/${tenantId}/campaigns`;
+const url = ({ tenantId }: { tenantId: number }) => `/api/tenants/${tenantId}/campaigns`;
 
 export type TypeGet = {
   queryParams: {
@@ -41,13 +34,7 @@ export type TypeGet = {
   };
 };
 
-export const getMany = async ({
-  pathParams,
-  queryParams,
-}: {
-  pathParams: { tenantId: number };
-  queryParams: TypeGet['queryParams'];
-}) => {
+export const getMany = async ({ pathParams, queryParams }: { pathParams: { tenantId: number }; queryParams: TypeGet['queryParams'] }) => {
   const params = new URLSearchParams();
 
   for (const [key, value] of Object.entries(queryParams)) {
@@ -118,13 +105,7 @@ export type TypePost = {
   };
   response: never;
 };
-export const create = async ({
-  pathParams,
-  body,
-}: {
-  pathParams: { tenantId: number };
-  body: TypePost['body'];
-}) => {
+export const create = async ({ pathParams, body }: { pathParams: { tenantId: number }; body: TypePost['body'] }) => {
   const response = await restClient.post<TypePost['response']>({
     url: url({ tenantId: pathParams.tenantId }),
     body,

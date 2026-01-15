@@ -1,15 +1,15 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import constants from '@/config/constants';
+import { superAdminRoleName } from '@/domain/config';
+import type { TypeApiResponse } from '@/domain/types/api';
 import db from '@/libs/db';
-import type { TypeApiResponse } from '@/types/api';
 import { getUserFromCookies } from '@/utils/user';
 import { getIsUserSuperAdmin } from '@/utils/user/helper';
 import type { TypeDelete, TypePut } from './client';
 
 const updateUserSchema = z.object({
-  name: z.string().refine((val) => val !== constants.superAdminRoleName, {
-    message: `Name can't be "${constants.superAdminRoleName}"`,
+  name: z.string().refine((val) => val !== superAdminRoleName, {
+    message: `Name can't be "${superAdminRoleName}"`,
   }),
   email: z.string(),
   role: z.object({
@@ -17,20 +17,13 @@ const updateUserSchema = z.object({
   }),
 });
 
-export async function PUT(
-  request: NextRequest,
-  { params: promiseParams }: { params: Promise<{ userId: string }> },
-): TypeApiResponse<TypePut['response']> {
+export async function PUT(request: NextRequest, { params: promiseParams }: { params: Promise<{ userId: string }> }): TypeApiResponse<TypePut['response']> {
   const params = await promiseParams;
   const userId = params.userId;
 
   const body = await request.json();
   const parseResult = updateUserSchema.safeParse(body);
-  if (!parseResult.success)
-    return NextResponse.json(
-      { errors: parseResult.error.issues.map((error) => error.message) },
-      { status: 400 },
-    );
+  if (!parseResult.success) return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePut['body'] = parseResult.data;
   await db.users.update(
     { userId },
@@ -43,29 +36,23 @@ export async function PUT(
   return NextResponse.json({});
 }
 
-export async function DELETE(
-  _request: NextRequest,
-  { params: promiseParams }: { params: Promise<{ userId: string }> },
-): TypeApiResponse<TypeDelete['response']> {
+export async function DELETE(_request: NextRequest, { params: promiseParams }: { params: Promise<{ userId: string }> }): TypeApiResponse<TypeDelete['response']> {
   const params = await promiseParams;
   const userId = params.userId;
 
   const currentUser = await getUserFromCookies();
-  if (!currentUser)
-    return NextResponse.json({ errors: ['User is not logged in'] });
+  if (!currentUser) return NextResponse.json({ errors: ['User is not logged in'] });
 
   const user = await db.users.get({ userId });
   if (!user) return NextResponse.json({ errors: ['User does noe exist'] });
 
   if (getIsUserSuperAdmin(user)) {
-    if (!currentUser.permissions.canDeleteSuperAdmin)
-      return NextResponse.json({ errors: ['User does not have access'] });
+    if (!currentUser.permissions.canDeleteSuperAdmin) return NextResponse.json({ errors: ['User does not have access'] });
 
     const roleSuperAdmin = await db.roles.get({
-      name: constants.superAdminRoleName,
+      name: superAdminRoleName,
     });
-    if (!roleSuperAdmin)
-      return NextResponse.json({ errors: ['No super admin role in db'] });
+    if (!roleSuperAdmin) return NextResponse.json({ errors: ['No super admin role in db'] });
 
     const superAdmins = await db.users.getMany({ role: roleSuperAdmin.id });
     const thereAreMoreThan2SuperAdmins = superAdmins.length > 2;

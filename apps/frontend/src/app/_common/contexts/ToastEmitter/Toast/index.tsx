@@ -22,8 +22,7 @@ const Toast = ({ severity, text, onClose }: Props) => {
     success: 'bg-green-100 border border-green-200 text-green-800',
     information: 'bg-blue-100 border border-blue-200 text-blue-800',
     warning: 'bg-yellow-100 border border-yellow-300 text-yellow-800',
-    error:
-      'bg-red-100 border border-red-300 text-red-700 flex items-start gap-1 p-3',
+    error: 'bg-red-100 border border-red-300 text-red-700 flex items-start gap-1 p-3',
     neutral: 'bg-gray-900 border border-gray-800 text-gray-100',
   };
 
@@ -42,11 +41,7 @@ const Toast = ({ severity, text, onClose }: Props) => {
         </button>
       )}
       <Icon className="w-5 h-5 shrink-0" />
-      <div
-        className={`font-normal text-[14px] leading-4 pr-4 ${severity === 'error' ? 'text-red-600 leading-5' : ''}`}
-      >
-        {text}
-      </div>
+      <div className={`font-normal text-[14px] leading-4 pr-4 ${severity === 'error' ? 'text-red-600 leading-5' : ''}`}>{text}</div>
     </div>
   );
 };

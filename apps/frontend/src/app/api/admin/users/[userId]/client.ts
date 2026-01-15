@@ -12,13 +12,7 @@ export type TypePut = {
   };
   response: never;
 };
-export const update = async ({
-  pathParams,
-  body,
-}: {
-  pathParams: { userId: string };
-  body: TypePut['body'];
-}) => {
+export const update = async ({ pathParams, body }: { pathParams: { userId: string }; body: TypePut['body'] }) => {
   const response = await restClient.put<TypePut['response']>({
     url: url({ userId: pathParams.userId }),
     body,
@@ -30,11 +24,7 @@ export type TypeDelete = {
   body: never;
   response: never;
 };
-export const remove = async ({
-  pathParams,
-}: {
-  pathParams: { userId: string };
-}) => {
+export const remove = async ({ pathParams }: { pathParams: { userId: string } }) => {
   const response = await restClient.delete<TypeDelete['response']>({
     url: url({ userId: pathParams.userId }),
   });

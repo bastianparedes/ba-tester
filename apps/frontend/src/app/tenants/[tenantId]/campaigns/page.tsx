@@ -15,14 +15,7 @@ export default async function Page({ params }: PageProps) {
   if (!tenant) return redirect(constants.pages.tenants());
 
   return (
-    <Navigation
-      tenant={tenant}
-      breadcrumb={[
-        { name: 'Tenants', path: constants.pages.tenants() },
-        { name: tenant.name },
-        { name: 'Campaigns' },
-      ]}
-    >
+    <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}>
       <ClientPage tenantId={tenantId} />
     </Navigation>
   );

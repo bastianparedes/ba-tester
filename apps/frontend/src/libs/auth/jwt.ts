@@ -7,13 +7,7 @@ type Payload = { id: string; purpose: TokenPurpose };
 
 const secondsTokenIsValid = 60 * 60; // 1 hour
 
-const getTokenData = ({
-  token,
-  purpose,
-}: {
-  token: string;
-  purpose: TokenPurpose;
-}): TokenData => {
+const getTokenData = ({ token, purpose }: { token: string; purpose: TokenPurpose }): TokenData => {
   try {
     const payload = jwt.verify(token, env.JWT_SECRET) as Payload;
     if (purpose !== payload.purpose) throw new Error('Invalid token purpose');

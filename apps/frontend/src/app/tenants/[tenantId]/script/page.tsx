@@ -20,14 +20,7 @@ export default async function Page({ params: promiseParams }: Props) {
   if (!tenant) return redirect(constants.pages.tenants());
 
   return (
-    <Navigation
-      tenant={tenant}
-      breadcrumb={[
-        { name: 'Tenants', path: constants.pages.tenants() },
-        { name: tenant.name },
-        { name: 'Campaigns' },
-      ]}
-    >
+    <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}>
       <ClientPage url={url} script={script} />
     </Navigation>
   );

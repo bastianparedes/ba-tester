@@ -5,11 +5,12 @@ import type {
   TypeLimitType,
   TypeNodeType,
   TypeNumericComparator,
+  TypeOrderDirection,
   TypeRequirementType,
+  TypeStatus,
   TypeStringComparator,
   TypeTriggerType,
-} from '@/types/constants';
-import type { TypeOrderDirection, TypeStatus } from '@/types/domain';
+} from '@/domain/types';
 
 const status = Object.freeze({
   active: 'active',
@@ -80,22 +81,10 @@ const devices = Object.freeze({
   mobile: 'mobile',
 }) satisfies Record<TypeDeviceType, string>;
 
-const campaignStatus = [
-  status.inactive,
-  status.active,
-  status.deleted,
-] as const satisfies TypeStatus[];
-const campaignOrderDirection = [
-  orderDirections.asc,
-  orderDirections.desc,
-] as const satisfies TypeOrderDirection[];
+const campaignStatus = [status.inactive, status.active, status.deleted] as const satisfies TypeStatus[];
+const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeOrderDirection[];
 
-const triggers = [
-  triggerTypes.clickOnElement,
-  triggerTypes.custom,
-  triggerTypes.pageLoad,
-  triggerTypes.timeOnPage,
-];
+const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
 const campaignRequirements = [
   requirementTypes.cookie,
   requirementTypes.custom,

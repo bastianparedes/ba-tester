@@ -31,12 +31,10 @@ export async function connect() {
     console.log('---Connecting to MongoDB---');
 
     try {
-      cached.promise = importedMongoose
-        .connect(env.DATABASE_URL_MONGODB, opts)
-        .then((mongooseInstance) => {
-          console.log('---Connected!---');
-          return mongooseInstance;
-        });
+      cached.promise = importedMongoose.connect(env.DATABASE_URL_MONGODB, opts).then((mongooseInstance) => {
+        console.log('---Connected!---');
+        return mongooseInstance;
+      });
     } catch (e) {
       console.log('---Error connecting to MongoDB---', e);
       throw new Error('Error connecting to database');

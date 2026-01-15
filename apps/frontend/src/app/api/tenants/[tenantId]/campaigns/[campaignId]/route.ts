@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import commonConstants from '@/config/common/constants';
+import commonConstants from '@/domain/constants';
+import type { TypeApiResponse } from '@/domain/types/api';
 import db from '@/libs/db';
-import type { TypeApiResponse } from '@/types/api';
 import { zodRequirementsCampaign } from '../validator.helper';
 import type { TypePut } from './client';
 
@@ -55,20 +55,14 @@ const updateCampaignSchema = z.object({
 
 export async function PUT(
   request: NextRequest,
-  {
-    params: promiseParams,
-  }: { params: Promise<{ tenantId: string; campaignId: string }> },
+  { params: promiseParams }: { params: Promise<{ tenantId: string; campaignId: string }> },
 ): TypeApiResponse<TypePut['response']> {
   const params = await promiseParams;
   const tenantId = parseInt(params.tenantId, 10);
   const campaignId = parseInt(params.campaignId, 10);
   const body = await request.json();
   const parseResult = updateCampaignSchema.safeParse(body);
-  if (!parseResult.success)
-    return NextResponse.json(
-      { errors: parseResult.error.issues.map((error) => error.message) },
-      { status: 400 },
-    );
+  if (!parseResult.success) return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePut['body'] = parseResult.data;
 
   await db.campaigns.update({ tenantId, campaignId }, validated);

@@ -2,9 +2,8 @@ import { cx } from 'class-variance-authority';
 import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import commonConstants from '@/config/common/constants';
-import type { TypeRequirementType } from '@/types/constants';
-import type { TypeCampaign } from '@/types/domain';
+import commonConstants from '@/domain/constants';
+import type { TypeCampaign, TypeRequirementType } from '@/domain/types';
 import RequirementSpecific from './RequirementSpecific';
 
 interface Props {
@@ -16,21 +15,12 @@ interface Props {
   setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 
-const Requirement = ({
-  grandParentNode,
-  id,
-  index,
-  parentNode,
-  requirement,
-  setCampaign,
-}: Props) => {
+const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {
   const { translation } = useTranslationContext();
 
   const getSiblings = () => {
     if (parentNode === null) return [];
-    return parentNode.data.children.filter(
-      (_child, indexChild) => indexChild !== index,
-    );
+    return parentNode.data.children.filter((_child, indexChild) => indexChild !== index);
   };
 
   const newRequirement = {
@@ -80,11 +70,7 @@ const Requirement = ({
                     type="button"
                     onClick={switchToAnd}
                     disabled={requirement.data.operator === 'and'}
-                    className={`px-3 py-1 rounded font-medium transition-all text-sm ${
-                      requirement.data.operator === 'and'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 text-black hover:text-blue-600'
-                    }`}
+                    className={`px-3 py-1 rounded font-medium transition-all text-sm ${requirement.data.operator === 'and' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-black hover:text-blue-600'}`}
                   >
                     and
                   </button>
@@ -92,11 +78,7 @@ const Requirement = ({
                     type="button"
                     onClick={switchToOr}
                     disabled={requirement.data.operator === 'or'}
-                    className={`px-3 py-1 rounded font-medium transition-all text-sm ${
-                      requirement.data.operator === 'or'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-200 text-black hover:text-blue-600'
-                    }`}
+                    className={`px-3 py-1 rounded font-medium transition-all text-sm ${requirement.data.operator === 'or' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-black hover:text-blue-600'}`}
                   >
                     or
                   </button>
@@ -113,11 +95,7 @@ const Requirement = ({
               />
             </div>
           ))}
-          <button
-            type="button"
-            className="w-fit px-4 py-2 mt-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            onClick={addNewRequirement}
-          >
+          <button type="button" className="w-fit px-4 py-2 mt-5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" onClick={addNewRequirement}>
             {translation.campaign.newRequirement}
           </button>
         </div>
@@ -226,9 +204,7 @@ const Requirement = ({
   };
 
   const removeRequirement = () => {
-    const newRequirements = parentNode.data.children.filter(
-      (_child, indexChild) => indexChild !== index,
-    );
+    const newRequirements = parentNode.data.children.filter((_child, indexChild) => indexChild !== index);
 
     parentNode.data.children = newRequirements;
 
@@ -237,9 +213,7 @@ const Requirement = ({
       if (uniqueSibling.type === 'node') {
         parentNode.data = uniqueSibling.data;
       } else if (grandParentNode !== null) {
-        const indexOfParentNode = grandParentNode.data.children.findIndex(
-          (child) => child.type === 'node' && child.data.children.length === 1,
-        );
+        const indexOfParentNode = grandParentNode.data.children.findIndex((child) => child.type === 'node' && child.data.children.length === 1);
         grandParentNode.data.children[indexOfParentNode] = uniqueSibling;
       }
     }
@@ -267,26 +241,15 @@ const Requirement = ({
           <ChevronDown />
         </div>
       </div>
-      <RequirementSpecific
-        setCampaign={setCampaign}
-        requirement={requirement}
-      />
-      <button
-        type="button"
-        onClick={removeRequirement}
-        className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-      >
+      <RequirementSpecific setCampaign={setCampaign} requirement={requirement} />
+      <button type="button" onClick={removeRequirement} className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
         <Trash2 size={20} />
       </button>
       {/* <button className="p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">
         <Copy size={20} />
       </button> */}
       {hasSiblings && (
-        <button
-          type="button"
-          onClick={addNewNode}
-          className="p-3 text-black hover:bg-gray-200 rounded-lg transition-colors"
-        >
+        <button type="button" onClick={addNewNode} className="p-3 text-black hover:bg-gray-200 rounded-lg transition-colors">
           <Brackets size={20} />
         </button>
       )}

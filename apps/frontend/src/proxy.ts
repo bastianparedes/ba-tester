@@ -1,7 +1,7 @@
 import { charNotIn, createRegExp, exactly, oneOrMore } from 'magic-regexp';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { permissions } from '@/libs/permissions';
+import { permissions } from '@/domain/permissions';
 import { getUserFromCookies } from '@/utils/user';
 
 const pathRegexPermissions: {
@@ -25,39 +25,22 @@ const pathRegexPermissions: {
     method: 'GET',
   },
   {
-    regex: createRegExp(
-      exactly('/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns',
-    ),
+    regex: createRegExp(exactly('/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns'),
     permission: permissions.campaign.read,
     method: 'GET',
   },
   {
-    regex: createRegExp(
-      exactly('/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns/undefined',
-    ),
+    regex: createRegExp(exactly('/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns/undefined'),
     permission: permissions.campaign.create,
     method: 'GET',
   },
   {
-    regex: createRegExp(
-      exactly('/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns/',
-      oneOrMore(charNotIn('/')).at.lineEnd(),
-    ),
+    regex: createRegExp(exactly('/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns/', oneOrMore(charNotIn('/')).at.lineEnd()),
     permission: permissions.campaign.read,
     method: 'GET',
   },
   {
-    regex: createRegExp(
-      exactly('/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/example',
-    ),
+    regex: createRegExp(exactly('/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/example'),
     permission: permissions.campaign.read,
     method: 'GET',
   },
@@ -67,18 +50,12 @@ const pathRegexPermissions: {
     method: 'POST',
   },
   {
-    regex: createRegExp(
-      exactly('/api/admin/roles/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-    ),
+    regex: createRegExp(exactly('/api/admin/roles/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.role.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(
-      exactly('/api/admin/roles/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-    ),
+    regex: createRegExp(exactly('/api/admin/roles/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.role.delete,
     method: 'DELETE',
   },
@@ -88,18 +65,12 @@ const pathRegexPermissions: {
     method: 'POST',
   },
   {
-    regex: createRegExp(
-      exactly('/api/admin/users/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-    ),
+    regex: createRegExp(exactly('/api/admin/users/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.user.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(
-      exactly('/api/admin/users/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-    ),
+    regex: createRegExp(exactly('/api/admin/users/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.user.delete,
     method: 'DELETE',
   },
@@ -109,57 +80,33 @@ const pathRegexPermissions: {
     method: 'POST',
   },
   {
-    regex: createRegExp(
-      exactly('/api/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-    ),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.tenant.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(
-      exactly('/api/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-    ),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/'))),
     permission: permissions.tenant.delete,
     method: 'DELETE',
   },
 
   {
-    regex: createRegExp(
-      exactly('/api/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns',
-    ),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns'),
     permission: permissions.campaign.read,
     method: 'GET',
   },
   {
-    regex: createRegExp(
-      exactly('/api/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns',
-    ),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns'),
     permission: permissions.campaign.create,
     method: 'POST',
   },
   {
-    regex: createRegExp(
-      exactly('/api/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns/',
-      oneOrMore(charNotIn('/')).at.lineEnd(),
-    ),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns/', oneOrMore(charNotIn('/')).at.lineEnd()),
     permission: permissions.tenant.update,
     method: 'PUT',
   },
   {
-    regex: createRegExp(
-      exactly('/api/tenants/').at.lineStart(),
-      oneOrMore(charNotIn('/')),
-      '/campaigns/',
-      oneOrMore(charNotIn('/')).at.lineEnd(),
-    ),
+    regex: createRegExp(exactly('/api/tenants/').at.lineStart(), oneOrMore(charNotIn('/')), '/campaigns/', oneOrMore(charNotIn('/')).at.lineEnd()),
     permission: permissions.tenant.delete,
     method: 'DELETE',
   },
@@ -178,25 +125,15 @@ export async function proxy(request: NextRequest) {
 
   const user = await getUserFromCookies();
 
-  const pathRegexPermission = pathRegexPermissions.find(
-    ({ regex, method }) =>
-      regex.test(request.nextUrl.pathname) && method === request.method,
-  );
+  const pathRegexPermission = pathRegexPermissions.find(({ regex, method }) => regex.test(request.nextUrl.pathname) && method === request.method);
   if (!pathRegexPermission) return handleUnauthorized();
 
-  const userHasPermission = user.rawPermissions.includes(
-    pathRegexPermission.permission,
-  );
+  const userHasPermission = user.rawPermissions.includes(pathRegexPermission.permission);
   if (!userHasPermission) return handleUnauthorized();
 
   return response;
 }
 
 export const config = {
-  matcher: [
-    '/api/admin/:path*',
-    '/api/tenants/:path*',
-    '/admin/:path*',
-    '/tenants/:path*',
-  ],
+  matcher: ['/api/admin/:path*', '/api/tenants/:path*', '/admin/:path*', '/tenants/:path*'],
 };

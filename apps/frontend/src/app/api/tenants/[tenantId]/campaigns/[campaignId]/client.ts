@@ -1,13 +1,7 @@
+import type { TypeRequirementData, TypeStatus } from '@/domain/types';
 import { restClient } from '@/libs/restClient';
-import type { TypeRequirementData, TypeStatus } from '@/types/domain';
 
-const url = ({
-  tenantId,
-  campaignId,
-}: {
-  tenantId: number;
-  campaignId: number;
-}) => `/api/tenants/${tenantId}/campaigns/${campaignId}`;
+const url = ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) => `/api/tenants/${tenantId}/campaigns/${campaignId}`;
 
 export type TypePut = {
   body: {
@@ -60,13 +54,7 @@ export type TypePut = {
   };
   response: never;
 };
-export const update = async ({
-  pathParams,
-  body,
-}: {
-  pathParams: { tenantId: number; campaignId: number };
-  body: TypePut['body'];
-}) => {
+export const update = async ({ pathParams, body }: { pathParams: { tenantId: number; campaignId: number }; body: TypePut['body'] }) => {
   const response = await restClient.put<TypePut['response']>({
     url: url({
       tenantId: pathParams.tenantId,

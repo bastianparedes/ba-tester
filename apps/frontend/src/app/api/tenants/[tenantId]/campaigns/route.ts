@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import commonConstants from '@/config/common/constants';
 import config from '@/config/constants';
+import commonConstants from '@/domain/constants';
+import type { TypeApiResponse } from '@/domain/types/api';
 import db from '@/libs/db';
-import type { TypeApiResponse } from '@/types/api';
 import type { TypeGet, TypePost } from './client';
 import { zodRequirementsCampaign } from './validator.helper';
 
@@ -12,20 +12,13 @@ const getSchema = z.object({
   orderBy: z.enum(['status', 'name', 'id']),
   orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int().nonnegative(),
-  quantity: z.coerce
-    .number()
-    .refine((val) => config.quantitiesAvailable.includes(val), {
-      message: `Debe ser uno de: ${config.quantitiesAvailable.join(', ')}`,
-    }),
-  statusList: z
-    .union([z.string().transform((val) => [val]), z.array(z.string())])
-    .pipe(z.array(z.enum(commonConstants.campaignStatus))),
+  quantity: z.coerce.number().refine((val) => config.quantitiesAvailable.includes(val), {
+    message: `Debe ser uno de: ${config.quantitiesAvailable.join(', ')}`,
+  }),
+  statusList: z.union([z.string().transform((val) => [val]), z.array(z.string())]).pipe(z.array(z.enum(commonConstants.campaignStatus))),
 });
 
-export async function GET(
-  req: NextRequest,
-  { params: promiseParams }: { params: Promise<{ tenantId: string }> },
-): TypeApiResponse<TypeGet['response']> {
+export async function GET(req: NextRequest, { params: promiseParams }: { params: Promise<{ tenantId: string }> }): TypeApiResponse<TypeGet['response']> {
   const params = await promiseParams;
   const tenantId = parseInt(params.tenantId, 10);
   const searchParams = req.nextUrl.searchParams;
@@ -39,10 +32,7 @@ export async function GET(
   };
   const parseResult = getSchema.safeParse(queryParams);
   if (!parseResult.success) {
-    return NextResponse.json(
-      { errors: parseResult.error.issues.map((error) => error.message) },
-      { status: 400 },
-    );
+    return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   }
   const validated: TypeGet['queryParams'] = parseResult.data;
   const result = await db.campaigns.getMany({ tenantId }, validated);
@@ -98,19 +88,12 @@ const insertCampaignSchema = z.object({
   ),
 });
 
-export async function POST(
-  request: NextRequest,
-  { params: promiseParams }: { params: Promise<{ tenantId: string }> },
-): TypeApiResponse<TypePost['response']> {
+export async function POST(request: NextRequest, { params: promiseParams }: { params: Promise<{ tenantId: string }> }): TypeApiResponse<TypePost['response']> {
   const params = await promiseParams;
   const tenantId = parseInt(params.tenantId, 10);
   const body = await request.json();
   const parseResult = insertCampaignSchema.safeParse(body);
-  if (!parseResult.success)
-    return NextResponse.json(
-      { errors: parseResult.error.issues.map((error) => error.message) },
-      { status: 400 },
-    );
+  if (!parseResult.success) return NextResponse.json({ errors: parseResult.error.issues.map((error) => error.message) }, { status: 400 });
   const validated: TypePost['body'] = parseResult.data;
   await db.campaigns.create({ tenantId }, validated);
   return NextResponse.json({});

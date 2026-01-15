@@ -1,5 +1,5 @@
+import type { TypeRole } from '@/domain/types';
 import { restClient } from '@/libs/restClient';
-import type { TypeRole } from '@/types/domain';
 
 const url = () => `/api/admin/roles`;
 

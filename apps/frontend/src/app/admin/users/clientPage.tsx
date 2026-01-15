@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useUser } from '@/app/_common/contexts/User';
 import api from '@/app/api';
-import type { TypeRole, TypeUser } from '@/types/domain';
+import type { TypeRole, TypeUser } from '@/domain/types';
 import { isRoleSuperAdmin } from '@/utils/roles';
 import { getIsUserSuperAdmin } from '@/utils/user/helper';
 
@@ -20,16 +20,11 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const confirm = useDialogStore((state) => state.confirm);
   const currentUser = useUser();
 
-  const thereAreMoreThan2SuperAdmins =
-    users.filter((user) => getIsUserSuperAdmin(user)).length > 2;
+  const thereAreMoreThan2SuperAdmins = users.filter((user) => getIsUserSuperAdmin(user)).length > 2;
 
   const handleAdd = async () => {
     const rolesToUse = roles.filter((role) => {
-      if (
-        isRoleSuperAdmin(role) &&
-        !currentUser.permissions.canCreateSuperAdmin
-      )
-        return false;
+      if (isRoleSuperAdmin(role) && !currentUser.permissions.canCreateSuperAdmin) return false;
       return true;
     });
 
@@ -108,9 +103,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
           type: 'email',
           value: user.email,
           required: true,
-          forbiddenValues: users
-            .filter((userInArray) => userInArray.email !== user.email)
-            .map((userInArray) => userInArray.email),
+          forbiddenValues: users.filter((userInArray) => userInArray.email !== user.email).map((userInArray) => userInArray.email),
         },
         roleId: {
           label: 'Role',
@@ -145,10 +138,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
     const apiResponse = await api.user.remove({
       pathParams: { userId: user.id },
     });
-    if (apiResponse.ok)
-      setUsers((currentState) =>
-        currentState.filter((userInArray) => userInArray.id !== user.id),
-      );
+    if (apiResponse.ok) setUsers((currentState) => currentState.filter((userInArray) => userInArray.id !== user.id));
   };
 
   return (
@@ -156,9 +146,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-lg shadow-md">
           <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">
-              Gestión de Usuarios
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-800">Gestión de Usuarios</h1>
             <button
               type="button"
               onClick={handleAdd}
@@ -173,46 +161,28 @@ export function ClientPage({ initialUsers, roles }: Props) {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Nombre
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Rol
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Editar
-                  </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Eliminar
-                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Editar</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Eliminar</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {users.map((user) => (
                   <tr key={user.email} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {user.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {user.email}
-                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        {user.role.name}
-                      </span>
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{user.role.name}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
                         type="button"
                         disabled={
                           !(
-                            (getIsUserSuperAdmin(user) &&
-                              currentUser.permissions.canUpdateSuperAdmin) ||
-                            (!getIsUserSuperAdmin(user) &&
-                              currentUser.permissions.canUpdateUser)
+                            (getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateSuperAdmin) ||
+                            (!getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateUser)
                           )
                         }
                         onClick={() => handleEdit({ user })}
@@ -227,11 +197,8 @@ export function ClientPage({ initialUsers, roles }: Props) {
                         type="button"
                         disabled={
                           !(
-                            (getIsUserSuperAdmin(user) &&
-                              currentUser.permissions.canDeleteSuperAdmin &&
-                              thereAreMoreThan2SuperAdmins) ||
-                            (!getIsUserSuperAdmin(user) &&
-                              currentUser.permissions.canDeleteUser)
+                            (getIsUserSuperAdmin(user) && currentUser.permissions.canDeleteSuperAdmin && thereAreMoreThan2SuperAdmins) ||
+                            (!getIsUserSuperAdmin(user) && currentUser.permissions.canDeleteUser)
                           )
                         }
                         onClick={() => handleDelete({ user })}

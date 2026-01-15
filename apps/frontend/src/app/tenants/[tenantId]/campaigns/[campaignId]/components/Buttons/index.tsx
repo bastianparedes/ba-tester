@@ -2,7 +2,7 @@ import { Button } from '@/app/_common/components/button';
 import { useUser } from '@/app/_common/contexts/User';
 import api from '@/app/api';
 import constants from '@/config/constants';
-import type { TypeCampaign } from '@/types/domain';
+import type { TypeCampaign } from '@/domain/types';
 
 interface Props {
   campaign: TypeCampaign;
@@ -38,10 +38,7 @@ const Buttons = ({ campaign }: Props) => {
         Cancel
       </Button>
       <Button
-        disabled={
-          (isNewCampaign && !user.permissions.canCreateCampaign) ||
-          (!isNewCampaign && !user.permissions.canUpdateCampaign)
-        }
+        disabled={(isNewCampaign && !user.permissions.canCreateCampaign) || (!isNewCampaign && !user.permissions.canUpdateCampaign)}
         onClick={handleOnSave}
         variant="default"
       >

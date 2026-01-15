@@ -1,8 +1,6 @@
 import { useLoaderStore } from '@/app/_common/contexts/Loader/state';
 
-export function withLoader<Args extends unknown[], R>(
-  fn: (...args: Args) => R | Promise<R>,
-): (...args: Args) => ReturnType<typeof fn> {
+export function withLoader<Args extends unknown[], R>(fn: (...args: Args) => R | Promise<R>): (...args: Args) => ReturnType<typeof fn> {
   const { showLoader, hideLoader } = useLoaderStore.getState();
 
   return (...args: Args): ReturnType<typeof fn> => {
@@ -24,9 +22,7 @@ export function withLoader<Args extends unknown[], R>(
   };
 }
 
-export function withLog<Args extends unknown[], R>(
-  fn: (...args: Args) => R | Promise<R>,
-): (...args: Args) => ReturnType<typeof fn> {
+export function withLog<Args extends unknown[], R>(fn: (...args: Args) => R | Promise<R>): (...args: Args) => ReturnType<typeof fn> {
   return (...args: Args): ReturnType<typeof fn> => {
     const result = fn(...args);
 

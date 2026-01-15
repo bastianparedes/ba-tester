@@ -21,17 +21,11 @@ export const superAdminsValidator = makeValidator((value: string) => {
     const validated = UsersArraySchema.parse(json);
     return validated;
   } catch {
-    throw new Error(
-      'SUPER_ADMINS must be a valid JSON array with at least two users. Each user must include a name, email, password address and a password.',
-    );
+    throw new Error('SUPER_ADMINS must be a valid JSON array with at least two users. Each user must include a name, email, password address and a password.');
   }
 });
 
 export default cleanEnv(process.env, {
-  NODE_ENV: str({
-    choices: ['development', 'test', 'production'],
-    default: process.env.NODE_ENV,
-  }),
   JWT_SECRET: str(),
   DATABASE_URL_POSTGRES: str(),
   DATABASE_URL_MONGODB: str(),

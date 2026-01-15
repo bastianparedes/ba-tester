@@ -19,8 +19,7 @@ const Page = async (props: PageProps) => {
   if (!tenant) return redirect(constants.pages.tenants());
 
   const initialCampaign = await db.campaigns.get({ tenantId, campaignId });
-  if (initialCampaign === undefined)
-    redirect(constants.pages.campaigns({ tenantId }));
+  if (initialCampaign === undefined) redirect(constants.pages.campaigns({ tenantId }));
 
   return (
     <Navigation

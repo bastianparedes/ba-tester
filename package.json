@@ -1,0 +1,21 @@
+{
+  "name": "ba-tester",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/bastianparedes/ba-tester#readme",
+  "bugs": {
+    "url": "https://github.com/bastianparedes/ba-tester/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bastianparedes/ba-tester.git"
+  },
+  "scripts": {
+    "dev": "docker compose up -d && lazydocker",
+    "lint": "npx @biomejs/biome check",
+    "lint:fix": "npx @biomejs/biome check --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11"
+  }
+}

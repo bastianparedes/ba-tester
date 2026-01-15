@@ -16,14 +16,8 @@ type DialogStore = {
         type: 'confirmDialog';
       };
 
-  getDataFromForm: <T extends TypeArgs>(
-    formData: { title?: string; description?: string },
-    args: T,
-  ) => Promise<TypeResponse<T> | null>;
-  confirm: (formData: {
-    title?: string;
-    description?: string;
-  }) => Promise<boolean | null>;
+  getDataFromForm: <T extends TypeArgs>(formData: { title?: string; description?: string }, args: T) => Promise<TypeResponse<T> | null>;
+  confirm: (formData: { title?: string; description?: string }) => Promise<boolean | null>;
   completeResolver: (arg: unknown) => void;
 };
 
@@ -33,10 +27,7 @@ export const useDialogStore = create<DialogStore>((set, get) => ({
   description: null,
   resolver: () => {},
   data: null,
-  getDataFromForm: <T extends TypeArgs>(
-    formData: { title?: string; description?: string },
-    args: T,
-  ): Promise<null | TypeResponse<T>> => {
+  getDataFromForm: <T extends TypeArgs>(formData: { title?: string; description?: string }, args: T): Promise<null | TypeResponse<T>> => {
     if (formData.title) set({ title: formData.title });
     if (formData.description) set({ description: formData.description });
     set({ data: { type: 'dynamicDialog', args } });
@@ -46,10 +37,7 @@ export const useDialogStore = create<DialogStore>((set, get) => ({
     set({ isOpen: true });
     return promise;
   },
-  confirm: (formData: {
-    title?: string;
-    description?: string;
-  }): Promise<null | boolean> => {
+  confirm: (formData: { title?: string; description?: string }): Promise<null | boolean> => {
     if (formData.title) set({ title: formData.title });
     if (formData.description) set({ description: formData.description });
     set({ data: { type: 'confirmDialog' } });

@@ -1,5 +1,5 @@
+import type { TypeTenant } from '@/domain/types';
 import { restClient } from '@/libs/restClient';
-import type { TypeTenant } from '@/types/domain';
 
 const url = () => '/api/tenants';
 

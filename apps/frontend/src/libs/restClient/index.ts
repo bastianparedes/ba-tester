@@ -1,18 +1,13 @@
 import { withLoader } from '@/utils/hof';
 
 const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
-  const requestFunction = async <
-    T extends Record<string, unknown> | unknown[],
-  >({
+  const requestFunction = async <T extends Record<string, unknown> | unknown[]>({
     url,
     body,
   }: {
     url: string;
     body?: Record<string, unknown> | FormData;
-  }): Promise<
-    | { ok: true; json: () => Promise<{ data: T }> }
-    | { ok: false; json: () => Promise<{ errors: string[] }> }
-  > => {
+  }): Promise<{ ok: true; json: () => Promise<{ data: T }> } | { ok: false; json: () => Promise<{ errors: string[] }> }> => {
     try {
       const response = await fetch(url, {
         method,

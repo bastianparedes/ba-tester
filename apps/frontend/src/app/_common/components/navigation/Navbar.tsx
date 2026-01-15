@@ -38,10 +38,8 @@ export function Navbar({ children, breadcrumb }: Props) {
                 <a
                   href={crumb.path}
                   className={cx({
-                    'transition-colors duration-200':
-                      index < breadcrumb.length - 1,
-                    'text-slate-900 font-medium':
-                      index === breadcrumb.length - 1,
+                    'transition-colors duration-200': index < breadcrumb.length - 1,
+                    'text-slate-900 font-medium': index === breadcrumb.length - 1,
                     'hover:text-blue-600': !!crumb.path,
                   })}
                 >
@@ -63,16 +61,10 @@ export function Navbar({ children, breadcrumb }: Props) {
                   <User className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
-                  <div className="text-sm font-medium text-gray-900">
-                    {user.data.name}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {user.data.role.name}
-                  </div>
+                  <div className="text-sm font-medium text-gray-900">{user.data.name}</div>
+                  <div className="text-xs text-gray-500">{user.data.role.name}</div>
                 </div>
-                <ChevronDown
-                  className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
-                />
+                <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Dropdown menu */}
