@@ -4,9 +4,9 @@
   "author": "Bastián Gabriel Paredes Padget",
   "scripts": {
     "build": "webpack && next build",
-    "dev": "npm run seed && next dev",
+    "dev": "next dev",
     "seed": "tsx -r dotenv/config ./src/libs/init/index.ts",
-    "start": "npm run seed && next start",
+    "start": "next start",
     "test": "jest --ci --passWithNoTests",
     "test:u": "jest --ci --u",
     "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/libs/db/postgres/schema.ts --out=./src/libs/db/postgres/migrations"
