@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { cookieNames } from '@/domain/config';
-import type { TypeApiResponse } from '@/domain/types/api';
 import { generateToken, secondsTokenIsValid } from '@/libs/auth/jwt';
 import db from '@/libs/db';
+import type { TypeApiResponse } from '@/types';
 import type { TypeGet, TypePost } from './client';
 
 export async function GET(): TypeApiResponse<TypeGet['response']> {

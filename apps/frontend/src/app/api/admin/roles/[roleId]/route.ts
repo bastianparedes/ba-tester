@@ -2,8 +2,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { superAdminRoleName } from '@/domain/config';
 import { flatPermissions } from '@/domain/permissions';
-import type { TypeApiResponse } from '@/domain/types/api';
 import db from '@/libs/db';
+import type { TypeApiResponse } from '@/types';
 import { isRoleSuperAdmin } from '@/utils/roles';
 import type { TypeDelete, TypePut } from './client';
 

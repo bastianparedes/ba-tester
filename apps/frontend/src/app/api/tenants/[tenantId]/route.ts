@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import type { TypeApiResponse } from '@/domain/types/api';
 import db from '@/libs/db';
+import type { TypeApiResponse } from '@/types';
 import type { TypePut } from './client';
 
 const updateTenantSchema = z.object({

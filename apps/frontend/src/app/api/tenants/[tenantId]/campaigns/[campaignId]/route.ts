@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import commonConstants from '@/domain/constants';
-import type { TypeApiResponse } from '@/domain/types/api';
 import db from '@/libs/db';
+import type { TypeApiResponse } from '@/types';
 import { zodRequirementsCampaign } from '../validator.helper';
 import type { TypePut } from './client';
 
