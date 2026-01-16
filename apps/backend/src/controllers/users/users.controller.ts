@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsArray, IsIn, IsNotIn, IsString, ValidateNested } from 'class-validator';
 import { superAdminRoleName } from '@/domain/config';
@@ -6,13 +6,18 @@ import { flatPermissions } from '@/domain/permissions';
 import { DbService } from '@/services/db.service';
 import { JwtService } from '@/services/jwt.service';
 import { PasswordService } from '@/services/password.service';
+import { AuthService } from '@/services/auth.service';
+import { type Request } from 'express';
+import { cookieNames } from '@/domain/config';
+
+
 
 class RoleDto {
   @IsString()
   id: string;
 }
 
-class UserDto {
+class NewUserDto {
   @IsString()
   name: string;
 
@@ -27,6 +32,18 @@ class UserDto {
   role: RoleDto;
 }
 
+class OldUserDto {
+  @IsString()
+  name: string;
+
+  @IsString()
+  email: string;
+
+  @ValidateNested()
+  @Type(() => RoleDto)
+  role: RoleDto;
+}
+
 
 @Controller('users')
 export class UsersController {
@@ -34,6 +51,7 @@ export class UsersController {
         private readonly dbService: DbService, 
         private readonly jwtService: JwtService,
         private readonly passwordService: PasswordService,
+        private readonly authService: AuthService,
     ) {}
 
     @Get()
@@ -43,33 +61,21 @@ export class UsersController {
       }
     
       @Post()
-      async create(@Body() body: UserDto) {
-
+      async create(@Body() body: NewUserDto) {
         const passwordHash = this.passwordService.hashPassword(body.password);
-
-        const users = await this.dbService.users.create({ ...body, passwordHash});
-        return { data: role };
+        const user = await this.dbService.users.create({ ...body, passwordHash});
+        return { data: user };
       }
     
-
-
-
-
-
-
-
-
-
-    
       @Put(':userId')
-      async update(@Param('roleId') roleId: string, @Body() body: RoleDto) {
-        const role = await this.dbService.roles.update({ roleId }, body);
-        return { data: role };
+      async update(@Param('userId') userId: string, @Body() body: OldUserDto) {
+        const user = await this.dbService.users.update({ userId }, body);
+        return { data: user };
       }
     
       @Delete(':userId')
-      async remove(@Param('roleId') roleId: string) {
-        const newTenant = await this.dbService.roles.remove({ roleId });
-        return { data: newTenant };
+      async remove(@Param('userId') userId: string) {
+        const user = await this.dbService.users.remove({ userId });
+        return { data: user };
       }
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { IsString } from 'class-validator';
-import { Response } from 'express';
+import { type Response } from 'express';
 import { cookieNames } from '@/domain/config';
 import { DbService } from '@/services/db.service';
 import { JwtService } from '@/services/jwt.service';

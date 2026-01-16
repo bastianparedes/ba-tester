@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
-import { AuthController } from './controllers/auth/auth.controller';
+import { AuthController } from './guards/auth.controller';
 import { AuthController } from './controllers/auth.controller';
 import { CampaignsController } from './controllers/campaigns.controller';
 import { RolesController } from './controllers/roles.controller';
