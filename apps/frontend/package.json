@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Bastián Gabriel Paredes Padget",
   "scripts": {
-    "build": "webpack && next build",
+    "build": "&next build",
     "dev": "next dev",
     "seed": "tsx -r dotenv/config ./src/libs/init/index.ts",
     "start": "next start",
