@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "author": "Bastián Gabriel Paredes Padget",
   "scripts": {
+    "prebuild": "webpack",
     "build": "next build",
-    "dev": "next dev",
+    "dev": "npm run build && next dev --webpack",
     "seed": "tsx -r dotenv/config ./src/libs/init/index.ts",
     "start": "next start",
     "test": "jest --ci --passWithNoTests",

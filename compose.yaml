@@ -31,7 +31,7 @@ services:
 
   frontend:
     tty: true
-    command: npm run dev -- --webpack
+    command: npm run dev
     build:
       context: ./apps
       dockerfile: frontend/Dockerfile.dev

@@ -25,6 +25,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {
+      '@/domain': path.join(process.cwd(), '..', 'domain'), // o la ruta que sea
       '@': path.join(process.cwd(), 'src'),
     },
   },

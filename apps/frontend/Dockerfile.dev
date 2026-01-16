@@ -7,4 +7,4 @@ COPY ./frontend ./frontend
 COPY ./domain ./domain
 EXPOSE 3000
 
-CMD ["npm", "run", "dev", "--webpack"]
+CMD ["npm", "run", "dev"]
