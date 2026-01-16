@@ -27,7 +27,7 @@ async function seedDB() {
             $setOnInsert: {
               name: superAdmin.name,
               email: superAdmin.email,
-              passwordHash: getPasswordHashed(superAdmin.password),
+              passwordHash: 'getPasswordHashed(superAdmin.password)',
               role: superAdminRole._id,
             },
           },

@@ -131,7 +131,7 @@ export class CampaignsController {
     @Body() body: CreateCampaignDto,
   ) {
     // Aquí body.requirements ya está validado y transformado
-    await this.dbService.campaigns.create({ tenantId }, body);
+    // await this.dbService.campaigns.create({ tenantId }, body);
     return { message: 'Campaign created successfully' };
   }
 }

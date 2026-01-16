@@ -32,4 +32,6 @@ export default cleanEnv(process.env, {
   DATABASE_URL_REDIS: str(),
   SALT_ROUNDS: num(),
   SUPER_ADMINS: superAdminsValidator(),
+  BACKEND_URL_SERVER_SIDE: str(),
+  BACKEND_URL_CLIENT_SIDE: str(),
 });
