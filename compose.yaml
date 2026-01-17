@@ -10,8 +10,6 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: db
-      BACKEND_URL_SERVER_SIDE: http://backend:4000
-      BACKEND_URL_CLIENT_SIDE: http://localhost:4000
     volumes:
       - ./apps/frontend/src/libs/db/postgres/migrations:/docker-entrypoint-initdb.d
 
@@ -45,8 +43,8 @@ services:
       DATABASE_URL_MONGODB: "mongodb://admin:12345678@db-mongodb:27017/db?authSource=admin"
       SALT_ROUNDS: 1
       SUPER_ADMINS: '[{ "name": "Bastian", "email": "bastian.p@outlook.com", "password": "abc" }, { "name": "Bastian", "email": "bparedesp@falabella.com", "password": "abc" }]'
-      BACKEND_URL_SS: htto://backend:4000
-      BACKEND_URL_CS: htto://localhost:4000
+      BACKEND_URL_SERVER_SIDE: http://backend:4000
+      BACKEND_URL_CLIENT_SIDE: http://localhost:4000
     ports:
       - "3000:3000"
     volumes:

@@ -6,12 +6,16 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     body,
   }: {
     url: string;
-    body?: Record<string, unknown> | FormData;
+    body?: Record<string, unknown>;
   }): Promise<{ ok: true; json: () => Promise<{ data: T }> } | { ok: false; json: () => Promise<{ errors: string[] }> }> => {
     try {
       const response = await fetch(url, {
         method,
-        body: body instanceof FormData ? body : JSON.stringify(body),
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
       });
 
       const data = await response.json();

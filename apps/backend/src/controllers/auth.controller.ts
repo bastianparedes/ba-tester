@@ -20,12 +20,11 @@ export class AuthController {
 
   @Get()
   async logOut(@Res({ passthrough: true }) res: Response) {
-    res.cookie(cookieNames.token, '', {
+    res.clearCookie(cookieNames.token, {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
       path: '/',
-      maxAge: -1,
     });
 
     return {};
@@ -47,7 +46,7 @@ export class AuthController {
       secure: true,
       sameSite: 'strict',
       path: '/',
-      maxAge: secondsTokenIsValid,
+      maxAge: secondsTokenIsValid * 99999999,
     });
     return {};
   }

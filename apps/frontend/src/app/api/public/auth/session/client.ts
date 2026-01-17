@@ -1,6 +1,7 @@
 import { restClient } from '@/libs/restClient';
+import env from '@/libs/env';
 
-const url = () => '/api/public/auth/session';
+const url = () => `http://localhost:4000/public/auth/session`;
 
 export type TypeGet = {
   response: never;
