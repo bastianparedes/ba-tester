@@ -11,7 +11,8 @@
     "url": "git+https://github.com/bastianparedes/ba-tester.git"
   },
   "scripts": {
-    "dev": "docker compose up -d && lazydocker",
+    "dev": "docker compose up",
+    "dev:lazy": "docker compose up -d && lazydocker",
     "lint": "npx @biomejs/biome check",
     "lint:fix": "npx @biomejs/biome check --write"
   },
