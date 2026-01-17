@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
-import api from '@/app/api';
 import constants from '@/config/constants';
 import type { TypeTenant } from '@/domain/types';
+import { apiCaller } from '@/libs/restClient';
 
 type Props = {
   initialTenants: TypeTenant[];
@@ -55,7 +55,7 @@ export function ClientPage({ initialTenants }: Props) {
       domain: '',
     });
     if (!data) return;
-    const result = await api.tenants.create({
+    const result = await apiCaller.tenants.create({
       body: {
         name: data.name,
         description: data.description,
@@ -97,7 +97,7 @@ export function ClientPage({ initialTenants }: Props) {
     );
     if (!data) return;
 
-    const result = await api.tenant.update({
+    const result = await apiCaller.tenants.update({
       pathParams: { tenantId: tenant.id },
       body: {
         name: data.name,

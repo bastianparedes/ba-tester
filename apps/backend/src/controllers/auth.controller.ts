@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Res, UnauthorizedException } from '@nestjs/common';
 import { IsString } from 'class-validator';
 import { type Response } from 'express';
+import { TypeApiSessions } from '@/domain/api/sessions';
 import { cookieNames } from '@/domain/config';
 import { generateToken, secondsTokenIsValid } from '@/libs/auth/jwt';
 import { isPasswordCorrect } from '@/libs/auth/password';
@@ -19,7 +20,7 @@ export class AuthController {
   constructor(private readonly dbService: DbService) {}
 
   @Get()
-  async logOut(@Res({ passthrough: true }) res: Response) {
+  async logOut(@Res({ passthrough: true }) res: Response): Promise<TypeApiSessions['logOut']['response']> {
     res.clearCookie(cookieNames.token, {
       httpOnly: true,
       secure: true,
@@ -27,11 +28,11 @@ export class AuthController {
       path: '/',
     });
 
-    return {};
+    return;
   }
 
   @Post()
-  async logIn(@Res({ passthrough: true }) res: Response, @Body() body: UserCredentialsDto) {
+  async logIn(@Res({ passthrough: true }) res: Response, @Body() body: UserCredentialsDto): Promise<TypeApiSessions['logIn']['response']> {
     const { email, password } = body;
     const user = await this.dbService.users.getForLogin({ email });
     if (!user) throw new UnauthorizedException();
@@ -48,6 +49,6 @@ export class AuthController {
       path: '/',
       maxAge: secondsTokenIsValid * 99999999,
     });
-    return {};
+    return;
   }
 }

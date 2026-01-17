@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsInt, IsNotEmpty, IsString, Max, Min, ValidateNested } from 'class-validator';
+import { IsArray, IsEnum, IsInt, IsString, ValidateNested } from 'class-validator';
+import { TypeApiCampaigns } from '@/domain/api/campaigns';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
 import { DbService } from '@/services/db.service';
@@ -24,6 +25,7 @@ export class GetCampaignsQueryDto {
   @IsInt()
   page: number;
 
+  @IsEnum(quantitiesAvailable)
   @IsInt()
   quantity: number;
 
@@ -32,57 +34,7 @@ export class GetCampaignsQueryDto {
   statusList: typeof commonConstants.campaignStatus;
 }
 
-// --------------------
-// Triggers DTO
-// --------------------
-class ClickTrigger {
-  @ValidateNested()
-  @Type(() => Object)
-  data: { selector: string };
-
-  @IsInt()
-  readonly id: number;
-
-  @IsEnum([commonConstants.triggerTypes.clickOnElement])
-  type: string;
-}
-
-class CustomTrigger {
-  @ValidateNested()
-  @Type(() => Object)
-  data: { javascript: string; name: string };
-
-  @IsInt()
-  readonly id: number;
-
-  @IsEnum([commonConstants.triggerTypes.custom])
-  type: string;
-}
-
-class PageLoadTrigger {
-  @ValidateNested()
-  @Type(() => Object)
-  data: {};
-
-  @IsInt()
-  readonly id: number;
-
-  @IsEnum([commonConstants.triggerTypes.pageLoad])
-  type: string;
-}
-
-class TimeOnPageTrigger {
-  @ValidateNested()
-  @Type(() => Object)
-  data: { milliseconds: number };
-
-  @IsInt()
-  readonly id: number;
-
-  @IsEnum([commonConstants.triggerTypes.timeOnPage])
-  type: string;
-}
-export class CreateCampaignDto {
+export class CampaignDto {
   @IsString()
   name: string;
 
@@ -91,7 +43,7 @@ export class CreateCampaignDto {
   requirements: RequirementDto;
 
   @IsEnum(commonConstants.campaignStatus)
-  status: string;
+  status: (typeof commonConstants.campaignStatus)[number];
 
   @Type(() => TriggersDto)
   @IsArray()
@@ -102,31 +54,36 @@ export class CreateCampaignDto {
   variations: VariationsDto;
 }
 
-// --------------------
-// Controller
-// --------------------
 @Controller('tenants/:tenantId/campaigns')
 export class CampaignsController {
   constructor(private readonly dbService: DbService) {}
 
-  // GET /tenants/:tenantId/campaigns
   @Get()
-  async getCampaigns(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetCampaignsQueryDto) {
-    // Validación automática via ValidationPipe
-    // Ajuste de quantity según config.quantitiesAvailable
-    if (!quantitiesAvailable.includes(query.quantity)) {
-      return { status: 400, errors: [`Debe ser uno de: ${quantitiesAvailable.join(', ')}`] };
-    }
+  async getMany(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetCampaignsQueryDto): Promise<TypeApiCampaigns['getMany']['response']> {
+    const campaigns = await this.dbService.campaigns.getMany({ tenantId }, query);
+    return campaigns;
+  }
 
-    const result = await this.dbService.campaigns.getMany({ tenantId }, query);
-    return { data: result };
+  @Get()
+  async get(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('campaignId', ParseIntPipe) campaignId: number): Promise<TypeApiCampaigns['get']['response']> {
+    const result = await this.dbService.campaigns.get({ tenantId, campaignId });
+    return result;
+  }
+
+  @Post()
+  async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CampaignDto): Promise<TypeApiCampaigns['create']['response']> {
+    await this.dbService.campaigns.create({ tenantId }, body);
+    return undefined;
   }
 
   // POST /tenants/:tenantId/campaigns
-  @Post()
-  async createCampaign(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CreateCampaignDto) {
-    // Aquí body.requirements ya está validado y transformado
-    // await this.dbService.campaigns.create({ tenantId }, body);
-    return { message: 'Campaign created successfully' };
+  @Put()
+  async update(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Param('campaignId', ParseIntPipe) campaignId: number,
+    @Body() body: CampaignDto,
+  ): Promise<TypeApiCampaigns['update']['response']> {
+    await this.dbService.campaigns.update({ tenantId, campaignId }, body);
+    return;
   }
 }

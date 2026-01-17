@@ -31,9 +31,6 @@ class TimeOnPageTriggerData {
   milliseconds!: number;
 }
 
-// ----------------------
-// Trigger base
-// ----------------------
 class TriggerDto {
   @IsInt()
   id!: number;
@@ -57,9 +54,6 @@ class TriggerDto {
   data!: ClickOnElementTriggerData | CustomTriggerData | PageLoadTriggerData | TimeOnPageTriggerData;
 }
 
-// ----------------------
-// DTO principal para triggers
-// ----------------------
 export class TriggersDto {
   @IsArray()
   @ValidateNested({ each: true })

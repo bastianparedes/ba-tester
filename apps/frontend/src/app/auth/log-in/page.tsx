@@ -1,8 +1,8 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import api from '@/app/api';
 import constants from '@/config/constants';
+import { apiCaller } from '@/libs/restClient';
 
 interface LoginFormData {
   email: string;
@@ -17,7 +17,7 @@ export default function Page() {
   } = useForm<LoginFormData>();
 
   const onSubmit = async (data: LoginFormData) => {
-    const apiResponse = await api.auth.logIn({
+    const apiResponse = await apiCaller.sessions.logIn({
       body: {
         email: data.email,
         password: data.password,

@@ -5,20 +5,13 @@ import * as schema from '../schema';
 
 export const create = async (
   { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
-
   {
     name,
     requirements,
     status,
     triggers,
     variations,
-  }: {
-    name: string;
-    requirements: TypeCampaign['requirements'];
-    status: TypeCampaign['status'];
-    triggers: TypeCampaign['triggers'];
-    variations: TypeCampaign['variations'];
-  },
+  }: Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>,
 ) => {
   return await db
     .insert(schema.campaigns)
@@ -35,13 +28,7 @@ export const create = async (
 
 export const update = async (
   { tenantId, campaignId }: { tenantId: number; campaignId: number },
-  values: {
-    name: TypeCampaign['name'];
-    requirements: TypeCampaign['requirements'];
-    status: TypeCampaign['status'];
-    triggers: TypeCampaign['triggers'];
-    variations: TypeCampaign['variations'];
-  },
+  values: Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>,
 ) => {
   return await db
     .update(schema.campaigns)

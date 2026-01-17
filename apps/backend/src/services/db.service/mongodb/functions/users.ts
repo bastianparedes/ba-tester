@@ -5,6 +5,17 @@ import Roles, { type IRole } from '../models/Role';
 import Users from '../models/User';
 import { withMapId } from './utils';
 
+export const get = async ({ userId }: { userId: string }): Promise<TypeUser | null> => {
+  await connect();
+  const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
+  if (!user) return null;
+  const userPopulated = withMapId({
+    ...user,
+    role: withMapId(user.role),
+  });
+  return userPopulated;
+};
+
 export const create = async (data: { name: string; email: string; password: string; role: { id: string } }) => {
   await connect();
   const role = await Roles.findById(data.role.id).lean();
@@ -12,7 +23,10 @@ export const create = async (data: { name: string; email: string; password: stri
 
   const passwordHash = getPasswordHashed(data.password);
   const newUser = new Users({ ...data, passwordHash, role: role._id });
-  await newUser.save();
+  const result = await newUser.save();
+  const gettedUser = await get({ userId: result._id.toString() });
+  if (!gettedUser) throw new Error('Could not get recently created user');
+  return gettedUser;
 };
 
 export const update = async (
@@ -26,23 +40,12 @@ export const update = async (
   },
 ) => {
   await connect();
-  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role.id }, { new: true })
-    .select('-passwordHash')
-    .populate<{ role: IRole }>('role')
-    .lean();
+  const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role.id }, { new: true });
   if (!updatedUser) throw new Error(`user (${userId}) doesn't exist`);
-  return withMapId(updatedUser);
-};
 
-export const get = async ({ userId }: { userId: string }): Promise<TypeUser | null> => {
-  await connect();
-  const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
-  if (!user) return null;
-  const userPopulated = withMapId({
-    ...user,
-    role: withMapId(user.role),
-  });
-  return userPopulated;
+  const user = await get({ userId });
+  if (!user) throw new Error('Could not get recently updated user');
+  return user;
 };
 
 export const getForLogin = async ({ email }: { email: string }) => {

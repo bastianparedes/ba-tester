@@ -1,6 +1,7 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
+import { TypeApiUsers } from '@/domain/api/users';
 import { superAdminRoleName } from '@/domain/config';
 import { permissions, superAdminOnlyPermissions } from '@/domain/permissions';
 import { AuthGuard } from '@/guards/auth.guard';
@@ -45,14 +46,14 @@ export class UsersController {
 
   @UseGuards(AuthGuard(permissions.user.read))
   @Get()
-  async getAll() {
+  async getAll(): Promise<TypeApiUsers['getAll']['response']> {
     const users = await this.dbService.users.getAll();
-    return { data: users };
+    return users;
   }
 
   @UseGuards(AuthGuard(permissions.user.create))
   @Post()
-  async create(@Body() body: NewUserDto, @Req() req: Request) {
+  async create(@Body() body: NewUserDto, @Req() req: Request): Promise<TypeApiUsers['create']['response']> {
     const user = req.user;
     if (!user) throw new UnauthorizedException();
 
@@ -62,12 +63,12 @@ export class UsersController {
     if (roleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) throw new UnauthorizedException();
 
     const newUser = await this.dbService.users.create(body);
-    return { data: newUser };
+    return newUser;
   }
 
   @UseGuards(AuthGuard(permissions.user.update))
   @Put(':userId')
-  async update(@Param('userId') userId: string, @Body() body: OldUserDto, @Req() req: Request) {
+  async update(@Param('userId') userId: string, @Body() body: OldUserDto, @Req() req: Request): Promise<TypeApiUsers['update']['response']> {
     const user = req.user;
     if (!user) throw new UnauthorizedException();
 
@@ -86,12 +87,12 @@ export class UsersController {
     if (oldRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) throw new UnauthorizedException();
 
     const newUser = await this.dbService.users.update({ userId }, body);
-    return { data: newUser };
+    return newUser;
   }
 
   @UseGuards(AuthGuard(permissions.user.delete))
   @Delete(':userId')
-  async remove(@Param('userId') userId: string, @Req() req: Request) {
+  async remove(@Param('userId') userId: string, @Req() req: Request): Promise<TypeApiUsers['delete']['response']> {
     const user = req.user;
     if (!user) throw new UnauthorizedException();
 
@@ -100,7 +101,7 @@ export class UsersController {
     const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
     if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) throw new UnauthorizedException();
 
-    const deletedUser = await this.dbService.users.remove({ userId });
-    return { data: deletedUser };
+    await this.dbService.users.remove({ userId });
+    return;
   }
 }
