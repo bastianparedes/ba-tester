@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 import { superAdminRoleName } from '@/domain/config';
@@ -54,12 +54,12 @@ export class UsersController {
   @Post()
   async create(@Body() body: NewUserDto, @Req() req: Request) {
     const user = req.user;
-    if (!user) return;
+    if (!user) throw new UnauthorizedException();
 
     const role = await this.dbService.roles.get({ id: body.role.id });
-    if (!role) return;
+    if (!role) throw new BadRequestException();
     const roleIsSuperAdmin = role.name === superAdminRoleName;
-    if (roleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) return;
+    if (roleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) throw new UnauthorizedException();
 
     const newUser = await this.dbService.users.create(body);
     return { data: newUser };
@@ -69,21 +69,21 @@ export class UsersController {
   @Put(':userId')
   async update(@Param('userId') userId: string, @Body() body: OldUserDto, @Req() req: Request) {
     const user = req.user;
-    if (!user) return;
+    if (!user) throw new UnauthorizedException();
 
     const currentUser = await this.dbService.users.get({ userId });
-    if (!currentUser) return;
+    if (!currentUser) throw new BadRequestException();
     const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
-    if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) return;
+    if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) throw new UnauthorizedException();
 
     const newRole = await this.dbService.roles.get({ id: body.role.id });
-    if (!newRole) return;
+    if (!newRole) throw new BadRequestException();
     const oldRole = user.role;
     const oldRoleIsSuperAdmin = oldRole.name === superAdminRoleName;
     const newRoleIsSuperAdmin = newRole.name === superAdminRoleName;
-    if (!oldRoleIsSuperAdmin && newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) return;
-    if (oldRoleIsSuperAdmin && !newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) return;
-    if (oldRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) return;
+    if (!oldRoleIsSuperAdmin && newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) throw new UnauthorizedException();
+    if (oldRoleIsSuperAdmin && !newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) throw new UnauthorizedException();
+    if (oldRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) throw new UnauthorizedException();
 
     const newUser = await this.dbService.users.update({ userId }, body);
     return { data: newUser };
@@ -93,12 +93,12 @@ export class UsersController {
   @Delete(':userId')
   async remove(@Param('userId') userId: string, @Req() req: Request) {
     const user = req.user;
-    if (!user) return;
+    if (!user) throw new UnauthorizedException();
 
     const currentUser = await this.dbService.users.get({ userId });
-    if (!currentUser) return;
+    if (!currentUser) throw new BadRequestException();
     const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
-    if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) return;
+    if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) throw new UnauthorizedException();
 
     const deletedUser = await this.dbService.users.remove({ userId });
     return { data: deletedUser };

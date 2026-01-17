@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, UnauthorizedException } from '@nestjs/common';
 import { IsString } from 'class-validator';
 import { type Response } from 'express';
 import { cookieNames } from '@/domain/config';
@@ -35,16 +35,10 @@ export class AuthController {
   async logIn(@Res({ passthrough: true }) res: Response, @Body() body: UserCredentialsDto) {
     const { email, password } = body;
     const user = await this.dbService.users.getForLogin({ email });
-    if (!user) {
-      res.status(HttpStatus.UNAUTHORIZED);
-      return;
-    }
+    if (!user) throw new UnauthorizedException();
 
     const passwordIsCorrect = isPasswordCorrect({ password, passwordHash: user.passwordHash });
-    if (!passwordIsCorrect) {
-      res.status(HttpStatus.UNAUTHORIZED);
-      return;
-    }
+    if (!passwordIsCorrect) throw new UnauthorizedException();
 
     const token = generateToken({ id: user.id, purpose: 'session' });
 
@@ -55,6 +49,6 @@ export class AuthController {
       path: '/',
       maxAge: secondsTokenIsValid,
     });
-    return;
+    return {};
   }
 }
