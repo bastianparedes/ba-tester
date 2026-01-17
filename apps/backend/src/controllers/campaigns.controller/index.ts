@@ -72,7 +72,7 @@ export class CampaignsController {
 
   @Post()
   async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CampaignDto): Promise<TypeApiCampaigns['create']['response']> {
-    await this.dbService.campaigns.create({ tenantId }, body);
+    await this.dbService.campaigns.create({ tenantId }, body as any);
     return undefined;
   }
 
@@ -83,7 +83,7 @@ export class CampaignsController {
     @Param('campaignId', ParseIntPipe) campaignId: number,
     @Body() body: CampaignDto,
   ): Promise<TypeApiCampaigns['update']['response']> {
-    await this.dbService.campaigns.update({ tenantId, campaignId }, body);
+    await this.dbService.campaigns.update({ tenantId, campaignId }, body as any);
     return;
   }
 }

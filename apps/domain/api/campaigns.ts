@@ -6,23 +6,25 @@ export type TypeApiCampaigns = {
       pathParams: { tenantId: string; campaignId: string };
       body: never;
     };
-    response: {
-      id: number;
-      tenantId: number;
-      name: string;
-      requirements: {
-        type: 'node';
-        data: {
-          children: TypeRequirementData[];
-          operator: 'and' | 'or';
-        };
-      } & {
-        type: 'node';
-      };
-      status: TypeStatus;
-      triggers: TypeTriggerData[];
-      variations: TypeVariationData[];
-    } | undefined;
+    response:
+      | {
+          id: number;
+          tenantId: number;
+          name: string;
+          requirements: {
+            type: 'node';
+            data: {
+              children: TypeRequirementData[];
+              operator: 'and' | 'or';
+            };
+          } & {
+            type: 'node';
+          };
+          status: TypeStatus;
+          triggers: TypeTriggerData[];
+          variations: TypeVariationData[];
+        }
+      | undefined;
   };
   getMany: {
     request: {
