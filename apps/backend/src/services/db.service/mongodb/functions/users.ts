@@ -1,9 +1,9 @@
 import type { TypeUser } from '@/domain/types';
+import { getPasswordHashed } from '@/libs/auth/password';
 import { connect } from '../client';
 import Roles, { type IRole } from '../models/Role';
 import Users from '../models/User';
 import { withMapId } from './utils';
-import { getPasswordHashed } from '@/libs/auth/password';
 
 export const create = async (data: { name: string; email: string; password: string; role: { id: string } }) => {
   await connect();

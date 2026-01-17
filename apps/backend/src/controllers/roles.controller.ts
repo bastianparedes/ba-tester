@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { IsArray, IsIn, IsNotIn, IsString } from 'class-validator';
 import { superAdminRoleName } from '@/domain/config';
-import { flatPermissions } from '@/domain/permissions';
-import { DbService } from '@/services/db.service';
+import { flatPermissions, permissions } from '@/domain/permissions';
 import { AuthGuard } from '@/guards/auth.guard';
-import { permissions } from '@/domain/permissions';
+import { DbService } from '@/services/db.service';
+
 // import { type Request } from '@/types/request';
 // , @Req() req: Request
 class RoleDto {

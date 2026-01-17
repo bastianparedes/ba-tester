@@ -2,9 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from 
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 import { superAdminRoleName } from '@/domain/config';
-import { DbService } from '@/services/db.service';
-import { AuthGuard } from '@/guards/auth.guard';
 import { permissions, superAdminOnlyPermissions } from '@/domain/permissions';
+import { AuthGuard } from '@/guards/auth.guard';
+import { DbService } from '@/services/db.service';
 import { type Request } from '@/types/request';
 
 class RoleDto {
@@ -41,9 +41,7 @@ class OldUserDto {
 
 @Controller('users')
 export class UsersController {
-  constructor(
-    private readonly dbService: DbService,
-  ) {}
+  constructor(private readonly dbService: DbService) {}
 
   @UseGuards(AuthGuard(permissions.user.read))
   @Get()
@@ -73,7 +71,7 @@ export class UsersController {
     const user = req.user;
     if (!user) return;
 
-    const currentUser = await this.dbService.users.get({userId});
+    const currentUser = await this.dbService.users.get({ userId });
     if (!currentUser) return;
     const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
     if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) return;
@@ -87,7 +85,7 @@ export class UsersController {
     if (oldRoleIsSuperAdmin && !newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) return;
     if (oldRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) return;
 
-    const newUser = await this.dbService.users.update({userId}, body);
+    const newUser = await this.dbService.users.update({ userId }, body);
     return { data: newUser };
   }
 
@@ -97,11 +95,10 @@ export class UsersController {
     const user = req.user;
     if (!user) return;
 
-    const currentUser = await this.dbService.users.get({userId});
+    const currentUser = await this.dbService.users.get({ userId });
     if (!currentUser) return;
     const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
     if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) return;
-
 
     const deletedUser = await this.dbService.users.remove({ userId });
     return { data: deletedUser };
