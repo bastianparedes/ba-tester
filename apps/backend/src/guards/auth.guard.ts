@@ -1,35 +1,30 @@
-import { type Request } from 'express';
-/* @Req() req: Request */
-
-
-
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  Type,
-  mixin,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, mixin, Type } from '@nestjs/common';
+import { cookieNames } from '@/domain/config';
+import { getTokenData } from '@/libs/auth/jwt';
 import { DbService } from '@/services/db.service';
-import { JwtService } from '@/services/jwt.service';
-import { PasswordService } from '@/services/password.service';
+import { type Request } from '@/types/request';
 
 export function AuthGuard(permission: string): Type<CanActivate> {
   @Injectable()
-  class AuthGuard implements CanActivate {
-    constructor(
-      private readonly dbService: DbService, 
-      private readonly jwtService: JwtService,
-      private readonly passwordService: PasswordService,
-    ) {}
+  class AuthGuardMixin implements CanActivate {
+    constructor(private readonly dbService: DbService) {}
 
-    canActivate(context: ExecutionContext): boolean {
-      const request = context.switchToHttp().getRequest();
-      const user = request.user;
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+      const request = context.switchToHttp().getRequest<Request>();
+      const token = request.cookies[cookieNames.token];
+      if (!token) return false;
+      const tokenData = getTokenData({ token, purpose: 'session' });
+      if (!tokenData.valid) return false;
+      const userId = tokenData.id;
+      const user = await this.dbService.users.get({ userId });
+      if (!user) return false;
 
+      if (user.role.permissions.includes(permission)) return false;
+
+      request.user = user;
       return true;
     }
   }
 
-  return mixin(AuthGuard);
+  return mixin(AuthGuardMixin);
 }

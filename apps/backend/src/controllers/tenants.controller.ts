@@ -13,7 +13,6 @@ class CreateTenantDto {
   domain: string;
 }
 
-
 @Controller('tenants')
 export class TenantsController {
   constructor(private readonly dbService: DbService) {}

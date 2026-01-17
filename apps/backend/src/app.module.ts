@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
-import { AuthGuard } from './guards/auth.guard';
 import { AuthController } from './controllers/auth.controller';
 import { CampaignsController } from './controllers/campaigns.controller';
 import { RolesController } from './controllers/roles.controller';
 import { ScriptController } from './controllers/script.controller';
 import { TenantsController } from './controllers/tenants.controller';
-import { UsersController } from './controllers/users/users.controller';
+import { UsersController } from './controllers/users.controller';
 import { AppService } from './services/app.service';
 import { AuthService } from './services/auth.service';
 import { DbService } from './services/db.service';

@@ -106,14 +106,11 @@ export class CreateCampaignDto {
 // --------------------
 @Controller('tenants/:tenantId/campaigns')
 export class CampaignsController {
-    constructor(private readonly dbService: DbService) {}
+  constructor(private readonly dbService: DbService) {}
 
   // GET /tenants/:tenantId/campaigns
   @Get()
-  async getCampaigns(
-    @Param('tenantId', ParseIntPipe) tenantId: number,
-    @Query() query: GetCampaignsQueryDto,
-  ) {
+  async getCampaigns(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetCampaignsQueryDto) {
     // Validación automática via ValidationPipe
     // Ajuste de quantity según config.quantitiesAvailable
     if (![25, 50, 100, 200, 500].includes(query.quantity)) {
@@ -126,10 +123,7 @@ export class CampaignsController {
 
   // POST /tenants/:tenantId/campaigns
   @Post()
-  async createCampaign(
-    @Param('tenantId', ParseIntPipe) tenantId: number,
-    @Body() body: CreateCampaignDto,
-  ) {
+  async createCampaign(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CreateCampaignDto) {
     // Aquí body.requirements ya está validado y transformado
     // await this.dbService.campaigns.create({ tenantId }, body);
     return { message: 'Campaign created successfully' };

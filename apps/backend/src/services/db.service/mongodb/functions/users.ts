@@ -3,13 +3,15 @@ import { connect } from '../client';
 import Roles, { type IRole } from '../models/Role';
 import Users from '../models/User';
 import { withMapId } from './utils';
+import { getPasswordHashed } from '@/libs/auth/password';
 
-export const create = async (data: { name: string; email: string; passwordHash: string; role: { id: string } }) => {
+export const create = async (data: { name: string; email: string; password: string; role: { id: string } }) => {
   await connect();
   const role = await Roles.findById(data.role.id).lean();
   if (!role) throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
 
-  const newUser = new Users({ ...data, role: role._id });
+  const passwordHash = getPasswordHashed(data.password);
+  const newUser = new Users({ ...data, passwordHash, role: role._id });
   await newUser.save();
 };
 
