@@ -7,5 +7,6 @@
   },
   "generateOptions": {
     "spec": false
-  }
+  },
+  "entryFile": "backend/src/main"
 }
