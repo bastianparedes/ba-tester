@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsArray, IsEnum, IsInt, IsNotEmpty, IsString, Max, Min, ValidateNested } from 'class-validator';
+import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
 import { DbService } from '@/services/db.service';
 import { RequirementDto } from './requirementsValidator';
@@ -113,8 +114,8 @@ export class CampaignsController {
   async getCampaigns(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetCampaignsQueryDto) {
     // Validación automática via ValidationPipe
     // Ajuste de quantity según config.quantitiesAvailable
-    if (![25, 50, 100, 200, 500].includes(query.quantity)) {
-      return { status: 400, errors: [`Debe ser uno de: ${[25, 50, 100, 200, 500].join(', ')}`] };
+    if (!quantitiesAvailable.includes(query.quantity)) {
+      return { status: 400, errors: [`Debe ser uno de: ${quantitiesAvailable.join(', ')}`] };
     }
 
     const result = await this.dbService.campaigns.getMany({ tenantId }, query);

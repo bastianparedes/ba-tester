@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import config from '@/config/constants';
+import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
 import db from '@/libs/db';
 import type { TypeApiResponse } from '@/types';
@@ -12,8 +12,8 @@ const getSchema = z.object({
   orderBy: z.enum(['status', 'name', 'id']),
   orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int().nonnegative(),
-  quantity: z.coerce.number().refine((val) => config.quantitiesAvailable.includes(val), {
-    message: `Debe ser uno de: ${config.quantitiesAvailable.join(', ')}`,
+  quantity: z.coerce.number().refine((val) => quantitiesAvailable.includes(val), {
+    message: `Debe ser uno de: ${quantitiesAvailable.join(', ')}`,
   }),
   statusList: z.union([z.string().transform((val) => [val]), z.array(z.string())]).pipe(z.array(z.enum(commonConstants.campaignStatus))),
 });

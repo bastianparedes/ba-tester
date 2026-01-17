@@ -11,7 +11,6 @@ const constants = Object.freeze({
     users: () => '/admin/users',
     logIn: () => '/auth/log-in',
   },
-  quantitiesAvailable: [25, 50, 100, 200, 500] as number[],
 } as const);
 
 export default constants;

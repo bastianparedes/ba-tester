@@ -1,10 +1,10 @@
 import { superAdminRoleName } from '@/domain/config';
 import { flatPermissions, flatSuperAdminOnlyPermissions } from '@/domain/permissions';
+import { getPasswordHashed } from '@/libs/auth/password';
 import { env } from '@/libs/env';
 import { connect, disconnect } from '@/services/db.service/mongodb/client';
 import Roles from '@/services/db.service/mongodb/models/Role';
 import Users from '@/services/db.service/mongodb/models/User';
-import { PasswordService } from '@/services/password.service';
 
 async function seedDB() {
   try {
@@ -27,7 +27,7 @@ async function seedDB() {
             $setOnInsert: {
               name: superAdmin.name,
               email: superAdmin.email,
-              passwordHash: 'getPasswordHashed(superAdmin.password)',
+              passwordHash: getPasswordHashed(superAdmin.password),
               role: superAdminRole._id,
             },
           },
