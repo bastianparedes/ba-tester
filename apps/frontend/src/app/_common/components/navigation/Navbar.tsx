@@ -4,8 +4,8 @@ import { cx } from 'class-variance-authority';
 import { ChevronDown, ChevronRight, LogOut, User } from 'lucide-react';
 import React, { useState } from 'react';
 import { useUser } from '@/app/_common/contexts/User';
-import  { apiCaller }  from '@/libs/restClient';
 import constants from '@/config/constants';
+import { apiCaller } from '@/libs/restClient';
 
 type Props = {
   children: React.ReactNode;

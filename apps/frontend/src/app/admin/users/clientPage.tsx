@@ -4,9 +4,8 @@ import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useUser } from '@/app/_common/contexts/User';
-import api from '@/app/api';
-import { apiCaller } from '@/libs/restClient';
 import type { TypeRole, TypeUser } from '@/domain/types';
+import { apiCaller } from '@/libs/restClient';
 import { isRoleSuperAdmin } from '@/utils/roles';
 import { getIsUserSuperAdmin } from '@/utils/user/helper';
 
@@ -136,7 +135,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const handleDelete = async ({ user }: { user: TypeUser }) => {
     const result = await confirm({ title: `¿Borrar usuario "${user.name}"?` });
     if (!result) return;
-    const apiResponse = await api.user.remove({
+    const apiResponse = await apiCaller.users.delete({
       pathParams: { userId: user.id },
     });
     if (apiResponse.ok) setUsers((currentState) => currentState.filter((userInArray) => userInArray.id !== user.id));

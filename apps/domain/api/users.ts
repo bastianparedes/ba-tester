@@ -15,7 +15,7 @@ export type TypeApiUsers = {
         email: string;
         password: string;
         role: {
-          id: number;
+          id: string;
         };
       };
     };
@@ -24,15 +24,21 @@ export type TypeApiUsers = {
   update: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { userId: number };
-      body: TypeUser;
+      pathParams: { userId: string };
+      body: {
+        name: string;
+        email: string;
+        role: {
+          id: string;
+        };
+      };
     };
     response: TypeUser;
   };
   delete: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { userId: number };
+      pathParams: { userId: string };
     };
     response: Record<string, never>;
   };

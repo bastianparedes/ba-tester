@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { Switch } from '@/app/_common/components/switch';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useUser } from '@/app/_common/contexts/User';
-import api from '@/app/api';
 import { superAdminRoleName } from '@/domain/config';
 import { flatPermissions } from '@/domain/permissions';
 import type { TypeRole } from '@/domain/types';
+import { apiCaller } from '@/libs/restClient';
 import { isRoleSuperAdmin } from '@/utils/roles';
 
 type Props = {
@@ -47,7 +47,7 @@ export function ClientPage({ initialRoles }: Props) {
       },
     );
     if (!data) return;
-    const apiResult = await api.roles.create({
+    const apiResult = await apiCaller.roles.create({
       body: {
         name: data.name,
         description: data.description,
@@ -56,14 +56,14 @@ export function ClientPage({ initialRoles }: Props) {
     });
     if (apiResult.ok) {
       const json = await apiResult.json();
-      setRoles((state) => [...state, json.data]);
+      setRoles((state) => [...state, json]);
     }
   };
 
   const deleteRole = async (role: TypeRole) => {
     const result = await confirm({ title: `Delete role "${role.name}"` });
     if (!result) return;
-    const apiResult = await api.role.remove({
+    const apiResult = await apiCaller.roles.delete({
       pathParams: { roleId: role.id },
     });
     if (apiResult.ok) setRoles((currentState) => currentState.filter((roleInList) => roleInList.id !== role.id));
@@ -76,7 +76,7 @@ export function ClientPage({ initialRoles }: Props) {
       permissions: newPermissions,
     };
 
-    const apiResult = await api.role.update({
+    const apiResult = await apiCaller.roles.update({
       body: newRole,
       pathParams: {
         roleId: role.id,
