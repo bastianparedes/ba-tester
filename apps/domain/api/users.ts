@@ -7,6 +7,13 @@ export type TypeApiUsers = {
     };
     response: TypeUser[];
   };
+  get: {
+    request: {
+      headers?: RequestInit['headers'];
+      pathParams: { userId: string };
+    };
+    response: TypeUser;
+  };
   create: {
     request: {
       headers?: RequestInit['headers'];

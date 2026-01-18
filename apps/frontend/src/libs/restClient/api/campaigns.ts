@@ -10,6 +10,13 @@ export const campaigns = {
     });
     return response;
   },
+  get: async (data: TypeApiCampaigns['get']['request']) => {
+    const response = await fetchers.get<TypeApiCampaigns['get']['response']>({
+      headers: data.headers,
+      url: `/tenants/${data.pathParams.tenantId}/campaigns/${data.pathParams.campaignId}`,
+    });
+    return response;
+  },
   create: async (data: TypeApiCampaigns['create']['request']) => {
     const response = await fetchers.post<TypeApiCampaigns['create']['response']>({
       headers: data.headers,

@@ -40,7 +40,7 @@ class OldUserDto {
   role: RoleDto;
 }
 
-@Controller('users')
+@Controller('admin/users')
 export class UsersController {
   constructor(private readonly dbService: DbService) {}
 
@@ -49,6 +49,14 @@ export class UsersController {
   async getAll(): Promise<TypeApiUsers['getAll']['response']> {
     const users = await this.dbService.users.getAll();
     return users;
+  }
+
+  @UseGuards(AuthGuard(permissions.user.read))
+  @Get(':userId')
+  async get(@Param('userId') userId: string): Promise<TypeApiUsers['get']['response']> {
+    const user = await this.dbService.users.get({ userId });
+    if (!user) throw new UnauthorizedException();
+    return user;
   }
 
   @UseGuards(AuthGuard(permissions.user.create))

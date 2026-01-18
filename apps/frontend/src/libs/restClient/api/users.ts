@@ -9,6 +9,13 @@ export const users = {
     });
     return response;
   },
+  get: async (data: TypeApiUsers['get']['request']) => {
+    const response = await fetchers.get<TypeApiUsers['get']['response']>({
+      headers: data.headers,
+      url: `/admin/users/${data.pathParams.userId}`,
+    });
+    return response;
+  },
   create: async (data: TypeApiUsers['create']['request']) => {
     const response = await fetchers.post<TypeApiUsers['create']['response']>({
       headers: data.headers,

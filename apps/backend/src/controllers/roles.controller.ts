@@ -19,7 +19,7 @@ class RoleDto {
   permissions: string[];
 }
 
-@Controller('roles')
+@Controller('admin/roles')
 export class RolesController {
   constructor(private readonly dbService: DbService) {}
 

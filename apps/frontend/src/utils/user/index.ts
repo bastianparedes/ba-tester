@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { cookieNames } from '@/domain/config';
 import { getTokenData } from '@/libs/auth/jwt';
-import db from '@/libs/db';
+import { apiCaller } from '@/libs/restClient';
 import { getIsUserSuperAdmin, getUserPermissions, type TypeFullUser } from './helper';
 
 export const getUserFromCookies = async (): Promise<TypeFullUser> => {
@@ -72,8 +72,10 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
       },
     };
 
-  const user = await db.users.get({ userId: tokenData.id });
-  if (!user)
+  const headersList = await headers();
+  const cookiesFromHeaders = headersList.get('cookie') as string;
+  const userResponse = await apiCaller.users.get({ headers: { Cookie: cookiesFromHeaders }, pathParams: { userId: tokenData.id } });
+  if (!userResponse.ok)
     return {
       isLogedIn: false,
       data: null,
@@ -104,6 +106,8 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
         canDeleteSuperAdmin: false,
       },
     };
+
+  const user = await userResponse.json();
 
   return {
     isLogedIn: true,

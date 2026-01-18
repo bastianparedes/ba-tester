@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
-import db from '@/libs/db';
+import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from './clientPage';
 
 type PageProps = {
@@ -15,11 +15,14 @@ const Page = async (props: PageProps) => {
   const tenantId = Number(params.tenantId);
   const campaignId = Number(params.campaignId);
 
-  const tenant = await db.tenants.get({ tenantId });
-  if (!tenant) return redirect(constants.pages.tenants());
+  const tenantResponse = await apiCaller.tenants.get({ pathParams: { tenantId } });
+  if (!tenantResponse.ok) return redirect(constants.pages.tenants());
+  const tenant = await tenantResponse.json();
 
-  const initialCampaign = await db.campaigns.get({ tenantId, campaignId });
-  if (initialCampaign === undefined) redirect(constants.pages.campaigns({ tenantId }));
+  const campaignResponse = await apiCaller.campaigns.get({ pathParams: { tenantId, campaignId } });
+  if (!campaignResponse.ok) return redirect(constants.pages.campaigns({ tenantId }));
+
+  const initialCampaign = await campaignResponse.json();
 
   return (
     <Navigation
