@@ -4,7 +4,7 @@ import { cx } from 'class-variance-authority';
 import { ChevronDown, ChevronRight, LogOut, User } from 'lucide-react';
 import React, { useState } from 'react';
 import { useUser } from '@/app/_common/contexts/User';
-import api from '@/app/api';
+import  { apiCaller }  from '@/libs/restClient';
 import constants from '@/config/constants';
 
 type Props = {
@@ -20,7 +20,7 @@ export function Navbar({ children, breadcrumb }: Props) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const onLogout = async () => {
-    const apiResponse = await api.auth.logOut();
+    const apiResponse = await apiCaller.sessions.logOut({});
     if (apiResponse.ok) {
       location.href = constants.pages.home();
     }

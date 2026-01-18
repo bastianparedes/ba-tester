@@ -63,7 +63,7 @@ export function ClientPage({ initialTenants }: Props) {
       },
     });
     if (!result.ok) return;
-    const { data: newTenant } = await result.json();
+    const newTenant = await result.json();
     setTenants([...tenants, newTenant]);
   };
 
@@ -107,7 +107,7 @@ export function ClientPage({ initialTenants }: Props) {
     });
     if (!result.ok) return;
 
-    const { data: updatedTenant } = await result.json();
+    const updatedTenant = await result.json();
     setTenants(
       tenants.map((t) => {
         if (t.id === tenant.id) return updatedTenant;

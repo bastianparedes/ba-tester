@@ -4,6 +4,7 @@ import { fetchers } from '../fetcher';
 export const campaigns = {
   getMany: async (data: TypeApiCampaigns['getMany']['request']) => {
     const response = await fetchers.get<TypeApiCampaigns['getMany']['response']>({
+      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/campaigns`,
       queryParams: data.queryParams,
     });
@@ -11,6 +12,7 @@ export const campaigns = {
   },
   create: async (data: TypeApiCampaigns['create']['request']) => {
     const response = await fetchers.post<TypeApiCampaigns['create']['response']>({
+      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/campaigns`,
       body: data.body,
     });
@@ -18,6 +20,7 @@ export const campaigns = {
   },
   update: async (data: TypeApiCampaigns['update']['request']) => {
     const response = await fetchers.put<TypeApiCampaigns['update']['response']>({
+      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/campaigns/${data.pathParams.campaignId}`,
       body: data.body,
     });
@@ -25,6 +28,7 @@ export const campaigns = {
   },
   delete: async (data: TypeApiCampaigns['delete']['request']) => {
     const response = await fetchers.delete<TypeApiCampaigns['delete']['response']>({
+      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/campaigns/${data.pathParams.campaignId}`,
     });
     return response;

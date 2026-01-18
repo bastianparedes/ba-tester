@@ -1,4 +1,3 @@
-import env from '@/libs/env';
 import { restClient } from '@/libs/restClient';
 
 const url = () => `/public/auth/session`;

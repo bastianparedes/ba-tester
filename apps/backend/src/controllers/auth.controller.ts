@@ -28,7 +28,7 @@ export class AuthController {
       path: '/',
     });
 
-    return;
+    return {};
   }
 
   @Post()
@@ -49,6 +49,6 @@ export class AuthController {
       path: '/',
       maxAge: secondsTokenIsValid * 99999999,
     });
-    return;
+    return {};
   }
 }

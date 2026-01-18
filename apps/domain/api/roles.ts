@@ -3,12 +3,13 @@ import type { TypeRole } from '../types';
 export type TypeApiRoles = {
   getAll: {
     request: {
-      body: never;
+      headers?: RequestInit['headers'];
     };
     response: TypeRole[];
   };
   create: {
     request: {
+      headers?: RequestInit['headers'];
       body: {
         name: string;
         description: string;
@@ -19,6 +20,7 @@ export type TypeApiRoles = {
   };
   update: {
     request: {
+      headers?: RequestInit['headers'];
       pathParams: { roleId: string };
       body: {
         name: string;
@@ -30,9 +32,9 @@ export type TypeApiRoles = {
   };
   delete: {
     request: {
+      headers?: RequestInit['headers'];
       pathParams: { roleId: string };
-      body: never;
     };
-    response: undefined;
+    response: Record<string, never>;
   };
 };

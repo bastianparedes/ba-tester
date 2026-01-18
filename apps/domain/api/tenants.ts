@@ -3,12 +3,20 @@ import type { TypeTenant } from '../types';
 export type TypeApiTenants = {
   getAll: {
     request: {
-      body: never;
+      headers?: RequestInit['headers'];
     };
     response: TypeTenant[];
   };
+  get: {
+    request: {
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: TypeTenant['id'] };
+    };
+    response: TypeTenant;
+  };
   create: {
     request: {
+      headers?: RequestInit['headers'];
       body: {
         name: TypeTenant['name'];
         description: TypeTenant['description'];
@@ -19,6 +27,7 @@ export type TypeApiTenants = {
   };
   update: {
     request: {
+      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
       body: {
         name: TypeTenant['name'];
@@ -30,9 +39,9 @@ export type TypeApiTenants = {
   };
   delete: {
     request: {
+      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
-      body: never;
     };
-    response: never;
+    response: TypeTenant;
   };
 };

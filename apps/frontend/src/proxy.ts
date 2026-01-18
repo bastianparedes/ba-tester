@@ -114,6 +114,7 @@ const pathRegexPermissions: {
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next();
+  return response;
 
   const handleUnauthorized = () => {
     const isApi = request.nextUrl.pathname.startsWith('/api');

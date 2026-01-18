@@ -3,18 +3,19 @@ import type { TypeUser } from '../types';
 export type TypeApiUsers = {
   getAll: {
     request: {
-      body: never;
+      headers?: RequestInit['headers'];
     };
     response: TypeUser[];
   };
   create: {
     request: {
+      headers?: RequestInit['headers'];
       body: {
         name: string;
         email: string;
         password: string;
         role: {
-          id: string;
+          id: number;
         };
       };
     };
@@ -22,16 +23,17 @@ export type TypeApiUsers = {
   };
   update: {
     request: {
-      pathParams: { userId: string };
+      headers?: RequestInit['headers'];
+      pathParams: { userId: number };
       body: TypeUser;
     };
     response: TypeUser;
   };
   delete: {
     request: {
-      pathParams: { userId: string };
-      body: never;
+      headers?: RequestInit['headers'];
+      pathParams: { userId: number };
     };
-    response: undefined;
+    response: Record<string, never>;
   };
 };

@@ -6,11 +6,11 @@ import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
-import api from '@/app/api';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
 import type { TypeCampaign, TypeOrderBy, TypeOrderDirection, TypeStatus } from '@/domain/types';
+import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
   sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
@@ -100,7 +100,7 @@ export function ClientPage({ tenantId }: PageProps) {
       statusList: TypeStatus[];
     }> = {},
   ) => {
-    const result = await api.campaigns.getMany({
+    const result = await apiCaller.campaigns.getMany({
       pathParams: { tenantId },
       queryParams: {
         textSearch: state.nameFilter,
@@ -115,8 +115,8 @@ export function ClientPage({ tenantId }: PageProps) {
 
     if (result.ok) {
       const json = await result.json();
-      setCampaigns(json.data.campaigns);
-      dispatch({ type: 'SET_TOTAL_ITEMS', payload: json.data.count });
+      setCampaigns(json.campaigns);
+      dispatch({ type: 'SET_TOTAL_ITEMS', payload: json.count });
     }
   };
   const totalPages = Math.ceil(state.totalItems / state.itemsPerPage);

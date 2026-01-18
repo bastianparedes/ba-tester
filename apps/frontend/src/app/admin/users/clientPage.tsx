@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useUser } from '@/app/_common/contexts/User';
 import api from '@/app/api';
+import { apiCaller } from '@/libs/restClient';
 import type { TypeRole, TypeUser } from '@/domain/types';
 import { isRoleSuperAdmin } from '@/utils/roles';
 import { getIsUserSuperAdmin } from '@/utils/user/helper';
@@ -66,7 +67,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
     );
     if (!data) return;
 
-    const apiResponse = await api.users.create({
+    const apiResponse = await apiCaller.users.create({
       body: {
         name: data.name,
         email: data.email,
@@ -119,7 +120,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
     );
     if (!data) return;
 
-    const apiResponse = await api.user.update({
+    const apiResponse = await apiCaller.users.update({
       body: {
         name: data.name,
         email: data.email,

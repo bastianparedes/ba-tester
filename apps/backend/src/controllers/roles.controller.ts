@@ -48,6 +48,6 @@ export class RolesController {
   @Delete(':roleId')
   async remove(@Param('roleId') roleId: string): Promise<TypeApiRoles['delete']['response']> {
     await this.dbService.roles.remove({ roleId });
-    return;
+    return {};
   }
 }

@@ -46,3 +46,8 @@ export const getAll = async () => {
   const tenants = await db.select().from(schema.tenants);
   return tenants;
 };
+
+export const remove = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
+  const result = await db.delete(schema.tenants).where(eq(schema.tenants.id, tenantId)).returning();
+  return result[0];
+};

@@ -102,6 +102,6 @@ export class UsersController {
     if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) throw new UnauthorizedException();
 
     await this.dbService.users.remove({ userId });
-    return;
+    return {};
   }
 }

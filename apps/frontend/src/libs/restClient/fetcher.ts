@@ -5,11 +5,13 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     url,
     queryParams = {},
     body,
+    headers = {},
   }: {
     url: string;
     queryParams?: Record<string, string | number | string[] | number[]>;
     body?: Record<string, unknown>;
-  }): Promise<{ ok: true; json: () => Promise<{ data: T }> } | { ok: false; json: () => Promise<{ errors: string[] }> }> => {
+    headers?: RequestInit['headers'];
+  }): Promise<{ ok: true; json: () => Promise<T>; text: () => Promise<string> } | { ok: false }> => {
     const isServerSide = typeof window === 'undefined';
     const baseUrl = isServerSide ? process.env.NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE : process.env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE;
 
@@ -30,15 +32,15 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
         body: JSON.stringify(body),
         headers: {
           'Content-Type': 'application/json',
+          ...headers,
         },
         credentials: 'include',
       });
 
-      const data = await response.json();
-      return { ok: response.ok, json: async () => data };
+      return { ok: response.ok, json: async () => response.json(), text: async () => response.text() };
     } catch (error) {
       console.error(error);
-      return { ok: false, json: async () => ({ errors: ['Network error'] }) };
+      return { ok: false };
     }
   };
   return requestFunction;

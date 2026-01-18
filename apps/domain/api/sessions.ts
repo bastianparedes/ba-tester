@@ -1,17 +1,18 @@
 export type TypeApiSessions = {
   logIn: {
     request: {
+      headers?: RequestInit['headers'];
       body: {
         email: string;
         password: string;
       };
     };
-    response: undefined;
+    response: Record<string, never>;
   };
   logOut: {
     request: {
-      body: never;
+      headers?: RequestInit['headers'];
     };
-    response: undefined;
+    response: Record<string, never>;
   };
 };

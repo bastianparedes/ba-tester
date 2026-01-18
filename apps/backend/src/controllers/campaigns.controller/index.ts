@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsInt, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsIn, IsInt, IsString, ValidateNested } from 'class-validator';
 import { TypeApiCampaigns } from '@/domain/api/campaigns';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
@@ -16,21 +16,22 @@ export class GetCampaignsQueryDto {
   @IsString()
   textSearch: string;
 
-  @IsEnum(['status', 'name', 'id'])
+  @IsIn(['status', 'name', 'id'])
   orderBy: 'status' | 'name' | 'id';
 
-  @IsEnum(commonConstants.campaignOrderDirection)
+  @IsIn(commonConstants.campaignOrderDirection)
   orderDirection: (typeof commonConstants.campaignOrderDirection)[number];
 
+  @Type(() => Number)
   @IsInt()
   page: number;
 
-  @IsEnum(quantitiesAvailable)
-  @IsInt()
+  @Type(() => Number)
+  @IsIn(quantitiesAvailable)
   quantity: number;
 
   @IsArray()
-  @IsEnum(commonConstants.campaignStatus, { each: true })
+  @IsIn(commonConstants.campaignStatus, { each: true })
   statusList: typeof commonConstants.campaignStatus;
 }
 
@@ -42,7 +43,7 @@ export class CampaignDto {
   @Type(() => RequirementDto)
   requirements: RequirementDto;
 
-  @IsEnum(commonConstants.campaignStatus)
+  @IsIn(commonConstants.campaignStatus)
   status: (typeof commonConstants.campaignStatus)[number];
 
   @Type(() => TriggersDto)
@@ -73,7 +74,7 @@ export class CampaignsController {
   @Post()
   async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CampaignDto): Promise<TypeApiCampaigns['create']['response']> {
     await this.dbService.campaigns.create({ tenantId }, body as any);
-    return undefined;
+    return {};
   }
 
   // POST /tenants/:tenantId/campaigns
@@ -84,6 +85,6 @@ export class CampaignsController {
     @Body() body: CampaignDto,
   ): Promise<TypeApiCampaigns['update']['response']> {
     await this.dbService.campaigns.update({ tenantId, campaignId }, body as any);
-    return;
+    return {};
   }
 }

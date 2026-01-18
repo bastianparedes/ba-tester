@@ -3,8 +3,8 @@ import type { TypeOrderDirection, TypeRequirementData, TypeStatus, TypeTriggerDa
 export type TypeApiCampaigns = {
   get: {
     request: {
-      pathParams: { tenantId: string; campaignId: string };
-      body: never;
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: number; campaignId: number };
     };
     response:
       | {
@@ -28,7 +28,8 @@ export type TypeApiCampaigns = {
   };
   getMany: {
     request: {
-      pathParams: { tenantId: string };
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: number };
       queryParams: {
         textSearch: string;
         orderBy: 'name' | 'id' | 'status';
@@ -37,7 +38,6 @@ export type TypeApiCampaigns = {
         quantity: number;
         statusList: TypeStatus[];
       };
-      body: never;
     };
     response: {
       campaigns: {
@@ -62,7 +62,8 @@ export type TypeApiCampaigns = {
   };
   create: {
     request: {
-      pathParams: { tenantId: string };
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: number };
       body: {
         name: string;
         requirements: {
@@ -112,11 +113,12 @@ export type TypeApiCampaigns = {
         }[];
       };
     };
-    response: undefined;
+    response: Record<string, never>;
   };
   update: {
     request: {
-      pathParams: { tenantId: string; campaignId: string };
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: number; campaignId: number };
       body: {
         name: string;
         requirements: {
@@ -166,12 +168,12 @@ export type TypeApiCampaigns = {
         }[];
       };
     };
-    response: undefined;
+    response: Record<string, never>;
   };
   delete: {
     request: {
-      pathParams: { tenantId: string; campaignId: string };
-      body: never;
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: number; campaignId: number };
     };
     response: never;
   };

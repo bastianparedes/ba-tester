@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IsArray, IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsIn, IsOptional, IsString, ValidateNested } from 'class-validator';
 import commonConstants from '@/domain/constants';
 
 // --------------------
@@ -11,12 +11,12 @@ export class NodeData {
   @IsArray()
   children: RequirementDto[];
 
-  @IsEnum([commonConstants.booleanOperators.and, commonConstants.booleanOperators.or])
+  @IsIn([commonConstants.booleanOperators.and, commonConstants.booleanOperators.or])
   operator: string;
 }
 
 export class NodeRequirement {
-  @IsEnum([commonConstants.requirementTypes.node])
+  @IsIn([commonConstants.requirementTypes.node])
   type: string;
 
   @ValidateNested()
@@ -28,15 +28,15 @@ export class NodeRequirement {
 // Device
 // --------------------
 export class DeviceData {
-  @IsEnum([commonConstants.comparisons.is, commonConstants.comparisons.isNot])
+  @IsIn([commonConstants.comparisons.is, commonConstants.comparisons.isNot])
   comparator: string;
 
-  @IsEnum([commonConstants.devices.desktop, commonConstants.devices.mobile])
+  @IsIn([commonConstants.devices.desktop, commonConstants.devices.mobile])
   device: string;
 }
 
 export class DeviceRequirement {
-  @IsEnum([commonConstants.requirementTypes.device])
+  @IsIn([commonConstants.requirementTypes.device])
   type: string;
 
   @ValidateNested()
@@ -48,7 +48,7 @@ export class DeviceRequirement {
 // URL
 // --------------------
 export class URLData {
-  @IsEnum([commonConstants.comparisons.is, commonConstants.comparisons.isNot, commonConstants.comparisons.contains, commonConstants.comparisons.doesNotContain])
+  @IsIn([commonConstants.comparisons.is, commonConstants.comparisons.isNot, commonConstants.comparisons.contains, commonConstants.comparisons.doesNotContain])
   comparator: string;
 
   @IsString()
@@ -56,7 +56,7 @@ export class URLData {
 }
 
 export class URLRequirement {
-  @IsEnum([commonConstants.requirementTypes.url])
+  @IsIn([commonConstants.requirementTypes.url])
   type: string;
 
   @ValidateNested()
@@ -76,7 +76,7 @@ export class CustomData {
 }
 
 export class CustomRequirement {
-  @IsEnum([commonConstants.requirementTypes.custom])
+  @IsIn([commonConstants.requirementTypes.custom])
   type: string;
 
   @ValidateNested()
@@ -88,7 +88,7 @@ export class CustomRequirement {
 // Cookie / Storage / Query
 // --------------------
 export class ComparatorWithValue {
-  @IsEnum([commonConstants.comparisons.is, commonConstants.comparisons.isNot, commonConstants.comparisons.contains, commonConstants.comparisons.doesNotContain])
+  @IsIn([commonConstants.comparisons.is, commonConstants.comparisons.isNot, commonConstants.comparisons.contains, commonConstants.comparisons.doesNotContain])
   comparator: string;
 
   @IsString()
@@ -99,7 +99,7 @@ export class ComparatorWithValue {
 }
 
 export class ComparatorWithoutValue {
-  @IsEnum([commonConstants.comparisons.exists, commonConstants.comparisons.doesNotExist])
+  @IsIn([commonConstants.comparisons.exists, commonConstants.comparisons.doesNotExist])
   comparator: string;
 
   @IsString()
@@ -116,7 +116,7 @@ export class CookieStorageQueryData {
 }
 
 export class CookieStorageQueryRequirement {
-  @IsEnum([
+  @IsIn([
     commonConstants.requirementTypes.cookie,
     commonConstants.requirementTypes.localStorage,
     commonConstants.requirementTypes.sessionStorage,
