@@ -1,8 +1,8 @@
 import { ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '@/types/domain';
+import commonConstants from '@/domain/constants';
+import type { TypeCampaign } from '@/domain/types';
 
 interface Props {
   requirement: TypeCampaign['requirements']['data']['children'][number];
@@ -10,8 +10,7 @@ interface Props {
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {
-  if (requirement.type !== 'url')
-    throw new Error('Type url expected in requirement');
+  if (requirement.type !== 'url') throw new Error('Type url expected in requirement');
 
   const { translation } = useTranslationContext();
   const comparatorPermittedValues = [
@@ -29,11 +28,8 @@ const Element = ({ setCampaign, requirement }: Props) => {
     });
   };
 
-  const handleOnChangeComparator = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const newComparator = event.target
-      .value as (typeof comparatorPermittedValues)[number];
+  const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newComparator = event.target.value as (typeof comparatorPermittedValues)[number];
     requirement.data.comparator = newComparator;
     setCampaign((campaign) => {
       return structuredClone(campaign);

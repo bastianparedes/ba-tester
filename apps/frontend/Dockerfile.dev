@@ -1,7 +1,10 @@
-FROM node:24.5.0
+FROM node:24
 
-WORKDIR /app
-COPY .. ..
+WORKDIR /app/frontend
+COPY ./frontend/package*.json ./
 RUN npm ci
+COPY ./frontend ./frontend
+COPY ./domain ./domain
+EXPOSE 3000
 
 CMD ["npm", "run", "dev"]

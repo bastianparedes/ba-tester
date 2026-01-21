@@ -6,9 +6,7 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [localState, setLocalState] = useState<T>(() => {
     try {
       const storedString = window.localStorage.getItem(key);
-      return storedString !== null
-        ? window.JSON.parse(storedString)
-        : initialValue;
+      return storedString !== null ? window.JSON.parse(storedString) : initialValue;
     } catch {
       return initialValue;
     }

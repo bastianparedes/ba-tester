@@ -1,6 +1,6 @@
-import constants from '@/config/constants';
-import type { TypeRole } from '@/types/domain';
+import { superAdminRoleName } from '@/domain/config';
+import type { TypeRole } from '@/domain/types';
 
 export const isRoleSuperAdmin = (role: TypeRole) => {
-  return role.name === constants.superAdminRoleName;
+  return role.name === superAdminRoleName;
 };

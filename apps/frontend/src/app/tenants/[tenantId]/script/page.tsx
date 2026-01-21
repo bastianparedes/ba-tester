@@ -1,8 +1,8 @@
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
-import { getBuiltScript } from '@/app/api/public/script/[tenantId]/util';
 import constants from '@/config/constants';
-import db from '@/libs/db';
+import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from './clientPage';
 
 type Props = {
@@ -14,21 +14,21 @@ type Props = {
 export default async function Page({ params: promiseParams }: Props) {
   const params = await promiseParams;
   const tenantId = Number(params.tenantId);
-  const url = constants.pages.apiScript({ tenantId });
-  const script = await getBuiltScript({ tenantId });
-  const tenant = await db.tenants.get({ tenantId });
-  if (!tenant) return redirect(constants.pages.tenants());
+
+  const headersList = await headers();
+  const cookies = headersList.get('cookie') as string;
+
+  const tenantResponse = await apiCaller.tenants.get({ headers: { Cookie: cookies }, pathParams: { tenantId } });
+  if (!tenantResponse.ok) return redirect(constants.pages.tenants());
+  const tenant = await tenantResponse.json();
+
+  const scriptResponse = await apiCaller.scripts.get({ pathParams: { tenantId } });
+  if (!scriptResponse.ok) return redirect(constants.pages.tenants());
+  const script = await scriptResponse.text();
 
   return (
-    <Navigation
-      tenant={tenant}
-      breadcrumb={[
-        { name: 'Tenants', path: constants.pages.tenants() },
-        { name: tenant.name },
-        { name: 'Campaigns' },
-      ]}
-    >
-      <ClientPage url={url} script={script} />
+    <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}>
+      <ClientPage url={`${process.env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/script/tenants/${tenantId}`} script={script} />
     </Navigation>
   );
 }

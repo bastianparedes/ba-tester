@@ -1,8 +1,8 @@
 import { ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '@/types/domain';
+import commonConstants from '@/domain/constants';
+import type { TypeCampaign } from '@/domain/types';
 
 interface Props {
   requirement: TypeCampaign['requirements']['data']['children'][number];
@@ -12,34 +12,21 @@ interface Props {
 const Element = ({ setCampaign, requirement }: Props) => {
   const { translation } = useTranslationContext();
 
-  if (requirement.type !== 'device')
-    throw new Error('Type device expected in requirement');
+  if (requirement.type !== 'device') throw new Error('Type device expected in requirement');
 
-  const comparatorPermittedValues = [
-    commonConstants.comparisons.is,
-    commonConstants.comparisons.isNot,
-  ];
-  const devicePermittedValues = [
-    commonConstants.devices.desktop,
-    commonConstants.devices.mobile,
-  ];
+  const comparatorPermittedValues = [commonConstants.comparisons.is, commonConstants.comparisons.isNot];
+  const devicePermittedValues = [commonConstants.devices.desktop, commonConstants.devices.mobile];
 
-  const handleOnChangeComparator = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const newComparator = event.target
-      .value as (typeof comparatorPermittedValues)[number];
+  const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newComparator = event.target.value as (typeof comparatorPermittedValues)[number];
     setCampaign((campaign) => {
       requirement.data.comparator = newComparator;
       return structuredClone(campaign);
     });
   };
 
-  const handleOnChangeDevice = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const newDevice = event.target
-      .value as (typeof devicePermittedValues)[number];
+  const handleOnChangeDevice = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newDevice = event.target.value as (typeof devicePermittedValues)[number];
     setCampaign((campaign) => {
       requirement.data.device = newDevice;
       return structuredClone(campaign);

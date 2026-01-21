@@ -21,16 +21,10 @@ export const ComponentLanguage = () => {
               key={language.key}
               type="button"
               onClick={() => handleSetLanguage(language.key)}
-              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-700 transition-colors text-left ${
-                selectedLanguage.key === language.key
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300'
-              }`}
+              className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-700 transition-colors text-left ${selectedLanguage.key === language.key ? 'bg-blue-600 text-white' : 'text-gray-300'}`}
             >
               <span className="font-medium">{language.name}</span>
-              {selectedLanguage.key === language.key && (
-                <span className="ml-auto">✓</span>
-              )}
+              {selectedLanguage.key === language.key && <span className="ml-auto">✓</span>}
             </button>
           ))}
         </div>

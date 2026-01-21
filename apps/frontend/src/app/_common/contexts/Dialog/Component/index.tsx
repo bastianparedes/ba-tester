@@ -45,22 +45,10 @@ export const DynamicDialog = () => {
     footer: undefined,
   };
 
-  const DialogComponents = data
-    ? dialogComponentsStrategies[data.type]
-    : dialogComponentsDefault;
-  const Content = DialogComponents.content ? (
-    <DialogComponents.content />
-  ) : null;
+  const DialogComponents = data ? dialogComponentsStrategies[data.type] : dialogComponentsDefault;
+  const Content = DialogComponents.content ? <DialogComponents.content /> : null;
   const Footer = DialogComponents.footer ? <DialogComponents.footer /> : null;
 
   if (!isOpen) return null;
-  return (
-    <Dialog
-      onClose={() => completeResolver(null)}
-      title={title}
-      description={description}
-      content={Content}
-      footer={Footer}
-    />
-  );
+  return <Dialog onClose={() => completeResolver(null)} title={title} description={description} content={Content} footer={Footer} />;
 };

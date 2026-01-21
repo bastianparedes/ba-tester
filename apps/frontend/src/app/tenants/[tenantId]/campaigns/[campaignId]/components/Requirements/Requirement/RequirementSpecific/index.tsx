@@ -1,15 +1,12 @@
-import commonConstants from '@/config/common/constants';
-import type { TypeCampaign } from '@/types/domain';
+import commonConstants from '@/domain/constants';
+import type { TypeCampaign } from '@/domain/types';
 import Custom from './Custom';
 import Device from './Device';
 import Storage from './Storage';
 import Url from './Url';
 
 interface Props {
-  requirement: Exclude<
-    TypeCampaign['requirements']['data']['children'][number],
-    { type: 'node' }
-  >;
+  requirement: Exclude<TypeCampaign['requirements']['data']['children'][number], { type: 'node' }>;
   setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
 }
 

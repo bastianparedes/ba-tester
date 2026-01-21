@@ -1,12 +1,12 @@
 import Monaco from '@monaco-editor/react';
 import { Pencil } from 'lucide-react';
-import type { editor } from 'monaco-editor';
 import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign, TypeTriggerData } from '@/types/domain';
+import type { TypeCampaign, TypeTriggerData } from '@/domain/types';
 
 import 'react-tabs/style/react-tabs.css';
+import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
 
 interface Props {
   trigger: TypeTriggerData & { type: 'custom' };
@@ -16,9 +16,6 @@ interface Props {
 const Editor = ({ setCampaign, trigger }: Props) => {
   const { translation } = useTranslationContext();
   const [showEditor, setShowEditor] = useState(false);
-  const [errors, setErrors] = useState<{ javascript: editor.IMarker[] }>({
-    javascript: [],
-  });
   const [javascript, setJavascript] = useState(trigger.data.javascript);
 
   const monacoConfig = {
@@ -33,9 +30,6 @@ const Editor = ({ setCampaign, trigger }: Props) => {
   const monacoJavascriptConfig = {
     onChange: (javascript: string | undefined) => {
       setJavascript(javascript ?? '');
-    },
-    onValidate: (errorsJavascript: editor.IMarker[]) => {
-      setErrors((errors) => ({ ...errors, javascript: errorsJavascript }));
     },
     value: javascript,
   };
@@ -55,30 +49,22 @@ const Editor = ({ setCampaign, trigger }: Props) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-        onClick={() => setShowEditor(true)}
-      >
+      <button type="button" className="p-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" onClick={() => setShowEditor(true)}>
         <Pencil size={20} />
       </button>
       {showEditor && (
         <Modal setModalVisible={() => onCloseModal()}>
           <div className="flex flex-col items-start gap-4 p-4">
             <button
+              disabled={!jsCodeHasCorrectSyntax(javascript)}
               type="button"
-              disabled={errors.javascript.length > 0}
               onClick={onSave}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:enabled:bg-blue-700 transition-colors disabled:opacity-80 disabled:cursor-not-allowed"
             >
               {translation.campaign.save}
             </button>
             <div className="w-[80vw] h-[80vh]">
-              <Monaco
-                {...monacoConfig}
-                {...monacoJavascriptConfig}
-                language="javascript"
-              />
+              <Monaco {...monacoConfig} {...monacoJavascriptConfig} language="javascript" />
             </div>
           </div>
         </Modal>

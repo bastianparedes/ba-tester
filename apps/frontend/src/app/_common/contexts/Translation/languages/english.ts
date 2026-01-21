@@ -9,8 +9,7 @@ const labels = {
     tenants: 'Tenants',
     createTenant: '+ New Tenant',
     noTenants: 'No tenants found',
-    noTenantsDescription:
-      'Start by creating your first tenant to manage your A/B tests',
+    noTenantsDescription: 'Start by creating your first tenant to manage your A/B tests',
     name: 'Name',
     description: 'Description',
     domain: 'Domain',

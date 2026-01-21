@@ -1,5 +1,4 @@
 import type React from 'react';
-import constants from '@/config/constants';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -13,7 +12,7 @@ export default async function RootLayout(props: LayoutProps) {
   return (
     <html lang="es-ES">
       <head>
-        <script async src={constants.pages.apiScript({ tenantId })}></script>
+        <script async src={`${process.env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/script/tenants/${tenantId}`}></script>
       </head>
       <body>{props.children}</body>
     </html>

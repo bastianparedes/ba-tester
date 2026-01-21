@@ -12,7 +12,7 @@ export default defineConfig({
         script: path.join(process.cwd(), 'prepare', 'script.ts'),
       },
       output: {
-        dir: path.join(process.cwd(), 'dist'),
+        dir: path.join(process.cwd(), 'build'),
         entryFileNames: 'script.js',
         format: 'umd',
       },

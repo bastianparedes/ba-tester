@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
-import constants from '@/config/constants';
+import { cookieNames } from '@/domain/config';
 import cookie from '@/utils/cookie';
 import languagesObject from './languages';
 
@@ -22,27 +22,20 @@ type TranslationContextType = {
   };
   setLanguage: (arg: Language) => void;
 };
-const TranslationContext = createContext<TranslationContextType | undefined>(
-  undefined,
-);
+const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
 
 type TranslationProviderProps = {
   children: React.ReactNode;
   language: string;
 };
-export function TranslationProvider({
-  children,
-  language,
-}: TranslationProviderProps) {
-  const initialLanguage: Language = languageKeys.includes(language as Language)
-    ? (language as Language)
-    : 'english';
+export function TranslationProvider({ children, language }: TranslationProviderProps) {
+  const initialLanguage: Language = languageKeys.includes(language as Language) ? (language as Language) : 'english';
   const [selectedLanguage, setSelectedLanguage] = useState(initialLanguage);
 
   const setLanguage = (newLanguage: Language) => {
     setSelectedLanguage(newLanguage);
     cookie.set({
-      name: constants.cookieNames.lang,
+      name: cookieNames.lang,
       value: newLanguage,
       exdays: 365,
     });
@@ -76,9 +69,6 @@ export function TranslationProvider({
 
 export const useTranslationContext = () => {
   const ctx = useContext(TranslationContext);
-  if (!ctx)
-    throw new Error(
-      'useTranslationContext must be used inside TranslationProvider',
-    );
+  if (!ctx) throw new Error('useTranslationContext must be used inside TranslationProvider');
   return ctx;
 };

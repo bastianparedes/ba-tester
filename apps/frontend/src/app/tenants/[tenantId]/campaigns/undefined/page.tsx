@@ -1,8 +1,9 @@
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
-import commonConstants from '@/config/common/constants';
 import constants from '@/config/constants';
-import db from '@/libs/db';
+import commonConstants from '@/domain/constants';
+import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from '../[campaignId]/clientPage';
 
 type PageProps = {
@@ -14,8 +15,11 @@ const Page = async (props: PageProps) => {
   const params = await props.params;
   const tenantId = Number(params.tenantId);
 
-  const tenant = await db.tenants.get({ tenantId });
-  if (!tenant) return redirect(constants.pages.tenants());
+  const headersList = await headers();
+  const cookies = headersList.get('cookie') as string;
+  const tenantResponse = await apiCaller.tenants.get({ headers: { Cookie: cookies }, pathParams: { tenantId } });
+  if (!tenantResponse.ok) return redirect(constants.pages.tenants());
+  const tenant = await tenantResponse.json();
 
   return (
     <Navigation

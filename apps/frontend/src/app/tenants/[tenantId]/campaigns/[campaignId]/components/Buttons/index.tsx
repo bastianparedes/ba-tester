@@ -1,8 +1,8 @@
 import { Button } from '@/app/_common/components/button';
 import { useUser } from '@/app/_common/contexts/User';
-import api from '@/app/api';
 import constants from '@/config/constants';
-import type { TypeCampaign } from '@/types/domain';
+import type { TypeCampaign } from '@/domain/types';
+import { apiCaller } from '@/libs/restClient';
 
 interface Props {
   campaign: TypeCampaign;
@@ -19,12 +19,12 @@ const Buttons = ({ campaign }: Props) => {
 
   const handleOnSave = async () => {
     if (campaign.id === undefined) {
-      await api.campaigns.create({
+      await apiCaller.campaigns.create({
         pathParams: { tenantId: campaign.tenantId },
         body: campaign,
       });
     } else {
-      await api.campaign.update({
+      await apiCaller.campaigns.update({
         pathParams: { tenantId: campaign.tenantId, campaignId: campaign.id },
         body: campaign,
       });
@@ -38,10 +38,7 @@ const Buttons = ({ campaign }: Props) => {
         Cancel
       </Button>
       <Button
-        disabled={
-          (isNewCampaign && !user.permissions.canCreateCampaign) ||
-          (!isNewCampaign && !user.permissions.canUpdateCampaign)
-        }
+        disabled={(isNewCampaign && !user.permissions.canCreateCampaign) || (!isNewCampaign && !user.permissions.canUpdateCampaign)}
         onClick={handleOnSave}
         variant="default"
       >
