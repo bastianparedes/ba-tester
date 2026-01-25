@@ -12,7 +12,7 @@
     "prestart:dev": "webpack",
     "start:dev": "NODE_ENV=development nest start --watch",
     "start:debug": "npm run start:dev -- --debug ",
-    "start:prod": "node dist/main",
+    "start:prod": "webpack && NODE_ENV=production node dist/main",
     "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/services/db.service/postgres/schema.ts --out=./src/services/db.service/postgres/migrations",
     "postinstall": "webpack"
   },
