@@ -1,7 +1,7 @@
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import * as cookie from 'cookie';
 import { Server, Socket } from 'socket.io';
-import { AuthService } from 'src/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @WebSocketGateway({
   namespace: '/gateways/campaigns',
