@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prebuild": "vite build",
+    "prebuild": "webpack",
     "build": "nest build",
     "start": "NODE_ENV=production nest start",
     "prestart:dev": "vite build",
