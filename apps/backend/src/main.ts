@@ -1,8 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
+import { RedisIoAdapter } from './adapters/redis-socket-io';
 import { AppModule } from './app.module';
-import { RedisIoAdapter } from './libs/redis-adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
