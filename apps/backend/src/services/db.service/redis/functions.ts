@@ -1,29 +1,19 @@
 import client from './client';
 
 /* ============================================================
- * Utils
- * ============================================================ */
-
-const minutes = (n: number) => n * 60;
-
-/* ============================================================
  * Generic cache helpers
  * ============================================================ */
 
 const cache = {
-  async set(key: string, value: string, ttlMinutes?: number) {
+  async set({ key, value, minutes }: { key: string; value: string; minutes: number }) {
     try {
-      if (ttlMinutes) {
-        await client.set(key, value, { EX: minutes(ttlMinutes) });
-      } else {
-        await client.set(key, value);
-      }
+      await client.set(key, value, { EX: minutes * 60 });
     } catch (err) {
       console.error('Redis SET error:', err);
     }
   },
 
-  async get(key: string) {
+  async get({ key }: { key: string }) {
     try {
       return await client.get(key);
     } catch (err) {
@@ -32,7 +22,7 @@ const cache = {
     }
   },
 
-  async del(key: string) {
+  async del({ key }: { key: string }) {
     try {
       await client.del(key);
     } catch (err) {
@@ -48,11 +38,12 @@ const cache = {
 export const scripts = {
   async save({ tenantId, code }: { tenantId: number; code: string }) {
     const key = `tenant:${tenantId}:public_script`;
-    await cache.set(key, code, 10);
+    const minutes = 0.1;
+    await cache.set({ key, value: code, minutes });
   },
 
   async get({ tenantId }: { tenantId: number }) {
     const key = `tenant:${tenantId}:public_script`;
-    return cache.get(key);
+    return cache.get({ key });
   },
 };

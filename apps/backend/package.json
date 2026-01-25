@@ -6,15 +6,14 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prebuild": "webpack",
+    "prebuild": "vite build",
     "build": "nest build",
-    "start": "webpack && NODE_ENV=production nest start",
-    "prestart:dev": "webpack",
+    "start": "NODE_ENV=production nest start",
+    "prestart:dev": "vite build",
     "start:dev": "NODE_ENV=development nest start --watch",
     "start:debug": "npm run start:dev -- --debug ",
-    "start:prod": "webpack && NODE_ENV=production node dist/main",
-    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/services/db.service/postgres/schema.ts --out=./src/services/db.service/postgres/migrations",
-    "postinstall": "webpack"
+    "start:prod": "NODE_ENV=production node dist/backend/src/main",
+    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/services/db.service/postgres/schema.ts --out=./src/services/db.service/postgres/migrations"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.12",
@@ -37,6 +36,7 @@
     "rxjs": "^7.8.2",
     "socket.io": "^4.8.3",
     "terser": "^5.46.0",
+    "vite": "^7.3.1",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1"
   },

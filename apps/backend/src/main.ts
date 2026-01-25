@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import { RedisIoAdapter } from './adapters/redis-socket-io';
 import { AppModule } from './app.module';
+import { env } from './libs/env';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,6 @@ async function bootstrap() {
     origin: true,
     credentials: true,
   });
-  await app.listen(4000);
+  await app.listen(env.PORT);
 }
 bootstrap();

@@ -51,6 +51,10 @@ class ConfigDto {
 
   @IsInt()
   @Type(() => Number)
+  PORT: number = 4000;
+
+  @IsInt()
+  @Type(() => Number)
   SALT_ROUNDS: number;
 
   @IsArray()
@@ -71,6 +75,7 @@ class ConfigDto {
 
 export const env = plainToInstance(ConfigDto, {
   NODE_ENV: (process.env.NODE_ENV || 'development') as 'development' | 'test' | 'production',
+  PORT: process.env.PORT || 4000,
   DOMAIN: process.env.DOMAIN,
   JWT_SECRET: process.env.JWT_SECRET,
   DATABASE_URL_POSTGRES: process.env.DATABASE_URL_POSTGRES,

@@ -2,32 +2,21 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  assetsInclude: [],
   build: {
-    copyPublicDir: false,
-    emptyOutDir: false,
-    minify: 'terser',
+    outDir: 'build',
     rollupOptions: {
-      input: {
-        script: path.join(process.cwd(), 'prepare', 'script.ts'),
-      },
+      input: path.resolve(process.cwd(), 'src/script/index.ts'),
       output: {
-        dir: path.join(process.cwd(), 'build'),
         entryFileNames: 'script.js',
-        format: 'umd',
       },
     },
   },
-  cacheDir: 'node_modules/.vite',
-  plugins: [
-    {
-      enforce: 'pre',
-      exclude: /node_modules/,
-      test: /\.(js|ts|jsx|tsx)$/,
-      use: 'ts-loader',
-    },
-  ],
+
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@/domain': path.resolve(process.cwd(), '..', 'domain'),
+      '@': path.resolve(process.cwd(), 'src'),
+    },
+    extensions: ['.ts', '.js'],
   },
 });

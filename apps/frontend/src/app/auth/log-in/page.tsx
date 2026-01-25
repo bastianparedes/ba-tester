@@ -14,7 +14,12 @@ export default function Page() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>();
+  } = useForm<LoginFormData>({
+    defaultValues: {
+      email: 'test@outlook.com',
+      password: 'test123',
+    },
+  });
 
   const onSubmit = async (data: LoginFormData) => {
     const apiResponse = await apiCaller.sessions.logIn({
