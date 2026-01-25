@@ -1,0 +1,72 @@
+import { UnauthorizedException } from '@nestjs/common';
+import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import * as cookie from 'cookie';
+import { Server, Socket } from 'socket.io';
+import { AuthService } from 'src/services/auth.service';
+
+@WebSocketGateway({
+  namespace: '/gateways/campaigns',
+  cors: { origin: '*' },
+})
+export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
+  constructor(private readonly authService: AuthService) {}
+
+  @WebSocketServer()
+  server: Server;
+
+  getRoomId({ tenantId, campaignId }: { tenantId: number; campaignId: number }) {
+    return `tenantId:${tenantId}-campaignId:${campaignId}`;
+  }
+
+  async handleConnection(client: Socket) {
+    const { tenantId, campaignId } = client.handshake.auth;
+
+    const cookies = cookie.parse(client.handshake.headers.cookie || '');
+    const user = await this.authService.getUserFromToken(cookies);
+    if (!user) throw new UnauthorizedException();
+
+    client.data.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+
+    const roomId = this.getRoomId({ tenantId, campaignId });
+    await client.join(roomId);
+    const sockets = await this.server.in(roomId).fetchSockets();
+
+    const users = sockets.map((s) => ({
+      id: s.data.user.id,
+      name: s.data.user.name,
+    }));
+
+    this.server.to(roomId).emit('update-users-watching-campaign', users);
+  }
+
+  @SubscribeMessage('user-updated-campaign')
+  async handleCampaignMessage(
+    @MessageBody()
+    payload: { tenantId: number; campaignId: number; user: { id: string; name: string; email: string } },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const user = client.data.user;
+    const { tenantId, campaignId } = payload;
+    const roomId = this.getRoomId({ tenantId, campaignId });
+    this.server.to(roomId).emit('user-updated-campaign', user);
+  }
+
+  async handleDisconnect(client: Socket) {
+    const { tenantId, campaignId } = client.handshake.auth;
+    const roomId = this.getRoomId({ tenantId, campaignId });
+    await client.leave(roomId);
+
+    const sockets = await this.server.in(roomId).fetchSockets();
+
+    const users = sockets.map((s) => ({
+      id: s.data.user.id,
+      name: s.data.user.name,
+    }));
+
+    this.server.to(roomId).emit('update-users-watching-campaign', users);
+  }
+}

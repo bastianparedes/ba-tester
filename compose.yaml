@@ -62,7 +62,7 @@ services:
       DATABASE_URL_REDIS: "redis://db-redis:6379"
       DATABASE_URL_MONGODB: "mongodb://admin:12345678@db-mongodb:27017/db?authSource=admin"
       SALT_ROUNDS: 1
-      SUPER_ADMINS: '[{ "name": "Bastian", "email": "bastian.p@outlook.com", "password": "abc" }, { "name": "Bastian", "email": "bparedesp@falabella.com", "password": "abc" }]'
+      SUPER_ADMINS: '[{ "name": "BPersonal", "email": "bastian.p@outlook.com", "password": "abc" }, { "name": "BTrabajo", "email": "bparedesp@falabella.cl", "password": "abc" }]'
     ports:
       - "4000:4000"
     depends_on:

@@ -64,8 +64,7 @@ export class ScriptController {
   @Header('Content-Type', 'text/javascript; charset=utf-8')
   @Header('Access-Control-Allow-Origin', '*')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<string> {
-    const cacheKey = `tenant_${tenantId}_public_script`;
-    const cachedScript = await this.dbService.cache.get(cacheKey);
+    const cachedScript = await this.dbService.cache.scripts.get({ tenantId });
     if (cachedScript && env.NODE_ENV === 'development') return cachedScript;
 
     const fileExists = fs.existsSync(path.join(process.cwd(), 'build', 'script.js'));
@@ -116,7 +115,7 @@ export class ScriptController {
     if (!result.code) throw new InternalServerErrorException();
     const minifiedJs = result.code;
 
-    await this.dbService.cache.save({ key: cacheKey, value: minifiedJs, ttlMinutes: 1 });
+    await this.dbService.cache.scripts.save({ tenantId, code: minifiedJs });
     return minifiedJs;
   }
 }

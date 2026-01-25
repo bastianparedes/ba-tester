@@ -41,7 +41,7 @@ const Page = async (props: PageProps) => {
         },
       ]}
     >
-      <ClientPage initialCampaign={initialCampaign} />
+      <ClientPage initialCampaign={initialCampaign} tenantId={tenantId} campaignId={campaignId} />
     </Navigation>
   );
 };
