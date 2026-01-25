@@ -1,9 +1,15 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useLoaderStore } from './state';
 
 export const Loader = () => {
   const counter = useLoaderStore((state) => state.counter);
+  const hideLoader = useLoaderStore((state) => state.hideLoader);
+
+  useEffect(() => {
+    hideLoader();
+  }, []);
 
   if (counter === 0) return null;
 

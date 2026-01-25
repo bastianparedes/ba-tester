@@ -7,7 +7,7 @@ type LoaderStore = {
 };
 
 export const useLoaderStore = create<LoaderStore>((set) => ({
-  counter: 0,
+  counter: 1,
   showLoader: () => set((state) => ({ counter: state.counter + 1 })),
   hideLoader: () => set((state) => ({ counter: Math.max(state.counter - 1, 0) })),
 }));
