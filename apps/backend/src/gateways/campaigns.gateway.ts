@@ -1,4 +1,3 @@
-import { UnauthorizedException } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import * as cookie from 'cookie';
 import { Server, Socket } from 'socket.io';
@@ -23,7 +22,10 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     const cookies = cookie.parse(client.handshake.headers.cookie || '');
     const user = await this.authService.getUserFromToken(cookies);
-    if (!user) throw new UnauthorizedException();
+    if (!user) {
+      client.disconnect(true);
+      return;
+    }
 
     client.data.user = {
       id: user.id,

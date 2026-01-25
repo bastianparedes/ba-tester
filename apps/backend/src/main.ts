@@ -14,7 +14,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(redisAdapter);
 
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: true,
     credentials: true,
   });
   await app.listen(4000);

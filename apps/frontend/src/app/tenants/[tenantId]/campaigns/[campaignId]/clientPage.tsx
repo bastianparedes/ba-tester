@@ -6,6 +6,7 @@ import { io, type Socket } from 'socket.io-client';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
 import type { TypeCampaign } from '@/domain/types';
+import { env } from '@/libs/env';
 import Buttons from './components/Buttons';
 import { LiveViewersNavbar } from './components/LiveViewersBar';
 import Requirements from './components/Requirements';
@@ -26,7 +27,7 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
   const [userMadeChange, setUserMadeChange] = useState<{ id: string; name: string; date: Date } | null>(null);
 
   useEffect(() => {
-    const socket = io('ws://localhost:4000/gateways/campaigns', {
+    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/campaigns`, {
       auth: {
         tenantId,
         campaignId,
