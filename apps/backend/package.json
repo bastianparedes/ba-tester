@@ -1,43 +1,42 @@
 {
   "name": "backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "author": "Bastián Gabriel Paredes Padget",
   "scripts": {
-    "prebuild": "webpack",
+    "postbuild": "vite build",
     "build": "nest build",
-    "start": "webpack && NODE_ENV=production nest start",
-    "prestart:dev": "webpack",
+    "start": "NODE_ENV=production nest start",
+    "prestart:dev": "vite build",
     "start:dev": "NODE_ENV=development nest start --watch",
     "start:debug": "npm run start:dev -- --debug ",
-    "start:prod": "node dist/main",
-    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/services/db.service/postgres/schema.ts --out=./src/services/db.service/postgres/migrations",
-    "postinstall": "webpack"
+    "start:prod": "NODE_ENV=production node dist/main",
+    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/services/db.service/postgres/schema.ts --out=./src/services/db.service/postgres/migrations"
   },
   "dependencies": {
+    "@nestjs/cli": "^11.0.16",
     "@nestjs/common": "^11.1.12",
     "@nestjs/core": "^11.1.12",
     "@nestjs/platform-express": "^11.1.12",
+    "@nestjs/platform-socket.io": "^11.1.12",
+    "@nestjs/websockets": "^11.1.12",
+    "@socket.io/redis-adapter": "^8.3.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
+    "cookie": "^1.1.1",
     "cookie-parser": "^1.4.7",
     "drizzle-orm": "^0.45.1",
-    "envalid": "^8.1.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.4",
     "pg": "^8.17.1",
     "redis": "^5.10.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
+    "socket.io": "^4.8.3",
     "terser": "^5.46.0",
-    "webpack": "^5.104.1",
-    "webpack-cli": "^6.0.1"
+    "vite": "^7.3.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.16",
     "@nestjs/schematics": "^11.0.9",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
@@ -47,9 +46,6 @@
     "@types/pg": "^8.16.0",
     "drizzle-kit": "^0.31.8",
     "source-map-support": "^0.5.21",
-    "ts-loader": "^9.5.4",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   }
 }

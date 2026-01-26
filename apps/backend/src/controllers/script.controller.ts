@@ -1,11 +1,11 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import { Controller, Get, Header, InternalServerErrorException, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
 import { minify } from 'terser';
 import commonConstants from '../../../domain/constants';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
 import type { TypeCampaignScript } from '../../../domain/types/script';
 import { env } from '../libs/env';
+import { getScriptLocation } from '../libs/script';
 import { DbService } from '../services/db.service';
 
 const stringifyWithFunctions = (obj: unknown, indent = 2): string => {
@@ -64,11 +64,11 @@ export class ScriptController {
   @Header('Content-Type', 'text/javascript; charset=utf-8')
   @Header('Access-Control-Allow-Origin', '*')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<string> {
-    const cacheKey = `tenant_${tenantId}_public_script`;
-    const cachedScript = await this.dbService.cache.get(cacheKey);
+    const cachedScript = await this.dbService.cache.scripts.get({ tenantId });
     if (cachedScript && env.NODE_ENV === 'development') return cachedScript;
 
-    const fileExists = fs.existsSync(path.join(process.cwd(), 'build', 'script.js'));
+    const scriptLocation = getScriptLocation();
+    const fileExists = fs.existsSync(scriptLocation);
     if (!fileExists) throw new InternalServerErrorException();
 
     const campaigns = await this.dbService.campaigns.getAllForScript({ tenantId });
@@ -104,7 +104,7 @@ export class ScriptController {
     });
 
     const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {}\n;window.${commonConstants.windowKey}.campaignsData = ${stringifyWithFunctions(campaignsWithFunctions)};`;
-    const script = fs.readFileSync(path.join(process.cwd(), 'build', 'script.js'), 'utf-8');
+    const script = fs.readFileSync(scriptLocation, 'utf-8');
     const fullScript = stringWindow + script;
     const result = await minify(fullScript, {
       compress: true,
@@ -116,7 +116,7 @@ export class ScriptController {
     if (!result.code) throw new InternalServerErrorException();
     const minifiedJs = result.code;
 
-    await this.dbService.cache.save({ key: cacheKey, value: minifiedJs, ttlMinutes: 1 });
+    await this.dbService.cache.scripts.save({ tenantId, code: minifiedJs });
     return minifiedJs;
   }
 }

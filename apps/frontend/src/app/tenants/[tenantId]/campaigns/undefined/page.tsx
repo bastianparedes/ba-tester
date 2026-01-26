@@ -47,6 +47,8 @@ const Page = async (props: PageProps) => {
           triggers: [],
           variations: [],
         }}
+        tenantId={tenantId}
+        campaignId={undefined}
       />
     </Navigation>
   );

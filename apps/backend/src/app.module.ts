@@ -6,6 +6,7 @@ import { RolesController } from './controllers/roles.controller';
 import { ScriptController } from './controllers/script.controller';
 import { TenantsController } from './controllers/tenants.controller';
 import { UsersController } from './controllers/users.controller';
+import { EventsGateway } from './gateways/campaigns.gateway';
 import { AuthService } from './services/auth.service';
 import { DbService } from './services/db.service';
 import { InitializeService } from './services/initialize/initialize.service';
@@ -13,6 +14,6 @@ import { InitializeService } from './services/initialize/initialize.service';
 @Module({
   imports: [],
   controllers: [AuthController, ScriptController, RolesController, CampaignsController, TenantsController, UsersController, HealthController],
-  providers: [DbService, AuthService, InitializeService],
+  providers: [DbService, AuthService, InitializeService, EventsGateway],
 })
 export class AppModule {}

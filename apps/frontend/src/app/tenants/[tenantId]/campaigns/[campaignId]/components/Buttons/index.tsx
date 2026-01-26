@@ -6,9 +6,11 @@ import { apiCaller } from '@/libs/restClient';
 
 interface Props {
   campaign: TypeCampaign;
+  userMadeChange: { id: string; name: string; date: Date } | null;
+  notifyUsersCampaignWasUpdated: () => void;
 }
 
-const Buttons = ({ campaign }: Props) => {
+const Buttons = ({ campaign, userMadeChange, notifyUsersCampaignWasUpdated }: Props) => {
   const user = useUser();
 
   const isNewCampaign = campaign.id === undefined;
@@ -24,6 +26,7 @@ const Buttons = ({ campaign }: Props) => {
         body: campaign,
       });
     } else {
+      notifyUsersCampaignWasUpdated();
       await apiCaller.campaigns.update({
         pathParams: { tenantId: campaign.tenantId, campaignId: campaign.id },
         body: campaign,
@@ -38,7 +41,7 @@ const Buttons = ({ campaign }: Props) => {
         Cancel
       </Button>
       <Button
-        disabled={(isNewCampaign && !user.permissions.canCreateCampaign) || (!isNewCampaign && !user.permissions.canUpdateCampaign)}
+        disabled={(isNewCampaign && !user.permissions.canCreateCampaign) || (!isNewCampaign && !user.permissions.canUpdateCampaign) || !!userMadeChange}
         onClick={handleOnSave}
         variant="default"
       >

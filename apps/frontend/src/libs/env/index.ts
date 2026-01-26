@@ -1,4 +1,4 @@
-import { cleanEnv, str } from 'envalid';
-export default cleanEnv(process.env, {
-  NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE: str(),
-});
+export const env = {
+  NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE: process.env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE,
+  NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE: process.env.NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE,
+};

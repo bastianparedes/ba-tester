@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
+import { env } from '@/libs/env';
 import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from './clientPage';
 
@@ -28,7 +29,7 @@ export default async function Page({ params: promiseParams }: Props) {
 
   return (
     <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}>
-      <ClientPage url={`${process.env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/script/tenants/${tenantId}`} script={script} />
+      <ClientPage url={`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/script/tenants/${tenantId}`} script={script} />
     </Navigation>
   );
 }

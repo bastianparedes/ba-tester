@@ -15,7 +15,6 @@
     "@monaco-editor/react": "^4.7.0",
     "@mui/material": "^7.3.7",
     "class-variance-authority": "^0.7.1",
-    "envalid": "^8.1.1",
     "lucide-react": "^0.562.0",
     "monaco-editor": "^0.55.1",
     "next": "16.1.1",
@@ -23,6 +22,7 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.70.0",
     "react-tabs": "^6.1.0",
+    "socket.io-client": "^4.8.3",
     "zod": "^4.3.5",
     "zustand": "^5.0.9"
   },
