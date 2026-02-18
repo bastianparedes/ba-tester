@@ -11,11 +11,10 @@ import { DbRepository } from './repositories/db.repository';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
 import { DbService } from './services/db.service';
-import { InitializeService } from './services/initialize/initialize.service';
 
 @Module({
   imports: [],
   controllers: [AuthController, ScriptController, RolesController, CampaignsController, TenantsController, UsersController, HealthController],
-  providers: [DbRepository, DbService, CacheService, AuthService, InitializeService, EventsGateway],
+  providers: [DbRepository, DbService, CacheService, AuthService, EventsGateway],
 })
 export class AppModule {}
