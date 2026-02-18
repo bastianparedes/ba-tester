@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: db
     volumes:
-      - ./apps/backend/src/services/db.service/postgres/migrations:/docker-entrypoint-initdb.d
+      - ./apps/backend/src/repositories/db.repository/postgres/migrations:/docker-entrypoint-initdb.d
 
   db-redis:
     tty: true

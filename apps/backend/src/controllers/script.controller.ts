@@ -4,8 +4,8 @@ import { minify } from 'terser';
 import commonConstants from '../../../domain/constants';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
 import type { TypeCampaignScript } from '../../../domain/types/script';
-import { env } from '../libs/env';
 import { getScriptLocation } from '../libs/script';
+import { CacheService } from '../services/cache.service';
 import { DbService } from '../services/db.service';
 
 const stringifyWithFunctions = (obj: unknown, indent = 2): string => {
@@ -58,14 +58,17 @@ const migrateRequirementsFromStringToFunction = (requirement: TypeNodeRequiremen
 
 @Controller('public/script/tenants')
 export class ScriptController {
-  constructor(private readonly dbService: DbService) {}
+  constructor(
+    private readonly dbService: DbService,
+    private readonly cacheService: CacheService,
+  ) {}
 
   @Get(':tenantId')
   @Header('Content-Type', 'text/javascript; charset=utf-8')
   @Header('Access-Control-Allow-Origin', '*')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<string> {
-    const cachedScript = await this.dbService.cache.scripts.get({ tenantId });
-    if (cachedScript && env.NODE_ENV === 'development') return cachedScript;
+    const cachedScript = await this.cacheService.scripts.get({ tenantId });
+    if (cachedScript) return cachedScript;
 
     const scriptLocation = getScriptLocation();
     const fileExists = fs.existsSync(scriptLocation);
@@ -116,7 +119,7 @@ export class ScriptController {
     if (!result.code) throw new InternalServerErrorException();
     const minifiedJs = result.code;
 
-    await this.dbService.cache.scripts.save({ tenantId, code: minifiedJs });
+    await this.cacheService.scripts.save({ tenantId, code: minifiedJs });
     return minifiedJs;
   }
 }
