@@ -15,6 +15,6 @@ import { DbService } from './services/db.service';
 @Module({
   imports: [],
   controllers: [AuthController, ScriptController, RolesController, CampaignsController, TenantsController, UsersController, HealthController],
-  providers: [DbRepository, DbService, CacheService, AuthService, EventsGateway],
+  providers: [DbRepository, DbService, ScriptService, CacheService, AuthService, EventsGateway],
 })
 export class AppModule {}
