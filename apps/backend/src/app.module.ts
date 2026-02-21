@@ -11,6 +11,7 @@ import { DbRepository } from './repositories/db.repository';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
 import { DbService } from './services/db.service';
+import { ScriptService } from './services/script.service';
 
 @Module({
   imports: [],
