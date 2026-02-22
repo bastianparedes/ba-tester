@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import type { TypeTenant } from '../../../../../../domain/types';
+import type { TypeTenant } from '../../../../../domain/types';
 import db from '../client';
 import * as schema from '../schema';
 

@@ -60,7 +60,10 @@ export class CampaignDto {
 
 @Controller('tenants/:tenantId/campaigns')
 export class CampaignsController {
-  constructor(private readonly dbService: DbService, readonly scriptService: ScriptService) {}
+  constructor(
+    private readonly dbService: DbService,
+    readonly scriptService: ScriptService,
+  ) {}
 
   @UseGuards(AuthGuard(permissions.campaign.read))
   @Get()

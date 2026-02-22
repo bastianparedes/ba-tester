@@ -1,5 +1,5 @@
-import type { TypeUser } from '../../../../../../domain/types';
-import { getPasswordHashed } from '../../../../libs/auth/password';
+import type { TypeUser } from '../../../../../domain/types';
+import { getPasswordHashed } from '../../../libs/auth/password';
 import { connect } from '../client';
 import Roles, { type IRole } from '../models/Role';
 import Users from '../models/User';

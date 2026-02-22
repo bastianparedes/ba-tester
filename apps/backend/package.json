@@ -10,7 +10,7 @@
     "start:dev": "NODE_ENV=development nest start --watch",
     "start:debug": "npm run start:dev -- --debug ",
     "start:prod": "NODE_ENV=production node dist/main",
-    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/repositories/db.repository/postgres/schema.ts --out=./src/repositories/db.repository/postgres/migrations"
+    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/repositories/postgres/schema.ts --out=./src/repositories/postgres/migrations"
   },
   "dependencies": {
     "@nestjs/cli": "^11.0.16",

@@ -1,5 +1,5 @@
 import importedMongoose from 'mongoose';
-import { env } from '../../../libs/env';
+import { env } from '../../libs/env';
 
 declare global {
   var mongoose: {

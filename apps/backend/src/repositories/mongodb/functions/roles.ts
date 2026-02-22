@@ -1,4 +1,4 @@
-import type { TypeRole } from '../../../../../../domain/types';
+import type { TypeRole } from '../../../../../domain/types';
 import { connect } from '../client';
 import Roles from '../models/Role';
 import Users from '../models/User';
