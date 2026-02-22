@@ -2,6 +2,7 @@ import type {
   TypeBooleanOperator,
   TypeDeviceType,
   TypeDirection,
+  TypeExecutionStrategy,
   TypeLimitType,
   TypeNodeType,
   TypeNumericComparator,
@@ -96,6 +97,7 @@ const campaignRequirements = [
 ] satisfies Exclude<TypeRequirementType, 'node'>[];
 
 const windowKey = 'ba_tester';
+const executionStrategies = ['execute_all', 'execute_first', 'execute_random'] as const satisfies TypeExecutionStrategy[];
 
 const constants = Object.freeze({
   booleanOperators,
@@ -112,6 +114,7 @@ const constants = Object.freeze({
   triggers,
   typeRepetitions,
   windowKey,
+  executionStrategies,
 });
 
 export default constants;

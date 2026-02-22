@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 import { apiCaller } from '@/libs/restClient';
-import { getIsUserSuperAdmin, getUserPermissions, type TypeFullUser } from './helper';
+import { getUserPermissions, type TypeFullUser } from './helper';
 
 export const getUserFromCookies = async (): Promise<TypeFullUser> => {
   const headersList = await headers();
@@ -10,7 +10,6 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
     return {
       isLogedIn: false,
       data: null,
-      isSuperAdmin: false,
       rawPermissions: [],
       permissions: {
         canReadRole: false,
@@ -31,10 +30,6 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
         canReadCampaign: false,
         canCreateCampaign: false,
         canUpdateCampaign: false,
-
-        canCreateSuperAdmin: false,
-        canUpdateSuperAdmin: false,
-        canDeleteSuperAdmin: false,
       },
     };
 
@@ -43,7 +38,6 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
   return {
     isLogedIn: true,
     data: user,
-    isSuperAdmin: getIsUserSuperAdmin(user),
     rawPermissions: user.role.permissions,
     permissions: getUserPermissions(user),
   };

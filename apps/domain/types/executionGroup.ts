@@ -1,4 +1,4 @@
-import { TypeExecutionStrategy } from './constants';
+import { TypeExecutionStrategy } from '.';
 
 export type ExecutionGroup = {
   id: number;

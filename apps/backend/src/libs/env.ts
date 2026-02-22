@@ -1,30 +1,5 @@
-import { plainToInstance, Transform, Type } from 'class-transformer';
-import { IsArray, IsEmail, IsInt, IsNotEmpty, IsString, MinLength, Validate, ValidatorConstraint, ValidatorConstraintInterface, validateSync } from 'class-validator';
-
-class SuperAdmin {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  @MinLength(6)
-  password: string;
-}
-
-@ValidatorConstraint({ name: 'UniqueEmails', async: false })
-class UniqueEmailsConstraint implements ValidatorConstraintInterface {
-  validate(users: SuperAdmin[]) {
-    const emails = users.map((u) => u.email);
-    return new Set(emails).size === emails.length;
-  }
-
-  defaultMessage() {
-    return 'SUPER_ADMINS must have unique emails';
-  }
-}
+import { plainToInstance, Type } from 'class-transformer';
+import { IsInt, IsNotEmpty, IsString, validateSync } from 'class-validator';
 
 class ConfigDto {
   @IsString()
@@ -57,20 +32,13 @@ class ConfigDto {
   @Type(() => Number)
   SALT_ROUNDS: number;
 
-  @IsArray()
-  @Validate(UniqueEmailsConstraint)
-  @Transform(({ value }) => {
-    try {
-      const parsed = JSON.parse(value);
-      if (!Array.isArray(parsed)) {
-        throw new Error();
-      }
-      return plainToInstance(SuperAdmin, parsed);
-    } catch {
-      throw new Error('SUPER_ADMINS must be a valid JSON array with at least two users, each with name, email, and password');
-    }
-  })
-  SUPER_ADMINS: SuperAdmin[];
+  @IsString()
+  @IsNotEmpty()
+  SUPER_ADMIN_EMAIL: string;
+
+  @IsString()
+  @IsNotEmpty()
+  SUPER_ADMIN_PASSWORD: string;
 }
 
 export const env = plainToInstance(ConfigDto, {
@@ -82,7 +50,8 @@ export const env = plainToInstance(ConfigDto, {
   DATABASE_URL_MONGODB: process.env.DATABASE_URL_MONGODB,
   DATABASE_URL_REDIS: process.env.DATABASE_URL_REDIS,
   SALT_ROUNDS: process.env.SALT_ROUNDS,
-  SUPER_ADMINS: process.env.SUPER_ADMINS,
+  SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL,
+  SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD,
 });
 
 const errors = validateSync(env, { whitelist: true, forbidNonWhitelisted: true });

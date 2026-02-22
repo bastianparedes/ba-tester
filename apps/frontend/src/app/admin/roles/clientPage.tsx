@@ -5,11 +5,9 @@ import { useState } from 'react';
 import { Switch } from '@/app/_common/components/switch';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useUser } from '@/app/_common/contexts/User';
-import { superAdminRoleName } from '@/domain/config';
 import { flatPermissions } from '@/domain/permissions';
 import type { TypeRole } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
-import { isRoleSuperAdmin } from '@/utils/roles';
 
 type Props = {
   initialRoles: TypeRole[];
@@ -23,7 +21,6 @@ export function ClientPage({ initialRoles }: Props) {
   const user = useUser();
 
   const currentRole = roles.find((r) => r.id === selectedRoleId);
-  const currentRoleIsSuperAdmin = !!currentRole && isRoleSuperAdmin(currentRole);
 
   const addRole = async () => {
     const data = await getDataFromForm(
@@ -36,7 +33,7 @@ export function ClientPage({ initialRoles }: Props) {
           type: 'text',
           value: '',
           required: true,
-          forbiddenValues: [superAdminRoleName, ...roles.map((role) => role.name)],
+          forbiddenValues: [...roles.map((role) => role.name)],
         },
         description: {
           label: 'Descripción',
@@ -125,7 +122,7 @@ export function ClientPage({ initialRoles }: Props) {
               </button>
 
               {/* Botón independiente para eliminar rol */}
-              {user.permissions.canDeleteRole && !isRoleSuperAdmin(role) && (
+              {user.permissions.canDeleteRole && (
                 <button type="button" onClick={() => deleteRole(role)} className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg ml-2" title="Eliminar rol">
                   <Trash2 className="w-4 h-4 text-red-600" />
                 </button>
@@ -159,11 +156,7 @@ export function ClientPage({ initialRoles }: Props) {
                         <h3 className="font-semibold text-gray-900">{permission}</h3>
                         {/* <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p> */}
                       </div>
-                      <Switch
-                        disabled={!user.permissions.canUpdateRole || currentRoleIsSuperAdmin}
-                        checked={isActive}
-                        onChange={() => togglePermission({ role: currentRole, permission })}
-                      />
+                      <Switch disabled={!user.permissions.canUpdateRole} checked={isActive} onChange={() => togglePermission({ role: currentRole, permission })} />
                     </div>
                   </div>
                 );

@@ -16,6 +16,7 @@ export function AuthGuard(permission: string): Type<CanActivate> {
       const tokenData = getTokenData({ token, purpose: 'session' });
       if (!tokenData.valid) return false;
       const userId = tokenData.id;
+
       const user = await this.dbService.users.get({ userId });
       if (!user) return false;
       if (!user.role.permissions.includes(permission)) return false;

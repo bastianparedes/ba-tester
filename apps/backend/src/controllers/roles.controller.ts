@@ -1,13 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { IsArray, IsIn, IsNotIn, IsString } from 'class-validator';
+import { IsArray, IsIn, IsString } from 'class-validator';
 import { TypeApiRoles } from '../../../domain/api/roles';
-import { superAdminRoleName } from '../../../domain/config';
 import { flatPermissions, permissions } from '../../../domain/permissions';
 import { AuthGuard } from '../guards/auth.guard';
 import { DbService } from '../services/db.service';
 
 class RoleDto {
-  @IsNotIn([superAdminRoleName])
   @IsString()
   name: string;
 

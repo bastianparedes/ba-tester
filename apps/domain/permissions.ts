@@ -25,13 +25,5 @@ export const permissions = Object.freeze({
     update: 'campaign.update',
   },
 });
-export const superAdminOnlyPermissions = Object.freeze({
-  superAdmin: {
-    create: 'superAdmin.create',
-    update: 'superAdmin.update',
-    delete: 'superAdmin.delete',
-  },
-});
 
 export const flatPermissions = flattenObject(permissions);
-export const flatSuperAdminOnlyPermissions = flattenObject(superAdminOnlyPermissions);

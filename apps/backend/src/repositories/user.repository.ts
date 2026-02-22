@@ -1,11 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import type mongoose from 'mongoose';
 import type { TypeUser } from '../../../domain/types';
 import { getPasswordHashed } from '../libs/auth/password';
 import { connect } from './mongodb/client';
 import Roles, { type IRole } from './mongodb/models/Role';
 import Users from './mongodb/models/User';
-import { seedMongoDb } from './mongodb/seed';
 
 const withMapId = <T extends { _id: mongoose.Types.ObjectId }>(obj: T): Omit<T, '_id'> & { id: string } => {
   const { _id, ...rest } = obj;
@@ -16,11 +15,7 @@ const withMapId = <T extends { _id: mongoose.Types.ObjectId }>(obj: T): Omit<T, 
 };
 
 @Injectable()
-export class UserRepository implements OnModuleInit {
-  onModuleInit() {
-    seedMongoDb();
-  }
-
+export class UserRepository {
   get = async ({ userId }: { userId: string }): Promise<TypeUser | null> => {
     await connect();
     const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
@@ -64,7 +59,7 @@ export class UserRepository implements OnModuleInit {
     return user;
   };
 
-  getForLogin = async ({ email }: { email: string }) => {
+  getForLogin = async ({ email }: { email: string }): Promise<{ id: string; email: string; passwordHash: string }> => {
     await connect();
     const user = await Users.findOne({ email }).lean();
     if (!user) throw new Error(`user with email (${email}) doesn't exist`);

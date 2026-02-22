@@ -1,12 +1,10 @@
-import { superAdminRoleName } from '@/domain/config';
-import { permissions, superAdminOnlyPermissions } from '@/domain/permissions';
+import { permissions } from '@/domain/permissions';
 import type { TypeUser } from '@/domain/types';
 
 export type TypeFullUser =
   | {
       isLogedIn: true;
       data: TypeUser;
-      isSuperAdmin: boolean;
       rawPermissions: string[];
       permissions: {
         canReadRole: boolean;
@@ -27,16 +25,11 @@ export type TypeFullUser =
         canReadCampaign: boolean;
         canCreateCampaign: boolean;
         canUpdateCampaign: boolean;
-
-        canCreateSuperAdmin: boolean;
-        canUpdateSuperAdmin: boolean;
-        canDeleteSuperAdmin: boolean;
       };
     }
   | {
       isLogedIn: false;
       data: null;
-      isSuperAdmin: false;
       rawPermissions: string[];
       permissions: {
         canReadRole: false;
@@ -57,10 +50,6 @@ export type TypeFullUser =
         canReadCampaign: false;
         canCreateCampaign: false;
         canUpdateCampaign: false;
-
-        canCreateSuperAdmin: false;
-        canUpdateSuperAdmin: false;
-        canDeleteSuperAdmin: false;
       };
     };
 export const getUserPermissions = (user: TypeUser | null) => ({
@@ -82,10 +71,4 @@ export const getUserPermissions = (user: TypeUser | null) => ({
   canReadCampaign: !!user && user.role.permissions.includes(permissions.campaign.read),
   canCreateCampaign: !!user && user.role.permissions.includes(permissions.campaign.create),
   canUpdateCampaign: !!user && user.role.permissions.includes(permissions.campaign.update),
-
-  canCreateSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create),
-  canUpdateSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update),
-  canDeleteSuperAdmin: !!user && user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete),
 });
-
-export const getIsUserSuperAdmin = (user: TypeUser | null) => !!user && user.role.name === superAdminRoleName;

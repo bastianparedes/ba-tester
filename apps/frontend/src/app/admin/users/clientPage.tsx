@@ -6,8 +6,6 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useUser } from '@/app/_common/contexts/User';
 import type { TypeRole, TypeUser } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
-import { isRoleSuperAdmin } from '@/utils/roles';
-import { getIsUserSuperAdmin } from '@/utils/user/helper';
 
 type Props = {
   initialUsers: TypeUser[];
@@ -20,14 +18,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const confirm = useDialogStore((state) => state.confirm);
   const currentUser = useUser();
 
-  const thereAreMoreThan2SuperAdmins = users.filter((user) => getIsUserSuperAdmin(user)).length > 2;
-
   const handleAdd = async () => {
-    const rolesToUse = roles.filter((role) => {
-      if (isRoleSuperAdmin(role) && !currentUser.permissions.canCreateSuperAdmin) return false;
-      return true;
-    });
-
     const data = await getDataFromForm(
       {
         title: 'Nuevo usuario',
@@ -55,7 +46,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
         roleId: {
           label: 'Role',
           type: 'select',
-          options: rolesToUse.map((role) => ({
+          options: roles.map((role) => ({
             label: role.name,
             value: role.id,
           })),
@@ -80,13 +71,6 @@ export function ClientPage({ initialUsers, roles }: Props) {
   };
 
   const handleEdit = async ({ user }: { user: TypeUser }) => {
-    const rolesToUse = roles.filter((role) => {
-      if (getIsUserSuperAdmin(user)) {
-        return isRoleSuperAdmin(role) || thereAreMoreThan2SuperAdmins;
-      }
-      return !isRoleSuperAdmin(role);
-    });
-
     const data = await getDataFromForm(
       {
         title: `Editar usuario "${user.name}"`,
@@ -108,7 +92,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
         roleId: {
           label: 'Role',
           type: 'select',
-          options: rolesToUse.map((role) => ({
+          options: roles.map((role) => ({
             label: role.name,
             value: role.id,
           })),
@@ -179,12 +163,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
                         type="button"
-                        disabled={
-                          !(
-                            (getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateSuperAdmin) ||
-                            (!getIsUserSuperAdmin(user) && currentUser.permissions.canUpdateUser)
-                          )
-                        }
+                        disabled={!currentUser.permissions.canUpdateUser}
                         onClick={() => handleEdit({ user })}
                         className="px-3 py-1 rounded inline-flex items-center gap-1 transition bg-blue-100 text-blue-700 hover:enabled:bg-blue-200 disabled:opacity-80 disabled:cursor-not-allowed"
                       >
@@ -195,12 +174,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button
                         type="button"
-                        disabled={
-                          !(
-                            (getIsUserSuperAdmin(user) && currentUser.permissions.canDeleteSuperAdmin && thereAreMoreThan2SuperAdmins) ||
-                            (!getIsUserSuperAdmin(user) && currentUser.permissions.canDeleteUser)
-                          )
-                        }
+                        disabled={!currentUser.permissions.canDeleteUser}
                         onClick={() => handleDelete({ user })}
                         className="px-3 py-1 rounded inline-flex items-center gap-1 transition bg-red-100 text-red-700 hover:enabled:bg-red-200 disabled:opacity-80 disabled:cursor-not-allowed"
                       >

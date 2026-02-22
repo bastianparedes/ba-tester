@@ -1,10 +1,11 @@
 import { relations } from 'drizzle-orm';
-import { integer, jsonb, pgEnum, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, jsonb, pgEnum, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 
 import commonConstants from '../../../../domain/constants';
 import type { TypeCampaign } from '../../../../domain/types';
 
 export const statusEnum = pgEnum('status_enum', commonConstants.campaignStatus);
+export const executionStrategyEnum = pgEnum('execution_strategy_enum', commonConstants.executionStrategies);
 
 // TENANTS
 export const tenants = pgTable('tenants', {
@@ -15,15 +16,27 @@ export const tenants = pgTable('tenants', {
   domain: varchar('domain', { length: 255 }).notNull(),
 });
 
-// CAMPAIGNS
-export const campaigns = pgTable('campaigns', {
+// EXECUTION GROUPS
+export const executionGroups = pgTable('execution_groups', {
   id: serial('id').primaryKey().unique().notNull(),
+  name: varchar('name', { length: 255 }).notNull(),
+  strategy: executionStrategyEnum('strategy').notNull(),
+  persistCampaignAcrossReloads: boolean('persist_campaign_across_reloads').notNull().default(true),
   tenantId: integer('tenant_id')
     .notNull()
     .references(() => tenants.id, {
       onDelete: 'cascade',
       onUpdate: 'cascade',
     }),
+});
+
+// CAMPAIGNS
+export const campaigns = pgTable('campaigns', {
+  id: serial('id').primaryKey().unique().notNull(),
+  tenantId: integer('tenant_id')
+    .notNull()
+    .references(() => tenants.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+  executionGroupId: integer('execution_group_id').references(() => executionGroups.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 
   name: varchar('name', { length: 255 }).notNull().default(''),
   requirements: jsonb('requirements').$type<TypeCampaign['requirements']>().notNull(),
@@ -39,9 +52,21 @@ export const tenantsRelations = relations(tenants, ({ many }) => ({
   campaigns: many(campaigns),
 }));
 
+export const executionGroupsRelations = relations(executionGroups, ({ one, many }) => ({
+  tenant: one(tenants, {
+    fields: [executionGroups.tenantId],
+    references: [tenants.id],
+  }),
+  campaigns: many(campaigns),
+}));
+
 export const campaignsRelations = relations(campaigns, ({ one }) => ({
   tenant: one(tenants, {
     fields: [campaigns.tenantId],
     references: [tenants.id],
+  }),
+  executionGroup: one(executionGroups, {
+    fields: [campaigns.executionGroupId],
+    references: [executionGroups.id],
   }),
 }));

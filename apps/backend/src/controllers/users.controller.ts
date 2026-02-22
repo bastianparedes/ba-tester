@@ -2,8 +2,8 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, R
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 import { TypeApiUsers } from '../../../domain/api/users';
-import { cookieNames, superAdminRoleName } from '../../../domain/config';
-import { permissions, superAdminOnlyPermissions } from '../../../domain/permissions';
+import { cookieNames } from '../../../domain/config';
+import { permissions } from '../../../domain/permissions';
 import { AuthGuard } from '../guards/auth.guard';
 import { getTokenData } from '../libs/auth/jwt';
 import { DbService } from '../services/db.service';
@@ -73,8 +73,6 @@ export class UsersController {
 
     const role = await this.dbService.roles.get({ id: body.role.id });
     if (!role) throw new BadRequestException();
-    const roleIsSuperAdmin = role.name === superAdminRoleName;
-    if (roleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) throw new UnauthorizedException();
 
     const newUser = await this.dbService.users.create(body);
     return newUser;
@@ -88,17 +86,9 @@ export class UsersController {
 
     const currentUser = await this.dbService.users.get({ userId });
     if (!currentUser) throw new BadRequestException();
-    const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
-    if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) throw new UnauthorizedException();
 
     const newRole = await this.dbService.roles.get({ id: body.role.id });
     if (!newRole) throw new BadRequestException();
-    const oldRole = user.role;
-    const oldRoleIsSuperAdmin = oldRole.name === superAdminRoleName;
-    const newRoleIsSuperAdmin = newRole.name === superAdminRoleName;
-    if (!oldRoleIsSuperAdmin && newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.create)) throw new UnauthorizedException();
-    if (oldRoleIsSuperAdmin && !newRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) throw new UnauthorizedException();
-    if (oldRoleIsSuperAdmin && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.update)) throw new UnauthorizedException();
 
     const newUser = await this.dbService.users.update({ userId }, body);
     return newUser;
@@ -112,8 +102,6 @@ export class UsersController {
 
     const currentUser = await this.dbService.users.get({ userId });
     if (!currentUser) throw new BadRequestException();
-    const currentUserIsSuperUser = currentUser.role.name === superAdminRoleName;
-    if (currentUserIsSuperUser && !user.role.permissions.includes(superAdminOnlyPermissions.superAdmin.delete)) throw new UnauthorizedException();
 
     await this.dbService.users.remove({ userId });
     return {};
