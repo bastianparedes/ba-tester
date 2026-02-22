@@ -54,7 +54,7 @@ services:
     build:
       context: ./apps
       dockerfile: backend/Dockerfile.dev
-    image: trilba-tester/backend
+    image: ba-tester/backend
     environment:
       JWT_SECRET: "abc123"
       DOMAIN: "localhost"
