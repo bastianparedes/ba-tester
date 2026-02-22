@@ -5,8 +5,8 @@ import commonConstants from '../../../domain/constants';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
 import type { TypeCampaignScript } from '../../../domain/types/script';
 import { getScriptLocation } from '../libs/script';
+import { CampaignRepository } from '../repositories/campaign.repository';
 import { CacheService } from './cache.service';
-import { DbService } from './db.service';
 
 const stringifyWithFunctions = (obj: unknown, indent = 2): string => {
   if (typeof obj === 'function') {
@@ -59,7 +59,7 @@ const migrateRequirementsFromStringToFunction = (requirement: TypeNodeRequiremen
 @Injectable()
 export class ScriptService {
   constructor(
-    private readonly dbService: DbService,
+    private readonly campaignRepository: CampaignRepository,
     private readonly cacheService: CacheService,
   ) {}
 
@@ -68,7 +68,7 @@ export class ScriptService {
     const fileExists = fs.existsSync(scriptLocation);
     if (!fileExists) throw new InternalServerErrorException();
 
-    const campaigns = await this.dbService.campaigns.getAllForScript({ tenantId });
+    const campaigns = await this.campaignRepository.getAllForScript({ tenantId });
     if (campaigns.length === 0) throw new NotFoundException();
 
     const campaignsWithFunctions: TypeCampaignScript[] = campaigns.map((campaign) => {

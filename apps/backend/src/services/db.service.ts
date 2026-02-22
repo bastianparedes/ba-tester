@@ -4,6 +4,7 @@ import { CampaignRepository } from '../repositories/campaign.repository';
 import { TenantRepository } from '../repositories/tenant.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { CacheService } from './cache.service';
+import { ScriptService } from './script.service';
 
 @Injectable()
 export class DbService {
@@ -17,6 +18,7 @@ export class DbService {
     private readonly roleRepository: RoleRepository,
     private readonly tenantRepository: TenantRepository,
     private readonly campaignRepository: CampaignRepository,
+    private readonly scriptService: ScriptService,
   ) {
     this.users = {
       ...this.userRepository,
@@ -59,6 +61,18 @@ export class DbService {
       },
     };
     this.tenants = this.tenantRepository;
-    this.campaigns = this.campaignRepository;
+    this.campaigns = {
+      ...this.campaignRepository,
+      create: async (args, requirements) => {
+        const result = await this.campaignRepository.create(args, requirements);
+        await this.scriptService.populateScript({ tenantId: args.tenantId });
+        return result;
+      },
+      update: async (args, requirements) => {
+        const result = await this.campaignRepository.create(args, requirements);
+        await this.scriptService.populateScript({ tenantId: args.tenantId });
+        return result;
+      },
+    };
   }
 }

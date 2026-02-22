@@ -8,7 +8,6 @@ import { permissions } from '../../../../domain/permissions';
 import { TypeCampaign } from '../../../../domain/types';
 import { AuthGuard } from '../../guards/auth.guard';
 import { DbService } from '../../services/db.service';
-import { ScriptService } from '../../services/script.service';
 import { RequirementDto } from './requirementsValidator';
 import { TriggerDto } from './triggersValidator';
 import { VariationDto } from './variationsValidator';
@@ -60,10 +59,7 @@ export class CampaignDto {
 
 @Controller('tenants/:tenantId/campaigns')
 export class CampaignsController {
-  constructor(
-    private readonly dbService: DbService,
-    readonly scriptService: ScriptService,
-  ) {}
+  constructor(private readonly dbService: DbService) {}
 
   @UseGuards(AuthGuard(permissions.campaign.read))
   @Get()
@@ -84,7 +80,6 @@ export class CampaignsController {
   @Post()
   async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CampaignDto): Promise<TypeApiCampaigns['create']['response']> {
     await this.dbService.campaigns.create({ tenantId }, body);
-    await this.scriptService.populateScript({ tenantId });
     return {};
   }
 
@@ -96,7 +91,6 @@ export class CampaignsController {
     @Body() body: CampaignDto,
   ): Promise<TypeApiCampaigns['update']['response']> {
     await this.dbService.campaigns.update({ tenantId, campaignId }, body);
-    await this.scriptService.populateScript({ tenantId });
     return {};
   }
 }

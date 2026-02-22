@@ -10,7 +10,7 @@ export class CampaignRepository {
     { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
     { name, requirements, status, triggers, variations }: Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>,
   ) => {
-    return await db
+    const result = await db
       .insert(schema.campaigns)
       .values({
         tenantId,
@@ -21,10 +21,11 @@ export class CampaignRepository {
         variations,
       })
       .returning();
+    return result;
   };
 
   update = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }, values: Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>) => {
-    return await db
+    const result = await db
       .update(schema.campaigns)
       .set({
         name: values.name,
@@ -35,6 +36,7 @@ export class CampaignRepository {
       })
       .where(and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)))
       .returning();
+    return result;
   };
 
   getMany = async (
