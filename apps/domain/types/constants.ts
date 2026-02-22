@@ -9,3 +9,4 @@ export type TypeLimitType = 'oneDay' | 'oneMonth' | 'oneWeek' | 'session' | 'thr
 export type TypeNodeType = 'internal' | 'root';
 export type TypeTriggerType = 'clickOnElement' | 'custom' | 'pageLoad' | 'timeOnPage';
 export type TypeDeviceType = 'desktop' | 'mobile';
+export type TypeExecutionStrategy = 'execute_all' | 'execute_first' | 'execute_random';

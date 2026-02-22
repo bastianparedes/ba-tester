@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { RoleRepository } from 'src/repositories/role.repository';
 import { CampaignRepository } from '../repositories/campaign.repository';
+import { RoleRepository } from '../repositories/role.repository';
 import { TenantRepository } from '../repositories/tenant.repository';
 import { UserRepository } from '../repositories/user.repository';
 import { CacheService } from './cache.service';
