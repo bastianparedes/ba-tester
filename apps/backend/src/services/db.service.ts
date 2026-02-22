@@ -39,9 +39,25 @@ export class DbService {
       getForLogin: this.userRepository.getForLogin,
       getAll: this.userRepository.getAll,
       getMany: this.userRepository.getMany,
-      remove: this.userRepository.remove,
+      remove: async (args) => {
+        const removedUser = await this.userRepository.remove(args);
+        await this.cacheService.users.clear({ userId: args.userId });
+        return removedUser;
+      },
     };
-    this.roles = this.roleRepository;
+    this.roles = {
+      ...this.roleRepository,
+      update: async (...args) => {
+        const updatedRole = await this.roleRepository.update(...args);
+        await this.cacheService.users.clearAll();
+        return updatedRole;
+      },
+      remove: async (...args) => {
+        const removedRole = await this.roleRepository.remove(...args);
+        await this.cacheService.users.clearAll();
+        return removedRole;
+      },
+    };
     this.tenants = this.tenantRepository;
     this.campaigns = this.campaignRepository;
   }

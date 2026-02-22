@@ -2,10 +2,10 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import type mongoose from 'mongoose';
 import type { TypeUser } from '../../../domain/types';
 import { getPasswordHashed } from '../libs/auth/password';
-import { seedMongoDb } from './mongodb';
 import { connect } from './mongodb/client';
 import Roles, { type IRole } from './mongodb/models/Role';
 import Users from './mongodb/models/User';
+import { seedMongoDb } from './mongodb/seed';
 
 const withMapId = <T extends { _id: mongoose.Types.ObjectId }>(obj: T): Omit<T, '_id'> & { id: string } => {
   const { _id, ...rest } = obj;

@@ -32,7 +32,7 @@ export class CacheService {
   scripts = {
     async save({ tenantId, code }: { tenantId: number; code: string }) {
       const key = `tenant:${tenantId}:public_script`;
-      const minutes = 1;
+      const minutes = 60;
       await cache.set({ key, value: code, minutes });
     },
 
@@ -47,12 +47,24 @@ export class CacheService {
       const minutes = 1;
       await cache.set({ key, value: JSON.stringify(user), minutes });
     },
-
     async get({ userId }: { userId: TypeUser['id'] }): Promise<TypeUser | null> {
       const key = `user:${userId}`;
       const result = await cache.get({ key });
       if (!result) return null;
       return JSON.parse(result);
+    },
+    async clear({ userId }: { userId: TypeUser['id'] }) {
+      const key = `user:${userId}`;
+      await client.del(key);
+    },
+    async clearAll() {
+      const iterator = client.scanIterator({
+        MATCH: 'user:*',
+        COUNT: 10,
+      });
+      for await (const key of iterator) {
+        await client.del(key);
+      }
     },
   };
 }
