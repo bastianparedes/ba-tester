@@ -1,4 +1,4 @@
-import { Building2, Code, Eye, FlaskConical, Shield, UserCog } from 'lucide-react';
+import { Boxes, Building2, Code, Eye, FlaskConical, Shield, UserCog } from 'lucide-react';
 import type React from 'react';
 import constants from '@/config/constants';
 import type { TypeTenant } from '@/domain/types';
@@ -36,6 +36,16 @@ export function Sidebar({ children, tenant }: Props) {
 
               {tenant && (
                 <a
+                  href={constants.pages.executionGroups({ tenantId: tenant.id })}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                >
+                  <Boxes className="w-5 h-5" />
+                  <span className="text-sm font-medium">Execution groups</span>
+                </a>
+              )}
+
+              {tenant && (
+                <a
                   href={constants.pages.campaigns({ tenantId: tenant.id })}
                   className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
                 >
@@ -56,11 +66,11 @@ export function Sidebar({ children, tenant }: Props) {
 
               {tenant && (
                 <a
-                  href={constants.pages.example({ tenantId: tenant.id })}
+                  href={constants.pages.playground({ tenantId: tenant.id })}
                   className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
                 >
                   <Eye className="w-5 h-5" />
-                  <span className="text-sm font-medium">Example</span>
+                  <span className="text-sm font-medium">Playground</span>
                 </a>
               )}
             </div>

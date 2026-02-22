@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
 import { apiCaller } from '@/libs/restClient';
-import ClientPage from './clientPage';
 
 type Props = {
   params: Promise<{
@@ -22,8 +21,8 @@ export default async function Page({ params: promiseParams }: Props) {
   const tenant = await tenantResponse.json();
 
   return (
-    <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}>
-      <ClientPage tenantId={tenantId} />
+    <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Playground' }]}>
+      <iframe src={constants.pages.playgroundEmbed({ tenantId })} title="embed-playground" className="w-full h-svh" />
     </Navigation>
   );
 }
