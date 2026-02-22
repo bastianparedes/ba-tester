@@ -58,11 +58,8 @@ export class CacheService {
       await client.del(key);
     },
     async clearAll() {
-      const iterator = client.scanIterator({
-        MATCH: 'user:*',
-        COUNT: 10,
-      });
-      for await (const key of iterator) {
+      const keys = await client.keys('user:*');
+      for (const key of keys) {
         await client.del(key);
       }
     },

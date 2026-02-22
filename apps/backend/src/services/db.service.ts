@@ -42,6 +42,7 @@ export class DbService {
               permissions: flatPermissions,
             },
           };
+          await this.cacheService.users.save({ user });
           return user;
         }
 
