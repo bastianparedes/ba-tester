@@ -69,7 +69,7 @@ export class DbService {
         return result;
       },
       update: async (args, requirements) => {
-        const result = await this.campaignRepository.create(args, requirements);
+        const result = await this.campaignRepository.update(args, requirements);
         await this.scriptService.populateScript({ tenantId: args.tenantId });
         return result;
       },
