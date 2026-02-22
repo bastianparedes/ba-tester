@@ -13,8 +13,8 @@
   "scripts": {
     "dev": "docker compose up",
     "dev:lazy": "docker compose up -d && lazydocker",
-    "lint": "npx @biomejs/biome check",
-    "lint:fix": "npx @biomejs/biome check --write"
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11"
