@@ -6,7 +6,6 @@ import type {
   TypeLimitType,
   TypeNodeType,
   TypeNumericComparator,
-  TypeOrderDirection,
   TypeRequirementType,
   TypeStatus,
   TypeStringComparator,
@@ -83,7 +82,7 @@ const devices = Object.freeze({
 }) satisfies Record<TypeDeviceType, string>;
 
 const campaignStatus = [status.inactive, status.active, status.deleted] as const satisfies TypeStatus[];
-const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeOrderDirection[];
+const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
 
 const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
 const campaignRequirements = [

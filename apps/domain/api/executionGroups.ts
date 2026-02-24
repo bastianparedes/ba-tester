@@ -1,4 +1,4 @@
-import type { TypeCampaign, TypeExecutionGroup, TypeOrderDirection, TypeTenant } from '../types';
+import type { TypeCampaign, TypeDirection, TypeExecutionGroup, TypeTenant } from '../types';
 
 export type TypeApiExecutionGroups = {
   get: {
@@ -19,7 +19,7 @@ export type TypeApiExecutionGroups = {
       queryParams: {
         textSearch: string;
         orderBy: 'name' | 'id';
-        orderDirection: TypeOrderDirection;
+        orderDirection: TypeDirection;
         page: number;
         quantity: number;
       };

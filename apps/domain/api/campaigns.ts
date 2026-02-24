@@ -1,4 +1,4 @@
-import type { TypeCampaign, TypeCampaignWithOptionalId, TypeOrderDirection, TypeStatus, TypeTenant } from '../types';
+import type { TypeCampaign, TypeCampaignWithOptionalId, TypeDirection, TypeStatus, TypeTenant } from '../types';
 
 export type TypeApiCampaigns = {
   get: {
@@ -15,7 +15,7 @@ export type TypeApiCampaigns = {
       queryParams: {
         textSearch: string;
         orderBy: 'name' | 'id' | 'status';
-        orderDirection: TypeOrderDirection;
+        orderDirection: TypeDirection;
         page: number;
         quantity: number;
         statusList: TypeStatus[];

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
-import type { TypeCampaign, TypeOrderBy, TypeOrderDirection } from '../../../domain/types';
+import type { TypeCampaign, TypeDirection, TypeOrderBy } from '../../../domain/types';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 
@@ -53,7 +53,7 @@ export class CampaignRepository {
       textSearch: string;
       quantity: number;
       page: number;
-      orderDirection: TypeOrderDirection;
+      orderDirection: TypeDirection;
       orderBy: TypeOrderBy;
     },
   ) => {

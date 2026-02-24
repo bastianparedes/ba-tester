@@ -32,7 +32,6 @@ export type TypeExecutionGroup = {
 };
 
 export type TypeStatus = 'active' | 'inactive' | 'deleted';
-export type TypeOrderDirection = 'asc' | 'desc';
 
 export type TypeVariationData = {
   css: string;
@@ -46,12 +45,12 @@ export type TypeVariationData = {
 export type TypeOrderBy = 'name' | 'id' | 'status';
 export type TypeCampaign = {
   id: number;
-  tenantId: number;
   name: string;
   status: TypeStatus;
   triggers: TypeTriggerData[];
   requirements: TypeNodeRequirement;
   variations: TypeVariationData[];
+  tenantId: number;
 };
 export type TypeCampaignWithOptionalId = Omit<TypeCampaign, 'id'> & { id?: number | undefined };
 

@@ -9,11 +9,11 @@ import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign, TypeOrderBy, TypeOrderDirection, TypeStatus } from '@/domain/types';
+import type { TypeCampaign, TypeDirection, TypeOrderBy, TypeStatus } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
-  sortConfig: { key: TypeOrderBy; direction: TypeOrderDirection };
+  sortConfig: { key: TypeOrderBy; direction: TypeDirection };
   statusFilter: TypeStatus[];
   nameFilter: string;
   itemsPerPage: number;
@@ -94,7 +94,7 @@ export function ClientPage({ tenantId }: PageProps) {
     args: Partial<{
       textSearch: string;
       orderBy: 'name' | 'id' | 'status';
-      orderDirection: TypeOrderDirection;
+      orderDirection: TypeDirection;
       page: number;
       quantity: number;
       statusList: TypeStatus[];
