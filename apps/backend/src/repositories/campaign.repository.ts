@@ -70,9 +70,11 @@ export class CampaignRepository {
         name: schema.campaigns.name,
         status: schema.campaigns.status,
         tenantId: schema.campaigns.tenantId,
-        executionGroupId: schema.campaigns.executionGroupId
+        executionGroupId: schema.campaigns.executionGroupId,
+        executionGroup: schema.executionGroups,
       })
       .from(schema.campaigns)
+      .leftJoin(schema.executionGroups, eq(schema.campaigns.executionGroupId, schema.executionGroups.id))
       .where(
         and(
           eq(schema.campaigns.tenantId, tenantId),
@@ -116,6 +118,9 @@ export class CampaignRepository {
   get = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) =>
     await db.query.campaigns.findFirst({
       where: and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)),
+      with: {
+        executionGroup: true,
+      },
     });
 
   getAllForScript = async ({ tenantId }: { tenantId: number }) => {
