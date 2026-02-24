@@ -51,8 +51,10 @@ export type TypeCampaign = {
   requirements: TypeNodeRequirement;
   variations: TypeVariationData[];
   tenantId: number;
+  executionGroupId: number | null;
 };
 export type TypeCampaignWithOptionalId = Omit<TypeCampaign, 'id'> & { id?: number | undefined };
+export type TypeCampaignLight = Omit<Omit<Omit<TypeCampaign, 'triggers'>, 'requirements'>, 'variations'>;
 
 export type TypeCampaignScript = {
   id: number;

@@ -1,4 +1,4 @@
-import type { TypeCampaign, TypeCampaignWithOptionalId, TypeDirection, TypeStatus, TypeTenant } from '../types';
+import type { TypeCampaign, TypeCampaignLight, TypeCampaignWithOptionalId, TypeDirection, TypeStatus, TypeTenant } from '../types';
 
 export type TypeApiCampaigns = {
   get: {
@@ -22,7 +22,7 @@ export type TypeApiCampaigns = {
       };
     };
     response: {
-      campaigns: TypeCampaign[];
+      campaigns: TypeCampaignLight[];
       count: number;
     };
   };
@@ -30,7 +30,7 @@ export type TypeApiCampaigns = {
     request: {
       headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
-      body: Omit<TypeCampaignWithOptionalId, 'id'>;
+      body: Omit<Omit<TypeCampaignWithOptionalId, 'id'>, 'executionGroupId'>;
     };
     response: Record<string, never>;
   };

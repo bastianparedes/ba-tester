@@ -8,7 +8,7 @@ import * as schema from './postgres/schema';
 export class CampaignRepository {
   create = async (
     { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
-    { name, requirements, status, triggers, variations }: Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>,
+    { name, requirements, status, triggers, variations }: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>,
   ) => {
     const result = await db
       .insert(schema.campaigns)
@@ -24,7 +24,7 @@ export class CampaignRepository {
     return result;
   };
 
-  update = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }, values: Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>) => {
+  update = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }, values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>) => {
     const result = await db
       .update(schema.campaigns)
       .set({
@@ -65,7 +65,13 @@ export class CampaignRepository {
     const treatedTextSearch = `%${textSearch.trim()}%`;
 
     const campaigns = await db
-      .select()
+      .select({
+        id: schema.campaigns.id,
+        name: schema.campaigns.name,
+        status: schema.campaigns.status,
+        tenantId: schema.campaigns.tenantId,
+        executionGroupId: schema.campaigns.executionGroupId
+      })
       .from(schema.campaigns)
       .where(
         and(
