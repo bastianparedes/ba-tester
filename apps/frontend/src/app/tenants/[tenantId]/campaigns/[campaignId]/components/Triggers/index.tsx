@@ -1,12 +1,12 @@
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign, TypeTriggerData } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@/domain/types';
 import Editor from './TriggerEditor';
 
 interface Props {
   triggers: TypeTriggerData[];
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Triggers = ({ setCampaign, triggers }: Props) => {

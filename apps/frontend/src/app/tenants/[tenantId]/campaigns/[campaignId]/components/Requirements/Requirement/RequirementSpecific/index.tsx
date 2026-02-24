@@ -1,13 +1,13 @@
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types';
 import Custom from './Custom';
 import Device from './Device';
 import Storage from './Storage';
 import Url from './Url';
 
 interface Props {
-  requirement: Exclude<TypeCampaign['requirements']['data']['children'][number], { type: 'node' }>;
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  requirement: Exclude<TypeCampaignWithOptionalId['requirements']['data']['children'][number], { type: 'node' }>;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {

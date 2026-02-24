@@ -2,16 +2,7 @@
 
 import commonConstants from '../../../../../domain/constants';
 // Types
-import type {
-  TypeCookieRequirement,
-  TypeCustomRequirement,
-  TypeDeviceRequirement,
-  TypeLocalStorageRequirement,
-  TypeNodeRequirement,
-  TypeQueryParamRequirement,
-  TypeSessionStorageRequirement,
-  TypeUrlRequirement,
-} from '../../../../../domain/types/script';
+import type { TypeRequirement } from '../../../../../domain/types/script';
 import cookie from '../../utils/cookie';
 import queryParam from '../../utils/queryParam';
 // Internal imports
@@ -22,7 +13,7 @@ import { comparatorResolver } from './comparatorResolver';
 // ------------------------------
 
 // Evaluate cookie requirement
-const requirementCookie = (requirement: TypeCookieRequirement) => {
+const requirementCookie = (requirement: Extract<TypeRequirement, { type: 'cookie' }>) => {
   const cookieValue = cookie.get({ name: requirement.data.name });
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -32,7 +23,7 @@ const requirementCookie = (requirement: TypeCookieRequirement) => {
 };
 
 // Evaluate custom JavaScript requirement
-const requirementCustom = async (requirement: TypeCustomRequirement) => {
+const requirementCustom = async (requirement: Extract<TypeRequirement, { type: 'custom' }>) => {
   try {
     const result = await new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), 5000); // Fallback to false after 5s
@@ -45,7 +36,7 @@ const requirementCustom = async (requirement: TypeCustomRequirement) => {
 };
 
 // Evaluate device type requirement
-const requirementDevice = (requirement: TypeDeviceRequirement) => {
+const requirementDevice = (requirement: Extract<TypeRequirement, { type: 'device' }>) => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent);
   const device = isMobile ? commonConstants.devices.mobile : commonConstants.devices.desktop;
 
@@ -57,7 +48,7 @@ const requirementDevice = (requirement: TypeDeviceRequirement) => {
 };
 
 // Evaluate localStorage requirement
-const requirementLocalStorage = (requirement: TypeLocalStorageRequirement) => {
+const requirementLocalStorage = (requirement: Extract<TypeRequirement, { type: 'localStorage' }>) => {
   const keyValue = localStorage.getItem(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -67,7 +58,7 @@ const requirementLocalStorage = (requirement: TypeLocalStorageRequirement) => {
 };
 
 // Evaluate sessionStorage requirement
-const requirementSessionStorage = (requirement: TypeSessionStorageRequirement) => {
+const requirementSessionStorage = (requirement: Extract<TypeRequirement, { type: 'sessionStorage' }>) => {
   const keyValue = sessionStorage.getItem(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -77,7 +68,7 @@ const requirementSessionStorage = (requirement: TypeSessionStorageRequirement) =
 };
 
 // Evaluate query parameter requirement
-const requirementQueryParam = (requirement: TypeQueryParamRequirement) => {
+const requirementQueryParam = (requirement: Extract<TypeRequirement, { type: 'queryParam' }>) => {
   const queryParamValue = queryParam.get(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -87,7 +78,7 @@ const requirementQueryParam = (requirement: TypeQueryParamRequirement) => {
 };
 
 // Evaluate URL requirement
-const requirementUrl = (requirement: TypeUrlRequirement) => {
+const requirementUrl = (requirement: Extract<TypeRequirement, { type: 'url' }>) => {
   return comparatorResolver({
     comparator: requirement.data.comparator,
     expectedValue: requirement.data.value,
@@ -96,17 +87,17 @@ const requirementUrl = (requirement: TypeUrlRequirement) => {
 };
 
 // Evaluate node requirement (combines multiple child requirements)
-const requirementNode = async (requirement: TypeNodeRequirement): Promise<boolean> => {
+const requirementNode = async (requirement: Extract<TypeRequirement, { type: 'node' }>): Promise<boolean> => {
   const booleanPromises = requirement.data.children.map((childData) => {
     const requirementStrategies = {
-      cookie: () => requirementCookie(childData as TypeCookieRequirement),
-      custom: () => requirementCustom(childData as TypeCustomRequirement),
-      device: () => requirementDevice(childData as TypeDeviceRequirement),
-      localStorage: () => requirementLocalStorage(childData as TypeLocalStorageRequirement),
-      node: () => requirementNode(childData as TypeNodeRequirement),
-      sessionStorage: () => requirementSessionStorage(childData as TypeSessionStorageRequirement),
-      queryParam: () => requirementQueryParam(childData as TypeQueryParamRequirement),
-      url: () => requirementUrl(childData as TypeUrlRequirement),
+      cookie: () => requirementCookie(childData as Extract<TypeRequirement, { type: 'cookie' }>),
+      custom: () => requirementCustom(childData as Extract<TypeRequirement, { type: 'custom' }>),
+      device: () => requirementDevice(childData as Extract<TypeRequirement, { type: 'device' }>),
+      localStorage: () => requirementLocalStorage(childData as Extract<TypeRequirement, { type: 'localStorage' }>),
+      node: () => requirementNode(childData as Extract<TypeRequirement, { type: 'node' }>),
+      sessionStorage: () => requirementSessionStorage(childData as Extract<TypeRequirement, { type: 'sessionstorage' }>),
+      queryParam: () => requirementQueryParam(childData as Extract<TypeRequirement, { type: 'queryParam' }>),
+      url: () => requirementUrl(childData as Extract<TypeRequirement, { type: 'url' }>),
     };
     const strategy = requirementStrategies[childData.type];
     return strategy();
@@ -125,9 +116,9 @@ const requirementNode = async (requirement: TypeNodeRequirement): Promise<boolea
 // Main Requirement class
 // ------------------------------
 class Requirement {
-  readonly requirementData: TypeNodeRequirement;
+  readonly requirementData: Extract<TypeRequirement, { type: 'node' }>;
 
-  constructor(requirementData: TypeNodeRequirement) {
+  constructor(requirementData: Extract<TypeRequirement, { type: 'node' }>) {
     this.requirementData = requirementData;
   }
 

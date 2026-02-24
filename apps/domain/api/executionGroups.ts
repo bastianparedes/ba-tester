@@ -1,12 +1,16 @@
-import type { TypeCampaign, TypeCampaignWithOptionalId, TypeOrderDirection, TypeStatus, TypeTenant } from '../types';
+import type { TypeCampaign, TypeExecutionGroup, TypeOrderDirection, TypeTenant } from '../types';
 
-export type TypeApiCampaigns = {
+export type TypeApiExecutionGroups = {
   get: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
+      pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
     };
-    response: TypeCampaign;
+    response: {
+      executionGroup: TypeExecutionGroup & {
+        campaigns: TypeCampaign[];
+      };
+    };
   };
   getMany: {
     request: {
@@ -14,38 +18,36 @@ export type TypeApiCampaigns = {
       pathParams: { tenantId: TypeTenant['id'] };
       queryParams: {
         textSearch: string;
-        orderBy: 'name' | 'id' | 'status';
+        orderBy: 'name' | 'id';
         orderDirection: TypeOrderDirection;
         page: number;
         quantity: number;
-        statusList: TypeStatus[];
       };
     };
     response: {
-      campaigns: TypeCampaign[];
-      count: number;
+      executionGroups: TypeExecutionGroup[];
     };
   };
   create: {
     request: {
       headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
-      body: Omit<TypeCampaignWithOptionalId, 'id'>;
+      body: Omit<TypeExecutionGroup, 'id'>;
     };
     response: Record<string, never>;
   };
   update: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
-      body: TypeCampaignWithOptionalId;
+      pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
+      body: Omit<TypeExecutionGroup, 'id'>;
     };
     response: Record<string, never>;
   };
   delete: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
+      pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
     };
     response: never;
   };

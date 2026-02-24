@@ -3,16 +3,16 @@ import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign, TypeRequirementType } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeRequirementType } from '@/domain/types';
 import RequirementSpecific from './RequirementSpecific';
 
 interface Props {
-  grandParentNode: TypeCampaign['requirements'] | null;
+  grandParentNode: TypeCampaignWithOptionalId['requirements'] | null;
   id: string;
   index: number;
-  parentNode: TypeCampaign['requirements'] | null;
-  requirement: TypeCampaign['requirements']['data']['children'][number];
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  parentNode: TypeCampaignWithOptionalId['requirements'] | null;
+  requirement: TypeCampaignWithOptionalId['requirements']['data']['children'][number];
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {

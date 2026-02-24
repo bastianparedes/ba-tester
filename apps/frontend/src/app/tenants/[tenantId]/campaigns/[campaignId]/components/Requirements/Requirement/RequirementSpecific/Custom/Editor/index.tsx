@@ -2,15 +2,16 @@ import Monaco from '@monaco-editor/react';
 import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign, TypeRequirementData } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types';
+import type { TypeCustomRequirement } from '@/domain/types/requirement';
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';
 import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
 
 interface Props {
-  requirement: TypeRequirementData & { type: 'custom' };
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  requirement: TypeCustomRequirement;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Editor = ({ setCampaign, requirement }: Props) => {

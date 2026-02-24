@@ -1,11 +1,3 @@
-export type TypeNodeRequirement = {
-  type: 'node';
-  data: {
-    children: TypeRequirementData[];
-    operator: 'and' | 'or';
-  };
-};
-
 type TypeStorageComparisonData =
   | {
       name: string;
@@ -62,12 +54,21 @@ export type TypeUrlRequirement = {
   };
 };
 
-export type TypeRequirementData =
-  | TypeNodeRequirement
-  | TypeCookieRequirement
-  | TypeLocalStorageRequirement
-  | TypeSessionStorageRequirement
-  | TypeQueryParamRequirement
-  | TypeCustomRequirement
-  | TypeDeviceRequirement
-  | TypeUrlRequirement;
+export type TypeNodeRequirement = {
+  type: 'node';
+  data: {
+    children: (
+      | TypeNodeRequirement
+      | TypeCookieRequirement
+      | TypeLocalStorageRequirement
+      | TypeSessionStorageRequirement
+      | TypeQueryParamRequirement
+      | TypeCustomRequirement
+      | TypeDeviceRequirement
+      | TypeUrlRequirement
+    )[];
+    operator: 'and' | 'or';
+  };
+};
+
+export type TypeRequirement = TypeNodeRequirement['data']['children'][number];

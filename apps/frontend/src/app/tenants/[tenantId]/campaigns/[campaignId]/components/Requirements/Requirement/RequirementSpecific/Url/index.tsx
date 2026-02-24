@@ -2,11 +2,11 @@ import { ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types';
 
 interface Props {
-  requirement: TypeCampaign['requirements']['data']['children'][number];
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  requirement: TypeCampaignWithOptionalId['requirements']['data']['children'][number];
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Element = ({ setCampaign, requirement }: Props) => {

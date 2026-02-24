@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign, TypeVariationData } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeVariationData } from '@/domain/types';
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';
@@ -11,7 +11,7 @@ import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
 
 interface Props {
   variation: TypeVariationData;
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Editor = ({ setCampaign, variation }: Props) => {

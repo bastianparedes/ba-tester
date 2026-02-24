@@ -1,10 +1,10 @@
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types';
 import Requirement from './Requirement';
 
 interface Props {
-  requirements: TypeCampaign['requirements'];
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  requirements: TypeCampaignWithOptionalId['requirements'];
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Requirements = ({ setCampaign, requirements }: Props) => {

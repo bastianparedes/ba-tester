@@ -1,12 +1,12 @@
 import { Plus, Trash2 } from 'lucide-react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign, TypeVariationData } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeVariationData } from '@/domain/types';
 import Editor from './Editor';
 import { variationsWithDistributedTraffic } from './util';
 
 interface Props {
   variations: TypeVariationData[];
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Variations = ({ setCampaign, variations }: Props) => {

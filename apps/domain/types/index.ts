@@ -1,4 +1,4 @@
-import type { TypeRequirementData } from './requirement';
+import type { TypeNodeRequirement } from './requirement';
 import type { TypeTriggerData } from './trigger';
 
 export type TypeRole = {
@@ -22,6 +22,15 @@ export type TypeTenant = {
   domain: string;
 };
 
+export type TypeExecutionGroupStrategy = 'execute_all' | 'execute_first' | 'execute_random';
+export type TypeExecutionGroup = {
+  id: number;
+  name: string;
+  strategy: TypeExecutionGroupStrategy;
+  persistCampaignAcrossReloads: boolean;
+  tenantId: number;
+};
+
 export type TypeStatus = 'active' | 'inactive' | 'deleted';
 export type TypeOrderDirection = 'asc' | 'desc';
 
@@ -36,28 +45,25 @@ export type TypeVariationData = {
 
 export type TypeOrderBy = 'name' | 'id' | 'status';
 export type TypeCampaign = {
-  id: number | undefined;
+  id: number;
   tenantId: number;
   name: string;
   status: TypeStatus;
   triggers: TypeTriggerData[];
-  requirements: TypeRequirementData & {
-    type: 'node';
-  };
+  requirements: TypeNodeRequirement;
   variations: TypeVariationData[];
 };
+export type TypeCampaignWithOptionalId = Omit<TypeCampaign, 'id'> & { id?: number | undefined };
 
 export type TypeCampaignScript = {
   id: number;
   name: string;
   triggers: TypeTriggerData[];
-  requirements: TypeRequirementData & {
-    type: 'node';
-  };
+  requirements: TypeNodeRequirement;
   variations: TypeVariationData[];
 };
 
-export type { TypeTriggerData, TypeRequirementData };
+export type { TypeTriggerData, TypeNodeRequirement };
 export type TypeDirection = 'asc' | 'desc';
 export type TypeBooleanOperator = 'and' | 'or';
 export type TypeStringComparator = 'contains' | 'doesNotContain' | 'doesNotExist' | 'exists' | 'is' | 'isNot';
@@ -68,4 +74,3 @@ export type TypeLimitType = 'oneDay' | 'oneMonth' | 'oneWeek' | 'session' | 'thr
 export type TypeNodeType = 'internal' | 'root';
 export type TypeTriggerType = 'clickOnElement' | 'custom' | 'pageLoad' | 'timeOnPage';
 export type TypeDeviceType = 'desktop' | 'mobile';
-export type TypeExecutionStrategy = 'execute_all' | 'execute_first' | 'execute_random';

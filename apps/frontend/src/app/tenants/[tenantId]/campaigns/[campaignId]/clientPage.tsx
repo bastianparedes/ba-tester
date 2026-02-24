@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types';
 import { env } from '@/libs/env';
 import Buttons from './components/Buttons';
 import { LiveViewersNavbar } from './components/LiveViewersBar';
@@ -14,7 +14,7 @@ import Triggers from './components/Triggers';
 import Variations from './components/Variations';
 
 type Props = {
-  initialCampaign: TypeCampaign;
+  initialCampaign: TypeCampaignWithOptionalId;
   tenantId: number;
   campaignId: number | undefined;
 };

@@ -3,14 +3,14 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaign, TypeTriggerData } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@/domain/types';
 
 import 'react-tabs/style/react-tabs.css';
 import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
 
 interface Props {
   trigger: TypeTriggerData & { type: 'custom' };
-  setCampaign: (campaign: (TypeCampaign: TypeCampaign) => TypeCampaign) => void;
+  setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
 }
 
 const Editor = ({ setCampaign, trigger }: Props) => {
