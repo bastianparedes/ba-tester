@@ -81,14 +81,17 @@ export function ClientPage({ url, script }: Props) {
             </button>
           </div>
 
-          <div className="relative">
-            <pre className="w-full bg-white border border-blue-600 rounded-lg px-4 py-3 text-blue-950 font-mono text-sm overflow-x-auto min-h-[400px] whitespace-pre-wrap break-all">
+          <div className="text-xs text-blue-900">
+            Lines: {script.split('\n').length} | Characters: {script.length}
+          </div>
+          <div className="text-xs text-blue-900">
+            Bytes: {new TextEncoder().encode(script).length} | KBs: {(new TextEncoder().encode(script).length / 1024).toFixed(1)} | MBs:{' '}
+            {(new TextEncoder().encode(script).length / (1024 * 1024)).toFixed(1)}
+          </div>
+          <div className="relative mt-3">
+            <pre className="w-full bg-white border border-blue-600 rounded-lg px-4 py-3 text-blue-950 font-mono text-sm overflow-x-auto min-h-100 whitespace-pre-wrap break-all">
               <code>{script}</code>
             </pre>
-          </div>
-
-          <div className="mt-3 text-xs text-blue-900">
-            Líneas: {script.split('\n').length} | Caracteres: {script.length}
           </div>
         </div>
       </div>
