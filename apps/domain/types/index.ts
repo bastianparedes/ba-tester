@@ -33,7 +33,7 @@ export type TypeExecutionGroup = {
 };
 export type TypeExecutionGroupWithOptionalId = Omit<TypeExecutionGroup, 'id'> & { id?: number | undefined };
 
-export type TypeStatus = 'active' | 'inactive' | 'deleted';
+export type TypeStatus = 'active' | 'inactive';
 
 export type TypeVariationData = {
   css: string;

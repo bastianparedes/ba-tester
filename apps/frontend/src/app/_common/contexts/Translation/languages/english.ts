@@ -43,7 +43,6 @@ const labels = {
     status: {
       active: 'Active',
       inactive: 'Inactive',
-      deleted: 'Deleted',
     },
     noData: 'No tests found that match the filters',
     filtersTitle: 'Filters',
@@ -60,7 +59,6 @@ const labels = {
     name: 'Name',
     active: 'Active',
     inactive: 'Inactive',
-    deleted: 'Deleted',
     requirementsTitle: 'Restrictions',
     newRequirement: 'New Restriction',
     triggersTitle: 'Triggers',

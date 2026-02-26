@@ -15,6 +15,13 @@
       "when": 1771774808192,
       "tag": "0001_greedy_tiger_shark",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1772127102657,
+      "tag": "0002_certain_chat",
+      "breakpoints": true
     }
   ]
 }

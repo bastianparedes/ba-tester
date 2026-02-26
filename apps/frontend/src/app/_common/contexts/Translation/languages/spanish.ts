@@ -24,7 +24,6 @@ const labels: typeof englishLabels = {
     status: {
       active: 'Activa',
       inactive: 'Inactiva',
-      deleted: 'Eliminada',
     },
     noData: 'No se encontraron pruebas que coincidan con los filtros',
     filtersTitle: 'Filtros',
@@ -54,7 +53,6 @@ const labels: typeof englishLabels = {
     name: 'Nombre',
     active: 'Activa',
     inactive: 'Inactiva',
-    deleted: 'Eliminada',
     requirementsTitle: 'Restricciones',
     newRequirement: 'Nueva restricción',
     triggersTitle: 'Disparadores',

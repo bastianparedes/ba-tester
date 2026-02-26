@@ -13,7 +13,6 @@ import type {
 
 const status = Object.freeze({
   active: 'active',
-  deleted: 'deleted',
   inactive: 'inactive',
 }) satisfies Record<TypeStatus, string>;
 
@@ -80,7 +79,7 @@ const devices = Object.freeze({
   mobile: 'mobile',
 }) satisfies Record<TypeDeviceType, string>;
 
-const campaignStatus = [status.inactive, status.active, status.deleted] as const satisfies TypeStatus[];
+const campaignStatus = [status.inactive, status.active] as const satisfies TypeStatus[];
 const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
 
 const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
