@@ -66,12 +66,8 @@
           "name": "campaigns_tenant_id_tenants_id_fk",
           "tableFrom": "campaigns",
           "tableTo": "tenants",
-          "columnsFrom": [
-            "tenant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -79,12 +75,8 @@
           "name": "campaigns_execution_group_id_execution_groups_id_fk",
           "tableFrom": "campaigns",
           "tableTo": "execution_groups",
-          "columnsFrom": [
-            "execution_group_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["execution_group_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -94,9 +86,7 @@
         "campaigns_id_unique": {
           "name": "campaigns_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -146,12 +136,8 @@
           "name": "execution_groups_tenant_id_tenants_id_fk",
           "tableFrom": "execution_groups",
           "tableTo": "tenants",
-          "columnsFrom": [
-            "tenant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -161,9 +147,7 @@
         "execution_groups_id_unique": {
           "name": "execution_groups_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -206,9 +190,7 @@
         "tenants_id_unique": {
           "name": "tenants_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -220,19 +202,12 @@
     "public.execution_strategy_enum": {
       "name": "execution_strategy_enum",
       "schema": "public",
-      "values": [
-        "execute_all",
-        "execute_first",
-        "execute_random"
-      ]
+      "values": ["execute_all", "execute_first", "execute_random"]
     },
     "public.status_enum": {
       "name": "status_enum",
       "schema": "public",
-      "values": [
-        "inactive",
-        "active"
-      ]
+      "values": ["inactive", "active"]
     }
   },
   "schemas": {},

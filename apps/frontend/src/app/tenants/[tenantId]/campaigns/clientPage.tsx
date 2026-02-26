@@ -9,7 +9,7 @@ import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign, TypeDirection, TypeOrderCampaignsBy, TypeStatus } from '@/domain/types';
+import type { TypeCampaignLight, TypeDirection, TypeOrderCampaignsBy, TypeStatus } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
@@ -36,7 +36,7 @@ export function ClientPage({ tenantId }: PageProps) {
   const user = useUser();
   const { translation } = useTranslationContext();
 
-  const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
+  const [campaigns, setCampaigns] = useState<TypeCampaignLight[]>([]);
   const [state, dispatch] = useReducer(
     (state: UiState, action: UiAction): UiState => {
       switch (action.type) {
