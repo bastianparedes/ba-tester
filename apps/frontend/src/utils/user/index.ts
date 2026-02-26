@@ -1,11 +1,8 @@
-import { headers } from 'next/headers';
 import { apiCaller } from '@/libs/restClient';
 import { getUserPermissions, type TypeFullUser } from './helper';
 
 export const getUserFromCookies = async (): Promise<TypeFullUser> => {
-  const headersList = await headers();
-  const cookiesFromHeaders = headersList.get('cookie') as string;
-  const userResponse = await apiCaller.users.get({ headers: { Cookie: cookiesFromHeaders } });
+  const userResponse = await apiCaller.users.get({});
   if (!userResponse.ok)
     return {
       isLogedIn: false,

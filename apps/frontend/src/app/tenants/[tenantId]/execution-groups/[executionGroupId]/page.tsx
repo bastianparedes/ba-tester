@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
@@ -16,19 +15,16 @@ const Page = async (props: PageProps) => {
   const tenantId = Number(params.tenantId);
   const executionGroupId = Number(params.executionGroupId);
 
-  const headersList = await headers();
-  const cookies = headersList.get('cookie') as string;
-
-  const tenantResponse = await apiCaller.tenants.get({ headers: { Cookie: cookies }, pathParams: { tenantId } });
+  const tenantResponse = await apiCaller.tenants.get({ pathParams: { tenantId } });
   if (!tenantResponse.ok) return redirect(constants.pages.tenants());
   const tenant = await tenantResponse.json();
 
-  const executionGroupResponse = await apiCaller.executionGroups.get({ headers: { Cookie: cookies }, pathParams: { tenantId, executionGroupId } });
+  const executionGroupResponse = await apiCaller.executionGroups.get({ pathParams: { tenantId, executionGroupId } });
   if (!executionGroupResponse.ok) return redirect(constants.pages.executionGroups({ tenantId }));
 
   const { executionGroup: initialExecutionGroup, campaigns: initialCampaigns } = await executionGroupResponse.json();
 
-  const allCampaignsResponse = await apiCaller.campaigns.getAllLight({ headers: { Cookie: cookies }, pathParams: { tenantId } });
+  const allCampaignsResponse = await apiCaller.campaigns.getAllLight({ pathParams: { tenantId } });
   if (!allCampaignsResponse.ok) return redirect(constants.pages.executionGroups({ tenantId }));
   const { campaigns: allCampaigns } = await allCampaignsResponse.json();
 

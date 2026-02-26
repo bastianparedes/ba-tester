@@ -1,6 +1,16 @@
 import { env } from '@/libs/env';
 import { withLoader } from '@/utils/hof';
 
+export async function getCookies(): Promise<string> {
+  if (typeof window !== 'undefined') {
+    return document.cookie;
+  }
+  const { headers } = await import('next/headers');
+  const headersResponse = await headers();
+  const cookies = headersResponse.get('cookie') ?? '';
+  return cookies;
+}
+
 const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
   const requestFunction = async <T extends Record<string, unknown> | unknown[] | string>({
     url,
@@ -17,6 +27,8 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     const baseUrl = isServerSide ? env.NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE : env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE;
 
     const objectUrl = new URL(baseUrl + url);
+    const cookies = await getCookies();
+
     Object.entries(queryParams).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => {
@@ -34,6 +46,7 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
         body: JSON.stringify(body),
         headers: {
           'Content-Type': 'application/json',
+          Cookie: cookies,
           ...headers,
         },
         credentials: 'include',

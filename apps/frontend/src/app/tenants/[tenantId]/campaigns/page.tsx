@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
@@ -12,10 +11,7 @@ type PageProps = {
 };
 export default async function Page({ params }: PageProps) {
   const tenantId = Number((await params).tenantId);
-
-  const headersList = await headers();
-  const cookies = headersList.get('cookie') as string;
-  const response = await apiCaller.tenants.get({ headers: { Cookie: cookies }, pathParams: { tenantId } });
+  const response = await apiCaller.tenants.get({ pathParams: { tenantId } });
   if (!response.ok) redirect(constants.pages.logIn());
 
   const tenant = await response.json();

@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
@@ -16,14 +15,11 @@ const Page = async (props: PageProps) => {
   const tenantId = Number(params.tenantId);
   const campaignId = Number(params.campaignId);
 
-  const headersList = await headers();
-  const cookies = headersList.get('cookie') as string;
-
-  const tenantResponse = await apiCaller.tenants.get({ headers: { Cookie: cookies }, pathParams: { tenantId } });
+  const tenantResponse = await apiCaller.tenants.get({ pathParams: { tenantId } });
   if (!tenantResponse.ok) return redirect(constants.pages.tenants());
   const tenant = await tenantResponse.json();
 
-  const campaignResponse = await apiCaller.campaigns.get({ headers: { Cookie: cookies }, pathParams: { tenantId, campaignId } });
+  const campaignResponse = await apiCaller.campaigns.get({ pathParams: { tenantId, campaignId } });
   if (!campaignResponse.ok) return redirect(constants.pages.campaigns({ tenantId }));
 
   const initialCampaign = await campaignResponse.json();
