@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { minify } from 'terser';
 import commonConstants from '../../../domain/constants';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
@@ -69,7 +69,6 @@ export class ScriptService {
     if (!fileExists) throw new InternalServerErrorException();
 
     const campaigns = await this.campaignRepository.getAllForScript({ tenantId });
-    if (campaigns.length === 0) throw new NotFoundException();
 
     const campaignsWithFunctions: TypeCampaignScript[] = campaigns.map((campaign) => {
       const newRequirements = migrateRequirementsFromStringToFunction(campaign.requirements);
