@@ -94,7 +94,7 @@ export function Campaigns({ allCampaigns, selectedCampaigns, setSelectedCampaign
       </div>
 
       {/* Campaigns */}
-      <table className="w-full">
+      <table className="w-full mt-5">
         <thead>
           <tr className="border-b-2 border-blue-100">
             <th className="text-left py-3 px-4 text-blue-900 font-semibold">ID</th>

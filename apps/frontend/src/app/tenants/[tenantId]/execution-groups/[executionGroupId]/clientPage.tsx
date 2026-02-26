@@ -109,12 +109,59 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
 
         <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
           <h2 className="text-xl font-semibold text-blue-900 mb-4">{translation.executionGroup.config}</h2>
-          <div className="flex justify-between items-center">
-            <span>Keep campaign(s) executed</span>
-            <Switch
-              checked={executionGroup.persistCampaignAcrossReloads}
-              onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
-            />
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-2">
+              <div className="flex min-w-16 max-w-16 py-1">
+                <Switch
+                  checked={executionGroup.persistCampaignAcrossReloads}
+                  onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Wait conditions</h3>
+                <p>
+                  <span className="text-green-600">Enabled:</span> To execute campaign(s), every campaign must trigger en valuate its conditions
+                </p>
+                <p>
+                  <span className="text-red-600">Disabled:</span> Campaigns can be executed ignoring other campaigns
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="flex min-w-16 max-w-16 py-1">
+                <Switch
+                  checked={executionGroup.persistCampaignAcrossReloads}
+                  onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Only one</h3>
+                <p>
+                  <span className="text-green-600">Enabled:</span> Only one campaign can be executed in each page load
+                </p>
+                <p>
+                  <span className="text-red-600">Disabled:</span> Every campaign can be executed in each page load
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="flex min-w-16 max-w-16 py-1">
+                <Switch
+                  checked={executionGroup.persistCampaignAcrossReloads}
+                  onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Remember campaigns</h3>
+                <p>
+                  <span className="text-green-600">Enabled:</span> Only campaign(s) that executed in the first page load can triggered again. After first page load, this
+                  campaign will not wait other to be evaluated
+                </p>
+                <p>
+                  <span className="text-red-600">Disabled:</span> Campaigns can allways trigger
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
