@@ -104,6 +104,11 @@ export class DbService {
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
+      remove: async (args) => {
+        const result = await this.campaignRepository.remove(args);
+        await this.scriptService.clear({ tenantId: args.tenantId });
+        return result;
+      },
     };
     this.executionGroup = {
       ...this.executionGroupRepository,
@@ -114,6 +119,11 @@ export class DbService {
       },
       update: async (args1, args2, args3) => {
         const result = await this.executionGroupRepository.update(args1, args2, args3);
+        await this.scriptService.clear({ tenantId: args1.tenantId });
+        return result;
+      },
+      remove: async (args1) => {
+        const result = await this.executionGroupRepository.remove(args1);
         await this.scriptService.clear({ tenantId: args1.tenantId });
         return result;
       },

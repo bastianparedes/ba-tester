@@ -27,10 +27,12 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
         canReadCampaign: false,
         canCreateCampaign: false,
         canUpdateCampaign: false,
+        canDeleteCampaign: false,
 
         canReadExecutionGroup: false,
         canCreateExecutionGroup: false,
         canUpdateExecutionGroup: false,
+        canDeleteExecutionGroup: false,
       },
     };
 

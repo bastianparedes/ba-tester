@@ -35,6 +35,14 @@ export class CampaignRepository {
     return result;
   };
 
+  remove = async ({ tenantId, campaignId }: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] }) => {
+    const [result] = await db
+      .delete(schema.campaigns)
+      .where(and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)))
+      .returning();
+    return result;
+  };
+
   getMany = async (
     { tenantId }: { tenantId: TypeTenant['id'] },
     {

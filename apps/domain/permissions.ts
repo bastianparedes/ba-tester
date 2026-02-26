@@ -23,11 +23,13 @@ export const permissions = Object.freeze({
     read: 'campaign.read',
     create: 'campaign.create',
     update: 'campaign.update',
+    delete: 'campaign.delete',
   },
   executionGroup: {
     read: 'execution-group.read',
     create: 'execution-group.create',
     update: 'execution-group.update',
+    delete: 'execution-group.delete',
   },
 });
 

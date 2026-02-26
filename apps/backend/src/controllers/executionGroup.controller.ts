@@ -85,4 +85,14 @@ export class ExecutionGroupsController {
     await this.dbService.executionGroup.update({ tenantId, executionGroupId }, values, campaignIds);
     return {};
   }
+
+  @UseGuards(AuthGuard(permissions.executionGroup.delete))
+  @Put(':executionGroupId')
+  async re3move(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
+  ): Promise<TypeApiExecutionGroups['update']['response']> {
+    await this.dbService.executionGroup.remove({ tenantId, executionGroupId });
+    return {};
+  }
 }

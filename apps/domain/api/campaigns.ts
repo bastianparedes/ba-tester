@@ -56,6 +56,6 @@ export type TypeApiCampaigns = {
       headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
     };
-    response: never;
+    response: Record<string, never>;
   };
 };

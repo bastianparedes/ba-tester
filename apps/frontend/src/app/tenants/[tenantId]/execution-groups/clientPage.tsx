@@ -1,9 +1,10 @@
 'use client';
 
 import Pagination from '@mui/material/Pagination';
-import { ChevronDown, ChevronUp, PlusCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, Pencil, PlusCircle, Trash2 } from 'lucide-react';
 import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
+import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
@@ -121,6 +122,18 @@ export function ClientPage({ tenantId }: PageProps) {
     return state.sortConfig.direction === 'asc' ? <ChevronUp className="w-4 h-4 ml-1 inline" /> : <ChevronDown className="w-4 h-4 ml-1 inline" />;
   };
 
+  const confirm = useDialogStore((state) => state.confirm);
+
+  const deleteExecutionGroup = async ({ executionGroup }: { executionGroup: TypeExecutionGroup }) => {
+    const result = await confirm({
+      title: `Delete execution group (id: ${executionGroup.id}) "${executionGroup.name}"`,
+      description: 'You are about to delete an execution group and this change can not be undone. Are you sure tou want to delete this execution group?',
+    });
+    if (!result) return;
+    await apiCaller.executionGroups.delete({ pathParams: { tenantId, executionGroupId: executionGroup.id } });
+    location.reload();
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Main Content */}
@@ -159,6 +172,8 @@ export function ClientPage({ tenantId }: PageProps) {
                     <SortIcon column="name" />
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">{translation.executionGroups.tableQuantityCampaigns}</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Modify</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Delete</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -207,11 +222,36 @@ export function ClientPage({ tenantId }: PageProps) {
                           {executionGroup.campaignsCount}
                         </a>
                       </td>
+                      <td className="px-6 py-4 text-left">
+                        <button
+                          type="button"
+                          disabled={!user.permissions.canUpdateExecutionGroup}
+                          onClick={() => {
+                            location.href = config.pages.executionGroup({
+                              tenantId,
+                              executionGroupId: executionGroup.id,
+                            });
+                          }}
+                          className="p-3 text-blue-500 hover:enabled:bg-blue-200 rounded-lg transition-colors disabled:opacity-80 disabled:cursor-not-allowed"
+                        >
+                          <Pencil size={20} />
+                        </button>
+                      </td>
+                      <td className="px-6 py-4 text-left">
+                        <button
+                          type="button"
+                          disabled={!user.permissions.canDeleteExecutionGroup}
+                          onClick={() => deleteExecutionGroup({ executionGroup })}
+                          className="p-3 text-red-500 hover:bg-red-200 rounded-lg transition-colors"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
+                    <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
                       {translation.executionGroups.noData}
                     </td>
                   </tr>

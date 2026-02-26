@@ -1,9 +1,10 @@
 'use client';
 
 import Pagination from '@mui/material/Pagination';
-import { ChevronDown, ChevronUp, PlusCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, Pencil, PlusCircle, Trash2 } from 'lucide-react';
 import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
+import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
@@ -148,6 +149,18 @@ export function ClientPage({ tenantId }: PageProps) {
     return state.sortConfig.direction === 'asc' ? <ChevronUp className="w-4 h-4 ml-1 inline" /> : <ChevronDown className="w-4 h-4 ml-1 inline" />;
   };
 
+  const confirm = useDialogStore((state) => state.confirm);
+
+  const deleteCampaign = async ({ campaign }: { campaign: TypeCampaignLight }) => {
+    const result = await confirm({
+      title: `Delete campaign (id: ${campaign.id}) "${campaign.name}"`,
+      description: 'You are about to delete a campaign and this change can not be undone. Are you sure tou want to delete this campaign?',
+    });
+    if (!result) return;
+    await apiCaller.campaigns.delete({ pathParams: { tenantId, campaignId: campaign.id } });
+    location.reload();
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Main Content */}
@@ -187,11 +200,13 @@ export function ClientPage({ tenantId }: PageProps) {
                   </th>
                   <th
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'status' })}
-                    className="px-6 py-4 text-center text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
+                    className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
                     {translation.campaigns.tableStatus}
                     <SortIcon column="status" />
                   </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Modify</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">Delete</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -226,7 +241,7 @@ export function ClientPage({ tenantId }: PageProps) {
                           {campaign.name}
                         </a>
                       </td>
-                      <td className="px-6 py-4 text-center">
+                      <td className="px-6 py-4 text-left">
                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(campaign.status)}`}>
                           <a
                             href={
@@ -242,11 +257,36 @@ export function ClientPage({ tenantId }: PageProps) {
                           </a>
                         </span>
                       </td>
+                      <td className="px-6 py-4 text-left">
+                        <button
+                          type="button"
+                          disabled={!user.permissions.canUpdateCampaign}
+                          onClick={() => {
+                            location.href = config.pages.campaign({
+                              tenantId,
+                              campaignId: campaign.id,
+                            });
+                          }}
+                          className="p-3 text-blue-500 hover:enabled:bg-blue-200 rounded-lg transition-colors disabled:opacity-80 disabled:cursor-not-allowed"
+                        >
+                          <Pencil size={20} />
+                        </button>
+                      </td>
+                      <td className="px-6 py-4 text-left">
+                        <button
+                          type="button"
+                          disabled={!user.permissions.canDeleteCampaign}
+                          onClick={() => deleteCampaign({ campaign })}
+                          className="p-3 text-red-500 hover:bg-red-200 rounded-lg transition-colors"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
+                    <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
                       {translation.campaigns.noData}
                     </td>
                   </tr>

@@ -77,7 +77,7 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
       notifyUsersExecutionGroupWasUpdated();
       await apiCaller.executionGroups.update({
         pathParams: { tenantId: executionGroup.tenantId, executionGroupId: executionGroup.id },
-        body: executionGroup,
+        body: { ...executionGroup, campaignIds },
       });
     }
     location.href = constants.pages.executionGroups({ tenantId: executionGroup.tenantId });

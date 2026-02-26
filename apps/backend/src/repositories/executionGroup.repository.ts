@@ -69,6 +69,25 @@ export class ExecutionGroupRepository {
     return result;
   };
 
+  remove = async ({ tenantId, executionGroupId }: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] }) => {
+    const result = await db.transaction(async (tx) => {
+      await tx
+        .update(schema.campaigns)
+        .set({
+          executionGroupId: null,
+        })
+        .where(and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.executionGroupId, executionGroupId)));
+      const [result] = await tx
+        .delete(schema.executionGroups)
+        .where(and(eq(schema.executionGroups.tenantId, tenantId), eq(schema.executionGroups.id, executionGroupId)))
+        .returning();
+
+      return result;
+    });
+
+    return result;
+  };
+
   getMany = async (
     { tenantId }: { tenantId: TypeTenant['id'] },
     {

@@ -40,7 +40,7 @@ export type TypeApiExecutionGroups = {
     request: {
       headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
-      body: Omit<TypeExecutionGroup, 'id'>;
+      body: Omit<Omit<TypeExecutionGroup, 'id'>, 'tenantId'> & { campaignIds: TypeCampaign['id'][] };
     };
     response: Record<string, never>;
   };
@@ -49,6 +49,6 @@ export type TypeApiExecutionGroups = {
       headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
     };
-    response: never;
+    response: Record<string, never>;
   };
 };

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsArray, IsIn, IsInt, IsString, ValidateNested } from 'class-validator';
 import { TypeApiCampaigns } from '../../../../domain/api/campaigns';
@@ -98,6 +98,13 @@ export class CampaignsController {
     @Body() body: CampaignDto,
   ): Promise<TypeApiCampaigns['update']['response']> {
     await this.dbService.campaigns.update({ tenantId, campaignId }, body);
+    return {};
+  }
+
+  @UseGuards(AuthGuard(permissions.campaign.delete))
+  @Delete(':campaignId')
+  async remove(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('campaignId', ParseIntPipe) campaignId: number): Promise<TypeApiCampaigns['delete']['response']> {
+    await this.dbService.campaigns.remove({ tenantId, campaignId });
     return {};
   }
 }
