@@ -116,7 +116,9 @@ export class ExecutionGroupRepository {
         id: schema.executionGroups.id,
         name: schema.executionGroups.name,
         strategy: schema.executionGroups.strategy,
-        persistCampaignAcrossReloads: schema.executionGroups.persistCampaignAcrossReloads,
+        waitForEveryCampaignToBeEvaluated: schema.executionGroups.waitForEveryCampaignToBeEvaluated,
+        onlyOneCampaignPerPageLoad: schema.executionGroups.onlyOneCampaignPerPageLoad,
+        onlyCampaignsPreviouslyExecuted: schema.executionGroups.onlyCampaignsPreviouslyExecuted,
         tenantId: schema.executionGroups.tenantId,
         campaignsCount: sql<number>`count(${schema.campaigns.id})`,
       })

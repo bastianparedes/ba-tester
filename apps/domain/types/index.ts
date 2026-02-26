@@ -28,7 +28,9 @@ export type TypeExecutionGroup = {
   id: number;
   name: string;
   strategy: TypeExecutionGroupStrategy;
-  persistCampaignAcrossReloads: boolean;
+  waitForEveryCampaignToBeEvaluated: boolean;
+  onlyOneCampaignPerPageLoad: boolean;
+  onlyCampaignsPreviouslyExecuted: boolean;
   tenantId: number;
 };
 export type TypeExecutionGroupWithOptionalId = Omit<TypeExecutionGroup, 'id'> & { id?: number | undefined };

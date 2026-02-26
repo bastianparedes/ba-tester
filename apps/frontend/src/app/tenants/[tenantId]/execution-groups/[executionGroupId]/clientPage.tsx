@@ -113,8 +113,8 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
             <div className="flex gap-2">
               <div className="flex min-w-16 max-w-16 py-1">
                 <Switch
-                  checked={executionGroup.persistCampaignAcrossReloads}
-                  onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
+                  checked={executionGroup.waitForEveryCampaignToBeEvaluated}
+                  onChange={() => setExecutionGroup((state) => ({ ...state, waitForEveryCampaignToBeEvaluated: !executionGroup.waitForEveryCampaignToBeEvaluated }))}
                 />
               </div>
               <div>
@@ -130,14 +130,15 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
             <div className="flex gap-2">
               <div className="flex min-w-16 max-w-16 py-1">
                 <Switch
-                  checked={executionGroup.persistCampaignAcrossReloads}
-                  onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
+                  checked={executionGroup.onlyOneCampaignPerPageLoad}
+                  onChange={() => setExecutionGroup((state) => ({ ...state, onlyOneCampaignPerPageLoad: !executionGroup.onlyOneCampaignPerPageLoad }))}
                 />
               </div>
               <div>
                 <h3 className="text-xl font-bold">Only one</h3>
                 <p>
-                  <span className="text-green-600">Enabled:</span> Only one campaign can be executed in each page load
+                  <span className="text-green-600">Enabled:</span> Only one campaign can be executed in each page load. If campaigns waited for each other, one campaign will
+                  be picked randomly
                 </p>
                 <p>
                   <span className="text-red-600">Disabled:</span> Every campaign can be executed in each page load
@@ -147,8 +148,8 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
             <div className="flex gap-2">
               <div className="flex min-w-16 max-w-16 py-1">
                 <Switch
-                  checked={executionGroup.persistCampaignAcrossReloads}
-                  onChange={() => setExecutionGroup((state) => ({ ...state, persistCampaignAcrossReloads: !executionGroup.persistCampaignAcrossReloads }))}
+                  checked={executionGroup.onlyCampaignsPreviouslyExecuted}
+                  onChange={() => setExecutionGroup((state) => ({ ...state, onlyCampaignsPreviouslyExecuted: !executionGroup.onlyCampaignsPreviouslyExecuted }))}
                 />
               </div>
               <div>

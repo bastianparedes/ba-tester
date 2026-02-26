@@ -35,7 +35,9 @@ const Page = async (props: PageProps) => {
           id: undefined,
           name: 'New execution group name',
           strategy: 'execute_all',
-          persistCampaignAcrossReloads: true,
+          waitForEveryCampaignToBeEvaluated: true,
+          onlyOneCampaignPerPageLoad: true,
+          onlyCampaignsPreviouslyExecuted: true,
           tenantId,
         }}
         initialCampaigns={[]}

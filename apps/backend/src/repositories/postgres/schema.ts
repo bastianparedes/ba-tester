@@ -21,7 +21,9 @@ export const executionGroups = pgTable('execution_groups', {
   id: serial('id').primaryKey().unique().notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   strategy: executionStrategyEnum('strategy').notNull(),
-  persistCampaignAcrossReloads: boolean('persist_campaign_across_reloads').notNull().default(true),
+  waitForEveryCampaignToBeEvaluated: boolean('wait_for_every_campaign_to_be_evaluated').notNull(),
+  onlyOneCampaignPerPageLoad: boolean('only_one_campaign_per_page_load').notNull(),
+  onlyCampaignsPreviouslyExecuted: boolean('only_campaigns_previously_executed').notNull(),
   tenantId: integer('tenant_id')
     .notNull()
     .references(() => tenants.id, {

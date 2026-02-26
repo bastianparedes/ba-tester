@@ -33,7 +33,13 @@ export class ExecutionGroupDto {
   name: TypeExecutionGroup['name'];
 
   @IsBoolean()
-  persistCampaignAcrossReloads: TypeExecutionGroup['persistCampaignAcrossReloads'];
+  waitForEveryCampaignToBeEvaluated: TypeExecutionGroup['waitForEveryCampaignToBeEvaluated'];
+
+  @IsBoolean()
+  onlyOneCampaignPerPageLoad: TypeExecutionGroup['onlyOneCampaignPerPageLoad'];
+
+  @IsBoolean()
+  onlyCampaignsPreviouslyExecuted: TypeExecutionGroup['onlyCampaignsPreviouslyExecuted'];
 
   @IsIn(commonConstants.executionStrategies)
   strategy: TypeExecutionGroup['strategy'];
