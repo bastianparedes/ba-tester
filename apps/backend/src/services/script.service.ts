@@ -122,6 +122,10 @@ export class ScriptService {
     return script;
   }
 
+  async clear({ tenantId }: { tenantId: number }): Promise<void> {
+    await this.cacheService.scripts.del({ tenantId });
+  }
+
   async getScript({ tenantId }: { tenantId: number }): Promise<string> {
     const cachedScript = await this.cacheService.scripts.get({ tenantId });
     if (cachedScript) return cachedScript;

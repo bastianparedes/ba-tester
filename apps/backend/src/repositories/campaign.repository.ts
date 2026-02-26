@@ -1,30 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
-import type { TypeCampaign, TypeDirection, TypeOrderBy } from '../../../domain/types';
+import type { TypeCampaign, TypeDirection, TypeOrderCampaignsBy, TypeTenant } from '../../../domain/types';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 
 @Injectable()
 export class CampaignRepository {
-  create = async (
-    { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
-    { name, requirements, status, triggers, variations }: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>,
-  ) => {
+  create = async ({ tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> }, values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>) => {
     const result = await db
       .insert(schema.campaigns)
       .values({
+        ...values,
         tenantId,
-        name,
-        requirements,
-        status,
-        triggers,
-        variations,
       })
       .returning();
     return result;
   };
 
-  update = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }, values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>) => {
+  update = async (
+    { tenantId, campaignId }: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] },
+    values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>,
+  ) => {
     const result = await db
       .update(schema.campaigns)
       .set({
@@ -40,7 +36,7 @@ export class CampaignRepository {
   };
 
   getMany = async (
-    { tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> },
+    { tenantId }: { tenantId: TypeTenant['id'] },
     {
       statusList,
       textSearch,
@@ -54,7 +50,7 @@ export class CampaignRepository {
       quantity: number;
       page: number;
       orderDirection: TypeDirection;
-      orderBy: TypeOrderBy;
+      orderBy: TypeOrderCampaignsBy;
     },
   ) => {
     const sort = {
@@ -115,7 +111,19 @@ export class CampaignRepository {
     };
   };
 
-  get = async ({ tenantId, campaignId }: { tenantId: number; campaignId: number }) =>
+  getAllLight = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
+    const campaigns = await db.query.campaigns.findMany({
+      columns: {
+        triggers: false,
+        requirements: false,
+        variations: false,
+      },
+      where: eq(schema.campaigns.tenantId, tenantId),
+    });
+    return campaigns;
+  };
+
+  get = async ({ tenantId, campaignId }: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] }) =>
     await db.query.campaigns.findFirst({
       where: and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)),
       with: {
@@ -123,7 +131,7 @@ export class CampaignRepository {
       },
     });
 
-  getAllForScript = async ({ tenantId }: { tenantId: number }) => {
+  getAllForScript = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
     const campaigns = await db.query.campaigns.findMany({
       columns: {
         id: true,

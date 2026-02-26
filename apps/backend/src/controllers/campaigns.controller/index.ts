@@ -69,6 +69,13 @@ export class CampaignsController {
   }
 
   @UseGuards(AuthGuard(permissions.campaign.read))
+  @Get('getAllLight')
+  async getAllLightVersion(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<TypeApiCampaigns['getAllLight']['response']> {
+    const campaigns = await this.dbService.campaigns.getAllLight({ tenantId });
+    return { campaigns };
+  }
+
+  @UseGuards(AuthGuard(permissions.campaign.read))
   @Get(':campaignId')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('campaignId', ParseIntPipe) campaignId: number): Promise<TypeApiCampaigns['get']['response']> {
     const result = await this.dbService.campaigns.get({ tenantId, campaignId });

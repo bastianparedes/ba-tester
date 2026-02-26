@@ -10,6 +10,13 @@ export const campaigns = {
     });
     return response;
   },
+  getAllLight: async (data: TypeApiCampaigns['getAllLight']['request']) => {
+    const response = await fetchers.get<TypeApiCampaigns['getAllLight']['response']>({
+      headers: data.headers,
+      url: `/tenants/${data.pathParams.tenantId}/campaigns/getAllLight`,
+    });
+    return response;
+  },
   get: async (data: TypeApiCampaigns['get']['request']) => {
     const response = await fetchers.get<TypeApiCampaigns['get']['response']>({
       headers: data.headers,

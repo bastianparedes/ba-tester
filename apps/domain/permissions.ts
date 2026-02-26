@@ -24,6 +24,11 @@ export const permissions = Object.freeze({
     create: 'campaign.create',
     update: 'campaign.update',
   },
+  executionGroup: {
+    read: 'execution-group.read',
+    create: 'execution-group.create',
+    update: 'execution-group.update',
+  },
 });
 
 export const flatPermissions = flattenObject(permissions);

@@ -3,6 +3,8 @@ const constants = Object.freeze({
     home: () => '/',
     tenants: () => '/tenants',
     executionGroups: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/execution-groups`,
+    executionGroup: ({ tenantId, executionGroupId }: { tenantId: number; executionGroupId: number | undefined }) =>
+      `/tenants/${tenantId}/execution-groups/${executionGroupId}`,
     campaign: ({ tenantId, campaignId }: { tenantId: number; campaignId: number | undefined }) => `/tenants/${tenantId}/campaigns/${campaignId}`,
     campaigns: ({ tenantId }: { tenantId: number | string }) => `/tenants/${tenantId}/campaigns`,
     playground: ({ tenantId }: { tenantId: number | string }) => `/tenants/${tenantId}/playground`,

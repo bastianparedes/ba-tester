@@ -9,11 +9,11 @@ import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaign, TypeDirection, TypeOrderBy, TypeStatus } from '@/domain/types';
+import type { TypeCampaign, TypeDirection, TypeOrderCampaignsBy, TypeStatus } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
-  sortConfig: { key: TypeOrderBy; direction: TypeDirection };
+  sortConfig: { key: TypeOrderCampaignsBy; direction: TypeDirection };
   statusFilter: TypeStatus[];
   nameFilter: string;
   itemsPerPage: number;
@@ -22,7 +22,7 @@ type UiState = {
 };
 
 type UiAction =
-  | { type: 'SET_SORT'; payload: TypeOrderBy }
+  | { type: 'SET_SORT'; payload: TypeOrderCampaignsBy }
   | { type: 'SET_STATUS_FILTER'; payload: TypeStatus }
   | { type: 'SET_NAME_FILTER'; payload: string }
   | { type: 'SET_ITEMS_PER_PAGE'; payload: number }
@@ -143,7 +143,7 @@ export function ClientPage({ tenantId }: PageProps) {
     }
   };
 
-  const SortIcon = ({ column }: { column: TypeOrderBy }) => {
+  const SortIcon = ({ column }: { column: TypeOrderCampaignsBy }) => {
     if (state.sortConfig.key !== column) {
       return <span className="text-slate-400 ml-1">⇅</span>;
     }
@@ -164,7 +164,7 @@ export function ClientPage({ tenantId }: PageProps) {
             href={user.permissions.canCreateCampaign ? config.pages.campaign({ tenantId, campaignId: undefined }) : undefined}
           >
             <PlusCircle />
-            {translation.campaigns.createCampaignButton}
+            {translation.campaigns.createButton}
           </Button>
         </div>
 

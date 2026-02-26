@@ -28,6 +28,7 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     });
 
     try {
+      console.info('Making fetch to', objectUrl.toString());
       const response = await fetch(objectUrl.toString(), {
         method,
         body: JSON.stringify(body),

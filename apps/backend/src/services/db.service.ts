@@ -4,6 +4,7 @@ import { flatPermissions } from '../../../domain/permissions';
 import { getPasswordHashed } from '../libs/auth/password';
 import { env } from '../libs/env';
 import { CampaignRepository } from '../repositories/campaign.repository';
+import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { RoleRepository } from '../repositories/role.repository';
 import { TenantRepository } from '../repositories/tenant.repository';
 import { UserRepository } from '../repositories/user.repository';
@@ -15,6 +16,7 @@ export class DbService {
   users: UserRepository;
   roles: RoleRepository;
   tenants: TenantRepository;
+  executionGroup: ExecutionGroupRepository;
   campaigns: CampaignRepository;
   constructor(
     private readonly cacheService: CacheService,
@@ -22,6 +24,7 @@ export class DbService {
     private readonly roleRepository: RoleRepository,
     private readonly tenantRepository: TenantRepository,
     private readonly campaignRepository: CampaignRepository,
+    private readonly executionGroupRepository: ExecutionGroupRepository,
     private readonly scriptService: ScriptService,
   ) {
     this.users = {
@@ -93,12 +96,25 @@ export class DbService {
       ...this.campaignRepository,
       create: async (args, requirements) => {
         const result = await this.campaignRepository.create(args, requirements);
-        await this.scriptService.populateScript({ tenantId: args.tenantId });
+        await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
       update: async (args, requirements) => {
         const result = await this.campaignRepository.update(args, requirements);
-        await this.scriptService.populateScript({ tenantId: args.tenantId });
+        await this.scriptService.clear({ tenantId: args.tenantId });
+        return result;
+      },
+    };
+    this.executionGroup = {
+      ...this.executionGroupRepository,
+      create: async (args1, args2, args3) => {
+        const result = await this.executionGroupRepository.create(args1, args2, args3);
+        await this.scriptService.clear({ tenantId: args1.tenantId });
+        return result;
+      },
+      update: async (args1, args2, args3) => {
+        const result = await this.executionGroupRepository.update(args1, args2, args3);
+        await this.scriptService.clear({ tenantId: args1.tenantId });
         return result;
       },
     };

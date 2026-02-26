@@ -8,13 +8,11 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
-import commonConstants from '@/domain/constants';
-import type { TypeCampaign, TypeDirection, TypeOrderBy, TypeStatus } from '@/domain/types';
+import type { TypeDirection, TypeExecutionGroup, TypeOrderExecutionGroupsBy } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
-  sortConfig: { key: TypeOrderBy; direction: TypeDirection };
-  statusFilter: TypeStatus[];
+  sortConfig: { key: TypeOrderExecutionGroupsBy; direction: TypeDirection };
   nameFilter: string;
   itemsPerPage: number;
   totalItems: number;
@@ -22,8 +20,7 @@ type UiState = {
 };
 
 type UiAction =
-  | { type: 'SET_SORT'; payload: TypeOrderBy }
-  | { type: 'SET_STATUS_FILTER'; payload: TypeStatus }
+  | { type: 'SET_SORT'; payload: TypeOrderExecutionGroupsBy }
   | { type: 'SET_NAME_FILTER'; payload: string }
   | { type: 'SET_ITEMS_PER_PAGE'; payload: number }
   | { type: 'SET_TOTAL_ITEMS'; payload: number }
@@ -36,7 +33,7 @@ export function ClientPage({ tenantId }: PageProps) {
   const user = useUser();
   const { translation } = useTranslationContext();
 
-  const [campaigns, setCampaigns] = useState<TypeCampaign[]>([]);
+  const [executionGroups, setExecutionGroups] = useState<(TypeExecutionGroup & { campaignsCount: number })[]>([]);
   const [state, dispatch] = useReducer(
     (state: UiState, action: UiAction): UiState => {
       switch (action.type) {
@@ -60,16 +57,6 @@ export function ClientPage({ tenantId }: PageProps) {
         }
         case 'SET_NAME_FILTER':
           return { ...state, nameFilter: action.payload };
-        case 'SET_STATUS_FILTER': {
-          if (state.statusFilter.includes(action.payload)) {
-            const newStatusFilter = state.statusFilter.filter((status) => status !== action.payload);
-            return { ...state, statusFilter: newStatusFilter };
-          }
-          return {
-            ...state,
-            statusFilter: [...state.statusFilter, action.payload],
-          };
-        }
         case 'SET_ITEMS_PER_PAGE':
           return { ...state, itemsPerPage: action.payload };
         case 'SET_TOTAL_ITEMS':
@@ -82,7 +69,6 @@ export function ClientPage({ tenantId }: PageProps) {
     },
     {
       sortConfig: { key: 'id', direction: 'asc' },
-      statusFilter: ['active', 'inactive'],
       nameFilter: '',
       itemsPerPage: quantitiesAvailable[0],
       totalItems: 0,
@@ -93,14 +79,13 @@ export function ClientPage({ tenantId }: PageProps) {
   const queryCampaigns = async (
     args: Partial<{
       textSearch: string;
-      orderBy: 'name' | 'id' | 'status';
+      orderBy: 'name' | 'id';
       orderDirection: TypeDirection;
       page: number;
       quantity: number;
-      statusList: TypeStatus[];
     }> = {},
   ) => {
-    const result = await apiCaller.campaigns.getMany({
+    const result = await apiCaller.executionGroups.getMany({
       pathParams: { tenantId },
       queryParams: {
         textSearch: state.nameFilter,
@@ -108,14 +93,13 @@ export function ClientPage({ tenantId }: PageProps) {
         orderDirection: state.sortConfig.direction,
         page: state.currentPage,
         quantity: state.itemsPerPage,
-        statusList: state.statusFilter,
         ...args,
       },
     });
 
     if (result.ok) {
       const json = await result.json();
-      setCampaigns(json.campaigns);
+      setExecutionGroups(json.executionGroups);
       dispatch({ type: 'SET_TOTAL_ITEMS', payload: json.count });
     }
   };
@@ -130,20 +114,7 @@ export function ClientPage({ tenantId }: PageProps) {
     queryCampaigns({ page: 0 });
   };
 
-  const getStatusColor = (status: TypeStatus) => {
-    switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'inactive':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'deleted':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const SortIcon = ({ column }: { column: TypeOrderBy }) => {
+  const SortIcon = ({ column }: { column: TypeOrderExecutionGroupsBy }) => {
     if (state.sortConfig.key !== column) {
       return <span className="text-slate-400 ml-1">⇅</span>;
     }
@@ -156,15 +127,15 @@ export function ClientPage({ tenantId }: PageProps) {
       <div className="flex-1 p-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-slate-900 mb-2">{translation.campaigns.headerTitle}</h1>
-            <p className="text-slate-600">{translation.campaigns.headerSubTitle}</p>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">{translation.executionGroups.headerTitle}</h1>
+            <p className="text-slate-600">{translation.executionGroups.headerSubTitle}</p>
           </div>
           <Button
             disabled={!user.permissions.canCreateCampaign}
-            href={user.permissions.canCreateCampaign ? config.pages.campaign({ tenantId, campaignId: undefined }) : undefined}
+            href={user.permissions.canCreateCampaign ? config.pages.executionGroup({ tenantId, executionGroupId: undefined }) : undefined}
           >
             <PlusCircle />
-            {translation.campaigns.createCampaignButton}
+            {translation.executionGroups.createButton}
           </Button>
         </div>
 
@@ -177,79 +148,71 @@ export function ClientPage({ tenantId }: PageProps) {
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'id' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    {translation.campaigns.tableId}
+                    {translation.executionGroups.tableId}
                     <SortIcon column="id" />
                   </th>
                   <th
                     onClick={() => dispatch({ type: 'SET_SORT', payload: 'name' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
-                    {translation.campaigns.tableName}
+                    {translation.executionGroups.tableName}
                     <SortIcon column="name" />
                   </th>
-                  <th
-                    onClick={() => dispatch({ type: 'SET_SORT', payload: 'status' })}
-                    className="px-6 py-4 text-center text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
-                  >
-                    {translation.campaigns.tableStatus}
-                    <SortIcon column="status" />
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">{translation.executionGroups.tableQuantityCampaigns}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
-                {campaigns.length > 0 ? (
-                  campaigns.map((campaign) => (
-                    <tr key={campaign.id} className="hover:bg-slate-50 transition-colors">
+                {executionGroups.length > 0 ? (
+                  executionGroups.map((executionGroup) => (
+                    <tr key={executionGroup.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 text-slate-700 font-medium">
                         <a
                           href={
                             user.permissions.canReadCampaign
-                              ? config.pages.campaign({
+                              ? config.pages.executionGroup({
                                   tenantId,
-                                  campaignId: campaign.id,
+                                  executionGroupId: executionGroup.id,
                                 })
                               : ''
                           }
                         >
-                          {campaign.id}
+                          {executionGroup.id}
                         </a>
                       </td>
                       <td className="px-6 py-4 text-slate-900 font-semibold">
                         <a
                           href={
                             user.permissions.canReadCampaign
-                              ? config.pages.campaign({
+                              ? config.pages.executionGroup({
                                   tenantId,
-                                  campaignId: campaign.id,
+                                  executionGroupId: executionGroup.id,
                                 })
                               : ''
                           }
                         >
-                          {campaign.name}
+                          {executionGroup.name}
                         </a>
                       </td>
-                      <td className="px-6 py-4 text-center">
-                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(campaign.status)}`}>
-                          <a
-                            href={
-                              user.permissions.canReadCampaign
-                                ? config.pages.campaign({
-                                    tenantId,
-                                    campaignId: campaign.id,
-                                  })
-                                : ''
-                            }
-                          >
-                            {translation.campaigns.status[campaign.status]}
-                          </a>
-                        </span>
+                      <td className="px-6 py-4 text-slate-900 font-semibold">
+                        <a
+                          href={
+                            user.permissions.canReadCampaign
+                              ? config.pages.executionGroup({
+                                  tenantId,
+                                  executionGroupId: executionGroup.id,
+                                })
+                              : ''
+                          }
+                        >
+                          {executionGroup.campaignsCount}
+                        </a>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
-                      {translation.campaigns.noData}
+                      {translation.executionGroups.noData}
                     </td>
                   </tr>
                 )}
@@ -266,7 +229,7 @@ export function ClientPage({ tenantId }: PageProps) {
 
       {/* Sidebar */}
       <div className="w-64 bg-white shadow-lg p-6">
-        <h2 className="text-xl font-bold text-slate-900 mb-6">{translation.campaigns.filtersTitle}</h2>
+        <h2 className="text-xl font-bold text-slate-900 mb-6">{translation.executionGroups.filtersTitle}</h2>
 
         <form
           onSubmit={(e) => {
@@ -275,7 +238,7 @@ export function ClientPage({ tenantId }: PageProps) {
           }}
         >
           <div className="mb-6">
-            <span className="block text-sm font-semibold text-slate-700 mb-2">{translation.campaigns.filtersText}</span>
+            <span className="block text-sm font-semibold text-slate-700 mb-2">{translation.executionGroups.filtersText}</span>
             <input
               type="text"
               value={state.nameFilter}
@@ -285,24 +248,7 @@ export function ClientPage({ tenantId }: PageProps) {
           </div>
 
           <div className="mb-6">
-            <span className="block text-sm font-semibold text-slate-700 mb-2">{translation.campaigns.filtersStatus}</span>
-            <div className="space-y-2">
-              {commonConstants.campaignStatus.map((status) => (
-                <label key={status} className="flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={state.statusFilter.includes(status)}
-                    onChange={() => dispatch({ type: 'SET_STATUS_FILTER', payload: status })}
-                    className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500"
-                  />
-                  <span className="ml-2 text-sm text-slate-700">{translation.campaigns.status[status]}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <span className="block text-sm font-semibold text-slate-700 mb-2">{translation.campaigns.filtersQuantity}</span>
+            <span className="block text-sm font-semibold text-slate-700 mb-2">{translation.executionGroups.filtersQuantity}</span>
             <select
               value={state.itemsPerPage}
               onChange={(e) =>
@@ -322,7 +268,7 @@ export function ClientPage({ tenantId }: PageProps) {
           </div>
 
           <button type="submit" className="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
-            {translation.campaigns.applyFilters}
+            {translation.executionGroups.applyFilters}
           </button>
         </form>
       </div>

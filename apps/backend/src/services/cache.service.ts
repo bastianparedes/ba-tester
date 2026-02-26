@@ -40,6 +40,10 @@ export class CacheService {
       const key = `tenant:${tenantId}:public_script`;
       return cache.get({ key });
     },
+    async del({ tenantId }: { tenantId: number }): Promise<void> {
+      const key = `tenant:${tenantId}:public_script`;
+      await cache.del({ key });
+    },
   };
   users = {
     async save({ user }: { user: TypeUser }) {

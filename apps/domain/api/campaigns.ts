@@ -26,6 +26,15 @@ export type TypeApiCampaigns = {
       count: number;
     };
   };
+  getAllLight: {
+    request: {
+      headers?: RequestInit['headers'];
+      pathParams: { tenantId: TypeTenant['id'] };
+    };
+    response: {
+      campaigns: TypeCampaignLight[];
+    };
+  };
   create: {
     request: {
       headers?: RequestInit['headers'];

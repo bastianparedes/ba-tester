@@ -22,6 +22,7 @@ export type TypeTenant = {
   domain: string;
 };
 
+export type TypeOrderExecutionGroupsBy = 'name' | 'id';
 export type TypeExecutionGroupStrategy = 'execute_all' | 'execute_first' | 'execute_random';
 export type TypeExecutionGroup = {
   id: number;
@@ -30,6 +31,7 @@ export type TypeExecutionGroup = {
   persistCampaignAcrossReloads: boolean;
   tenantId: number;
 };
+export type TypeExecutionGroupWithOptionalId = Omit<TypeExecutionGroup, 'id'> & { id?: number | undefined };
 
 export type TypeStatus = 'active' | 'inactive' | 'deleted';
 
@@ -42,7 +44,7 @@ export type TypeVariationData = {
   traffic: number;
 };
 
-export type TypeOrderBy = 'name' | 'id' | 'status';
+export type TypeOrderCampaignsBy = 'name' | 'id' | 'status';
 export type TypeCampaign = {
   id: number;
   name: string;

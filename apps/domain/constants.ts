@@ -81,6 +81,8 @@ const devices = Object.freeze({
   mobile: 'mobile',
 }) satisfies Record<TypeDeviceType, string>;
 
+const executionGroupOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
+
 const campaignStatus = [status.inactive, status.active, status.deleted] as const satisfies TypeStatus[];
 const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
 
@@ -101,6 +103,7 @@ const executionStrategies = ['execute_all', 'execute_first', 'execute_random'] a
 const constants = Object.freeze({
   booleanOperators,
   campaignRequirements,
+  executionGroupOrderDirection,
   campaignStatus,
   campaignOrderDirection,
   comparisons,

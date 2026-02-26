@@ -35,10 +35,7 @@ const Page = async (props: PageProps) => {
         { name: 'Tenants', path: constants.pages.tenants() },
         { name: tenant.name },
         { name: 'Campaigns', path: constants.pages.campaigns({ tenantId }) },
-        {
-          name: initialCampaign.name,
-          path: constants.pages.campaigns({ tenantId }),
-        },
+        { name: initialCampaign.name },
       ]}
     >
       <ClientPage initialCampaign={initialCampaign} tenantId={tenantId} campaignId={campaignId} />

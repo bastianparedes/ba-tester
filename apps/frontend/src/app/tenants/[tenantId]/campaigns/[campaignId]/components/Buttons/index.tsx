@@ -25,7 +25,6 @@ const Buttons = ({ campaign, userMadeChange, notifyUsersCampaignWasUpdated }: Pr
         pathParams: { tenantId: campaign.tenantId },
         body: campaign,
       });
-      return;
     } else {
       notifyUsersCampaignWasUpdated();
       await apiCaller.campaigns.update({

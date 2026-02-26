@@ -1,4 +1,4 @@
-import type { TypeCampaign, TypeDirection, TypeExecutionGroup, TypeTenant } from '../types';
+import type { TypeCampaign, TypeCampaignLight, TypeDirection, TypeExecutionGroup, TypeTenant } from '../types';
 
 export type TypeApiExecutionGroups = {
   get: {
@@ -7,9 +7,8 @@ export type TypeApiExecutionGroups = {
       pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
     };
     response: {
-      executionGroup: TypeExecutionGroup & {
-        campaigns: TypeCampaign[];
-      };
+      executionGroup: TypeExecutionGroup;
+      campaigns: TypeCampaignLight[];
     };
   };
   getMany: {
@@ -25,14 +24,15 @@ export type TypeApiExecutionGroups = {
       };
     };
     response: {
-      executionGroups: TypeExecutionGroup[];
+      executionGroups: (TypeExecutionGroup & { campaignsCount: number })[];
+      count: number;
     };
   };
   create: {
     request: {
       headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
-      body: Omit<TypeExecutionGroup, 'id'>;
+      body: Omit<Omit<TypeExecutionGroup, 'id'>, 'tenantId'> & { campaignIds: TypeCampaign['id'][] };
     };
     response: Record<string, never>;
   };

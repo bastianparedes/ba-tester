@@ -25,6 +25,10 @@ export type TypeFullUser =
         canReadCampaign: boolean;
         canCreateCampaign: boolean;
         canUpdateCampaign: boolean;
+
+        canReadExecutionGroup: boolean;
+        canCreateExecutionGroup: boolean;
+        canUpdateExecutionGroup: boolean;
       };
     }
   | {
@@ -50,6 +54,10 @@ export type TypeFullUser =
         canReadCampaign: false;
         canCreateCampaign: false;
         canUpdateCampaign: false;
+
+        canReadExecutionGroup: false;
+        canCreateExecutionGroup: false;
+        canUpdateExecutionGroup: false;
       };
     };
 export const getUserPermissions = (user: TypeUser | null) => ({
@@ -71,4 +79,8 @@ export const getUserPermissions = (user: TypeUser | null) => ({
   canReadCampaign: !!user && user.role.permissions.includes(permissions.campaign.read),
   canCreateCampaign: !!user && user.role.permissions.includes(permissions.campaign.create),
   canUpdateCampaign: !!user && user.role.permissions.includes(permissions.campaign.update),
+
+  canReadExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.read),
+  canCreateExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.create),
+  canUpdateExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.update),
 });
