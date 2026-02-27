@@ -139,7 +139,7 @@ export class CampaignRepository {
       },
     });
 
-  getAllForScript = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
+  getAllCampaignsForScript = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
     const campaigns = await db.query.campaigns.findMany({
       columns: {
         id: true,

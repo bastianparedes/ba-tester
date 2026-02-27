@@ -166,7 +166,7 @@ export class ExecutionGroupRepository {
     return result;
   };
 
-  getAllForScript = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
+  getAllExecutionGroupsForScript = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
     const executionGroups = await db.query.executionGroups.findMany({
       columns: {
         tenantId: false,

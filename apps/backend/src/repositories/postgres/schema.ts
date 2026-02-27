@@ -37,7 +37,6 @@ export const campaigns = pgTable('campaigns', {
     .notNull()
     .references(() => tenants.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
   executionGroupId: integer('execution_group_id').references(() => executionGroups.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-
   name: varchar('name', { length: 255 }).notNull().default(''),
   requirements: jsonb('requirements').$type<TypeCampaign['requirements']>().notNull(),
   status: statusEnum('status').notNull().default('inactive'),
