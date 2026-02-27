@@ -1,11 +1,11 @@
 import { Controller, Get, Header, Param, ParseIntPipe } from '@nestjs/common';
 import { ScriptService } from '../services/script.service';
 
-@Controller('public/script/tenants')
+@Controller('public/tenants/:tenantId')
 export class ScriptController {
   constructor(private readonly scriptService: ScriptService) {}
 
-  @Get(':tenantId')
+  @Get('script')
   @Header('Content-Type', 'text/javascript; charset=utf-8')
   @Header('Access-Control-Allow-Origin', '*')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<string> {

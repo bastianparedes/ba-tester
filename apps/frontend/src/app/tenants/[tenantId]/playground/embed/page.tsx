@@ -12,7 +12,7 @@ export default async function Page({ params: promiseParams }: Props) {
   const tenantId = Number(params.tenantId);
   return (
     <>
-      <script async src={`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/script/tenants/${tenantId}`}></script>
+      <script async src={`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/tenants/${tenantId}/script`}></script>
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
         <header id="header" className="bg-white shadow-sm">

@@ -25,7 +25,7 @@ export default async function Page({ params: promiseParams }: Props) {
 
   return (
     <Navigation tenant={tenant} breadcrumb={[{ name: 'Tenants', path: constants.pages.tenants() }, { name: tenant.name }, { name: 'Campaigns' }]}>
-      <ClientPage url={`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/script/tenants/${tenantId}`} script={script} />
+      <ClientPage url={`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/public/tenants/${tenantId}/script`} script={script} />
     </Navigation>
   );
 }
