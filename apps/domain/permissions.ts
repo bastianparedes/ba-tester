@@ -1,6 +1,6 @@
 import { flattenObject } from './utils';
 
-export const permissions = Object.freeze({
+export const permissions = {
   role: {
     read: 'role.read',
     create: 'role.create',
@@ -31,6 +31,6 @@ export const permissions = Object.freeze({
     update: 'execution-group.update',
     delete: 'execution-group.delete',
   },
-});
+};
 
 export const flatPermissions = flattenObject(permissions);

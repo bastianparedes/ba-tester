@@ -1,4 +1,4 @@
-const constants = Object.freeze({
+const constants = {
   pages: {
     home: () => '/',
     tenants: () => '/tenants',
@@ -14,6 +14,6 @@ const constants = Object.freeze({
     users: () => '/admin/users',
     logIn: () => '/auth/log-in',
   },
-} as const);
+} as const;
 
 export default constants;

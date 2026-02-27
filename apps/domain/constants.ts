@@ -11,31 +11,31 @@ import type {
   TypeTriggerType,
 } from './types';
 
-const status = Object.freeze({
+const status = {
   active: 'active',
   inactive: 'inactive',
-}) satisfies Record<TypeStatus, string>;
+} as const satisfies Record<TypeStatus, string>;
 
-const orderDirections = Object.freeze({
+const orderDirections = {
   asc: 'asc',
   desc: 'desc',
-}) satisfies Record<TypeDirection, string>;
+} as const satisfies Record<TypeDirection, string>;
 
-const booleanOperators = Object.freeze({
+const booleanOperators = {
   and: 'and',
   or: 'or',
-}) satisfies Record<TypeBooleanOperator, string>;
+} as const satisfies Record<TypeBooleanOperator, string>;
 
-const comparisons = Object.freeze({
+const comparisons = {
   contains: 'contains',
   doesNotContain: 'doesNotContain',
   doesNotExist: 'doesNotExist',
   exists: 'exists',
   is: 'is',
   isNot: 'isNot',
-}) satisfies Record<TypeStringComparator, string>;
+} as const satisfies Record<TypeStringComparator, string>;
 
-const requirementTypes = Object.freeze({
+const requirementTypes = {
   cookie: 'cookie',
   custom: 'custom',
   device: 'device',
@@ -44,40 +44,40 @@ const requirementTypes = Object.freeze({
   queryParam: 'queryParam',
   sessionStorage: 'sessionStorage',
   url: 'url',
-}) satisfies Record<TypeRequirementType, string>;
+} as const satisfies Record<TypeRequirementType, string>;
 
-const typeRepetitions = Object.freeze({
+const typeRepetitions = {
   atLeast: 'atLeast',
   atMost: 'atMost',
   exactly: 'exactly',
   lessThan: 'lessThan',
   moreThan: 'moreThan',
-}) satisfies Record<TypeNumericComparator, string>;
+} as const satisfies Record<TypeNumericComparator, string>;
 
-const limitTypes = Object.freeze({
+const limitTypes = {
   oneDay: 'oneDay',
   oneMonth: 'oneMonth',
   oneWeek: 'oneWeek',
   session: 'session',
   threeMonths: 'threeMonths',
-}) satisfies Record<TypeLimitType, string>;
+} as const satisfies Record<TypeLimitType, string>;
 
-const nodeTypes = Object.freeze({
+const nodeTypes = {
   internal: 'internal',
   root: 'root',
-}) satisfies Record<TypeNodeType, string>;
+} as const satisfies Record<TypeNodeType, string>;
 
-const triggerTypes = Object.freeze({
+const triggerTypes = {
   clickOnElement: 'clickOnElement',
   custom: 'custom',
   pageLoad: 'pageLoad',
   timeOnPage: 'timeOnPage',
-}) satisfies Record<TypeTriggerType, string>;
+} as const satisfies Record<TypeTriggerType, string>;
 
-const devices = Object.freeze({
+const devices = {
   desktop: 'desktop',
   mobile: 'mobile',
-}) satisfies Record<TypeDeviceType, string>;
+} as const satisfies Record<TypeDeviceType, string>;
 
 const executionGroupOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
 
@@ -97,7 +97,7 @@ const campaignRequirements = [
 
 const windowKey = 'ba_tester';
 
-const constants = Object.freeze({
+const constants = {
   booleanOperators,
   campaignRequirements,
   executionGroupOrderDirection,
@@ -113,6 +113,6 @@ const constants = Object.freeze({
   triggers,
   typeRepetitions,
   windowKey,
-});
+} as const;
 
 export default constants;
