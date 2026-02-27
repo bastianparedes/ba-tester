@@ -115,7 +115,6 @@ export class ExecutionGroupRepository {
       .select({
         id: schema.executionGroups.id,
         name: schema.executionGroups.name,
-        strategy: schema.executionGroups.strategy,
         waitForEveryCampaignToBeEvaluated: schema.executionGroups.waitForEveryCampaignToBeEvaluated,
         onlyOneCampaignPerPageLoad: schema.executionGroups.onlyOneCampaignPerPageLoad,
         onlyCampaignsPreviouslyExecuted: schema.executionGroups.onlyCampaignsPreviouslyExecuted,

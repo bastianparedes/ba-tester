@@ -5,7 +5,6 @@ import commonConstants from '../../../../domain/constants';
 import type { TypeCampaign } from '../../../../domain/types';
 
 export const statusEnum = pgEnum('status_enum', commonConstants.campaignStatus);
-export const executionStrategyEnum = pgEnum('execution_strategy_enum', commonConstants.executionStrategies);
 
 // TENANTS
 export const tenants = pgTable('tenants', {
@@ -20,7 +19,6 @@ export const tenants = pgTable('tenants', {
 export const executionGroups = pgTable('execution_groups', {
   id: serial('id').primaryKey().unique().notNull(),
   name: varchar('name', { length: 255 }).notNull(),
-  strategy: executionStrategyEnum('strategy').notNull(),
   waitForEveryCampaignToBeEvaluated: boolean('wait_for_every_campaign_to_be_evaluated').notNull(),
   onlyOneCampaignPerPageLoad: boolean('only_one_campaign_per_page_load').notNull(),
   onlyCampaignsPreviouslyExecuted: boolean('only_campaigns_previously_executed').notNull(),

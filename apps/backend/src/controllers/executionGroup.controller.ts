@@ -41,9 +41,6 @@ export class ExecutionGroupDto {
   @IsBoolean()
   onlyCampaignsPreviouslyExecuted: TypeExecutionGroup['onlyCampaignsPreviouslyExecuted'];
 
-  @IsIn(commonConstants.executionStrategies)
-  strategy: TypeExecutionGroup['strategy'];
-
   @IsArray()
   @IsInt({ each: true })
   campaignIds: TypeCampaign['id'][];

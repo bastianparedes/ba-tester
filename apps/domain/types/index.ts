@@ -23,11 +23,9 @@ export type TypeTenant = {
 };
 
 export type TypeOrderExecutionGroupsBy = 'name' | 'id';
-export type TypeExecutionGroupStrategy = 'execute_all' | 'execute_first' | 'execute_random';
 export type TypeExecutionGroup = {
   id: number;
   name: string;
-  strategy: TypeExecutionGroupStrategy;
   waitForEveryCampaignToBeEvaluated: boolean;
   onlyOneCampaignPerPageLoad: boolean;
   onlyCampaignsPreviouslyExecuted: boolean;
