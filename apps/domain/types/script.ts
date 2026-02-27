@@ -1,41 +1,46 @@
-import type { TypeVariationData as TypeOriginalVariationData } from '.';
-import {
-  TypeCustomRequirement as TypeOriginalCustomRequirement,
-  TypeNodeRequirement as TypeOriginalNodeRequirement,
-  TypeRequirement as TypeOriginalRequirement,
-} from './requirement';
-import { type TypeTriggerData as TypeOriginalTriggerData } from './trigger';
+import type { TypeCampaign, TypeExecutionGroup, TypeVariationData } from '.';
+import type { TypeCustomRequirement, TypeNodeRequirement, TypeRequirement } from './requirement';
+import type { TypeTriggerData } from './trigger';
 
-type TypeCustomRequirement = Omit<TypeOriginalCustomRequirement, 'data'> & {
+type TypeCustomRequirementScript = Omit<TypeCustomRequirement, 'data'> & {
   data: {
     name: string;
     javascript: (resolve: (boolean: boolean) => void) => void;
   };
 };
-type TypeRequirementWithoutNode = Exclude<Exclude<TypeOriginalRequirement, { type: 'custom' }>, { type: 'node' }> | TypeCustomRequirement;
-export type TypeNodeRequirement = Omit<TypeOriginalNodeRequirement, 'data'> & {
-  data: Omit<TypeOriginalNodeRequirement['data'], 'children'> & {
-    children: (TypeRequirementWithoutNode | TypeNodeRequirement)[];
+type TypeRequirementWithoutNode = Exclude<Exclude<TypeRequirement, { type: 'custom' }>, { type: 'node' }> | TypeCustomRequirementScript;
+type TypeNodeRequirementScript = Omit<TypeNodeRequirement, 'data'> & {
+  data: Omit<TypeNodeRequirement['data'], 'children'> & {
+    children: (TypeRequirementWithoutNode | TypeNodeRequirementScript)[];
   };
 };
-export type TypeRequirement = TypeNodeRequirement['data']['children'][number];
+export type TypeRequirementScript = TypeNodeRequirementScript['data']['children'][number];
 
-type TypeTriggerData =
-  | Exclude<TypeOriginalTriggerData, { type: 'custom' }>
-  | (Omit<Extract<TypeOriginalTriggerData, { type: 'custom' }>, 'data'> & {
-      data: Omit<Extract<TypeOriginalTriggerData, { type: 'custom' }>['data'], 'javascript'> & {
+type TypeTriggerDataScript =
+  | Exclude<TypeTriggerData, { type: 'custom' }>
+  | (Omit<Extract<TypeTriggerData, { type: 'custom' }>, 'data'> & {
+      data: Omit<Extract<TypeTriggerData, { type: 'custom' }>['data'], 'javascript'> & {
         javascript: (fire: () => void) => void;
       };
     });
 
-type TypeVariationData = Omit<TypeOriginalVariationData, 'javascript'> & {
+type TypeVariationDataScript = Omit<TypeVariationData, 'javascript'> & {
   javascript: () => void;
 };
 
 export type TypeCampaignScript = {
-  id: number;
-  name: string;
-  triggers: TypeTriggerData[];
-  requirements: Extract<TypeRequirement, { type: 'node' }>;
-  variations: TypeVariationData[];
+  id: TypeCampaign['id'];
+  name: TypeCampaign['name'];
+  triggers: TypeTriggerDataScript[];
+  requirements: Extract<TypeRequirementScript, { type: 'node' }>;
+  variations: TypeVariationDataScript[];
+};
+
+export type TypeExecutionGroupScript = {
+  id: TypeExecutionGroup['id'];
+  name: TypeExecutionGroup['name'];
+  waitForEveryCampaignToBeEvaluated: TypeExecutionGroup['waitForEveryCampaignToBeEvaluated'];
+  onlyOneCampaignPerPageLoad: TypeExecutionGroup['onlyOneCampaignPerPageLoad'];
+  onlyCampaignsPreviouslyExecuted: TypeExecutionGroup['onlyCampaignsPreviouslyExecuted'];
+  campaigns: TypeCampaignScript[];
 };
