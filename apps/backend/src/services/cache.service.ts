@@ -31,6 +31,7 @@ const cache = {
 export class CacheService {
   scripts = {
     async save({ tenantId, code }: { tenantId: number; code: string }) {
+      if (env.NODE_ENV !== 'production') return;
       const key = `tenant:${tenantId}:public_script`;
       const minutes = 60;
       await cache.set({ key, value: code, minutes });

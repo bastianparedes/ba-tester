@@ -1,0 +1,9 @@
+{
+  "watch": ["./src/script/**/*", "../domain/**/*"],
+  "ext": "*",
+  "exec": "echo 'nodemon will re build script when change are detected'",
+  "events": {
+    "start": "npm run build:script",
+    "restart": "npm run build:script"
+  }
+}
