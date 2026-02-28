@@ -28,15 +28,15 @@ export async function connect() {
       heartbeatFrequencyMS: 10000, //Attempting to see if this reduces query timeouts
     };
 
-    console.log('---Connecting to MongoDB---');
+    console.info('---Connecting to MongoDB---');
 
     try {
       cached.promise = importedMongoose.connect(env.DATABASE_URL_MONGODB, opts).then((mongooseInstance) => {
-        console.log('---Connected!---');
+        console.info('---Connected!---');
         return mongooseInstance;
       });
     } catch (e) {
-      console.log('---Error connecting to MongoDB---', e);
+      console.info('---Error connecting to MongoDB---', e);
       throw new Error('Error connecting to database');
     }
   }
@@ -56,12 +56,12 @@ export async function disconnect() {
     return;
   }
 
-  console.log('---Disconnecting from MongoDB---');
+  console.info('---Disconnecting from MongoDB---');
 
   await importedMongoose.disconnect();
 
   cached.conn = null;
   cached.promise = null;
 
-  console.log('---Disconnected!---');
+  console.info('---Disconnected!---');
 }

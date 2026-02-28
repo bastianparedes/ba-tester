@@ -11,7 +11,7 @@ class Trigger {
     this.idCampaign = idCampaign;
   }
 
-  setFire(fire: () => Promise<void>) {
+  setFire({ fire }: { fire: () => Promise<boolean> }) {
     const trigger = this.trigger;
     if (trigger.type === 'clickOnElement') {
       const valueStringOne = trigger.data.selector;
@@ -27,7 +27,7 @@ class Trigger {
       try {
         trigger.data.javascript(fire);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     } else if (trigger.type === 'pageLoad') fire();
     else if (trigger.type === 'timeOnPage') {

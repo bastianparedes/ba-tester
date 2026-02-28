@@ -1,6 +1,5 @@
 import type { TypeBaTester } from '../types';
 import { getId } from '../utils/info';
-import queryParam from '../utils/queryParam';
 import Requirement from './Requirement';
 import type Trigger from './Trigger';
 import type Variation from './Variation';
@@ -13,8 +12,10 @@ class Campaign {
   requirementData: TypeRequirementData;
   triggers: Trigger[];
   variations: Variation[];
-  triggeredOnce: boolean;
-  force: boolean;
+  private firedOnce: boolean;
+  requirementsWereMet: boolean;
+  requirementsWereMetPromise: Promise<boolean>;
+  private resolveRequirementsWereMet: (response: boolean) => void;
 
   constructor(id: number, name: string, requirementData: TypeRequirementData, triggers: Trigger[], variations: Variation[]) {
     this.id = id;
@@ -22,23 +23,29 @@ class Campaign {
     this.requirementData = requirementData;
     this.triggers = triggers;
     this.variations = variations;
-    this.force = queryParam.get('ba_tester_campaign') === String(id);
-    this.triggeredOnce = false;
+    this.firedOnce = false;
+    this.requirementsWereMetPromise = new Promise<boolean>((resolve) => {
+      this.resolveRequirementsWereMet = resolve;
+    }).then((requirementsWereMet) => {
+      this.requirementsWereMet = requirementsWereMet;
+      return requirementsWereMet;
+    });
     this.triggers.forEach((trigger) => {
-      trigger.setFire(() => this.fire());
+      trigger.setFire({ fire: () => this.evaluate() });
     });
   }
 
   async evaluate() {
-    if (this.requirementData.data.children.length === 0) return true;
-    return new Requirement(this.requirementData).evaluate();
+    if (this.requirementData.data.children.length === 0) {
+      this.resolveRequirementsWereMet(true);
+      return true;
+    }
+    const result = await new Requirement(this.requirementData).evaluate();
+    this.resolveRequirementsWereMet(result);
+    return result;
   }
 
   getVariation() {
-    if (this.force) {
-      return this.variations.find((variation) => String(variation.data.id) === queryParam.get('ba_tester_variation'));
-    }
-
     const numberDecider = ((Math.abs(getId()) + this.id) / 100) % 100;
     let accumulator = 0;
     return this.variations.find((variation) => {
@@ -48,15 +55,13 @@ class Campaign {
   }
 
   async fire() {
-    if (this.triggeredOnce) return;
-    this.triggeredOnce = true;
-    const allRequirementsPassed = this.force || (await this.evaluate());
-    if (!allRequirementsPassed) return;
+    if (this.firedOnce || !this.requirementsWereMet) return;
+    this.firedOnce = true;
 
     const variation = this.getVariation();
     if (variation === undefined) return;
 
-    console.log(`🚀 BA Tester - Fired Campaign: (id: ${this.id}) ${this.name} - Variation: ${variation.data.name}`);
+    console.info(`🚀 BA Tester - Fired Campaign: (id: ${this.id}) ${this.name} - Variation: ${variation.data.name}`);
     variation.run();
   }
 }

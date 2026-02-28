@@ -11,11 +11,26 @@ declare global {
 }
 
 const script = () => {
-  window[commonConstants.windowKey].campaignsData?.forEach((campaignData) => {
+  const campaignsEvaluatedPromises = window[commonConstants.windowKey].campaignsData.map((campaignData) => {
     const triggers = campaignData.triggers.map((triggerData) => new Trigger(triggerData, campaignData.id));
 
     const variations = campaignData.variations.map((variationData) => new Variation(variationData, campaignData.id));
-    new Campaign(campaignData.id, campaignData.name, campaignData.requirements, triggers, variations);
+    const campaign = new Campaign(campaignData.id, campaignData.name, campaignData.requirements, triggers, variations);
+    return campaign.requirementsWereMetPromise.then(() => campaign);
+  });
+
+  // run after they were evaluated
+  /* Promise.all(campaignsEvaluatedPromises).then((campaigns) => {
+    campaigns.forEach((campaign) => {
+      campaign.fire();
+    });
+  }); */
+
+  // run on their own
+  campaignsEvaluatedPromises.forEach((campaignPromise) => {
+    campaignPromise.then((campaign) => {
+      if (campaign.requirementsWereMet) campaign.fire();
+    });
   });
 };
 
