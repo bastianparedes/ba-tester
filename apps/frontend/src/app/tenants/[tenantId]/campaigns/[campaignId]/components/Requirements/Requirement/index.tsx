@@ -170,7 +170,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
       },
       custom: {
         data: {
-          javascript: 'return await new Promise((res, rej) => res(true));',
+          javascript: 'return true;\nreturn await new Promise((res) => res(true));',
           name: '',
         },
         type: 'custom',
