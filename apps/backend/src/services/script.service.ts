@@ -1,7 +1,7 @@
 import fs from 'node:fs';
-import { minify as minifyHtml } from '@minify-html/node';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import CleanCSS from 'clean-css';
+import { minify as minifyHtml } from 'html-minifier-terser';
 import { minify as minifyJs } from 'terser';
 import commonConstants from '../../../domain/constants';
 import { TypeCampaign } from '../../../domain/types';
@@ -11,16 +11,18 @@ import { getScriptLocation } from '../libs/script';
 import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { CacheService } from './cache.service';
 
-const getMinifiedHtml = (html: string): string => {
+const getMinifiedHtml = async (html: string): Promise<string> => {
   try {
-    const htmlBuffer = Buffer.from(html, 'utf8');
-    const minifiedBuffer = minifyHtml(htmlBuffer, {
-      minify_js: true,
-      minify_css: true,
+    const minifiedHtml = await minifyHtml(html, {
+      collapseWhitespace: true,
+      minifyJS: true,
+      minifyCSS: true,
+      removeComments: true,
+      removeAttributeQuotes: false,
     });
-    const minifiedHtml = minifiedBuffer.toString('utf8');
     return minifiedHtml;
-  } catch {
+  } catch (err) {
+    console.error('Error al minificar HTML:', err);
     return '';
   }
 };
@@ -105,13 +107,13 @@ export class ScriptService {
     };
   }
 
-  private getCampaignWithFunctions(campaign: {
+  private async getCampaignWithFunctions(campaign: {
     id: TypeCampaign['id'];
     name: TypeCampaign['name'];
     triggers: TypeCampaign['triggers'];
     requirements: TypeCampaign['requirements'];
     variations: TypeCampaign['variations'];
-  }): TypeCampaignScript {
+  }): Promise<TypeCampaignScript> {
     const newRequirements = this.migrateRequirementsFromStringToFunction(campaign.requirements);
     const newTriggers = campaign.triggers.map((trigger) => {
       if (trigger.type === 'custom') {
@@ -125,14 +127,16 @@ export class ScriptService {
       }
       return trigger;
     });
-    const newVariations = campaign.variations.map((variation) => {
-      return {
-        ...variation,
-        html: getMinifiedHtml(variation.html),
-        css: getMinifiedCss(variation.css),
-        javascript: this.getFunctionFromBody({ params: [], body: variation.javascript }),
-      };
-    });
+    const newVariations = await Promise.all(
+      campaign.variations.map(async (variation) => {
+        return {
+          ...variation,
+          html: await getMinifiedHtml(variation.html),
+          css: getMinifiedCss(variation.css),
+          javascript: this.getFunctionFromBody({ params: [], body: variation.javascript }),
+        };
+      }),
+    );
 
     return {
       ...campaign,
@@ -148,10 +152,12 @@ export class ScriptService {
     if (!fileExists) throw new InternalServerErrorException();
 
     const executionGroups = await this.executionGroupRepository.getAllExecutionGroupsForScript({ tenantId });
-    const executionGroupsScript: TypeExecutionGroupScript[] = executionGroups.map((executionGroup) => {
-      const campaigns = executionGroup.campaigns.map((campaign) => this.getCampaignWithFunctions(campaign));
-      return { ...executionGroup, campaigns };
-    });
+    const executionGroupsScript: TypeExecutionGroupScript[] = await Promise.all(
+      executionGroups.map(async (executionGroup) => {
+        const campaigns = await Promise.all(executionGroup.campaigns.map((campaign) => this.getCampaignWithFunctions(campaign)));
+        return { ...executionGroup, campaigns };
+      }),
+    );
 
     const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {};window.${commonConstants.windowKey}.executionGroupsData = ${this.stringifyWithFunctions(executionGroupsScript)};`;
     const script = fs.readFileSync(scriptLocation, 'utf-8');
