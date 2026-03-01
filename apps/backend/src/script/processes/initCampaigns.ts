@@ -27,7 +27,7 @@ const oneOrManyStrategy = async (campaigns: Campaign[], onlyOneCampaignPerPageLo
         return Promise.reject();
       }),
     ),
-  ).catch(() => undefined);
+  ).catch(() => null);
 
   if (!campaign) return [];
 
