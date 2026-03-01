@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ExecutionGroupRepository } from 'src/repositories/executionGroup.repository';
 import { minify } from 'terser';
 import commonConstants from '../../../domain/constants';
 import { TypeCampaign } from '../../../domain/types';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
 import type { TypeCampaignScript, TypeExecutionGroupScript } from '../../../domain/types/script';
 import { getScriptLocation } from '../libs/script';
+import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { CacheService } from './cache.service';
 
 @Injectable()
