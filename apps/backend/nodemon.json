@@ -1,5 +1,5 @@
 {
-  "watch": ["./src/script/**/*", "../domain/**/*"],
+  "watch": ["./vite.config.js", "./src/script/**/*", "../domain/**/*"],
   "ext": "*",
   "exec": "echo 'nodemon will re build script when change are detected'",
   "events": {

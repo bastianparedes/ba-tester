@@ -1,6 +1,8 @@
 import fs from 'node:fs';
+import { minify as minifyHtml } from '@minify-html/node';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { minify } from 'terser';
+import CleanCSS from 'clean-css';
+import { minify as minifyJs } from 'terser';
 import commonConstants from '../../../domain/constants';
 import { TypeCampaign } from '../../../domain/types';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
@@ -8,6 +10,45 @@ import type { TypeCampaignScript, TypeExecutionGroupScript } from '../../../doma
 import { getScriptLocation } from '../libs/script';
 import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { CacheService } from './cache.service';
+
+const getMinifiedHtml = (html: string): string => {
+  try {
+    const htmlBuffer = Buffer.from(html, 'utf8');
+    const minifiedBuffer = minifyHtml(htmlBuffer, {
+      minify_js: true,
+      minify_css: true,
+    });
+    const minifiedHtml = minifiedBuffer.toString('utf8');
+    return minifiedHtml;
+  } catch {
+    return '';
+  }
+};
+
+const getMinifiedCss = (css: string): string => {
+  const output = new CleanCSS({
+    level: 2,
+  }).minify(css);
+
+  if (output.errors.length) return '';
+  return output.styles;
+};
+const getMinifiedJs = async (js: string) => {
+  const result = await minifyJs(js, {
+    compress: {
+      passes: 2,
+      drop_debugger: true,
+      drop_console: false,
+      pure_funcs: ['alert'],
+    },
+    mangle: true,
+    format: {
+      comments: false,
+    },
+  });
+
+  return result.code ?? '';
+};
 
 @Injectable()
 export class ScriptService {
@@ -87,6 +128,8 @@ export class ScriptService {
     const newVariations = campaign.variations.map((variation) => {
       return {
         ...variation,
+        html: getMinifiedHtml(variation.html),
+        css: getMinifiedCss(variation.css),
         javascript: this.getFunctionFromBody({ params: [], body: variation.javascript }),
       };
     });
@@ -113,16 +156,7 @@ export class ScriptService {
     const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {};window.${commonConstants.windowKey}.executionGroupsData = ${this.stringifyWithFunctions(executionGroupsScript)};`;
     const script = fs.readFileSync(scriptLocation, 'utf-8');
     const fullScript = stringWindow + script;
-    const result = await minify(fullScript, {
-      compress: true,
-      mangle: true,
-      format: {
-        comments: false,
-      },
-    });
-    if (!result.code) throw new InternalServerErrorException();
-    const minifiedJs = result.code;
-
+    const minifiedJs = await getMinifiedJs(fullScript);
     return minifiedJs;
   }
 
