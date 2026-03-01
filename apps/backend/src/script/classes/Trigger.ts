@@ -1,6 +1,6 @@
 import type { TypeBaTester } from '../types';
 
-type TypeTriggerData = TypeBaTester['campaignsData'][number]['triggers'][number];
+type TypeTriggerData = TypeBaTester['executionGroupsData'][number]['campaigns'][number]['triggers'][number];
 
 class Trigger {
   trigger: TypeTriggerData;

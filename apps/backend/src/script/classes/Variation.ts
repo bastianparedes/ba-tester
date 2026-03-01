@@ -1,10 +1,10 @@
 import type { TypeBaTester } from '../types';
 
 class Variation {
-  data: TypeBaTester['campaignsData'][number]['variations'][number];
+  data: TypeBaTester['executionGroupsData'][number]['campaigns'][number]['variations'][number];
   readonly idCampaign: number;
 
-  constructor(data: TypeBaTester['campaignsData'][number]['variations'][number], idCampaign: number) {
+  constructor(data: TypeBaTester['executionGroupsData'][number]['campaigns'][number]['variations'][number], idCampaign: number) {
     this.data = data;
     this.idCampaign = idCampaign;
   }

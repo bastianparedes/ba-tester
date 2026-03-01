@@ -4,7 +4,7 @@ import Requirement from './Requirement';
 import type Trigger from './Trigger';
 import type Variation from './Variation';
 
-type TypeRequirementData = TypeBaTester['campaignsData'][number]['requirements'];
+type TypeRequirementData = TypeBaTester['executionGroupsData'][number]['campaigns'][number]['requirements'];
 
 class Campaign {
   id: number;

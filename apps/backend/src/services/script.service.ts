@@ -7,13 +7,11 @@ import { TypeCampaign } from '../../../domain/types';
 import type { TypeNodeRequirement } from '../../../domain/types/requirement';
 import type { TypeCampaignScript, TypeExecutionGroupScript } from '../../../domain/types/script';
 import { getScriptLocation } from '../libs/script';
-import { CampaignRepository } from '../repositories/campaign.repository';
 import { CacheService } from './cache.service';
 
 @Injectable()
 export class ScriptService {
   constructor(
-    private readonly campaignRepository: CampaignRepository,
     private readonly executionGroupRepository: ExecutionGroupRepository,
     private readonly cacheService: CacheService,
   ) {}
@@ -106,16 +104,13 @@ export class ScriptService {
     const fileExists = fs.existsSync(scriptLocation);
     if (!fileExists) throw new InternalServerErrorException();
 
-    const campaigns = await this.campaignRepository.getAllCampaignsForScript({ tenantId });
-    const campaignsScript: TypeCampaignScript[] = campaigns.map((campaign) => this.getCampaignWithFunctions(campaign));
-
     const executionGroups = await this.executionGroupRepository.getAllExecutionGroupsForScript({ tenantId });
     const executionGroupsScript: TypeExecutionGroupScript[] = executionGroups.map((executionGroup) => {
       const campaigns = executionGroup.campaigns.map((campaign) => this.getCampaignWithFunctions(campaign));
       return { ...executionGroup, campaigns };
     });
 
-    const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {};window.${commonConstants.windowKey}.campaignsData = ${this.stringifyWithFunctions(campaignsScript)};window.${commonConstants.windowKey}.executionGroupsData = ${this.stringifyWithFunctions(executionGroupsScript)};`;
+    const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {};window.${commonConstants.windowKey}.executionGroupsData = ${this.stringifyWithFunctions(executionGroupsScript)};`;
     const script = fs.readFileSync(scriptLocation, 'utf-8');
     const fullScript = stringWindow + script;
     const result = await minify(fullScript, {

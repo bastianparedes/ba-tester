@@ -1,7 +1,6 @@
-import type { TypeCampaignScript, TypeExecutionGroupScript } from '../../../../domain/types/script';
+import type { TypeExecutionGroupScript } from '../../../../domain/types/script';
 
 type TypeBaTester = {
-  campaignsData: TypeCampaignScript[];
   executionGroupsData: TypeExecutionGroupScript[];
   cookie: {
     get: ({ name }: { name: string }) => string | null;
