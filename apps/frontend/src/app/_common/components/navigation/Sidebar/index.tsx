@@ -36,21 +36,21 @@ export function Sidebar({ children, tenant }: Props) {
 
               {tenant && (
                 <a
-                  href={constants.pages.executionGroups({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <Boxes className="w-5 h-5" />
-                  <span className="text-sm font-medium">Execution groups</span>
-                </a>
-              )}
-
-              {tenant && (
-                <a
                   href={constants.pages.campaigns({ tenantId: tenant.id })}
                   className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
                 >
                   <FlaskConical className="w-5 h-5" />
                   <span className="text-sm font-medium">Campaigns</span>
+                </a>
+              )}
+
+              {tenant && (
+                <a
+                  href={constants.pages.executionGroups({ tenantId: tenant.id })}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                >
+                  <Boxes className="w-5 h-5" />
+                  <span className="text-sm font-medium">Execution groups</span>
                 </a>
               )}
 
