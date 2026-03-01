@@ -80,10 +80,13 @@ export class ScriptService {
     return `{\n${' '.repeat(2)}${entries.join(`,\n${' '.repeat(2)}`)}\n}`;
   }
 
-  private getFunctionFromBody({ params = [], body }: { params?: string[]; body: string }) {
-    const fn = new Function(...params, body);
-    fn.toString = () => `async function(${params.join(',')}){${body}}`;
-    return fn as () => Promise<void>;
+  private getFunctionFromBody({ params = [], body }: { params?: string[]; body: string }): () => Promise<void> {
+    const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor;
+    const fn = new AsyncFunction(...params, body);
+
+    fn.toString = () => `async function(${params.join(',')}) {${body}}`;
+
+    return fn;
   }
 
   private migrateRequirementsFromStringToFunction(requirement: TypeNodeRequirement): TypeCampaignScript['requirements'] {
@@ -98,7 +101,7 @@ export class ScriptService {
               ...childRequirement,
               data: {
                 ...childRequirement.data,
-                javascript: this.getFunctionFromBody({ params: ['resolve'], body: childRequirement.data.javascript }),
+                javascript: this.getFunctionFromBody({ body: childRequirement.data.javascript }),
               },
             };
           return childRequirement;
@@ -133,7 +136,7 @@ export class ScriptService {
           ...variation,
           html: await getMinifiedHtml(variation.html),
           css: getMinifiedCss(variation.css),
-          javascript: this.getFunctionFromBody({ params: [], body: variation.javascript }),
+          javascript: this.getFunctionFromBody({ body: variation.javascript }),
         };
       }),
     );
