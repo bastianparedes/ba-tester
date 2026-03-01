@@ -30,9 +30,10 @@ class Campaign {
       this.requirementsWereMet = requirementsWereMet;
       return requirementsWereMet;
     });
-    this.triggers.forEach((trigger) => {
-      trigger.setFire({ fire: () => this.evaluate() });
-    });
+
+    Promise.any(this.triggers.map((trigger) => trigger.setTrigger()))
+      .then(() => this.evaluate())
+      .catch(() => {});
   }
 
   async evaluate() {
@@ -54,7 +55,7 @@ class Campaign {
     });
   }
 
-  async fire() {
+  async applyChanges() {
     if (this.firedOnce || !this.requirementsWereMet) return;
     this.firedOnce = true;
 

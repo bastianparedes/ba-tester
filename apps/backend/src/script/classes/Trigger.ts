@@ -11,32 +11,42 @@ class Trigger {
     this.idCampaign = idCampaign;
   }
 
-  setFire({ fire }: { fire: () => Promise<boolean> }) {
+  async setTrigger(): Promise<void> {
     const trigger = this.trigger;
-    if (trigger.type === 'clickOnElement') {
-      const valueStringOne = trigger.data.selector;
-      const fn = (event: MouseEvent) => {
-        if ((event.target as HTMLElement).closest(valueStringOne) !== null) {
-          window.removeEventListener('click', fn);
-          fire();
-        }
-      };
 
-      window.addEventListener('click', fn);
-    } else if (trigger.type === 'custom') {
-      try {
-        trigger.data.javascript(fire);
-      } catch (error) {
-        console.error(error);
-      }
-    } else if (trigger.type === 'pageLoad') fire();
-    else if (trigger.type === 'timeOnPage') {
-      const timePassed = Date.now() - performance.timeOrigin;
-      const time = trigger.data.milliseconds - timePassed;
-      setTimeout(() => {
-        fire();
-      }, time);
+    if (trigger.type === 'clickOnElement') {
+      return new Promise((resolve) => {
+        const selector = trigger.data.selector;
+
+        const handler = (event: MouseEvent) => {
+          if ((event.target as HTMLElement)?.closest(selector)) {
+            window.removeEventListener('click', handler);
+            resolve();
+          }
+        };
+
+        window.addEventListener('click', handler);
+      });
     }
+
+    if (trigger.type === 'custom') {
+      return Promise.resolve(trigger.data.javascript());
+    }
+
+    if (trigger.type === 'pageLoad') {
+      return;
+    }
+
+    if (trigger.type === 'timeOnPage') {
+      const timePassed = Date.now() - performance.timeOrigin;
+      const remaining = Math.max(0, trigger.data.milliseconds - timePassed);
+
+      return new Promise((resolve) => {
+        setTimeout(resolve, remaining);
+      });
+    }
+
+    throw new Error('Unknown trigger type');
   }
 }
 

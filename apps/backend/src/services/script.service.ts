@@ -37,7 +37,7 @@ export class ScriptService {
     return `{\n${' '.repeat(2)}${entries.join(`,\n${' '.repeat(2)}`)}\n}`;
   }
 
-  private getFunctionFromBody({ params, body }: { params: string[]; body: string }) {
+  private getFunctionFromBody({ params = [], body }: { params?: string[]; body: string }) {
     const fn = new Function(...params, body);
     fn.toString = () => `function(${params.join(',')}){${body}}`;
     return fn as () => void;
@@ -78,7 +78,7 @@ export class ScriptService {
           ...trigger,
           data: {
             ...trigger.data,
-            javascript: this.getFunctionFromBody({ params: ['fire'], body: trigger.data.javascript }),
+            javascript: this.getFunctionFromBody({ body: trigger.data.javascript }),
           },
         };
       }

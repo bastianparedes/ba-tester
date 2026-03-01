@@ -20,7 +20,7 @@ type TypeTriggerDataScript =
   | Exclude<TypeTriggerData, { type: 'custom' }>
   | (Omit<Extract<TypeTriggerData, { type: 'custom' }>, 'data'> & {
       data: Omit<Extract<TypeTriggerData, { type: 'custom' }>['data'], 'javascript'> & {
-        javascript: (fire: () => void) => void;
+        javascript: () => void | Promise<void>;
       };
     });
 

@@ -56,7 +56,7 @@ const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
 
   campaigns.forEach((campaign) => {
     campaign.requirementsWereMetPromise.then((requirementsWereMet) => {
-      if (requirementsWereMet) campaign.fire();
+      if (requirementsWereMet) campaign.applyChanges();
     });
   });
 };
