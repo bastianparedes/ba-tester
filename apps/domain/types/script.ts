@@ -5,7 +5,7 @@ import type { TypeTriggerData } from './trigger';
 type TypeCustomRequirementScript = Omit<TypeCustomRequirement, 'data'> & {
   data: {
     name: string;
-    javascript: (resolve: (boolean: boolean) => void) => void;
+    javascript: () => Promise<void>;
   };
 };
 type TypeRequirementWithoutNode = Exclude<Exclude<TypeRequirement, { type: 'custom' }>, { type: 'node' }> | TypeCustomRequirementScript;
@@ -20,12 +20,12 @@ type TypeTriggerDataScript =
   | Exclude<TypeTriggerData, { type: 'custom' }>
   | (Omit<Extract<TypeTriggerData, { type: 'custom' }>, 'data'> & {
       data: Omit<Extract<TypeTriggerData, { type: 'custom' }>['data'], 'javascript'> & {
-        javascript: () => void | Promise<void>;
+        javascript: () => Promise<void>;
       };
     });
 
 type TypeVariationDataScript = Omit<TypeVariationData, 'javascript'> & {
-  javascript: () => void;
+  javascript: () => Promise<void>;
 };
 
 export type TypeCampaignScript = {

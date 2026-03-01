@@ -13,7 +13,7 @@ import { comparatorResolver } from './comparatorResolver';
 // ------------------------------
 
 // Evaluate cookie requirement
-const requirementCookie = (requirement: Extract<TypeRequirementScript, { type: 'cookie' }>) => {
+const requirementCookie = async (requirement: Extract<TypeRequirementScript, { type: 'cookie' }>) => {
   const cookieValue = cookie.get({ name: requirement.data.name });
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -24,19 +24,17 @@ const requirementCookie = (requirement: Extract<TypeRequirementScript, { type: '
 
 // Evaluate custom JavaScript requirement
 const requirementCustom = async (requirement: Extract<TypeRequirementScript, { type: 'custom' }>) => {
-  try {
-    const result = await new Promise<boolean>((resolve) => {
-      setTimeout(() => resolve(false), 5000); // Fallback to false after 5s
-      requirement.data.javascript(resolve);
-    });
-    return Boolean(result);
-  } catch {
-    return false;
-  }
+  return new Promise((resolveRequirement) => {
+    const customCodeResult = requirement.data.javascript();
+    resolveRequirement(customCodeResult);
+    setTimeout(() => resolveRequirement(false), 5000); // Fallback to false after 5s
+  })
+    .then((result) => Boolean(result))
+    .catch(() => false);
 };
 
 // Evaluate device type requirement
-const requirementDevice = (requirement: Extract<TypeRequirementScript, { type: 'device' }>) => {
+const requirementDevice = async (requirement: Extract<TypeRequirementScript, { type: 'device' }>) => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent);
   const device = isMobile ? commonConstants.devices.mobile : commonConstants.devices.desktop;
 
@@ -48,7 +46,7 @@ const requirementDevice = (requirement: Extract<TypeRequirementScript, { type: '
 };
 
 // Evaluate localStorage requirement
-const requirementLocalStorage = (requirement: Extract<TypeRequirementScript, { type: 'localStorage' }>) => {
+const requirementLocalStorage = async (requirement: Extract<TypeRequirementScript, { type: 'localStorage' }>) => {
   const keyValue = localStorage.getItem(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -58,7 +56,7 @@ const requirementLocalStorage = (requirement: Extract<TypeRequirementScript, { t
 };
 
 // Evaluate sessionStorage requirement
-const requirementSessionStorage = (requirement: Extract<TypeRequirementScript, { type: 'sessionStorage' }>) => {
+const requirementSessionStorage = async (requirement: Extract<TypeRequirementScript, { type: 'sessionStorage' }>) => {
   const keyValue = sessionStorage.getItem(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -68,7 +66,7 @@ const requirementSessionStorage = (requirement: Extract<TypeRequirementScript, {
 };
 
 // Evaluate query parameter requirement
-const requirementQueryParam = (requirement: Extract<TypeRequirementScript, { type: 'queryParam' }>) => {
+const requirementQueryParam = async (requirement: Extract<TypeRequirementScript, { type: 'queryParam' }>) => {
   const queryParamValue = queryParam.get(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -78,7 +76,7 @@ const requirementQueryParam = (requirement: Extract<TypeRequirementScript, { typ
 };
 
 // Evaluate URL requirement
-const requirementUrl = (requirement: Extract<TypeRequirementScript, { type: 'url' }>) => {
+const requirementUrl = async (requirement: Extract<TypeRequirementScript, { type: 'url' }>) => {
   return comparatorResolver({
     comparator: requirement.data.comparator,
     expectedValue: requirement.data.value,
@@ -124,7 +122,7 @@ class Requirement {
 
   // Evaluate the root requirement node
   async evaluate() {
-    return requirementNode(this.requirementData);
+    return requirementNode(this.requirementData).catch(() => false);
   }
 }
 

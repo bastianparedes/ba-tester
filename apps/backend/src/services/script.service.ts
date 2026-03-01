@@ -39,8 +39,8 @@ export class ScriptService {
 
   private getFunctionFromBody({ params = [], body }: { params?: string[]; body: string }) {
     const fn = new Function(...params, body);
-    fn.toString = () => `function(${params.join(',')}){${body}}`;
-    return fn as () => void;
+    fn.toString = () => `async function(${params.join(',')}){${body}}`;
+    return fn as () => Promise<void>;
   }
 
   private migrateRequirementsFromStringToFunction(requirement: TypeNodeRequirement): TypeCampaignScript['requirements'] {
