@@ -186,7 +186,13 @@ export class ExecutionGroupRepository {
       },
     });
     return executionGroups.filter((executionGroup) => {
-      const campaigns = executionGroup.campaigns.filter((campaign) => campaign.variations.length > 0 && campaign.triggers.length > 0);
+      const campaigns = executionGroup.campaigns.filter((campaign) => {
+        const itHasVariationsWithSomething = campaign.variations.some(
+          (variation) => (variation.html.length > 0 || variation.css.length > 0 || variation.javascript.length > 0) && variation.traffic > 0,
+        );
+        const itHasTriggers = campaign.triggers.length > 0;
+        return itHasVariationsWithSomething && itHasTriggers;
+      });
       return campaigns.length > 0;
     });
   };
