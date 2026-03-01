@@ -13,12 +13,10 @@ const getDevice = () => {
   return isMobile ? commonConstants.devices.mobile : commonConstants.devices.desktop;
 };
 
-const script = () => {
+export const setUtils = () => {
   window[commonConstants.windowKey] = {
     ...(window[commonConstants.windowKey] ?? {}),
     cookie,
     device: getDevice(),
   };
 };
-
-export default script;

@@ -80,7 +80,6 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
         body: { ...executionGroup, campaignIds },
       });
     }
-    location.href = constants.pages.executionGroups({ tenantId: executionGroup.tenantId });
   };
 
   return (

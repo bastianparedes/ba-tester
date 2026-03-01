@@ -32,7 +32,6 @@ const Buttons = ({ campaign, userMadeChange, notifyUsersCampaignWasUpdated }: Pr
         body: campaign,
       });
     }
-    location.href = constants.pages.campaigns({ tenantId: campaign.tenantId });
   };
 
   return (
