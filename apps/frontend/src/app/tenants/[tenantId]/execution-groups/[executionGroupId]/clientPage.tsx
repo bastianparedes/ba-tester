@@ -158,7 +158,7 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
                   campaign will not wait other to be evaluated
                 </p>
                 <p>
-                  <span className="text-red-600">Disabled:</span> Campaigns can allways trigger
+                  <span className="text-red-600">Disabled:</span> Campaigns can always trigger
                 </p>
               </div>
             </div>
