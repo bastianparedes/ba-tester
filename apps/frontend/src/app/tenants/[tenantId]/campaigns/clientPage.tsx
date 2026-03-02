@@ -10,7 +10,7 @@ import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaignLight, TypeDirection, TypeOrderCampaignsBy, TypeStatus } from '@/domain/types';
+import type { TypeCampaignLight, TypeDirection, TypeExecutionGroup, TypeOrderCampaignsBy, TypeStatus } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
@@ -37,7 +37,7 @@ export function ClientPage({ tenantId }: PageProps) {
   const user = useUser();
   const { translation } = useTranslationContext();
 
-  const [campaigns, setCampaigns] = useState<TypeCampaignLight[]>([]);
+  const [campaigns, setCampaigns] = useState<(TypeCampaignLight & { executionGroup: TypeExecutionGroup | null })[]>([]);
   const [state, dispatch] = useReducer(
     (state: UiState, action: UiAction): UiState => {
       switch (action.type) {
@@ -205,6 +205,10 @@ export function ClientPage({ tenantId }: PageProps) {
                     {translation.campaigns.tableStatus}
                     <SortIcon column="status" />
                   </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none">
+                    {translation.campaigns.tableExecutionGroup}
+                    <SortIcon column="status" />
+                  </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">Modify</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">Delete</th>
                 </tr>
@@ -213,7 +217,7 @@ export function ClientPage({ tenantId }: PageProps) {
                 {campaigns.length > 0 ? (
                   campaigns.map((campaign) => (
                     <tr key={campaign.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 text-slate-700 font-medium">
+                      <td className="px-6 py-4 text-slate-900 text-sm">
                         <a
                           href={
                             user.permissions.canReadCampaign
@@ -227,7 +231,7 @@ export function ClientPage({ tenantId }: PageProps) {
                           {campaign.id}
                         </a>
                       </td>
-                      <td className="px-6 py-4 text-slate-900 font-semibold">
+                      <td className="px-6 py-4 text-slate-900 text-sm">
                         <a
                           href={
                             user.permissions.canReadCampaign
@@ -257,10 +261,30 @@ export function ClientPage({ tenantId }: PageProps) {
                           </a>
                         </span>
                       </td>
+                      <td className="px-6 py-4 text-slate-900 text-sm">
+                        <span>
+                          {campaign.executionGroup ? (
+                            <a
+                              href={
+                                user.permissions.canReadExecutionGroup
+                                  ? config.pages.executionGroup({
+                                      tenantId,
+                                      executionGroupId: campaign.executionGroup.id,
+                                    })
+                                  : ''
+                              }
+                            >
+                              (ID: {campaign.executionGroup.id}): {campaign.executionGroup.name}
+                            </a>
+                          ) : (
+                            '---'
+                          )}
+                        </span>
+                      </td>
                       <td className="px-6 py-4 text-left">
                         <button
                           type="button"
-                          disabled={!user.permissions.canUpdateCampaign}
+                          disabled={!user.permissions.canReadCampaign}
                           onClick={() => {
                             location.href = config.pages.campaign({
                               tenantId,

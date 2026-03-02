@@ -40,6 +40,7 @@ const labels = {
     tableId: 'ID',
     tableName: 'Campaign Name',
     tableStatus: 'Status',
+    tableExecutionGroup: 'Execution group',
     status: {
       active: 'Active',
       inactive: 'Inactive',
