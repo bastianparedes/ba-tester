@@ -144,8 +144,8 @@ export function ClientPage({ tenantId }: PageProps) {
             <p className="text-slate-600">{translation.executionGroups.headerSubTitle}</p>
           </div>
           <Button
-            disabled={!user.permissions.canCreateCampaign}
-            href={user.permissions.canCreateCampaign ? config.pages.executionGroup({ tenantId, executionGroupId: undefined }) : undefined}
+            disabled={!user.permissions.canCreateExecutionGroup}
+            href={user.permissions.canCreateExecutionGroup ? config.pages.executionGroup({ tenantId, executionGroupId: undefined }) : undefined}
           >
             <PlusCircle />
             {translation.executionGroups.createButton}
