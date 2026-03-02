@@ -9,11 +9,12 @@ type TypeRequirementData = TypeBaTester['executionGroupsData'][number]['campaign
 class Campaign {
   id: number;
   name: string;
-  requirementData: TypeRequirementData;
-  triggers: Trigger[];
-  variations: Variation[];
+  private requirementData: TypeRequirementData;
+  private triggers: Trigger[];
+  private variations: Variation[];
   private firedOnce: boolean;
-  requirementsWereMet: boolean;
+  requirementsWereMet: undefined | boolean;
+  requirementsWereEvaluated: boolean;
   requirementsWereMetPromise: Promise<boolean>;
   private resolveRequirementsWereMet: (response: boolean) => void;
 
@@ -24,6 +25,7 @@ class Campaign {
     this.triggers = triggers;
     this.variations = variations;
     this.firedOnce = false;
+    this.requirementsWereEvaluated = false;
     this.requirementsWereMetPromise = new Promise<boolean>((resolve) => {
       this.resolveRequirementsWereMet = resolve;
     }).then((requirementsWereMet) => {
@@ -38,10 +40,12 @@ class Campaign {
 
   async evaluate() {
     if (this.requirementData.data.children.length === 0) {
+      this.requirementsWereEvaluated = true;
       this.resolveRequirementsWereMet(true);
       return true;
     }
     const result = await new Requirement(this.requirementData).evaluate();
+    this.requirementsWereEvaluated = true;
     this.resolveRequirementsWereMet(result);
     return result;
   }

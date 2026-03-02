@@ -4,6 +4,7 @@ import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Trigger';
 import Variation from '../classes/Variation';
 import type { TypeBaTester } from '../types';
+import { getRandomElementFromArray } from '../utils/random';
 
 declare global {
   interface Window {
@@ -19,6 +20,12 @@ const waitForAllOrNotStrategy = async (campaigns: Campaign[], waitForEveryCampai
 
 const oneOrManyStrategy = async (campaigns: Campaign[], onlyOneCampaignPerPageLoad: boolean): Promise<Campaign[]> => {
   if (!onlyOneCampaignPerPageLoad) return campaigns;
+
+  const campaignsAlreadyResolved = campaigns.filter((campaign) => campaign.requirementsWereEvaluated && campaign.requirementsWereMet);
+  const randomCampaign = getRandomElementFromArray(campaignsAlreadyResolved);
+  if (randomCampaign !== undefined) {
+    return [randomCampaign];
+  }
 
   const campaign = await Promise.any(
     campaigns.map((campaign) =>
@@ -37,11 +44,8 @@ const oneOrManyStrategy = async (campaigns: Campaign[], onlyOneCampaignPerPageLo
 const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
   let campaigns = executionGroup.campaigns.map((campaignData) => {
     const triggers = campaignData.triggers.map((triggerData) => new Trigger(triggerData, campaignData.id));
-
     const variations = campaignData.variations.map((variationData) => new Variation(variationData, campaignData.id));
-
     const campaign = new Campaign(campaignData.id, campaignData.name, campaignData.requirements, triggers, variations);
-
     return campaign;
   });
 
