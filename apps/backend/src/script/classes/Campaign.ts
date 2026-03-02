@@ -59,7 +59,7 @@ class Campaign {
     });
   }
 
-  async applyChanges() {
+  applyChanges() {
     if (this.firedOnce || !this.requirementsWereMet) return;
     this.firedOnce = true;
 

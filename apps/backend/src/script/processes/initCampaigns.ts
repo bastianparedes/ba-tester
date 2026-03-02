@@ -1,6 +1,7 @@
 import commonConstants from '../../../../domain/constants';
 import { TypeExecutionGroupScript } from '../../../../domain/types/script';
 import Campaign from '../classes/Campaign';
+import { ExecutionGroupCookieManager } from '../classes/ExecutionGroupCookieManager';
 import Trigger from '../classes/Trigger';
 import Variation from '../classes/Variation';
 import type { TypeBaTester } from '../types';
@@ -12,14 +13,41 @@ declare global {
   }
 }
 
+const onlyPreviousCampaignsStrategy = async (
+  campaigns: Campaign[],
+  onlyCampaignsPreviouslyExecuted: boolean,
+  executionGroupCookieManager: ExecutionGroupCookieManager,
+): Promise<Campaign[]> => {
+  if (!onlyCampaignsPreviouslyExecuted) return campaigns;
+  const campaignIds = executionGroupCookieManager.getCampaignIds();
+  if (campaignIds.length === 0) return campaigns;
+
+  const previouslyExecutedCampaigns = campaigns.filter((campaign) => campaignIds.includes(campaign.id));
+  return previouslyExecutedCampaigns;
+};
+
 const waitForAllOrNotStrategy = async (campaigns: Campaign[], waitForEveryCampaignToBeEvaluated: boolean): Promise<Campaign[]> => {
   if (!waitForEveryCampaignToBeEvaluated) return campaigns;
   const awaitedCampaigns = await Promise.all(campaigns.map((campaign) => campaign.requirementsWereMetPromise.then(() => campaign)));
   return awaitedCampaigns;
 };
 
-const oneOrManyStrategy = async (campaigns: Campaign[], onlyOneCampaignPerPageLoad: boolean): Promise<Campaign[]> => {
+const oneOrManyStrategy = async (
+  campaigns: Campaign[],
+  onlyOneCampaignPerPageLoad: boolean,
+  executionGroupCookieManager: ExecutionGroupCookieManager,
+): Promise<Campaign[]> => {
   if (!onlyOneCampaignPerPageLoad) return campaigns;
+
+  const campaignIdsPreviouslyExecuted = executionGroupCookieManager.getCampaignIds();
+  if (campaignIdsPreviouslyExecuted.length > 1) {
+    const randomCampaignId = getRandomFromArray(campaignIdsPreviouslyExecuted);
+    campaignIdsPreviouslyExecuted
+      .filter((campaignId) => randomCampaignId !== campaignId)
+      .forEach((campaignId) => {
+        executionGroupCookieManager.deleteCampaignId(campaignId);
+      });
+  }
 
   const campaignsAlreadyResolved = campaigns.filter((campaign) => campaign.requirementsWereEvaluated && campaign.requirementsWereMet);
   const randomCampaign = getRandomFromArray(campaignsAlreadyResolved);
@@ -42,6 +70,8 @@ const oneOrManyStrategy = async (campaigns: Campaign[], onlyOneCampaignPerPageLo
 };
 
 const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
+  const executionGroupCookieManager = new ExecutionGroupCookieManager(executionGroup.id);
+
   let campaigns = executionGroup.campaigns.map((campaignData) => {
     const triggers = campaignData.triggers.map((triggerData) => new Trigger(triggerData, campaignData.id));
     const variations = campaignData.variations.map((variationData) => new Variation(variationData, campaignData.id));
@@ -50,17 +80,21 @@ const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
   });
 
   const strategiesAndFlags = [
+    { fn: onlyPreviousCampaignsStrategy, flag: executionGroup.onlyCampaignsPreviouslyExecuted },
     { fn: waitForAllOrNotStrategy, flag: executionGroup.waitForEveryCampaignToBeEvaluated },
     { fn: oneOrManyStrategy, flag: executionGroup.onlyOneCampaignPerPageLoad },
   ];
 
   for (const strategieAndFlag of strategiesAndFlags) {
-    campaigns = await strategieAndFlag.fn(campaigns, strategieAndFlag.flag);
+    campaigns = await strategieAndFlag.fn(campaigns, strategieAndFlag.flag, executionGroupCookieManager);
   }
 
   campaigns.forEach((campaign) => {
     campaign.requirementsWereMetPromise.then((requirementsWereMet) => {
-      if (requirementsWereMet) campaign.applyChanges();
+      if (requirementsWereMet) {
+        executionGroupCookieManager.insertCampaignId(campaign.id);
+        campaign.applyChanges();
+      }
     });
   });
 };

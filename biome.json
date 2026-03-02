@@ -28,7 +28,8 @@
         "useExhaustiveDependencies": "off"
       },
       "style": {
-        "useImportType": "off"
+        "useImportType": "off",
+        "noNonNullAssertion": "off"
       }
     }
   },

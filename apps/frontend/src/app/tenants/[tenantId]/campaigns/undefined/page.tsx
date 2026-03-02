@@ -40,7 +40,7 @@ const Page = async (props: PageProps) => {
             },
             type: 'node',
           },
-          status: commonConstants.status.inactive,
+          status: commonConstants.status.active,
           triggers: [],
           variations: [],
           executionGroupId: null,
