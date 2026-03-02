@@ -4,7 +4,7 @@ import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Trigger';
 import Variation from '../classes/Variation';
 import type { TypeBaTester } from '../types';
-import { getRandomElementFromArray } from '../utils/random';
+import { getRandomFromArray } from '../utils/random';
 
 declare global {
   interface Window {
@@ -22,7 +22,7 @@ const oneOrManyStrategy = async (campaigns: Campaign[], onlyOneCampaignPerPageLo
   if (!onlyOneCampaignPerPageLoad) return campaigns;
 
   const campaignsAlreadyResolved = campaigns.filter((campaign) => campaign.requirementsWereEvaluated && campaign.requirementsWereMet);
-  const randomCampaign = getRandomElementFromArray(campaignsAlreadyResolved);
+  const randomCampaign = getRandomFromArray(campaignsAlreadyResolved);
   if (randomCampaign !== undefined) {
     return [randomCampaign];
   }

@@ -5,7 +5,7 @@ export const getRandomIntegerNumber = (min: number, max: number) => {
   return (randomBytes[0] % range) + min;
 };
 
-export const getRandomElementFromArray = <T>(array: T[]): T | undefined => {
+export const getRandomFromArray = <T>(array: T[]): T | undefined => {
   const element = array[getRandomIntegerNumber(0, array.length - 1)];
   return element;
 };
