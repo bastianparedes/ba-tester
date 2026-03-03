@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { eq, inArray } from 'drizzle-orm';
+import { and, eq, inArray } from 'drizzle-orm';
 import type { TypeRole } from '../../../domain/types';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
@@ -60,29 +60,57 @@ export class RoleRepository {
       const oldPermissions = (
         await tx.query.rolePermissions.findMany({
           where: eq(schema.rolePermissions.roleId, roleId),
-          with: {
-            permission: true,
-          },
+          with: { permission: true },
         })
       ).map((rp) => rp.permission.name);
-      const newPermissions = updates.permissions;
 
+      const newPermissions = updates.permissions;
       const removedPermissionsNames = oldPermissions.filter((p) => !newPermissions.includes(p));
       if (removedPermissionsNames.length > 0) {
-        const permission = await tx.select({ id: schema.permissions.id }).from(schema.permissions).where(inArray(schema.permissions.name, removedPermissionsNames));
-
-        const ids = permission.map((p) => p.id);
-        await tx.delete(schema.rolePermissions).where(inArray(schema.rolePermissions.permissionId, ids));
+        const removedPermissions = await tx.select({ id: schema.permissions.id }).from(schema.permissions).where(inArray(schema.permissions.name, removedPermissionsNames));
+        if (removedPermissions.length > 0) {
+          await tx.delete(schema.rolePermissions).where(
+            and(
+              eq(schema.rolePermissions.roleId, roleId),
+              inArray(
+                schema.rolePermissions.permissionId,
+                removedPermissions.map((p) => p.id),
+              ),
+            ),
+          );
+        }
       }
 
       const addedPermissionsNames = newPermissions.filter((p) => !oldPermissions.includes(p));
+      let permissionsToAttach: { id: number; name: string }[] = [];
       if (addedPermissionsNames.length > 0) {
-        const permissions = await tx
-          .insert(schema.permissions)
-          .values(addedPermissionsNames.map((name) => ({ name })))
-          .onConflictDoNothing()
-          .returning();
-        if (permissions.length > 0) await tx.insert(schema.rolePermissions).values(permissions.map((permission) => ({ roleId, permissionId: permission.id })));
+        const existingPermissions = await tx
+          .select({
+            id: schema.permissions.id,
+            name: schema.permissions.name,
+          })
+          .from(schema.permissions)
+          .where(inArray(schema.permissions.name, addedPermissionsNames));
+
+        const existingNames = existingPermissions.map((p) => p.name);
+        const namesToInsert = addedPermissionsNames.filter((name) => !existingNames.includes(name));
+        let insertedPermissions: { id: number; name: string }[] = [];
+        if (namesToInsert.length > 0) {
+          insertedPermissions = await tx
+            .insert(schema.permissions)
+            .values(namesToInsert.map((name) => ({ name })))
+            .returning();
+        }
+        permissionsToAttach = [...existingPermissions, ...insertedPermissions];
+      }
+
+      if (permissionsToAttach.length > 0) {
+        await tx.insert(schema.rolePermissions).values(
+          permissionsToAttach.map((permission) => ({
+            roleId,
+            permissionId: permission.id,
+          })),
+        );
       }
 
       return updatedRole;
@@ -93,7 +121,6 @@ export class RoleRepository {
       permissions: updates.permissions,
     };
   };
-
   getAll = async (): Promise<TypeRole[]> => {
     const results = await db.query.roles.findMany({
       with: {
