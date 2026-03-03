@@ -38,9 +38,10 @@ export class DbService {
             email: env.SUPER_ADMIN_EMAIL,
             id: superAdminId,
             name: 'Super Admin',
+            roleId: -1,
             role: {
               description: 'Super admin is GOD',
-              id: 'Super Admin Role ID',
+              id: -1,
               name: 'Super Admin Role',
               permissions: flatPermissions,
             },
@@ -59,7 +60,6 @@ export class DbService {
         const user = await this.userRepository.get({ userId: args.userId });
         if (!user) throw new Error('Could not get recently updated user');
         await this.cacheService.users.save({ user });
-        return user;
       },
       getForLogin: async (args) => {
         if (args.email === env.SUPER_ADMIN_EMAIL)
@@ -71,7 +71,6 @@ export class DbService {
         return this.userRepository.getForLogin(args);
       },
       getAll: this.userRepository.getAll,
-      getMany: this.userRepository.getMany,
       remove: async (args) => {
         const removedUser = await this.userRepository.remove(args);
         await this.cacheService.users.clear({ userId: args.userId });

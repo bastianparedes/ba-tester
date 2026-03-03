@@ -3,4 +3,4 @@ export const cookieNames = {
   token: 'token',
 };
 export const quantitiesAvailable = [25, 50, 100, 200, 500];
-export const superAdminId = 'super-admin-id';
+export const superAdminId = -1;

@@ -16,24 +16,24 @@ export type TypeApiRoles = {
         permissions: string[];
       };
     };
-    response: TypeRole;
+    response: Record<string, never>;
   };
   update: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { roleId: string };
+      pathParams: { roleId: TypeRole['id'] };
       body: {
         name: string;
         description: string;
         permissions: string[];
       };
     };
-    response: TypeRole;
+    response: Record<string, never>;
   };
   delete: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { roleId: string };
+      pathParams: { roleId: TypeRole['id'] };
     };
     response: Record<string, never>;
   };

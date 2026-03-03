@@ -4,6 +4,7 @@
 import { Eye } from 'lucide-react';
 import { useState } from 'react';
 import { useUser } from '@/app/_common/contexts/User';
+import { TypeUser } from '@/domain/types';
 
 const formatTimestamp = (date: Date) => {
   return date.toLocaleString('es-ES', {
@@ -15,8 +16,8 @@ const formatTimestamp = (date: Date) => {
   });
 };
 type Props = {
-  usersWatching: { id: string; name: string }[];
-  userMadeChange: { id: string; name: string; date: Date } | null;
+  usersWatching: { id: TypeUser['id']; name: TypeUser['name'] }[];
+  userMadeChange: { id: TypeUser['id']; name: TypeUser['name']; date: Date } | null;
 };
 
 export function LiveViewersNavbar({ usersWatching: allUsersWatching, userMadeChange }: Props) {

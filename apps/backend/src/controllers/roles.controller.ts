@@ -1,11 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { IsArray, IsIn, IsString } from 'class-validator';
 import { TypeApiRoles } from '../../../domain/api/roles';
 import { flatPermissions, permissions } from '../../../domain/permissions';
 import { AuthGuard } from '../guards/auth.guard';
 import { DbService } from '../services/db.service';
 
-class RoleDto {
+class NewRoleDto {
+  @IsString()
+  name: string;
+
+  @IsString()
+  description: string;
+}
+
+class OldRoleDto {
   @IsString()
   name: string;
 
@@ -30,21 +38,21 @@ export class RolesController {
 
   @UseGuards(AuthGuard(permissions.role.create))
   @Post()
-  async create(@Body() body: RoleDto): Promise<TypeApiRoles['create']['response']> {
-    const role = await this.dbService.roles.create(body);
-    return role;
+  async create(@Body() body: NewRoleDto): Promise<TypeApiRoles['create']['response']> {
+    await this.dbService.roles.create(body);
+    return {};
   }
 
   @UseGuards(AuthGuard(permissions.role.update))
   @Put(':roleId')
-  async update(@Param('roleId') roleId: string, @Body() body: RoleDto): Promise<TypeApiRoles['update']['response']> {
-    const role = await this.dbService.roles.update({ roleId }, body);
-    return role;
+  async update(@Param('roleId', ParseIntPipe) roleId: number, @Body() body: OldRoleDto): Promise<TypeApiRoles['update']['response']> {
+    await this.dbService.roles.update({ roleId }, body);
+    return {};
   }
 
   @UseGuards(AuthGuard(permissions.role.delete))
   @Delete(':roleId')
-  async remove(@Param('roleId') roleId: string): Promise<TypeApiRoles['delete']['response']> {
+  async remove(@Param('roleId', ParseIntPipe) roleId: number): Promise<TypeApiRoles['delete']['response']> {
     await this.dbService.roles.remove({ roleId });
     return {};
   }

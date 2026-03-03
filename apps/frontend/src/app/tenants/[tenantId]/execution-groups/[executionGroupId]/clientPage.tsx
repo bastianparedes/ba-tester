@@ -7,7 +7,7 @@ import { Switch } from '@/app/_common/components/switch';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
-import type { TypeCampaignLight, TypeExecutionGroupWithOptionalId } from '@/domain/types';
+import type { TypeCampaignLight, TypeExecutionGroupWithOptionalId, TypeUser } from '@/domain/types';
 import { env } from '@/libs/env';
 import { apiCaller } from '@/libs/restClient';
 import { Campaigns } from './components/Campaigns';
@@ -26,8 +26,8 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
   const [executionGroup, setExecutionGroup] = useState(initialExecutionGroup);
   const [selectedCampaigns, setSelectedCampaigns] = useState(initialCampaigns);
   const socketRef = useRef<Socket | null>(null);
-  const [usersWatching, setUsersWatching] = useState<{ id: string; name: string }[]>([]);
-  const [userMadeChange, setUserMadeChange] = useState<{ id: string; name: string; date: Date } | null>(null);
+  const [usersWatching, setUsersWatching] = useState<{ id: TypeUser['id']; name: TypeUser['name'] }[]>([]);
+  const [userMadeChange, setUserMadeChange] = useState<{ id: TypeUser['id']; name: TypeUser['name']; date: Date } | null>(null);
 
   useEffect(() => {
     const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/execution-group`, {

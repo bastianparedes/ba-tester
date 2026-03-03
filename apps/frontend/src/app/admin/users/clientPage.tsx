@@ -48,7 +48,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
           type: 'select',
           options: roles.map((role) => ({
             label: role.name,
-            value: role.id,
+            value: String(role.id),
           })),
           value: '',
           required: true,
@@ -62,9 +62,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
         name: data.name,
         email: data.email,
         password: data.password,
-        role: {
-          id: data.roleId,
-        },
+        roleId: Number(data.roleId),
       },
     });
     if (apiResponse.ok) return window.location.reload();
@@ -94,9 +92,9 @@ export function ClientPage({ initialUsers, roles }: Props) {
           type: 'select',
           options: roles.map((role) => ({
             label: role.name,
-            value: role.id,
+            value: String(role.id),
           })),
-          value: user.role.id,
+          value: String(user.role.id),
           required: true,
         },
       },
@@ -107,9 +105,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
       body: {
         name: data.name,
         email: data.email,
-        role: {
-          id: data.roleId,
-        },
+        roleId: Number(data.roleId),
       },
       pathParams: { userId: user.id },
     });

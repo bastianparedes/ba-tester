@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { boolean, integer, jsonb, pgEnum, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, jsonb, pgEnum, pgTable, primaryKey, serial, varchar } from 'drizzle-orm/pg-core';
 
 import commonConstants from '../../../../domain/constants';
 import type { TypeCampaign } from '../../../../domain/types';
@@ -45,6 +45,46 @@ export const campaigns = pgTable('campaigns', {
   variations: jsonb('variations').$type<TypeCampaign['variations']>().notNull(),
 });
 
+// PERMISSIONS
+export const permissions = pgTable('permissions', {
+  id: serial('id').primaryKey().unique().notNull(),
+  name: varchar('name', { length: 255 }).unique().notNull(),
+});
+
+// ROLES
+export const roles = pgTable('roles', {
+  id: serial('id').primaryKey().unique().notNull(),
+  name: varchar('name', { length: 255 }).unique().notNull(),
+  description: varchar('description', { length: 1024 }).notNull(),
+});
+
+export const rolePermissions = pgTable(
+  'role_permissions',
+  {
+    roleId: integer('role_id')
+      .notNull()
+      .references(() => roles.id, { onDelete: 'cascade' }),
+    permissionId: integer('permission_id')
+      .notNull()
+      .references(() => permissions.id, { onDelete: 'cascade' }),
+  },
+  (table) => [primaryKey({ columns: [table.roleId, table.permissionId] })],
+);
+
+// USERS
+export const users = pgTable('users', {
+  id: serial('id').primaryKey().unique().notNull(),
+  name: varchar('name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).unique().notNull(),
+  passwordHash: varchar('password_hash', { length: 255 }).notNull(),
+  roleId: integer('role_id')
+    .notNull()
+    .references(() => roles.id, {
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    }),
+});
+
 // -------------------- RELATIONS --------------------
 
 export const tenantsRelations = relations(tenants, ({ many }) => ({
@@ -67,5 +107,32 @@ export const campaignsRelations = relations(campaigns, ({ one }) => ({
   executionGroup: one(executionGroups, {
     fields: [campaigns.executionGroupId],
     references: [executionGroups.id],
+  }),
+}));
+
+export const permissionsRelations = relations(permissions, ({ many }) => ({
+  rolePermissions: many(rolePermissions),
+}));
+
+export const rolesRelations = relations(roles, ({ many }) => ({
+  users: many(users),
+  rolePermissions: many(rolePermissions),
+}));
+
+export const rolePermissionsRelations = relations(rolePermissions, ({ one }) => ({
+  role: one(roles, {
+    fields: [rolePermissions.roleId],
+    references: [roles.id],
+  }),
+  permission: one(permissions, {
+    fields: [rolePermissions.permissionId],
+    references: [permissions.id],
+  }),
+}));
+
+export const usersRelations = relations(users, ({ one }) => ({
+  role: one(roles, {
+    fields: [users.roleId],
+    references: [roles.id],
   }),
 }));

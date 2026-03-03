@@ -1,12 +1,12 @@
 import { Button } from '@/app/_common/components/button';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
-import type { TypeCampaignWithOptionalId } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeUser } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
 
 interface Props {
   campaign: TypeCampaignWithOptionalId;
-  userMadeChange: { id: string; name: string; date: Date } | null;
+  userMadeChange: { id: TypeUser['id']; name: TypeUser['name']; date: Date } | null;
   notifyUsersCampaignWasUpdated: () => void;
 }
 

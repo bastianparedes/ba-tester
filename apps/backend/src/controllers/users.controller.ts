@@ -1,18 +1,13 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { Type } from 'class-transformer';
-import { IsString, ValidateNested } from 'class-validator';
+import { BadRequestException, Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { IsNumber, IsString } from 'class-validator';
 import { TypeApiUsers } from '../../../domain/api/users';
 import { cookieNames } from '../../../domain/config';
 import { permissions } from '../../../domain/permissions';
+import { TypeUser } from '../../../domain/types';
 import { AuthGuard } from '../guards/auth.guard';
 import { getTokenData } from '../libs/auth/jwt';
 import { DbService } from '../services/db.service';
 import { type Request } from '../types/request';
-
-class RoleDto {
-  @IsString()
-  id: string;
-}
 
 class NewUserDto {
   @IsString()
@@ -24,9 +19,8 @@ class NewUserDto {
   @IsString()
   password: string;
 
-  @ValidateNested()
-  @Type(() => RoleDto)
-  role: RoleDto;
+  @IsNumber()
+  roleId: number;
 }
 
 class OldUserDto {
@@ -36,9 +30,8 @@ class OldUserDto {
   @IsString()
   email: string;
 
-  @ValidateNested()
-  @Type(() => RoleDto)
-  role: RoleDto;
+  @IsNumber()
+  roleId: number;
 }
 
 @Controller('admin/users')
@@ -71,32 +64,31 @@ export class UsersController {
     const user = req.user;
     if (!user) throw new UnauthorizedException();
 
-    const role = await this.dbService.roles.get({ id: body.role.id });
+    const role = await this.dbService.roles.get({ id: body.roleId });
     if (!role) throw new BadRequestException();
-
-    const newUser = await this.dbService.users.create(body);
-    return newUser;
+    await this.dbService.users.create(body);
+    return {};
   }
 
   @UseGuards(AuthGuard(permissions.user.update))
   @Put(':userId')
-  async update(@Param('userId') userId: string, @Body() body: OldUserDto, @Req() req: Request): Promise<TypeApiUsers['update']['response']> {
+  async update(@Param('userId') userId: TypeUser['id'], @Body() body: OldUserDto, @Req() req: Request): Promise<TypeApiUsers['update']['response']> {
     const user = req.user;
     if (!user) throw new UnauthorizedException();
 
     const currentUser = await this.dbService.users.get({ userId });
     if (!currentUser) throw new BadRequestException();
 
-    const newRole = await this.dbService.roles.get({ id: body.role.id });
+    const newRole = await this.dbService.roles.get({ id: body.roleId });
     if (!newRole) throw new BadRequestException();
 
-    const newUser = await this.dbService.users.update({ userId }, body);
-    return newUser;
+    await this.dbService.users.update({ userId }, body);
+    return {};
   }
 
   @UseGuards(AuthGuard(permissions.user.delete))
   @Delete(':userId')
-  async remove(@Param('userId') userId: string, @Req() req: Request): Promise<TypeApiUsers['delete']['response']> {
+  async remove(@Param('userId', ParseIntPipe) userId: number, @Req() req: Request): Promise<TypeApiUsers['delete']['response']> {
     const user = req.user;
     if (!user) throw new UnauthorizedException();
 

@@ -1,81 +1,127 @@
 import { Injectable } from '@nestjs/common';
-import type mongoose from 'mongoose';
+import { eq, inArray } from 'drizzle-orm';
 import type { TypeRole } from '../../../domain/types';
-import { connect } from './mongodb/client';
-import Roles from './mongodb/models/Role';
-import Users from './mongodb/models/User';
-
-const withMapId = <T extends { _id: mongoose.Types.ObjectId }>(obj: T): Omit<T, '_id'> & { id: string } => {
-  const { _id, ...rest } = obj;
-  return {
-    ...rest,
-    id: _id.toString(),
-  };
-};
+import db from './postgres/client';
+import * as schema from './postgres/schema';
 
 @Injectable()
 export class RoleRepository {
-  get = async (filters: { id?: string; name?: string } = {}): Promise<TypeRole | null> => {
-    await connect();
-    const { id, ...rest } = filters;
-
-    const query = {
-      ...rest,
-      ...(id ? { _id: id } : {}),
-    };
-
-    const role = await Roles.findOne(query).lean();
-    if (!role) return null;
-
-    return withMapId(role);
-  };
-
-  create = async (data: { name: string; description: string; permissions: string[] }): Promise<TypeRole> => {
-    const newRole = new Roles(data);
-    const result = (await newRole.save()).toJSON();
-    return withMapId(result);
-  };
-
-  update = async (
-    { roleId }: { roleId: string },
-    updates: {
-      name: string;
-      description: string;
-      permissions: string[];
-    },
-  ) => {
-    await connect();
-    const updatedRole = await Roles.findByIdAndUpdate(roleId, updates, {
-      new: true,
+  get = async ({ id }: { id: TypeRole['id'] }): Promise<TypeRole | null> => {
+    const result = await db.query.roles.findFirst({
+      where: eq(schema.roles.id, id),
+      with: {
+        rolePermissions: {
+          with: {
+            permission: {
+              columns: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
     });
-    if (!updatedRole) throw new Error('Updated recently role not found');
-    return withMapId(updatedRole);
+
+    if (!result) return null;
+    const { rolePermissions, ...baseRole } = result;
+    const role = {
+      ...baseRole,
+      permissions: rolePermissions.map((rp) => rp.permission.name),
+    };
+    return role;
+  };
+
+  create = async (data: Omit<Omit<TypeRole, 'id'>, 'permissions'>) => {
+    await db.transaction(async (tx) => {
+      await tx
+        .insert(schema.roles)
+        .values({
+          name: data.name,
+          description: data.description,
+        })
+        .returning();
+    });
+  };
+
+  update = async ({ roleId }: { roleId: TypeRole['id'] }, updates: Omit<TypeRole, 'id'>): Promise<TypeRole> => {
+    const currentRole = await this.get({ id: roleId });
+    if (!currentRole) throw new Error('Role not found');
+
+    const updatedRole = await db.transaction(async (tx) => {
+      const [updatedRole] = await tx
+        .update(schema.roles)
+        .set({
+          name: updates.name,
+          description: updates.description,
+        })
+        .where(eq(schema.roles.id, roleId))
+        .returning();
+
+      await tx.delete(schema.rolePermissions).where(eq(schema.rolePermissions.roleId, roleId));
+
+      if (updates.permissions.length > 0) {
+        await tx
+          .insert(schema.permissions)
+          .values(
+            updates.permissions.map((permission) => ({
+              name: permission,
+            })),
+          )
+          .returning()
+          .onConflictDoNothing();
+  
+        const permissions = await tx.query.permissions.findMany({
+          where: inArray(schema.permissions.name, updates.permissions)
+        });
+  
+        await tx
+          .insert(schema.rolePermissions)
+          .values(
+            permissions.map((permission) => ({
+              roleId,
+              permissionId: permission.id,
+            })),
+          )
+          .onConflictDoNothing();
+        
+      }
+
+      return updatedRole;
+    });
+
+    return {
+      ...updatedRole,
+      permissions: updates.permissions,
+    };
   };
 
   getAll = async (): Promise<TypeRole[]> => {
-    await connect();
-    const roles = await Roles.find().lean();
-    return roles.map((role) => withMapId(role));
+    const results = await db.query.roles.findMany({
+      with: {
+        rolePermissions: {
+          with: {
+            permission: {
+              columns: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const roles = results.map((result) => {
+      const { rolePermissions, ...baseRole } = result;
+      const role = {
+        ...baseRole,
+        permissions: rolePermissions.map((rp) => rp.permission.name),
+      };
+      return role;
+    });
+    return roles;
   };
 
-  getMany = async (filters: { id?: string; name?: string } = {}): Promise<TypeRole[]> => {
-    await connect();
-    const { id, ...rest } = filters;
-
-    const query = {
-      ...rest,
-      ...(id ? { _id: id } : {}),
-    };
-
-    const roles = await Roles.find(query).lean();
-    return roles.map((role) => withMapId(role));
-  };
-
-  remove = async ({ roleId }: { roleId: string }) => {
-    await connect();
-    const deletedRole = await Roles.findByIdAndDelete(roleId);
-    if (!deletedRole) throw new Error(`Role (${roleId}) doesn't exist`);
-
-    await Users.updateMany({ 'roles.roleId': roleId }, { $pull: { roles: { roleId } } });
+  remove = async ({ roleId }: { roleId: TypeRole['id'] }) => {
+    await db.delete(schema.roles).where(eq(schema.roles.id, roleId));
   };
 }

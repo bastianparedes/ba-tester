@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaignWithOptionalId } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeUser } from '@/domain/types';
 import { env } from '@/libs/env';
 import Buttons from './components/Buttons';
 import { LiveViewersNavbar } from './components/LiveViewersBar';
@@ -23,8 +23,8 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
   const { translation } = useTranslationContext();
   const [campaign, setCampaign] = useState(initialCampaign);
   const socketRef = useRef<Socket | null>(null);
-  const [usersWatching, setUsersWatching] = useState<{ id: string; name: string }[]>([]);
-  const [userMadeChange, setUserMadeChange] = useState<{ id: string; name: string; date: Date } | null>(null);
+  const [usersWatching, setUsersWatching] = useState<{ id: TypeUser['id']; name: TypeUser['name'] }[]>([]);
+  const [userMadeChange, setUserMadeChange] = useState<{ id: TypeUser['id']; name: TypeUser['name']; date: Date } | null>(null);
 
   useEffect(() => {
     const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/campaigns`, {

@@ -15,7 +15,7 @@ type Props = {
 
 export function ClientPage({ initialRoles }: Props) {
   const [roles, setRoles] = useState(initialRoles);
-  const [selectedRoleId, setSelectedRole] = useState<string | null>(null);
+  const [selectedRoleId, setSelectedRole] = useState<number | null>(null);
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const confirm = useDialogStore((state) => state.confirm);
   const user = useUser();
@@ -52,8 +52,7 @@ export function ClientPage({ initialRoles }: Props) {
       },
     });
     if (apiResult.ok) {
-      const json = await apiResult.json();
-      setRoles((state) => [...state, json]);
+      location.reload();
     }
   };
 

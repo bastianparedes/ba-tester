@@ -1,108 +1,122 @@
 import { Injectable } from '@nestjs/common';
-import type mongoose from 'mongoose';
-import type { TypeUser } from '../../../domain/types';
-import { getPasswordHashed } from '../libs/auth/password';
-import { connect } from './mongodb/client';
-import Roles, { type IRole } from './mongodb/models/Role';
-import Users from './mongodb/models/User';
-
-const withMapId = <T extends { _id: mongoose.Types.ObjectId }>(obj: T): Omit<T, '_id'> & { id: string } => {
-  const { _id, ...rest } = obj;
-  return {
-    ...rest,
-    id: _id.toString(),
-  };
-};
+import { eq } from 'drizzle-orm';
+import type { TypeRole, TypeUser } from '../../../domain/types';
+import db from './postgres/client';
+import * as schema from './postgres/schema';
 
 @Injectable()
 export class UserRepository {
-  get = async ({ userId }: { userId: string }): Promise<TypeUser | null> => {
-    await connect();
-    const user = await Users.findById(userId).select('-passwordHash').populate<{ role: IRole }>('role').lean();
-    if (!user) return null;
-    const userPopulated = withMapId({
-      ...user,
-      role: withMapId(user.role),
+  get = async ({ userId }: { userId: TypeUser['id'] }): Promise<TypeUser | null> => {
+    const result = await db.query.users.findFirst({
+      columns: {
+        passwordHash: false,
+      },
+      where: eq(schema.users.id, userId),
+      with: {
+        role: {
+          with: {
+            rolePermissions: {
+              with: {
+                permission: {
+                  columns: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
-    return userPopulated;
+
+    if (!result) return null;
+
+    const { role, ...baseUser } = result;
+    const { rolePermissions, ...baseRole } = role;
+
+    const correctRole = {
+      ...baseRole,
+      permissions: rolePermissions.map((rp) => rp.permission.name),
+    };
+    return {
+      ...baseUser,
+      role: correctRole,
+    };
   };
 
-  create = async (data: { name: string; email: string; password: string; role: { id: string } }) => {
-    await connect();
-    const role = await Roles.findById(data.role.id).lean();
-    if (!role) throw new Error(`Role (${data.role.id}) doesn't exist when creating user`);
-
-    const passwordHash = getPasswordHashed(data.password);
-    const newUser = new Users({ ...data, passwordHash, role: role._id });
-    const result = await newUser.save();
-    const gettedUser = await this.get({ userId: result._id.toString() });
-    if (!gettedUser) throw new Error('Could not get recently created user');
-    return gettedUser;
+  create = async (data: { name: TypeUser['name']; email: TypeUser['email']; password: string; roleId: TypeRole['id'] }) => {
+    await db.insert(schema.users).values({
+      name: data.name,
+      email: data.email,
+      passwordHash: data.password,
+      roleId: data.roleId,
+    });
   };
 
   update = async (
-    { userId }: { userId: string },
+    { userId }: { userId: TypeUser['id'] },
     updates: {
-      name: string;
-      email: string;
-      role: {
-        id: string;
-      };
+      name: TypeUser['name'];
+      email: TypeUser['email'];
+      roleId: TypeUser['roleId'];
     },
   ) => {
-    await connect();
-    const updatedUser = await Users.findByIdAndUpdate(userId, { ...updates, role: updates.role.id }, { new: true });
-    if (!updatedUser) throw new Error(`user (${userId}) doesn't exist`);
+    await db.update(schema.users).set(updates).where(eq(schema.users.id, userId));
+  };
 
-    const user = await this.get({ userId });
-    if (!user) throw new Error('Could not get recently updated user');
+  getForLogin = async ({ email }: { email: TypeUser['email'] }): Promise<{ id: TypeUser['id']; email: TypeUser['email']; passwordHash: string }> => {
+    const user = await db.query.users.findFirst({
+      columns: {
+        id: true,
+        email: true,
+        passwordHash: true,
+      },
+      where: eq(schema.users.email, email),
+    });
+
+    if (!user) throw new Error('User not found');
     return user;
   };
 
-  getForLogin = async ({ email }: { email: string }): Promise<{ id: string; email: string; passwordHash: string }> => {
-    await connect();
-    const user = await Users.findOne({ email }).lean();
-    if (!user) throw new Error(`user with email (${email}) doesn't exist`);
-    return {
-      id: user._id.toString(),
-      email: user.email,
-      passwordHash: user.passwordHash,
-    };
-  };
-
   getAll = async (): Promise<TypeUser[]> => {
-    await connect();
-    const users = await Users.find().select('-passwordHash').populate<{ role: IRole }>('role').lean();
-    const safeUsers = users.map((user) =>
-      withMapId({
-        ...user,
-        role: withMapId(user.role),
-      }),
-    );
-    return safeUsers;
+    const results = await db.query.users.findMany({
+      columns: {
+        passwordHash: false,
+      },
+      with: {
+        role: {
+          with: {
+            rolePermissions: {
+              with: {
+                permission: {
+                  columns: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const users = results.map((result) => {
+      const { role, ...baseUser } = result;
+      const { rolePermissions, ...baseRole } = role;
+
+      const correctRole = {
+        ...baseRole,
+        permissions: rolePermissions.map((rp) => rp.permission.name),
+      };
+      return {
+        ...baseUser,
+        role: correctRole,
+      };
+    });
+    return users;
   };
 
-  getMany = async (filters: { id?: string; name?: string; role?: string } = {}): Promise<TypeUser[]> => {
-    await connect();
-    const { id, ...rest } = filters;
-
-    const query = {
-      ...rest,
-      ...(id ? { _id: id } : {}),
-    };
-
-    const users = await Users.find(query).select('-passwordHash').populate<{ role: IRole }>('role').lean();
-
-    return users.map((user) =>
-      withMapId({
-        ...user,
-        role: withMapId(user.role),
-      }),
-    );
-  };
-
-  remove = async ({ userId }: { userId: string }) => {
-    await connect();
-    await Users.findByIdAndDelete(userId);
+  remove = async ({ userId }: { userId: TypeUser['id'] }) => {
+    await db.delete(schema.users).where(eq(schema.users.id, userId));
   };
 }

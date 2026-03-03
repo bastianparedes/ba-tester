@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
+import { TypeUser } from '../../../../domain/types';
 import { env } from '../../libs/env';
 
 type TokenPurpose = 'session' | 'password_recovery';
-type TokenData = { valid: true; id: string } | { valid: false; id: null };
-type Payload = { id: string; purpose: TokenPurpose };
+type TokenData = { valid: true; id: TypeUser['id'] } | { valid: false; id: null };
+type Payload = { id: TypeUser['id']; purpose: TokenPurpose };
 
 const secondsTokenIsValid = 60 * 60 * 12; // 12 hours
 

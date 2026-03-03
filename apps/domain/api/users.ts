@@ -20,31 +20,27 @@ export type TypeApiUsers = {
         name: string;
         email: string;
         password: string;
-        role: {
-          id: string;
-        };
+        roleId: TypeUser['roleId'];
       };
     };
-    response: TypeUser;
+    response: Record<string, never>;
   };
   update: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { userId: string };
+      pathParams: { userId: TypeUser['id'] };
       body: {
         name: string;
         email: string;
-        role: {
-          id: string;
-        };
+        roleId: TypeUser['roleId'];
       };
     };
-    response: TypeUser;
+    response: Record<string, never>;
   };
   delete: {
     request: {
       headers?: RequestInit['headers'];
-      pathParams: { userId: string };
+      pathParams: { userId: TypeUser['id'] };
     };
     response: Record<string, never>;
   };
