@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import type { TypeRole, TypeUser } from '../../../domain/types';
+import { getPasswordHashed } from '../libs/auth/password';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 
@@ -38,17 +39,19 @@ export class UserRepository {
       ...baseRole,
       permissions: rolePermissions.map((rp) => rp.permission.name),
     };
-    return {
+
+    const fullUser = {
       ...baseUser,
       role: correctRole,
     };
+    return fullUser;
   };
 
   create = async (data: { name: TypeUser['name']; email: TypeUser['email']; password: string; roleId: TypeRole['id'] }) => {
     await db.insert(schema.users).values({
       name: data.name,
       email: data.email,
-      passwordHash: data.password,
+      passwordHash: getPasswordHashed(data.password),
       roleId: data.roleId,
     });
   };

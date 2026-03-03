@@ -30,8 +30,10 @@ export class DbService {
     this.users = {
       ...this.userRepository,
       get: async (args) => {
-        const cached = await this.cacheService.users.get({ userId: args.userId });
-        if (cached) return cached;
+        if (env.NODE_ENV === 'production') {
+          const cached = await this.cacheService.users.get({ userId: args.userId });
+          if (cached) return cached;
+        }
 
         if (args.userId === superAdminId) {
           const user = {

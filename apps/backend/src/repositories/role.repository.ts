@@ -57,33 +57,32 @@ export class RoleRepository {
         .where(eq(schema.roles.id, roleId))
         .returning();
 
-      await tx.delete(schema.rolePermissions).where(eq(schema.rolePermissions.roleId, roleId));
+      const oldPermissions = (
+        await tx.query.rolePermissions.findMany({
+          where: eq(schema.rolePermissions.roleId, roleId),
+          with: {
+            permission: true,
+          },
+        })
+      ).map((rp) => rp.permission.name);
+      const newPermissions = updates.permissions;
 
-      if (updates.permissions.length > 0) {
-        await tx
+      const removedPermissionsNames = oldPermissions.filter((p) => !newPermissions.includes(p));
+      if (removedPermissionsNames.length > 0) {
+        const permission = await tx.select({ id: schema.permissions.id }).from(schema.permissions).where(inArray(schema.permissions.name, removedPermissionsNames));
+
+        const ids = permission.map((p) => p.id);
+        await tx.delete(schema.rolePermissions).where(inArray(schema.rolePermissions.permissionId, ids));
+      }
+
+      const addedPermissionsNames = newPermissions.filter((p) => !oldPermissions.includes(p));
+      if (addedPermissionsNames.length > 0) {
+        const permissions = await tx
           .insert(schema.permissions)
-          .values(
-            updates.permissions.map((permission) => ({
-              name: permission,
-            })),
-          )
-          .returning()
-          .onConflictDoNothing();
-  
-        const permissions = await tx.query.permissions.findMany({
-          where: inArray(schema.permissions.name, updates.permissions)
-        });
-  
-        await tx
-          .insert(schema.rolePermissions)
-          .values(
-            permissions.map((permission) => ({
-              roleId,
-              permissionId: permission.id,
-            })),
-          )
-          .onConflictDoNothing();
-        
+          .values(addedPermissionsNames.map((name) => ({ name })))
+          .onConflictDoNothing()
+          .returning();
+        if (permissions.length > 0) await tx.insert(schema.rolePermissions).values(permissions.map((permission) => ({ roleId, permissionId: permission.id })));
       }
 
       return updatedRole;

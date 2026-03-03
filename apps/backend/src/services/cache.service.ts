@@ -48,6 +48,7 @@ export class CacheService {
   };
   users = {
     async save({ user }: { user: TypeUser }) {
+      if (env.NODE_ENV !== 'production') return;
       const key = `user:${user.id}`;
       const minutes = 1;
       await cache.set({ key, value: JSON.stringify(user), minutes });
