@@ -209,8 +209,8 @@ export function ClientPage({ tenantId }: PageProps) {
                     {translation.campaigns.tableExecutionGroup}
                     <SortIcon column="status" />
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Modify</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Delete</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.modify}</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.delete}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">

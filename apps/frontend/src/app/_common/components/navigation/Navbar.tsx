@@ -3,6 +3,7 @@
 import { cx } from 'class-variance-authority';
 import { ChevronDown, ChevronRight, LogOut, User } from 'lucide-react';
 import React, { useState } from 'react';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
 import { apiCaller } from '@/libs/restClient';
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export function Navbar({ children, breadcrumb }: Props) {
+  const { translation } = useTranslationContext();
   const user = useUser();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -79,7 +81,7 @@ export function Navbar({ children, breadcrumb }: Props) {
                     className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
                   >
                     <LogOut className="w-4 h-4" />
-                    Cerrar sesión
+                    {translation.common.logOut}
                   </button>
                 </div>
               )}

@@ -66,7 +66,7 @@ class Campaign {
     const variation = this.getVariation();
     if (variation === undefined) return;
 
-    console.info(`🚀 BA Tester - Fired Campaign: (id: ${this.id}) ${this.name} - Variation: ${variation.data.name}`);
+    console.info(`🚀 BA Tester - Fired Campaign: (ID: ${this.id}) ${this.name} - Variation: ${variation.data.name}`);
     variation.run();
   }
 }

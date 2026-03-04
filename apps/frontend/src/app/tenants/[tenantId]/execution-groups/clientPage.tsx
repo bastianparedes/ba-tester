@@ -172,8 +172,8 @@ export function ClientPage({ tenantId }: PageProps) {
                     <SortIcon column="name" />
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">{translation.executionGroups.tableQuantityCampaigns}</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Modify</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Delete</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">{translation.executionGroups.modify}</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">{translation.executionGroups.delete}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">

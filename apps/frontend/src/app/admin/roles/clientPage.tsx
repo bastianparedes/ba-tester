@@ -4,6 +4,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Switch } from '@/app/_common/components/switch';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import { flatPermissions } from '@/domain/permissions';
 import type { TypeRole } from '@/domain/types';
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function ClientPage({ initialRoles }: Props) {
+  const { translation } = useTranslationContext();
   const [roles, setRoles] = useState(initialRoles);
   const [selectedRoleId, setSelectedRole] = useState<number | null>(null);
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
@@ -25,18 +27,18 @@ export function ClientPage({ initialRoles }: Props) {
   const addRole = async () => {
     const data = await getDataFromForm(
       {
-        title: 'Nuevo rol',
+        title: translation.roles.newRole,
       },
       {
         name: {
-          label: 'Nombre',
+          label: translation.roles.name,
           type: 'text',
           value: '',
           required: true,
           forbiddenValues: [...roles.map((role) => role.name)],
         },
         description: {
-          label: 'Descripción',
+          label: translation.roles.description,
           type: 'textarea',
           value: '',
           required: true,
@@ -94,8 +96,8 @@ export function ClientPage({ initialRoles }: Props) {
       {/* Panel izquierdo - Roles */}
       <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto">
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900">Roles</h2>
-          <p className="text-sm text-gray-500 mt-1">Selecciona un rol para gestionar sus permisos</p>
+          <h2 className="text-2xl font-bold text-gray-900">{translation.roles.roles}</h2>
+          <p className="text-sm text-gray-500 mt-1">{translation.roles.selectRole}</p>
         </div>
 
         <div className="p-4 space-y-2">
@@ -106,7 +108,7 @@ export function ClientPage({ initialRoles }: Props) {
             className="w-full p-4 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center space-x-2 text-gray-600 transition-all enabled:hover:border-blue-500 enabled:hover:bg-blue-50 enabled:hover:text-blue-600 disabled:opacity-80 disabled:cursor-not-allowed"
           >
             <Plus className="w-5 h-5" />
-            <span className="font-semibold">Agregar rol</span>
+            <span className="font-semibold">{translation.roles.addRole}</span>
           </button>
 
           {roles.map((role) => (
@@ -117,12 +119,19 @@ export function ClientPage({ initialRoles }: Props) {
               {/* Botón principal para seleccionar rol */}
               <button type="button" onClick={() => setSelectedRole(role.id)} className="flex-1 text-left">
                 <div className="font-semibold text-gray-900">{role.name}</div>
-                <div className="text-sm text-gray-500">{role.permissions.length} permisos asignados</div>
+                <div className="text-sm text-gray-500">
+                  {role.permissions.length} {translation.roles.assignedPermissions}
+                </div>
               </button>
 
               {/* Botón independiente para eliminar rol */}
               {user.permissions.canDeleteRole && (
-                <button type="button" onClick={() => deleteRole(role)} className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg ml-2" title="Eliminar rol">
+                <button
+                  type="button"
+                  onClick={() => deleteRole(role)}
+                  className="transition-all p-2 bg-red-100 hover:bg-red-200 rounded-lg ml-2"
+                  title={translation.roles.deleteRole}
+                >
                   <Trash2 className="w-4 h-4 text-red-600" />
                 </button>
               )}
@@ -138,7 +147,7 @@ export function ClientPage({ initialRoles }: Props) {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{currentRole.name}</h2>
-                <p className="text-sm text-gray-500 mt-1">Activa o desactiva los permisos para este rol</p>
+                <p className="text-sm text-gray-500 mt-1">{translation.roles.activateOrDeactivatePermissions}</p>
               </div>
             </div>
           </div>

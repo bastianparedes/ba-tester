@@ -27,7 +27,11 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
   const [selectedCampaigns, setSelectedCampaigns] = useState(initialCampaigns);
   const socketRef = useRef<Socket | null>(null);
   const [usersWatching, setUsersWatching] = useState<{ id: TypeUser['id']; name: TypeUser['name'] }[]>([]);
-  const [userMadeChange, setUserMadeChange] = useState<{ id: TypeUser['id']; name: TypeUser['name']; date: Date } | null>(null);
+  const [userMadeChange, setUserMadeChange] = useState<{
+    id: TypeUser['id'];
+    name: TypeUser['name'];
+    date: Date;
+  } | null>(null);
 
   useEffect(() => {
     const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/execution-group`, {
@@ -55,19 +59,24 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
   }, []);
 
   const notifyUsersExecutionGroupWasUpdated = () => {
-    socketRef.current?.emit('user-updated-execution-group', { tenantId, executionGroup });
+    socketRef.current?.emit('user-updated-execution-group', {
+      tenantId,
+      executionGroup,
+    });
   };
 
   const user = useUser();
-
   const isNewExecutionGroup = executionGroup.id === undefined;
 
   const returnToExecutionGroups = () => {
-    location.href = constants.pages.executionGroups({ tenantId: executionGroup.tenantId });
+    location.href = constants.pages.executionGroups({
+      tenantId: executionGroup.tenantId,
+    });
   };
 
   const handleOnSave = async () => {
     const campaignIds = selectedCampaigns.map((campaign) => campaign.id);
+
     if (executionGroup.id === undefined) {
       await apiCaller.executionGroups.create({
         pathParams: { tenantId: executionGroup.tenantId },
@@ -76,7 +85,10 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
     } else {
       notifyUsersExecutionGroupWasUpdated();
       await apiCaller.executionGroups.update({
-        pathParams: { tenantId: executionGroup.tenantId, executionGroupId: executionGroup.id },
+        pathParams: {
+          tenantId: executionGroup.tenantId,
+          executionGroupId: executionGroup.id,
+        },
         body: { ...executionGroup, campaignIds },
       });
     }
@@ -87,6 +99,7 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
   return (
     <>
       {executionGroupId !== undefined && <LiveViewersNavbar usersWatching={usersWatching} userMadeChange={userMadeChange} />}
+
       <div className="w-4/5 mx-auto my-8 relative flex flex-col gap-8">
         <div className="mb-8">
           <div className="flex items-start justify-between">
@@ -108,66 +121,88 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
           />
         </div>
 
+        {/* CONFIG */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
           <h2 className="text-xl font-semibold text-blue-900 mb-4">{translation.executionGroup.config}</h2>
+
           <div className="flex flex-col gap-3">
+            {/* WAIT CONDITIONS */}
             <div className="flex gap-2">
               <div className="flex min-w-16 max-w-16 py-1">
                 <Switch
                   checked={executionGroup.waitForEveryCampaignToBeEvaluated}
-                  onChange={() => setExecutionGroup((state) => ({ ...state, waitForEveryCampaignToBeEvaluated: !executionGroup.waitForEveryCampaignToBeEvaluated }))}
+                  onChange={() =>
+                    setExecutionGroup((state) => ({
+                      ...state,
+                      waitForEveryCampaignToBeEvaluated: !executionGroup.waitForEveryCampaignToBeEvaluated,
+                    }))
+                  }
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Wait conditions</h3>
+                <h3 className="text-xl font-bold">{translation.executionGroup.waitConditionsTitle}</h3>
                 <p>
-                  <span className="text-green-600">Enabled:</span> To execute campaign(s), every campaign must trigger en valuate its conditions
+                  <span className="text-green-600">{translation.executionGroup.waitConditionsEnabledLabel}</span> {translation.executionGroup.waitConditionsEnabledDescription}
                 </p>
                 <p>
-                  <span className="text-red-600">Disabled:</span> Campaigns can be executed ignoring other campaigns
+                  <span className="text-red-600">{translation.executionGroup.waitConditionsDisabledLabel}</span> {translation.executionGroup.waitConditionsDisabledDescription}
                 </p>
               </div>
             </div>
+
+            {/* ONLY ONE */}
             <div className="flex gap-2">
               <div className="flex min-w-16 max-w-16 py-1">
                 <Switch
                   checked={executionGroup.onlyOneCampaignPerPageLoad}
-                  onChange={() => setExecutionGroup((state) => ({ ...state, onlyOneCampaignPerPageLoad: !executionGroup.onlyOneCampaignPerPageLoad }))}
+                  onChange={() =>
+                    setExecutionGroup((state) => ({
+                      ...state,
+                      onlyOneCampaignPerPageLoad: !executionGroup.onlyOneCampaignPerPageLoad,
+                    }))
+                  }
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Only one</h3>
+                <h3 className="text-xl font-bold">{translation.executionGroup.onlyOneTitle}</h3>
                 <p>
-                  <span className="text-green-600">Enabled:</span> Only one campaign can be executed in each page load. If campaigns waited for each other, one campaign will
-                  be picked randomly
+                  <span className="text-green-600">{translation.executionGroup.onlyOneEnabledLabel}</span> {translation.executionGroup.onlyOneEnabledDescription}
                 </p>
                 <p>
-                  <span className="text-red-600">Disabled:</span> Every campaign can be executed in each page load
+                  <span className="text-red-600">{translation.executionGroup.onlyOneDisabledLabel}</span> {translation.executionGroup.onlyOneDisabledDescription}
                 </p>
               </div>
             </div>
+
+            {/* REMEMBER CAMPAIGNS */}
             <div className="flex gap-2">
               <div className="flex min-w-16 max-w-16 py-1">
                 <Switch
                   checked={executionGroup.onlyCampaignsPreviouslyExecuted}
-                  onChange={() => setExecutionGroup((state) => ({ ...state, onlyCampaignsPreviouslyExecuted: !executionGroup.onlyCampaignsPreviouslyExecuted }))}
+                  onChange={() =>
+                    setExecutionGroup((state) => ({
+                      ...state,
+                      onlyCampaignsPreviouslyExecuted: !executionGroup.onlyCampaignsPreviouslyExecuted,
+                    }))
+                  }
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Remember campaigns</h3>
+                <h3 className="text-xl font-bold">{translation.executionGroup.rememberCampaignsTitle}</h3>
                 <p>
-                  <span className="text-green-600">Enabled:</span> Only campaign(s) that executed in the first page load can triggered again. After first page load, this
-                  campaign will not wait other to be evaluated
+                  <span className="text-green-600">{translation.executionGroup.rememberCampaignsEnabledLabel}</span>{' '}
+                  {translation.executionGroup.rememberCampaignsEnabledDescription}
                 </p>
                 <p>
-                  <span className="text-red-600">Disabled:</span> Campaigns can always trigger
+                  <span className="text-red-600">{translation.executionGroup.rememberCampaignsDisabledLabel}</span>{' '}
+                  {translation.executionGroup.rememberCampaignsDisabledDescription}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* NAME */}
+        {/* CAMPAIGNS */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6 border-l-4 border-blue-500">
           <h2 className="text-xl font-semibold text-blue-900 mb-4">{translation.executionGroup.campaigns}</h2>
           <Campaigns allCampaigns={allCampaigns} selectedCampaigns={selectedCampaigns} setSelectedCampaigns={setSelectedCampaigns} />
@@ -176,7 +211,7 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
         {/* BUTTONS */}
         <div className="mt-8 flex justify-end gap-4">
           <Button onClick={returnToExecutionGroups} variant="destructive">
-            Cancel
+            {translation.executionGroup.cancel}
           </Button>
           <Button
             disabled={
@@ -185,7 +220,7 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
             onClick={handleOnSave}
             variant="default"
           >
-            Save execution group
+            {translation.executionGroup.save}
           </Button>
         </div>
       </div>

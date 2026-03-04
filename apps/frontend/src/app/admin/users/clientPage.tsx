@@ -3,6 +3,7 @@
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import type { TypeRole, TypeUser } from '@/domain/types';
 import { apiCaller } from '@/libs/restClient';
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export function ClientPage({ initialUsers, roles }: Props) {
+  const { translation } = useTranslationContext();
   const [users, setUsers] = useState(initialUsers);
   const getDataFromForm = useDialogStore((state) => state.getDataFromForm);
   const confirm = useDialogStore((state) => state.confirm);
@@ -21,30 +23,30 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const handleAdd = async () => {
     const data = await getDataFromForm(
       {
-        title: 'Nuevo usuario',
+        title: translation.users.newUser,
       },
       {
         name: {
-          label: 'Nombre',
+          label: translation.users.name,
           type: 'text',
           value: '',
           required: true,
         },
         email: {
-          label: 'Email',
+          label: translation.users.email,
           type: 'email',
           value: '',
           required: true,
           forbiddenValues: users.map((user) => user.email),
         },
         password: {
-          label: 'Password',
+          label: translation.users.password,
           type: 'password',
           value: '',
           required: true,
         },
         roleId: {
-          label: 'Role',
+          label: translation.users.role,
           type: 'select',
           options: roles.map((role) => ({
             label: role.name,
@@ -71,24 +73,24 @@ export function ClientPage({ initialUsers, roles }: Props) {
   const handleEdit = async ({ user }: { user: TypeUser }) => {
     const data = await getDataFromForm(
       {
-        title: `Editar usuario "${user.name}"`,
+        title: `${translation.users.editUser} "${user.name}"`,
       },
       {
         name: {
-          label: 'Nombre',
+          label: translation.users.name,
           type: 'text',
           value: user.name,
           required: true,
         },
         email: {
-          label: 'Email',
+          label: translation.users.email,
           type: 'email',
           value: user.email,
           required: true,
           forbiddenValues: users.filter((userInArray) => userInArray.email !== user.email).map((userInArray) => userInArray.email),
         },
         roleId: {
-          label: 'Role',
+          label: translation.users.role,
           type: 'select',
           options: roles.map((role) => ({
             label: role.name,
@@ -126,14 +128,14 @@ export function ClientPage({ initialUsers, roles }: Props) {
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-lg shadow-md">
           <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">Gestión de Usuarios</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{translation.users.userManagement}</h1>
             <button
               type="button"
               onClick={handleAdd}
               disabled={!currentUser.permissions.canCreateUser}
               className="bg-blue-600 hover:enabled:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition disabled:opacity-80 disabled:cursor-not-allowed"
             >
-              <Plus size={20} /> Agregar Usuario
+              <Plus size={20} /> {translation.users.addUser}
             </button>
           </div>
 
@@ -141,11 +143,11 @@ export function ClientPage({ initialUsers, roles }: Props) {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Editar</th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Eliminar</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{translation.users.name}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{translation.users.email}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{translation.users.role}</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{translation.users.editUser}</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{translation.users.deleteUser}</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -164,7 +166,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                         className="px-3 py-1 rounded inline-flex items-center gap-1 transition bg-blue-100 text-blue-700 hover:enabled:bg-blue-200 disabled:opacity-80 disabled:cursor-not-allowed"
                       >
                         <Pencil size={16} />
-                        Editar
+                        {translation.users.edit}
                       </button>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -175,7 +177,7 @@ export function ClientPage({ initialUsers, roles }: Props) {
                         className="px-3 py-1 rounded inline-flex items-center gap-1 transition bg-red-100 text-red-700 hover:enabled:bg-red-200 disabled:opacity-80 disabled:cursor-not-allowed"
                       >
                         <Trash2 size={16} />
-                        Eliminar
+                        {translation.users.delete}
                       </button>
                     </td>
                   </tr>

@@ -278,7 +278,7 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         })}
                         defaultValue={field.value}
                       >
-                        <option value="">Seleccione una opción</option>
+                        <option value="">{translation.common.selectOption}</option>
                         {field.options.map((opt, i) => (
                           <option key={i} value={opt.value}>
                             {opt.label}

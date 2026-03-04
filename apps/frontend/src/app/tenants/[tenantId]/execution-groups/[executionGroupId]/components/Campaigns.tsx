@@ -2,6 +2,7 @@
 
 import { Trash2 } from 'lucide-react';
 import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from 'react';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { TypeCampaignLight } from '@/domain/types';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export function Campaigns({ allCampaigns, selectedCampaigns, setSelectedCampaigns }: Props) {
+  const { translation } = useTranslationContext();
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement | null>(null);
@@ -57,7 +59,7 @@ export function Campaigns({ allCampaigns, selectedCampaigns, setSelectedCampaign
           <input
             type="text"
             ref={searchRef}
-            placeholder="Search campaigns..."
+            placeholder={translation.executionGroup.searchCampaigns}
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -72,7 +74,7 @@ export function Campaigns({ allCampaigns, selectedCampaigns, setSelectedCampaign
         {open && (
           <div ref={dropdownRef} className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white border border-slate-200 rounded-lg shadow-lg z-50 max-h-56 overflow-y-auto">
             {filteredCampaigns.length === 0 ? (
-              <p className="px-4 py-3 text-sm text-slate-400 text-center">No results found</p>
+              <p className="px-4 py-3 text-sm text-slate-400 text-center">{translation.executionGroup.noData}</p>
             ) : (
               filteredCampaigns.map((item, i) => (
                 <button
@@ -97,9 +99,9 @@ export function Campaigns({ allCampaigns, selectedCampaigns, setSelectedCampaign
       <table className="w-full mt-5">
         <thead>
           <tr className="border-b-2 border-blue-100">
-            <th className="text-left py-3 px-4 text-blue-900 font-semibold">ID</th>
-            <th className="text-left py-3 px-4 text-blue-900 font-semibold">NAME</th>
-            <th className="text-left py-3 px-4 text-blue-900 font-semibold">REMOVE</th>
+            <th className="text-left py-3 px-4 text-blue-900 font-semibold">{translation.executionGroup.id}</th>
+            <th className="text-left py-3 px-4 text-blue-900 font-semibold">{translation.executionGroup.name}</th>
+            <th className="text-left py-3 px-4 text-blue-900 font-semibold">{translation.executionGroup.remove}</th>
           </tr>
         </thead>
         <tbody>
