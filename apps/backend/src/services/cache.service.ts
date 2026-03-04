@@ -33,7 +33,7 @@ export class CacheService {
     async save({ tenantId, code }: { tenantId: number; code: string }) {
       if (env.NODE_ENV !== 'production') return;
       const key = `tenant:${tenantId}:public_script`;
-      const minutes = 60;
+      const minutes = 1;
       await cache.set({ key, value: code, minutes });
     },
 
@@ -50,7 +50,7 @@ export class CacheService {
     async save({ user }: { user: TypeUser }) {
       if (env.NODE_ENV !== 'production') return;
       const key = `user:${user.id}`;
-      const minutes = 1;
+      const minutes = 5;
       await cache.set({ key, value: JSON.stringify(user), minutes });
     },
     async get({ userId }: { userId: TypeUser['id'] }): Promise<TypeUser | null> {
