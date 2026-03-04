@@ -19,10 +19,19 @@ const onlyPreviousCampaignsStrategy = async (
   executionGroupCookieManager: ExecutionGroupCookieManager,
 ): Promise<Campaign[]> => {
   if (!onlyCampaignsPreviouslyExecuted) return campaigns;
-  const campaignIds = executionGroupCookieManager.getCampaignIds();
-  if (campaignIds.length === 0) return campaigns;
+  const campaignIds = campaigns.map((campaign) => campaign.id);
 
-  const previouslyExecutedCampaigns = campaigns.filter((campaign) => campaignIds.includes(campaign.id));
+  const oldSavedcampaignIds = executionGroupCookieManager.getCampaignIds();
+  for (const campaignId of oldSavedcampaignIds) {
+    if (!campaignIds.includes(campaignId)) {
+      executionGroupCookieManager.deleteCampaignId(campaignId);
+    }
+  }
+
+  const savedCampaignIds = executionGroupCookieManager.getCampaignIds();
+  if (savedCampaignIds.length === 0) return campaigns;
+
+  const previouslyExecutedCampaigns = campaigns.filter((campaign) => savedCampaignIds.includes(campaign.id));
   return previouslyExecutedCampaigns;
 };
 
