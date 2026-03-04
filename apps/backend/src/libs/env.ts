@@ -18,10 +18,6 @@ class ConfigDto {
 
   @IsString()
   @IsNotEmpty()
-  DATABASE_URL_MONGODB: string;
-
-  @IsString()
-  @IsNotEmpty()
   DATABASE_URL_REDIS: string;
 
   @IsInt()
@@ -47,7 +43,6 @@ export const env = plainToInstance(ConfigDto, {
   DOMAIN: process.env.DOMAIN,
   JWT_SECRET: process.env.JWT_SECRET,
   DATABASE_URL_POSTGRES: process.env.DATABASE_URL_POSTGRES,
-  DATABASE_URL_MONGODB: process.env.DATABASE_URL_MONGODB,
   DATABASE_URL_REDIS: process.env.DATABASE_URL_REDIS,
   SALT_ROUNDS: process.env.SALT_ROUNDS,
   SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL,
