@@ -32,6 +32,7 @@ const Buttons = ({ campaign, userMadeChange, notifyUsersCampaignWasUpdated }: Pr
         body: campaign,
       });
     }
+    returnToCampaigns();
   };
 
   return (

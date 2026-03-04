@@ -1,5 +1,7 @@
 'use client';
 
+import { CircleAlert } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import constants from '@/config/constants';
 import { apiCaller } from '@/libs/restClient';
@@ -10,6 +12,7 @@ interface LoginFormData {
 }
 
 export default function Page() {
+  const [showError, setShowError] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,6 +25,8 @@ export default function Page() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+    setShowError(false);
+
     const apiResponse = await apiCaller.sessions.logIn({
       body: {
         email: data.email,
@@ -32,6 +37,8 @@ export default function Page() {
       location.href = constants.pages.tenants();
       return;
     }
+
+    setShowError(true);
   };
 
   return (
@@ -56,6 +63,13 @@ export default function Page() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {showError && (
+              <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                <CircleAlert />
+                Incorrect username or password. Please try again.
+              </div>
+            )}
+
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">

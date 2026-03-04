@@ -60,7 +60,6 @@ type TypeField = {
 );
 
 const transformArgsToFields = (args: TypeArgs): TypeField[] => {
-  // biome-ignore lint/suspicious/useIterableCallbackReturn: <No da error>
   return Object.entries(args).map(([name, arg]) => {
     switch (arg.type) {
       case 'text':
@@ -114,6 +113,7 @@ const transformArgsToFields = (args: TypeArgs): TypeField[] => {
           required: arg.required,
         };
     }
+    throw new Error(`Unsupported field type`);
   });
 };
 

@@ -80,6 +80,8 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
         body: { ...executionGroup, campaignIds },
       });
     }
+
+    returnToExecutionGroups();
   };
 
   return (

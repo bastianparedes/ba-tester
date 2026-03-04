@@ -25,10 +25,9 @@ export class JsCodeSyntaxConstraint implements ValidatorConstraintInterface {
  * Decorator to validate JavaScript code syntax
  */
 export function IsJsCode(validationOptions?: ValidationOptions) {
-  // biome-ignore lint/complexity/noBannedTypes: <Not necesary>
-  return (object: { constructor: Function }, propertyName: string) => {
+  return (target: object, propertyName: string) => {
     registerDecorator({
-      target: object.constructor,
+      target: target.constructor,
       propertyName,
       options: validationOptions,
       validator: JsCodeSyntaxConstraint,

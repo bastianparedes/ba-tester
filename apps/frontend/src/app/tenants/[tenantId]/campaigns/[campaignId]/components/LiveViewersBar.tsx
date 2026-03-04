@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: <no se> */
 'use client';
 
 import { Eye } from 'lucide-react';
@@ -62,7 +61,8 @@ export function LiveViewersNavbar({ usersWatching: allUsersWatching, userMadeCha
 
           {/* Live Viewers Indicator */}
           {viewerCount > 0 && (
-            <div
+            <button
+              type="button"
               className={`relative flex items-center gap-3 ${buttonBg} px-4 py-2 rounded-full border ${buttonBorder} ${buttonHover} transition-colors`}
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
@@ -100,7 +100,7 @@ export function LiveViewersNavbar({ usersWatching: allUsersWatching, userMadeCha
                   </div>
                 </div>
               )}
-            </div>
+            </button>
           )}
         </div>
       </div>

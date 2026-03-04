@@ -21,9 +21,6 @@
         "noArrayIndexKey": "off",
         "noDocumentCookie": "off"
       },
-      "security": {
-        "noGlobalEval": "off"
-      },
       "correctness": {
         "useExhaustiveDependencies": "off"
       },
