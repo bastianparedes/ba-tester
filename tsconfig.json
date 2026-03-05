@@ -1,0 +1,4 @@
+{
+  "include": ["./apps/**/__tests__/**/*.test.ts", "./types/vitest.d.ts"],
+  "exclude": ["node_modules"]
+}

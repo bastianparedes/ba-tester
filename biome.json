@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["./apps/backend/**", "./apps/domain/**", "./apps/frontend/**"]
+    "includes": ["./**/*"]
   },
   "formatter": {
     "enabled": true,

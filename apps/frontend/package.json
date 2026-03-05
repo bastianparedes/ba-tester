@@ -5,9 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --webpack",
-    "start": "next start",
-    "test": "jest --ci --passWithNoTests",
-    "test:u": "jest --ci --u"
+    "start": "next start"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
