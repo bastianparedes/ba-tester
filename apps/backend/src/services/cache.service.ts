@@ -59,15 +59,9 @@ export class CacheService {
       if (!result) return null;
       return JSON.parse(result);
     },
-    async clear({ userId }: { userId: TypeUser['id'] }) {
-      const key = `user:${userId}`;
-      await client.del(key);
-    },
-    async clearAll() {
-      const keys = await client.keys('user:*');
-      for (const key of keys) {
-        await client.del(key);
-      }
+    async clear({ userIds }: { userIds: TypeUser['id'][] }) {
+      const keys = userIds.map((id) => `user:${id}`);
+      await client.del(keys);
     },
   };
 }

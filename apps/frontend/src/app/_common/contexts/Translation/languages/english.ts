@@ -53,18 +53,14 @@ const labels = {
     remove: 'Remove',
     waitConditionsTitle: 'Wait conditions',
     waitConditionsEnabledLabel: 'Enabled:',
-    waitConditionsEnabledDescription:
-      'To execute campaign(s), every campaign must trigger and evaluate its conditions',
+    waitConditionsEnabledDescription: 'To execute campaign(s), every campaign must trigger and evaluate its conditions',
     waitConditionsDisabledLabel: 'Disabled:',
-    waitConditionsDisabledDescription:
-      'Campaigns can be executed without waiting for other campaigns',
+    waitConditionsDisabledDescription: 'Campaigns can be executed without waiting for other campaigns',
     onlyOneTitle: 'Only one',
     onlyOneEnabledLabel: 'Enabled:',
-    onlyOneEnabledDescription:
-      'Only one campaign can be executed per page load. If campaigns are waiting for each other, one will be chosen randomly',
+    onlyOneEnabledDescription: 'Only one campaign can be executed per page load. If campaigns are waiting for each other, one will be chosen randomly',
     onlyOneDisabledLabel: 'Disabled:',
-    onlyOneDisabledDescription:
-      'All campaigns can be executed on each page load',
+    onlyOneDisabledDescription: 'All campaigns can be executed on each page load',
     rememberCampaignsTitle: 'Remember campaigns',
     rememberCampaignsEnabledLabel: 'Enabled:',
     rememberCampaignsEnabledDescription:
@@ -149,8 +145,7 @@ const labels = {
     addRole: 'Add role',
     deleteRole: 'Delete role',
     assignedPermissions: 'Assigned permissions',
-    activateOrDeactivatePermissions:
-      'Activate or deactivate permissions for this role',
+    activateOrDeactivatePermissions: 'Activate or deactivate permissions for this role',
   },
   users: {
     userManagement: 'User management',

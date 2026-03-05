@@ -119,6 +119,16 @@ export class UserRepository {
     return users;
   };
 
+  getAllWithRoleId = async ({ roleId }: { roleId: TypeRole['id'] }): Promise<Omit<TypeUser, 'role'>[]> => {
+    const results = await db.query.users.findMany({
+      columns: {
+        passwordHash: false,
+      },
+      where: eq(schema.users.roleId, roleId),
+    });
+    return results;
+  };
+
   remove = async ({ userId }: { userId: TypeUser['id'] }) => {
     await db.delete(schema.users).where(eq(schema.users.id, userId));
   };

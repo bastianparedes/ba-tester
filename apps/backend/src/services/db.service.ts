@@ -75,7 +75,7 @@ export class DbService {
       getAll: this.userRepository.getAll,
       remove: async (args) => {
         const removedUser = await this.userRepository.remove(args);
-        await this.cacheService.users.clear({ userId: args.userId });
+        await this.cacheService.users.clear({ userIds: [args.userId] });
         return removedUser;
       },
     };
@@ -83,13 +83,15 @@ export class DbService {
       ...this.roleRepository,
       update: async (...args) => {
         const updatedRole = await this.roleRepository.update(...args);
-        await this.cacheService.users.clearAll();
+        const users = await this.userRepository.getAllWithRoleId({ roleId: args[0].roleId });
+
+        await this.cacheService.users.clear({ userIds: users.map((u) => u.id) });
         return updatedRole;
       },
       remove: async (...args) => {
-        const removedRole = await this.roleRepository.remove(...args);
-        await this.cacheService.users.clearAll();
-        return removedRole;
+        const users = await this.userRepository.getAllWithRoleId({ roleId: args[0].roleId });
+        await this.roleRepository.remove(...args);
+        await this.cacheService.users.clear({ userIds: users.map((u) => u.id) });
       },
     };
     this.tenants = this.tenantRepository;
