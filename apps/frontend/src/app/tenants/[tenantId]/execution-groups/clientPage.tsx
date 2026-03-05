@@ -1,9 +1,9 @@
 'use client';
 
-import Pagination from '@mui/material/Pagination';
 import { ChevronDown, ChevronUp, Pencil, PlusCircle, Trash2 } from 'lucide-react';
 import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
+import { Pagination } from '@/app/_common/components/Pagination';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
@@ -263,7 +263,7 @@ export function ClientPage({ tenantId }: PageProps) {
 
         {/* Paginación */}
         <div className="mt-6 flex items-center justify-center bg-white rounded-lg shadow p-4">
-          <Pagination count={totalPages} page={state.currentPage + 1} onChange={() => {}} />
+          <Pagination totalPages={totalPages} page={state.currentPage + 1} onChange={(newPage) => dispatch({ type: 'SET_CURRENT_PAGE', payload: newPage })} />
         </div>
       </div>
 
