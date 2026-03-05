@@ -8,10 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@monaco-editor/react": "^4.7.0",
-    "@mui/material": "^7.3.7",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.562.0",
     "monaco-editor": "^0.55.1",
