@@ -44,7 +44,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
       else if (newType === 'custom')
         campaign.triggers[index] = {
           data: {
-            javascript: 'return await new Promise((res) => { res() });',
+            javascript: 'return await new Promise((r) => { r() });',
             name: '',
           },
           id: trigger.id,
