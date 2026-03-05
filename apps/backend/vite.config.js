@@ -13,12 +13,4 @@ export default defineConfig({
       },
     },
   },
-
-  resolve: {
-    alias: {
-      '@/domain': path.resolve(process.cwd(), '..', 'domain'),
-      '@': path.resolve(process.cwd(), 'src'),
-    },
-    extensions: ['.ts', '.js'],
-  },
 });
