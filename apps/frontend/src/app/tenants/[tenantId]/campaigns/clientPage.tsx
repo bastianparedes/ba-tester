@@ -205,9 +205,8 @@ export function ClientPage({ tenantId }: PageProps) {
                     {translation.campaigns.tableStatus}
                     <SortIcon column="status" />
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none">
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
                     {translation.campaigns.tableExecutionGroup}
-                    <SortIcon column="status" />
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.modify}</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.delete}</th>
