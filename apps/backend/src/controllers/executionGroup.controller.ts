@@ -5,7 +5,8 @@ import { TypeApiExecutionGroups } from '../../../domain/api/executionGroups';
 import { quantitiesAvailable } from '../../../domain/config';
 import commonConstants from '../../../domain/constants';
 import { permissions } from '../../../domain/permissions';
-import { TypeCampaign, TypeExecutionGroup } from '../../../domain/types';
+import { TypeCampaign } from '../../../domain/types/campaign';
+import { TypeExecutionGroup } from '../../../domain/types/executionGroup';
 import { AuthGuard } from '../guards/auth.guard';
 import { DbService } from '../services/db.service';
 

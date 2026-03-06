@@ -45,13 +45,14 @@ export class AuthController {
 
     const token = generateToken({ id: user.id, purpose: 'session' });
 
+    const miliseconds = secondsTokenIsValid * 1000;
     res.cookie(cookieNames.token, token, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
       path: '/',
       domain: env.DOMAIN,
-      maxAge: secondsTokenIsValid * 1000, // nest espera milisegundos
+      maxAge: miliseconds,
     });
     return {};
   }

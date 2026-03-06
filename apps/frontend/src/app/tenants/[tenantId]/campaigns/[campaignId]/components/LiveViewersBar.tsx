@@ -3,7 +3,7 @@
 import { Eye } from 'lucide-react';
 import { useState } from 'react';
 import { useUser } from '@/app/_common/contexts/User';
-import { TypeUser } from '@/domain/types';
+import { TypeUser } from '@/domain/types/user';
 
 const formatTimestamp = (date: Date) => {
   return date.toLocaleString('es-ES', {

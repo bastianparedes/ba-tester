@@ -1,4 +1,4 @@
-import type { TypeVariationData } from '@/domain/types';
+import type { TypeVariationData } from '@/domain/types/campaign';
 
 const variationsWithDistributedTraffic = (variations: TypeVariationData[]) => {
   if (variations.length === 0) return variations;

@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
-import type { TypeRole, TypeUser } from '@/domain/types';
+import type { TypeRole } from '@/domain/types/role';
+import type { TypeUser } from '@/domain/types/user';
 import { apiCaller } from '@/libs/restClient';
 
 type Props = {

@@ -1,7 +1,8 @@
 import { Button } from '@/app/_common/components/button';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
-import type { TypeCampaignWithOptionalId, TypeUser } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
+import type { TypeUser } from '@/domain/types/user';
 import { apiCaller } from '@/libs/restClient';
 
 interface Props {

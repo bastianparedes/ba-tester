@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { createClient } from 'redis';
-import { type TypeUser } from '../../../domain/types';
+import { TypeUser } from '../../../domain/types/user';
 import { env } from '../libs/env';
 
 const client = createClient({

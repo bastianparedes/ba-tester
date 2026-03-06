@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaignWithOptionalId, TypeVariationData } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeVariationData } from '@/domain/types/campaign';
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';

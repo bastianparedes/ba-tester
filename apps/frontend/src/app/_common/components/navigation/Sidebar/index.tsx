@@ -4,7 +4,7 @@ import { Boxes, Building2, Code, Eye, FlaskConical, Shield, UserCog } from 'luci
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import constants from '@/config/constants';
-import type { TypeTenant } from '@/domain/types';
+import type { TypeTenant } from '@/domain/types/tenant';
 import { ComponentLanguage } from './Language';
 
 type Props = {

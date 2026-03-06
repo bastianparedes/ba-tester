@@ -1,4 +1,4 @@
-import type { TypeUser } from '../types';
+import type { TypeUser } from '../types/user';
 
 export type TypeApiUsers = {
   getAll: {

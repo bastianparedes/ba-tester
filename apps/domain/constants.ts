@@ -1,3 +1,4 @@
+import type { TypeCampaign } from './types/campaign';
 import type {
   TypeBooleanOperator,
   TypeDeviceType,
@@ -6,15 +7,14 @@ import type {
   TypeNodeType,
   TypeNumericComparator,
   TypeRequirementType,
-  TypeStatus,
   TypeStringComparator,
   TypeTriggerType,
-} from './types';
+} from './types/constants';
 
 const status = {
   active: 'active',
   inactive: 'inactive',
-} as const satisfies Record<TypeStatus, string>;
+} as const satisfies Record<TypeCampaign['status'], string>;
 
 const orderDirections = {
   asc: 'asc',
@@ -81,7 +81,7 @@ const devices = {
 
 const executionGroupOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
 
-const campaignStatus = [status.inactive, status.active] as const satisfies TypeStatus[];
+const campaignStatus = [status.inactive, status.active] as const satisfies TypeCampaign['status'][];
 const campaignOrderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
 
 const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];

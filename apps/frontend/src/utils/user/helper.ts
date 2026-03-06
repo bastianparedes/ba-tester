@@ -1,5 +1,5 @@
 import { permissions } from '@/domain/permissions';
-import type { TypeUser } from '@/domain/types';
+import type { TypeUser } from '@/domain/types/user';
 
 export type TypeFullUser =
   | {

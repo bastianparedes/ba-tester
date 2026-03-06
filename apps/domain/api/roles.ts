@@ -1,4 +1,4 @@
-import type { TypeRole } from '../types';
+import type { TypeRole } from '../types/role';
 
 export type TypeApiRoles = {
   getAll: {

@@ -3,7 +3,7 @@
 import { Trash2 } from 'lucide-react';
 import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { TypeCampaignLight } from '@/domain/types';
+import { TypeCampaignLight } from '@/domain/types/campaign';
 
 type Props = {
   allCampaigns: TypeCampaignLight[];

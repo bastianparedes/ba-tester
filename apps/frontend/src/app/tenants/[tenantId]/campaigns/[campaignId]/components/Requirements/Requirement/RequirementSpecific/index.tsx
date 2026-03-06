@@ -1,5 +1,5 @@
 import commonConstants from '@/domain/constants';
-import type { TypeCampaignWithOptionalId } from '@/domain/types';
+import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
 import Custom from './Custom';
 import Device from './Device';
 import Storage from './Storage';

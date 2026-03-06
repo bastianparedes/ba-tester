@@ -1,4 +1,7 @@
-import type { TypeCampaign, TypeCampaignLight, TypeCampaignWithOptionalId, TypeDirection, TypeExecutionGroup, TypeStatus, TypeTenant } from '../types';
+import type { TypeCampaign, TypeCampaignLight, TypeCampaignWithOptionalId } from '../types/campaign';
+import type { TypeDirection } from '../types/constants';
+import type { TypeExecutionGroup } from '../types/executionGroup';
+import type { TypeTenant } from '../types/tenant';
 
 export type TypeApiCampaigns = {
   get: {
@@ -18,7 +21,7 @@ export type TypeApiCampaigns = {
         orderDirection: TypeDirection;
         page: number;
         quantity: number;
-        statusList: TypeStatus[];
+        statusList: TypeCampaign['status'][];
       };
     };
     response: {

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { TypeUser } from '../../../../domain/types';
+import { TypeUser } from '../../../../domain/types/user';
 import { env } from '../../libs/env';
 
 type TokenPurpose = 'session' | 'password_recovery';

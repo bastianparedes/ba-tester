@@ -3,7 +3,7 @@ import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaignWithOptionalId, TypeRequirementType } from '@/domain/types';
+import type { TypeCampaignWithOptionalId, TypeRequirement } from '@/domain/types/campaign';
 import RequirementSpecific from './RequirementSpecific';
 
 interface Props {
@@ -133,7 +133,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
   };
 
   const handleOnChangeType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newType = event.target.value as Exclude<TypeRequirementType, 'node'>;
+    const newType = event.target.value as Exclude<TypeRequirement['type'], 'node'>;
 
     const childrenByType = {
       cookie: {

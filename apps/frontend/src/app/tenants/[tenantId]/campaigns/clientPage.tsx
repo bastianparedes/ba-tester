@@ -10,12 +10,14 @@ import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
-import type { TypeCampaignLight, TypeDirection, TypeExecutionGroup, TypeOrderCampaignsBy, TypeStatus } from '@/domain/types';
+import type { TypeCampaignLight, TypeOrderCampaignsBy } from '@/domain/types/campaign';
+import type { TypeDirection } from '@/domain/types/constants';
+import type { TypeExecutionGroup } from '@/domain/types/executionGroup';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {
   sortConfig: { key: TypeOrderCampaignsBy; direction: TypeDirection };
-  statusFilter: TypeStatus[];
+  statusFilter: TypeCampaignLight['status'][];
   nameFilter: string;
   itemsPerPage: number;
   totalItems: number;
@@ -24,7 +26,7 @@ type UiState = {
 
 type UiAction =
   | { type: 'SET_SORT'; payload: TypeOrderCampaignsBy }
-  | { type: 'SET_STATUS_FILTER'; payload: TypeStatus }
+  | { type: 'SET_STATUS_FILTER'; payload: TypeCampaignLight['status'] }
   | { type: 'SET_NAME_FILTER'; payload: string }
   | { type: 'SET_ITEMS_PER_PAGE'; payload: number }
   | { type: 'SET_TOTAL_ITEMS'; payload: number }
@@ -98,7 +100,7 @@ export function ClientPage({ tenantId }: PageProps) {
       orderDirection: TypeDirection;
       page: number;
       quantity: number;
-      statusList: TypeStatus[];
+      statusList: TypeCampaignLight['status'][];
     }> = {},
   ) => {
     const result = await apiCaller.campaigns.getMany({
@@ -131,7 +133,7 @@ export function ClientPage({ tenantId }: PageProps) {
     queryCampaigns({ page: 0 });
   };
 
-  const getStatusColor = (status: TypeStatus) => {
+  const getStatusColor = (status: TypeCampaignLight['status']) => {
     switch (status) {
       case 'active':
         return 'bg-green-100 text-green-800';
@@ -205,9 +207,7 @@ export function ClientPage({ tenantId }: PageProps) {
                     {translation.campaigns.tableStatus}
                     <SortIcon column="status" />
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    {translation.campaigns.tableExecutionGroup}
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.tableExecutionGroup}</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.modify}</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">{translation.campaigns.delete}</th>
                 </tr>

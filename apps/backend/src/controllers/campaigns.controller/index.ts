@@ -5,7 +5,7 @@ import { TypeApiCampaigns } from '../../../../domain/api/campaigns';
 import { quantitiesAvailable } from '../../../../domain/config';
 import commonConstants from '../../../../domain/constants';
 import { permissions } from '../../../../domain/permissions';
-import { TypeCampaign } from '../../../../domain/types';
+import { TypeCampaign } from '../../../../domain/types/campaign';
 import { AuthGuard } from '../../guards/auth.guard';
 import { DbService } from '../../services/db.service';
 import { RequirementDto } from './requirementsValidator';

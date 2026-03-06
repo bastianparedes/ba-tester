@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, inArray, sql } from 'drizzle-orm';
-import type { TypeCampaign, TypeDirection, TypeExecutionGroup, TypeOrderCampaignsBy, TypeTenant } from '../../../domain/types';
+import type { TypeCampaign, TypeOrderCampaignsBy } from '../../../domain/types/campaign';
+import type { TypeDirection } from '../../../domain/types/constants';
+import type { TypeExecutionGroup } from '../../../domain/types/executionGroup';
+import type { TypeTenant } from '../../../domain/types/tenant';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 

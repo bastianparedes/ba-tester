@@ -1,4 +1,7 @@
-import type { TypeCampaign, TypeCampaignLight, TypeDirection, TypeExecutionGroup, TypeTenant } from '../types';
+import type { TypeCampaign, TypeCampaignLight } from '../types/campaign';
+import type { TypeDirection } from '../types/constants';
+import type { TypeExecutionGroup } from '../types/executionGroup';
+import type { TypeTenant } from '../types/tenant';
 
 export type TypeApiExecutionGroups = {
   get: {

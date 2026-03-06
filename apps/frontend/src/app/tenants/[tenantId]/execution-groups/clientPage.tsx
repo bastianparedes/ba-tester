@@ -9,7 +9,8 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import { quantitiesAvailable } from '@/domain/config';
-import type { TypeDirection, TypeExecutionGroup, TypeOrderExecutionGroupsBy } from '@/domain/types';
+import type { TypeDirection } from '@/domain/types/constants';
+import type { TypeExecutionGroup, TypeOrderExecutionGroupsBy } from '@/domain/types/executionGroup';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

@@ -3,7 +3,7 @@ import { IsNumber, IsString } from 'class-validator';
 import { TypeApiUsers } from '../../../domain/api/users';
 import { cookieNames } from '../../../domain/config';
 import { permissions } from '../../../domain/permissions';
-import { TypeUser } from '../../../domain/types';
+import { TypeUser } from '../../../domain/types/user';
 import { AuthGuard } from '../guards/auth.guard';
 import { getTokenData } from '../libs/auth/jwt';
 import { DbService } from '../services/db.service';

@@ -7,7 +7,7 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import { flatPermissions } from '@/domain/permissions';
-import type { TypeRole } from '@/domain/types';
+import type { TypeRole } from '@/domain/types/role';
 import { apiCaller } from '@/libs/restClient';
 
 type Props = {

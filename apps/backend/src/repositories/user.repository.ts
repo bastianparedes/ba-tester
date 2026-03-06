@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import type { TypeRole, TypeUser } from '../../../domain/types';
+import type { TypeRole } from '../../../domain/types/role';
+import type { TypeUser } from '../../../domain/types/user';
 import { getPasswordHashed } from '../libs/auth/password';
 import db from './postgres/client';
 import * as schema from './postgres/schema';

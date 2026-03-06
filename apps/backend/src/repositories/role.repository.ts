@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
-import type { TypeRole } from '../../../domain/types';
+import type { TypeRole } from '../../../domain/types/role';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 

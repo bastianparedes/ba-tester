@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import type { TypeTenant } from '../../../domain/types';
+import type { TypeTenant } from '../../../domain/types/tenant';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 

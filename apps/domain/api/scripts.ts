@@ -1,4 +1,4 @@
-import type { TypeTenant } from '../types';
+import type { TypeTenant } from '../types/tenant';
 
 export type TypeApiScripts = {
   get: {

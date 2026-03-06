@@ -1,6 +1,5 @@
-import type { TypeCampaign, TypeExecutionGroup, TypeVariationData } from '.';
-import type { TypeCustomRequirement, TypeNodeRequirement, TypeRequirement } from './requirement';
-import type { TypeTriggerData } from './trigger';
+import type { TypeCampaign, TypeCustomRequirement, TypeNodeRequirement, TypeRequirement, TypeTriggerData, TypeVariationData } from './campaign';
+import type { TypeExecutionGroup } from './executionGroup';
 
 type TypeCustomRequirementScript = Omit<TypeCustomRequirement, 'data'> & {
   data: {
