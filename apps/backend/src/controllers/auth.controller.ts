@@ -1,20 +1,18 @@
 import { Body, Controller, Get, Post, Res, UnauthorizedException } from '@nestjs/common';
-import { IsString } from 'class-validator';
 import { type Response } from 'express';
+import { z } from 'zod';
 import { TypeApiSessions } from '../../../domain/api/sessions';
 import { cookieNames } from '../../../domain/config';
 import { generateToken, secondsTokenIsValid } from '../libs/auth/jwt';
 import { isPasswordCorrect } from '../libs/auth/password';
 import { env } from '../libs/env';
+import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 
-class UserCredentialsDto {
-  @IsString()
-  email: string;
-
-  @IsString()
-  password: string;
-}
+const logInSchema = z.object({
+  email: z.email(),
+  password: z.string(),
+});
 
 @Controller('public/auth/session')
 export class AuthController {
@@ -35,7 +33,10 @@ export class AuthController {
   }
 
   @Post()
-  async logIn(@Res({ passthrough: true }) res: Response, @Body() body: UserCredentialsDto): Promise<TypeApiSessions['logIn']['response']> {
+  async logIn(
+    @Res({ passthrough: true }) res: Response,
+    @Body(new ZodValidationPipe(logInSchema)) body: z.infer<typeof logInSchema>,
+  ): Promise<TypeApiSessions['logIn']['response']> {
     const { email, password } = body;
     const user = await this.dbService.users.getForLogin({ email });
     if (!user) throw new UnauthorizedException();

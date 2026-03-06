@@ -1,20 +1,22 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { IsString } from 'class-validator';
+import { z } from 'zod';
 import { TypeApiTenants } from '../../../domain/api/tenants';
 import { permissions } from '../../../domain/permissions';
 import { AuthGuard } from '../guards/auth.guard';
+import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 
-class TenantDto {
-  @IsString()
-  name: string;
+/* ---------- SCHEMA ---------- */
 
-  @IsString()
-  description: string;
+const tenantSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  domain: z.string(),
+});
 
-  @IsString()
-  domain: string;
-}
+type TenantDto = z.infer<typeof tenantSchema>;
+
+/* ---------- CONTROLLER ---------- */
 
 @Controller('tenants')
 export class TenantsController {
@@ -30,22 +32,28 @@ export class TenantsController {
   @UseGuards(AuthGuard(permissions.tenant.read))
   @Get(':tenantId')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<TypeApiTenants['get']['response']> {
-    const newTenant = await this.dbService.tenants.get({ tenantId });
-    if (!newTenant) throw new NotFoundException();
-    return newTenant;
+    const tenant = await this.dbService.tenants.get({ tenantId });
+
+    if (!tenant) throw new NotFoundException();
+
+    return tenant;
   }
 
   @UseGuards(AuthGuard(permissions.tenant.create))
   @Post()
-  async create(@Body() createTenantDto: TenantDto): Promise<TypeApiTenants['create']['response']> {
-    const newTenant = await this.dbService.tenants.create(createTenantDto);
+  async create(@Body(new ZodValidationPipe(tenantSchema)) body: TenantDto): Promise<TypeApiTenants['create']['response']> {
+    const newTenant = await this.dbService.tenants.create(body);
     return newTenant;
   }
 
   @UseGuards(AuthGuard(permissions.tenant.update))
   @Put(':tenantId')
-  async update(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() createTenantDto: TenantDto): Promise<TypeApiTenants['update']['response']> {
-    const newTenant = await this.dbService.tenants.update({ tenantId, values: createTenantDto });
+  async update(@Param('tenantId', ParseIntPipe) tenantId: number, @Body(new ZodValidationPipe(tenantSchema)) body: TenantDto): Promise<TypeApiTenants['update']['response']> {
+    const newTenant = await this.dbService.tenants.update({
+      tenantId,
+      values: body,
+    });
+
     return newTenant;
   }
 
@@ -53,7 +61,9 @@ export class TenantsController {
   @Delete(':tenantId')
   async remove(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<TypeApiTenants['delete']['response']> {
     const removedTenant = await this.dbService.tenants.remove({ tenantId });
+
     if (!removedTenant) throw new NotFoundException();
+
     return removedTenant;
   }
 }

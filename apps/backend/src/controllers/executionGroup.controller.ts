@@ -1,51 +1,49 @@
 import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsIn, IsInt, IsString } from 'class-validator';
+import { z } from 'zod';
 import { TypeApiExecutionGroups } from '../../../domain/api/executionGroups';
 import { quantitiesAvailable } from '../../../domain/config';
 import commonConstants from '../../../domain/constants';
 import { permissions } from '../../../domain/permissions';
-import { TypeCampaign } from '../../../domain/types/campaign';
-import { TypeExecutionGroup } from '../../../domain/types/executionGroup';
 import { AuthGuard } from '../guards/auth.guard';
+import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 
-export class GetExecutionGroupsQueryDto {
-  @IsString()
-  textSearch: string;
+/* ---------- QUERY SCHEMA ---------- */
 
-  @IsIn(['name', 'id'])
-  orderBy: 'name' | 'id';
+const getExecutionGroupsQuerySchema = z.object({
+  textSearch: z.string(),
 
-  @IsIn(commonConstants.executionGroupOrderDirection)
-  orderDirection: (typeof commonConstants.executionGroupOrderDirection)[number];
+  orderBy: z.enum(['name', 'id']),
 
-  @Type(() => Number)
-  @IsInt()
-  page: number;
+  orderDirection: z.enum(commonConstants.executionGroupOrderDirection),
 
-  @Type(() => Number)
-  @IsIn(quantitiesAvailable)
-  quantity: number;
-}
+  page: z.coerce.number().int(),
 
-export class ExecutionGroupDto {
-  @IsString()
-  name: TypeExecutionGroup['name'];
+  quantity: z.coerce
+    .number()
+    .int()
+    .refine((v) => quantitiesAvailable.includes(v), { message: 'Invalid quantity' }),
+});
 
-  @IsBoolean()
-  waitForEveryCampaignToBeEvaluated: TypeExecutionGroup['waitForEveryCampaignToBeEvaluated'];
+type GetExecutionGroupsQueryDto = z.infer<typeof getExecutionGroupsQuerySchema>;
 
-  @IsBoolean()
-  onlyOneCampaignPerPageLoad: TypeExecutionGroup['onlyOneCampaignPerPageLoad'];
+/* ---------- BODY SCHEMA ---------- */
 
-  @IsBoolean()
-  onlyCampaignsPreviouslyExecuted: TypeExecutionGroup['onlyCampaignsPreviouslyExecuted'];
+const executionGroupSchema = z.object({
+  name: z.string(),
 
-  @IsArray()
-  @IsInt({ each: true })
-  campaignIds: TypeCampaign['id'][];
-}
+  waitForEveryCampaignToBeEvaluated: z.boolean(),
+
+  onlyOneCampaignPerPageLoad: z.boolean(),
+
+  onlyCampaignsPreviouslyExecuted: z.boolean(),
+
+  campaignIds: z.array(z.number().int()),
+});
+
+type ExecutionGroupDto = z.infer<typeof executionGroupSchema>;
+
+/* ---------- CONTROLLER ---------- */
 
 @Controller('tenants/:tenantId/execution-groups')
 export class ExecutionGroupsController {
@@ -53,8 +51,15 @@ export class ExecutionGroupsController {
 
   @UseGuards(AuthGuard(permissions.executionGroup.read))
   @Get()
-  async getMany(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetExecutionGroupsQueryDto): Promise<TypeApiExecutionGroups['getMany']['response']> {
-    const executionGroups = await this.dbService.executionGroup.getMany({ tenantId, params: query });
+  async getMany(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Query(new ZodValidationPipe(getExecutionGroupsQuerySchema)) query: GetExecutionGroupsQueryDto,
+  ): Promise<TypeApiExecutionGroups['getMany']['response']> {
+    const executionGroups = await this.dbService.executionGroup.getMany({
+      tenantId,
+      params: query,
+    });
+
     return executionGroups;
   }
 
@@ -64,17 +69,32 @@ export class ExecutionGroupsController {
     @Param('tenantId', ParseIntPipe) tenantId: number,
     @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
   ): Promise<TypeApiExecutionGroups['get']['response']> {
-    const result = await this.dbService.executionGroup.get({ tenantId, executionGroupId });
+    const result = await this.dbService.executionGroup.get({
+      tenantId,
+      executionGroupId,
+    });
+
     if (!result) throw new NotFoundException();
+
     const { campaigns, executionGroup } = result;
+
     return { campaigns, executionGroup };
   }
 
   @UseGuards(AuthGuard(permissions.executionGroup.create))
   @Post()
-  async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: ExecutionGroupDto): Promise<TypeApiExecutionGroups['create']['response']> {
+  async create(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Body(new ZodValidationPipe(executionGroupSchema)) body: ExecutionGroupDto,
+  ): Promise<TypeApiExecutionGroups['create']['response']> {
     const { campaignIds, ...values } = body;
-    await this.dbService.executionGroup.create({ tenantId, values, campaignIds });
+
+    await this.dbService.executionGroup.create({
+      tenantId,
+      values,
+      campaignIds,
+    });
+
     return {};
   }
 
@@ -83,20 +103,31 @@ export class ExecutionGroupsController {
   async update(
     @Param('tenantId', ParseIntPipe) tenantId: number,
     @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
-    @Body() body: ExecutionGroupDto,
+    @Body(new ZodValidationPipe(executionGroupSchema)) body: ExecutionGroupDto,
   ): Promise<TypeApiExecutionGroups['update']['response']> {
     const { campaignIds, ...values } = body;
-    await this.dbService.executionGroup.update({ tenantId, executionGroupId, values, campaignIds });
+
+    await this.dbService.executionGroup.update({
+      tenantId,
+      executionGroupId,
+      values,
+      campaignIds,
+    });
+
     return {};
   }
 
   @UseGuards(AuthGuard(permissions.executionGroup.delete))
-  @Put(':executionGroupId')
-  async re3move(
+  @Put(':executionGroupId/remove')
+  async remove(
     @Param('tenantId', ParseIntPipe) tenantId: number,
     @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
   ): Promise<TypeApiExecutionGroups['update']['response']> {
-    await this.dbService.executionGroup.remove({ tenantId, executionGroupId });
+    await this.dbService.executionGroup.remove({
+      tenantId,
+      executionGroupId,
+    });
+
     return {};
   }
 }

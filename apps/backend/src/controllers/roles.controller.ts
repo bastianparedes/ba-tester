@@ -1,29 +1,30 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { IsArray, IsIn, IsString } from 'class-validator';
+import { z } from 'zod';
 import { TypeApiRoles } from '../../../domain/api/roles';
 import { flatPermissions, permissions } from '../../../domain/permissions';
 import { AuthGuard } from '../guards/auth.guard';
+import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 
-class NewRoleDto {
-  @IsString()
-  name: string;
+/* ---------- SCHEMAS ---------- */
 
-  @IsString()
-  description: string;
-}
+const newRoleSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+});
 
-class OldRoleDto {
-  @IsString()
-  name: string;
+type NewRoleDto = z.infer<typeof newRoleSchema>;
 
-  @IsString()
-  description: string;
+const oldRoleSchema = z.object({
+  name: z.string(),
+  description: z.string(),
 
-  @IsArray()
-  @IsIn(flatPermissions, { each: true })
-  permissions: string[];
-}
+  permissions: z.array(z.enum(flatPermissions as [string, ...string[]])),
+});
+
+type OldRoleDto = z.infer<typeof oldRoleSchema>;
+
+/* ---------- CONTROLLER ---------- */
 
 @Controller('admin/roles')
 export class RolesController {
@@ -38,15 +39,19 @@ export class RolesController {
 
   @UseGuards(AuthGuard(permissions.role.create))
   @Post()
-  async create(@Body() body: NewRoleDto): Promise<TypeApiRoles['create']['response']> {
+  async create(@Body(new ZodValidationPipe(newRoleSchema)) body: NewRoleDto): Promise<TypeApiRoles['create']['response']> {
     await this.dbService.roles.create(body);
     return {};
   }
 
   @UseGuards(AuthGuard(permissions.role.update))
   @Put(':roleId')
-  async update(@Param('roleId', ParseIntPipe) roleId: number, @Body() body: OldRoleDto): Promise<TypeApiRoles['update']['response']> {
-    await this.dbService.roles.update({ roleId, updates: body });
+  async update(@Param('roleId', ParseIntPipe) roleId: number, @Body(new ZodValidationPipe(oldRoleSchema)) body: OldRoleDto): Promise<TypeApiRoles['update']['response']> {
+    await this.dbService.roles.update({
+      roleId,
+      updates: body,
+    });
+
     return {};
   }
 
