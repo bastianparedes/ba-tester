@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
-import type { TypeCampaign, TypeOrderCampaignsBy } from '../../../domain/types/campaign';
+import type { TypeCampaign, TypeCampaignUpdatable, TypeOrderCampaignsBy } from '../../../domain/types/campaign';
 import type { TypeDirection } from '../../../domain/types/constants';
 import type { TypeTenant } from '../../../domain/types/tenant';
 import db from './postgres/client';
@@ -8,7 +8,13 @@ import * as schema from './postgres/schema';
 
 @Injectable()
 export class CampaignRepository {
-  create = async ({ tenantId }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined> }, values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>) => {
+  create = async ({
+    tenantId,
+    values,
+  }: {
+    tenantId: Exclude<TypeCampaign['tenantId'], undefined>;
+    values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>;
+  }) => {
     const result = await db
       .insert(schema.campaigns)
       .values({
@@ -19,19 +25,10 @@ export class CampaignRepository {
     return result;
   };
 
-  update = async (
-    { tenantId, campaignId }: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] },
-    values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>,
-  ) => {
+  update = async ({ tenantId, campaignId, updates }: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id']; updates: TypeCampaignUpdatable }) => {
     const result = await db
       .update(schema.campaigns)
-      .set({
-        name: values.name,
-        requirements: values.requirements,
-        status: values.status,
-        triggers: values.triggers,
-        variations: values.variations,
-      })
+      .set(updates)
       .where(and(eq(schema.campaigns.tenantId, tenantId), eq(schema.campaigns.id, campaignId)))
       .returning();
     return result;
@@ -45,24 +42,20 @@ export class CampaignRepository {
     return result;
   };
 
-  getMany = async (
-    { tenantId }: { tenantId: TypeTenant['id'] },
-    {
-      statusList,
-      textSearch,
-      quantity,
-      page,
-      orderDirection,
-      orderBy,
-    }: {
+  getMany = async ({
+    tenantId,
+    params: { statusList, textSearch, quantity, page, orderDirection, orderBy },
+  }: {
+    tenantId: TypeTenant['id'];
+    params: {
       statusList: TypeCampaign['status'][];
       textSearch: string;
       quantity: number;
       page: number;
       orderDirection: TypeDirection;
       orderBy: TypeOrderCampaignsBy;
-    },
-  ) => {
+    };
+  }) => {
     const sort = {
       asc,
       desc,

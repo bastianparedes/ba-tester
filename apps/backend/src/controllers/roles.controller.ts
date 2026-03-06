@@ -46,7 +46,7 @@ export class RolesController {
   @UseGuards(AuthGuard(permissions.role.update))
   @Put(':roleId')
   async update(@Param('roleId', ParseIntPipe) roleId: number, @Body() body: OldRoleDto): Promise<TypeApiRoles['update']['response']> {
-    await this.dbService.roles.update({ roleId }, body);
+    await this.dbService.roles.update({ roleId, updates: body });
     return {};
   }
 

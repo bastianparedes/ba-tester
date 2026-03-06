@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import type { TypeRole } from '../../../domain/types/role';
-import type { TypeUser } from '../../../domain/types/user';
+import type { TypeUser, TypeUserUpdatable } from '../../../domain/types/user';
 import { getPasswordHashed } from '../libs/auth/password';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
@@ -57,14 +57,7 @@ export class UserRepository {
     });
   };
 
-  update = async (
-    { userId }: { userId: TypeUser['id'] },
-    updates: {
-      name: TypeUser['name'];
-      email: TypeUser['email'];
-      roleId: TypeUser['roleId'];
-    },
-  ) => {
+  update = async ({ userId, updates }: { userId: TypeUser['id']; updates: TypeUserUpdatable }) => {
     await db.update(schema.users).set(updates).where(eq(schema.users.id, userId));
   };
 

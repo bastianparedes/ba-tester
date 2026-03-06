@@ -133,7 +133,7 @@ export type TypeCampaign = {
   executionGroupId: TypeExecutionGroup['id'] | null;
 };
 
-export type TypeCampaignUpdatable = Pick<TypeCampaign, 'name' | 'status' | 'triggers' | 'requirements' | 'variations' | 'executionGroupId'>;
+export type TypeCampaignUpdatable = Pick<TypeCampaign, 'name' | 'status' | 'triggers' | 'requirements' | 'variations'>;
 
 export type TypeCampaignWithOptionalId = Omit<TypeCampaign, 'id'> & { id?: number | undefined };
 export type TypeCampaignLight = Omit<Omit<Omit<TypeCampaign, 'triggers'>, 'requirements'>, 'variations'>;

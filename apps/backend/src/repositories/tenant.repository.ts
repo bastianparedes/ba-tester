@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import type { TypeTenant } from '../../../domain/types/tenant';
+import type { TypeTenant, TypeTenantUpdatable } from '../../../domain/types/tenant';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 
@@ -18,14 +18,7 @@ export class TenantRepository {
     return results[0];
   };
 
-  update = async (
-    tenantId: TypeTenant['id'],
-    values: {
-      name: TypeTenant['name'];
-      description: TypeTenant['description'];
-      domain: TypeTenant['domain'];
-    },
-  ) => {
+  update = async ({ tenantId, values }: { tenantId: TypeTenant['id']; values: TypeTenantUpdatable }) => {
     const result = await db
       .update(schema.tenants)
       .set({

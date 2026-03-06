@@ -57,8 +57,8 @@ export class DbService {
         return user;
       },
       create: this.userRepository.create,
-      update: async (args, updates) => {
-        await this.userRepository.update(args, updates);
+      update: async (args) => {
+        await this.userRepository.update(args);
         const user = await this.userRepository.get({ userId: args.userId });
         if (!user) throw new Error('Could not get recently updated user');
         await this.cacheService.users.save({ user });
@@ -97,13 +97,13 @@ export class DbService {
     this.tenants = this.tenantRepository;
     this.campaigns = {
       ...this.campaignRepository,
-      create: async (args, requirements) => {
-        const result = await this.campaignRepository.create(args, requirements);
+      create: async (args) => {
+        const result = await this.campaignRepository.create(args);
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      update: async (args, requirements) => {
-        const result = await this.campaignRepository.update(args, requirements);
+      update: async (args) => {
+        const result = await this.campaignRepository.update(args);
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
@@ -115,19 +115,19 @@ export class DbService {
     };
     this.executionGroup = {
       ...this.executionGroupRepository,
-      create: async (args1, args2, args3) => {
-        const result = await this.executionGroupRepository.create(args1, args2, args3);
-        await this.scriptService.clear({ tenantId: args1.tenantId });
+      create: async (args) => {
+        const result = await this.executionGroupRepository.create(args);
+        await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      update: async (args1, args2, args3) => {
-        const result = await this.executionGroupRepository.update(args1, args2, args3);
-        await this.scriptService.clear({ tenantId: args1.tenantId });
+      update: async (args) => {
+        const result = await this.executionGroupRepository.update(args);
+        await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      remove: async (args1) => {
-        const result = await this.executionGroupRepository.remove(args1);
-        await this.scriptService.clear({ tenantId: args1.tenantId });
+      remove: async (args) => {
+        const result = await this.executionGroupRepository.remove(args);
+        await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
     };

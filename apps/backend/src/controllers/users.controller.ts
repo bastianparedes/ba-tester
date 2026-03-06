@@ -82,7 +82,7 @@ export class UsersController {
     const newRole = await this.dbService.roles.get({ id: body.roleId });
     if (!newRole) throw new BadRequestException();
 
-    await this.dbService.users.update({ userId }, body);
+    await this.dbService.users.update({ userId, updates: body });
     return {};
   }
 

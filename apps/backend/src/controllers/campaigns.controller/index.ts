@@ -64,7 +64,7 @@ export class CampaignsController {
   @UseGuards(AuthGuard(permissions.campaign.read))
   @Get()
   async getMany(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetCampaignsQueryDto): Promise<TypeApiCampaigns['getMany']['response']> {
-    const campaigns = await this.dbService.campaigns.getMany({ tenantId }, query);
+    const campaigns = await this.dbService.campaigns.getMany({ tenantId, params: query });
     return campaigns;
   }
 
@@ -86,7 +86,7 @@ export class CampaignsController {
   @UseGuards(AuthGuard(permissions.campaign.create))
   @Post()
   async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CampaignDto): Promise<TypeApiCampaigns['create']['response']> {
-    await this.dbService.campaigns.create({ tenantId }, body);
+    await this.dbService.campaigns.create({ tenantId, values: body });
     return {};
   }
 
@@ -97,7 +97,7 @@ export class CampaignsController {
     @Param('campaignId', ParseIntPipe) campaignId: number,
     @Body() body: CampaignDto,
   ): Promise<TypeApiCampaigns['update']['response']> {
-    await this.dbService.campaigns.update({ tenantId, campaignId }, body);
+    await this.dbService.campaigns.update({ tenantId, campaignId, updates: body });
     return {};
   }
 

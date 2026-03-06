@@ -45,7 +45,7 @@ export class TenantsController {
   @UseGuards(AuthGuard(permissions.tenant.update))
   @Put(':tenantId')
   async update(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() createTenantDto: TenantDto): Promise<TypeApiTenants['update']['response']> {
-    const newTenant = await this.dbService.tenants.update(tenantId, createTenantDto);
+    const newTenant = await this.dbService.tenants.update({ tenantId, values: createTenantDto });
     return newTenant;
   }
 

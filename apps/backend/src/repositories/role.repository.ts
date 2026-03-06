@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
-import type { TypeRole } from '../../../domain/types/role';
+import type { TypeRole, TypeRoleUpdatable } from '../../../domain/types/role';
 import db from './postgres/client';
 import * as schema from './postgres/schema';
 
@@ -43,7 +43,7 @@ export class RoleRepository {
     });
   };
 
-  update = async ({ roleId }: { roleId: TypeRole['id'] }, updates: Omit<TypeRole, 'id'>): Promise<TypeRole> => {
+  update = async ({ roleId, updates }: { roleId: TypeRole['id']; updates: TypeRoleUpdatable }): Promise<TypeRole> => {
     const currentRole = await this.get({ id: roleId });
     if (!currentRole) throw new Error('Role not found');
 

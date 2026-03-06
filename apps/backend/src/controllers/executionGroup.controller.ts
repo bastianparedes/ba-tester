@@ -54,7 +54,7 @@ export class ExecutionGroupsController {
   @UseGuards(AuthGuard(permissions.executionGroup.read))
   @Get()
   async getMany(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetExecutionGroupsQueryDto): Promise<TypeApiExecutionGroups['getMany']['response']> {
-    const executionGroups = await this.dbService.executionGroup.getMany({ tenantId }, query);
+    const executionGroups = await this.dbService.executionGroup.getMany({ tenantId, params: query });
     return executionGroups;
   }
 
@@ -74,7 +74,7 @@ export class ExecutionGroupsController {
   @Post()
   async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: ExecutionGroupDto): Promise<TypeApiExecutionGroups['create']['response']> {
     const { campaignIds, ...values } = body;
-    await this.dbService.executionGroup.create({ tenantId }, values, campaignIds);
+    await this.dbService.executionGroup.create({ tenantId, values, campaignIds });
     return {};
   }
 
@@ -86,7 +86,7 @@ export class ExecutionGroupsController {
     @Body() body: ExecutionGroupDto,
   ): Promise<TypeApiExecutionGroups['update']['response']> {
     const { campaignIds, ...values } = body;
-    await this.dbService.executionGroup.update({ tenantId, executionGroupId }, values, campaignIds);
+    await this.dbService.executionGroup.update({ tenantId, executionGroupId, values, campaignIds });
     return {};
   }
 
