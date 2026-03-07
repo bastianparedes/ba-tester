@@ -1,61 +1,34 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { Type } from 'class-transformer';
-import { IsArray, IsIn, IsInt, IsString, ValidateNested } from 'class-validator';
+import { z } from 'zod';
 import { TypeApiCampaigns } from '../../../../domain/api/campaigns';
 import { quantitiesAvailable } from '../../../../domain/config';
 import commonConstants from '../../../../domain/constants';
 import { permissions } from '../../../../domain/permissions';
-import { TypeCampaign } from '../../../../domain/types/campaign';
 import { AuthGuard } from '../../guards/auth.guard';
+import { ZodValidationPipe } from '../../pipes/zod';
 import { DbService } from '../../services/db.service';
-import { RequirementDto } from './requirementsValidator';
-import { TriggerDto } from './triggersValidator';
-import { VariationDto } from './variationsValidator';
+import { nodeRequirementSchema } from './requirementsValidator';
+import { triggerSchema } from './triggersValidator';
+import { variationSchema } from './variationsValidator';
 
-export class GetCampaignsQueryDto {
-  @IsString()
-  textSearch: string;
+export const getCampaignsQuerySchema = z.object({
+  textSearch: z.string(),
+  orderBy: z.enum(['status', 'name', 'id']),
+  orderDirection: z.enum(commonConstants.campaignOrderDirection),
+  page: z.coerce.number().int(),
+  quantity: z.coerce.number().refine((v) => quantitiesAvailable.includes(v), {
+    message: 'Invalid quantity',
+  }),
+  statusList: z.array(z.enum(commonConstants.campaignStatus)),
+});
 
-  @IsIn(['status', 'name', 'id'])
-  orderBy: 'status' | 'name' | 'id';
-
-  @IsIn(commonConstants.campaignOrderDirection)
-  orderDirection: (typeof commonConstants.campaignOrderDirection)[number];
-
-  @Type(() => Number)
-  @IsInt()
-  page: number;
-
-  @Type(() => Number)
-  @IsIn(quantitiesAvailable)
-  quantity: number;
-
-  @IsArray()
-  @IsIn(commonConstants.campaignStatus, { each: true })
-  statusList: typeof commonConstants.campaignStatus;
-}
-
-export class CampaignDto {
-  @IsString()
-  name: string;
-
-  @IsIn(commonConstants.campaignStatus)
-  status: (typeof commonConstants.campaignStatus)[number];
-
-  @ValidateNested()
-  @Type(() => RequirementDto)
-  requirements: TypeCampaign['requirements'];
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => TriggerDto)
-  triggers: TypeCampaign['triggers'];
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => VariationDto)
-  variations: TypeCampaign['variations'];
-}
+export const campaignSchema = z.object({
+  name: z.string(),
+  status: z.enum(commonConstants.campaignStatus),
+  requirements: nodeRequirementSchema,
+  triggers: triggerSchema,
+  variations: variationSchema,
+});
 
 @Controller('tenants/:tenantId/campaigns')
 export class CampaignsController {
@@ -63,7 +36,11 @@ export class CampaignsController {
 
   @UseGuards(AuthGuard(permissions.campaign.read))
   @Get()
-  async getMany(@Param('tenantId', ParseIntPipe) tenantId: number, @Query() query: GetCampaignsQueryDto): Promise<TypeApiCampaigns['getMany']['response']> {
+  async getMany(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+
+    @Query(new ZodValidationPipe(getCampaignsQuerySchema)) query: z.infer<typeof getCampaignsQuerySchema>,
+  ): Promise<TypeApiCampaigns['getMany']['response']> {
     const campaigns = await this.dbService.campaigns.getMany({ tenantId, params: query });
     return campaigns;
   }
@@ -85,7 +62,10 @@ export class CampaignsController {
 
   @UseGuards(AuthGuard(permissions.campaign.create))
   @Post()
-  async create(@Param('tenantId', ParseIntPipe) tenantId: number, @Body() body: CampaignDto): Promise<TypeApiCampaigns['create']['response']> {
+  async create(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Body(new ZodValidationPipe(campaignSchema)) body: z.infer<typeof campaignSchema>,
+  ): Promise<TypeApiCampaigns['create']['response']> {
     await this.dbService.campaigns.create({ tenantId, values: body });
     return {};
   }
@@ -95,7 +75,7 @@ export class CampaignsController {
   async update(
     @Param('tenantId', ParseIntPipe) tenantId: number,
     @Param('campaignId', ParseIntPipe) campaignId: number,
-    @Body() body: CampaignDto,
+    @Body(new ZodValidationPipe(campaignSchema)) body: z.infer<typeof campaignSchema>,
   ): Promise<TypeApiCampaigns['update']['response']> {
     await this.dbService.campaigns.update({ tenantId, campaignId, updates: body });
     return {};

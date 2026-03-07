@@ -1,177 +1,87 @@
-import { Type } from 'class-transformer';
-import { IsArray, IsIn, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { z } from 'zod';
 import constants from '../../../../domain/constants';
-import { IsJsCode } from './jsValidator';
+import { jsCodeHasCorrectSyntax } from '../../../../domain/jsCode';
+import { TypeNodeRequirement } from '../../../../domain/types/campaign';
 
-/* ======================================================
-  Shared DTOs
-====================================================== */
+const StorageComparatorWithValue = z.enum([constants.comparisons.is, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]);
 
-class StorageComparisonDto {
-  @IsString()
-  name: string;
+const StorageComparatorWithoutValue = z.enum([constants.comparisons.exists, constants.comparisons.doesNotExist]);
 
-  @IsIn([
-    constants.comparisons.is,
-    constants.comparisons.isNot,
-    constants.comparisons.contains,
-    constants.comparisons.doesNotContain,
-    constants.comparisons.exists,
-    constants.comparisons.doesNotExist,
-  ])
-  comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain' | 'exists' | 'doesNotExist';
+const TypeStorageComparisonDataSchema = z.union([
+  z.object({
+    name: z.string(),
+    comparator: StorageComparatorWithValue,
+    value: z.string(),
+  }),
+  z.object({
+    name: z.string(),
+    comparator: StorageComparatorWithoutValue,
+  }),
+]);
 
-  @IsOptional()
-  @IsString()
-  value?: string;
-}
+const CookieRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.cookie),
+  data: TypeStorageComparisonDataSchema,
+});
 
-/* ======================================================
-  Data DTOs (subobjetos)
-====================================================== */
+const LocalStorageRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.localStorage),
+  data: TypeStorageComparisonDataSchema,
+});
 
-class CustomDataDto {
-  @IsString()
-  name: string;
+const SessionStorageRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.sessionStorage),
+  data: TypeStorageComparisonDataSchema,
+});
 
-  @IsString()
-  @IsJsCode()
-  javascript: string;
-}
+const QueryParamRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.queryParam),
+  data: TypeStorageComparisonDataSchema,
+});
 
-class DeviceDataDto {
-  @IsIn([constants.comparisons.is, constants.comparisons.isNot])
-  comparator: 'is' | 'isNot';
+const CustomRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.custom),
+  data: z.object({
+    name: z.string(),
+    javascript: z.string().refine((val) => jsCodeHasCorrectSyntax(val), {
+      message: 'Invalid JavaScript code',
+    }),
+  }),
+});
 
-  @IsIn([constants.devices.desktop, constants.devices.mobile])
-  device: 'desktop' | 'mobile';
-}
+const DeviceRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.device),
+  data: z.object({
+    comparator: z.enum([constants.comparisons.is, constants.comparisons.isNot]),
+    device: z.enum([constants.devices.desktop, constants.devices.mobile]),
+  }),
+});
 
-class UrlDataDto {
-  @IsIn([constants.comparisons.is, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain])
-  comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
+const UrlRequirementSchema = z.object({
+  type: z.literal(constants.requirementTypes.url),
+  data: z.object({
+    comparator: z.enum([constants.comparisons.is, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]),
+    value: z.string(),
+  }),
+});
 
-  @IsString()
-  value: string;
-}
-
-/* ======================================================
-  Leaf Requirements
-====================================================== */
-
-export class CookieRequirementDto {
-  @IsIn([constants.requirementTypes.cookie])
-  type: 'cookie';
-
-  @ValidateNested()
-  @Type(() => StorageComparisonDto)
-  data: StorageComparisonDto;
-}
-
-export class LocalStorageRequirementDto {
-  @IsIn([constants.requirementTypes.localStorage])
-  type: 'localStorage';
-
-  @ValidateNested()
-  @Type(() => StorageComparisonDto)
-  data: StorageComparisonDto;
-}
-
-export class SessionStorageRequirementDto {
-  @IsIn([constants.requirementTypes.sessionStorage])
-  type: 'sessionStorage';
-
-  @ValidateNested()
-  @Type(() => StorageComparisonDto)
-  data: StorageComparisonDto;
-}
-
-export class QueryParamRequirementDto {
-  @IsIn([constants.requirementTypes.queryParam])
-  type: 'queryParam';
-
-  @ValidateNested()
-  @Type(() => StorageComparisonDto)
-  data: StorageComparisonDto;
-}
-
-export class CustomRequirementDto {
-  @IsIn([constants.requirementTypes.custom])
-  type: 'custom';
-
-  @ValidateNested()
-  @Type(() => CustomDataDto)
-  data: CustomDataDto;
-}
-
-export class DeviceRequirementDto {
-  @IsIn([constants.requirementTypes.device])
-  type: 'device';
-
-  @ValidateNested()
-  @Type(() => DeviceDataDto)
-  data: DeviceDataDto;
-}
-
-export class UrlRequirementDto {
-  @IsIn([constants.requirementTypes.url])
-  type: 'url';
-
-  @ValidateNested()
-  @Type(() => UrlDataDto)
-  data: UrlDataDto;
-}
-
-/* ======================================================
-  Recursive Node
-====================================================== */
-
-export class NodeDataDto {
-  @IsIn([constants.booleanOperators.and, constants.booleanOperators.or])
-  operator: 'and' | 'or';
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => RequirementDto)
-  children: RequirementDto[];
-}
-
-export class NodeRequirementDto {
-  @IsIn([constants.requirementTypes.node])
-  type: 'node';
-
-  @ValidateNested()
-  @Type(() => NodeDataDto)
-  data: NodeDataDto;
-}
-
-export type Requirement =
-  | NodeRequirementDto
-  | CookieRequirementDto
-  | LocalStorageRequirementDto
-  | SessionStorageRequirementDto
-  | QueryParamRequirementDto
-  | CustomRequirementDto
-  | DeviceRequirementDto
-  | UrlRequirementDto;
-
-export class RequirementDto {
-  @ValidateNested()
-  @Type(() => Object, {
-    discriminator: {
-      property: 'type',
-      subTypes: [
-        { name: constants.requirementTypes.node, value: NodeRequirementDto },
-        { name: constants.requirementTypes.cookie, value: CookieRequirementDto },
-        { name: constants.requirementTypes.localStorage, value: LocalStorageRequirementDto },
-        { name: constants.requirementTypes.sessionStorage, value: SessionStorageRequirementDto },
-        { name: constants.requirementTypes.queryParam, value: QueryParamRequirementDto },
-        { name: constants.requirementTypes.custom, value: CustomRequirementDto },
-        { name: constants.requirementTypes.device, value: DeviceRequirementDto },
-        { name: constants.requirementTypes.url, value: UrlRequirementDto },
-      ],
-    },
-    keepDiscriminatorProperty: true,
-  })
-  value: Requirement;
-}
+export const nodeRequirementSchema: z.ZodType<TypeNodeRequirement> = z.lazy(() =>
+  z.object({
+    type: z.literal(constants.requirementTypes.node),
+    data: z.object({
+      operator: z.enum([constants.booleanOperators.and, constants.booleanOperators.or]),
+      children: z.array(
+        z.union([
+          nodeRequirementSchema,
+          CookieRequirementSchema,
+          LocalStorageRequirementSchema,
+          SessionStorageRequirementSchema,
+          QueryParamRequirementSchema,
+          CustomRequirementSchema,
+          DeviceRequirementSchema,
+          UrlRequirementSchema,
+        ]),
+      ),
+    }),
+  }),
+);

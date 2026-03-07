@@ -1,54 +1,48 @@
-import { Type } from 'class-transformer';
-import { IsIn, IsInt, IsString, ValidateIf, ValidateNested } from 'class-validator';
+import { z } from 'zod';
 import constants from '../../../../domain/constants';
-import { IsJsCode } from './jsValidator';
+import { jsCodeHasCorrectSyntax } from '../../../../domain/jsCode';
 
-/* ---------- DATA DTOs ---------- */
+const clickOnElementDataSchema = z.object({
+  selector: z.string(),
+});
 
-class ClickOnElementDataDto {
-  @IsString()
-  selector: string;
-}
+const customTriggerDataSchema = z.object({
+  name: z.string(),
+  javascript: z.string().refine((val) => jsCodeHasCorrectSyntax(val), {
+    message: 'Invalid JavaScript code',
+  }),
+});
 
-class CustomTriggerDataDto {
-  @IsString()
-  name: string;
+const pageLoadDataSchema = z.object({});
 
-  @IsString()
-  @IsJsCode()
-  javascript: string;
-}
+const timeOnPageDataSchema = z.object({
+  milliseconds: z.number().int(),
+});
 
-class PageLoadDataDto {}
+export const triggerSchema = z.array(
+  z.discriminatedUnion('type', [
+    z.object({
+      id: z.number().int(),
+      type: z.literal(constants.triggerTypes.clickOnElement),
+      data: clickOnElementDataSchema,
+    }),
 
-class TimeOnPageDataDto {
-  @IsInt()
-  milliseconds: number;
-}
+    z.object({
+      id: z.number().int(),
+      type: z.literal(constants.triggerTypes.custom),
+      data: customTriggerDataSchema,
+    }),
 
-/* ---------- MAIN DTO ---------- */
+    z.object({
+      id: z.number().int(),
+      type: z.literal(constants.triggerTypes.pageLoad),
+      data: pageLoadDataSchema,
+    }),
 
-export class TriggerDto {
-  @IsInt()
-  readonly id: number;
-
-  @IsIn(Object.values(constants.triggerTypes))
-  type: keyof typeof constants.triggerTypes;
-
-  @ValidateIf((o) => o.type === constants.triggerTypes.clickOnElement)
-  @ValidateNested()
-  @Type(() => ClickOnElementDataDto)
-
-  @ValidateIf((o) => o.type === constants.triggerTypes.custom)
-  @ValidateNested()
-  @Type(() => CustomTriggerDataDto)
-
-  @ValidateIf((o) => o.type === constants.triggerTypes.pageLoad)
-  @ValidateNested()
-  @Type(() => PageLoadDataDto)
-
-  @ValidateIf((o) => o.type === constants.triggerTypes.timeOnPage)
-  @ValidateNested()
-  @Type(() => TimeOnPageDataDto)
-  data: ClickOnElementDataDto | CustomTriggerDataDto | PageLoadDataDto | TimeOnPageDataDto;
-}
+    z.object({
+      id: z.number().int(),
+      type: z.literal(constants.triggerTypes.timeOnPage),
+      data: timeOnPageDataSchema,
+    }),
+  ]),
+);

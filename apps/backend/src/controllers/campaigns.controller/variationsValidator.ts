@@ -1,21 +1,20 @@
-import { IsInt, IsString, Max, Min } from 'class-validator';
-import { IsJsCode } from './jsValidator';
+import { z } from 'zod';
+import { jsCodeHasCorrectSyntax } from '../../../../domain/jsCode';
 
-export class VariationDto {
-  @IsString() css: string;
-
-  @IsString() html: string;
-
-  @IsInt() id: number;
-
-  @IsString()
-  @IsJsCode()
-  javascript: string;
-
-  @IsString() name: string;
-
-  @IsInt()
-  @Min(0)
-  @Max(100)
-  traffic: number;
-}
+export const variationSchema = z
+  .array(
+    z.object({
+      css: z.string(),
+      html: z.string(),
+      id: z.number().int(),
+      javascript: z.string().refine((val) => jsCodeHasCorrectSyntax(val), {
+        message: 'Invalid JavaScript code',
+      }),
+      name: z.string(),
+      traffic: z.number().int().min(0).max(100),
+    }),
+  )
+  .refine((variations) => variations.reduce((sum, v) => sum + v.traffic, 0) === 100, {
+    message: 'Total traffic must equal 100',
+    path: ['traffic'],
+  });
