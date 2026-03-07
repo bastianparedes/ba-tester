@@ -36,13 +36,13 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
     setToastCounter(id);
 
     const newToast = {
-      severity,
-      position,
-      text,
-      duration,
       closable,
-      id,
       deletePrevious,
+      duration,
+      id,
+      position,
+      severity,
+      text,
     };
 
     setToasts((prev) => (deletePrevious ? [newToast] : [...prev, newToast]));

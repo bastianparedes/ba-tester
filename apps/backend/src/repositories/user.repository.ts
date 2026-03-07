@@ -50,8 +50,8 @@ export class UserRepository {
 
   create = async (data: TypeUserUpdatable & { password: string }) => {
     await db.insert(schema.users).values({
-      name: data.name,
       email: data.email,
+      name: data.name,
       passwordHash: getPasswordHashed(data.password),
       roleId: data.roleId,
     });
@@ -73,8 +73,8 @@ export class UserRepository {
   getForLogin = async ({ email }: { email: TypeUser['email'] }): Promise<{ id: TypeUser['id']; email: TypeUser['email']; passwordHash: string }> => {
     const user = await db.query.users.findFirst({
       columns: {
-        id: true,
         email: true,
+        id: true,
         passwordHash: true,
       },
       where: eq(schema.users.email, email),

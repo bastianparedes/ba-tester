@@ -13,7 +13,7 @@ export function AuthGuard(permission: string): Type<CanActivate> {
       const request = context.switchToHttp().getRequest<Request>();
       const token = request.cookies[cookieNames.token];
       if (!token) return false;
-      const tokenData = getTokenData({ token, purpose: 'session' });
+      const tokenData = getTokenData({ purpose: 'session', token });
       if (!tokenData.valid) return false;
       const userId = tokenData.id;
 

@@ -19,8 +19,8 @@ import { DbService } from './services/db.service';
 import { ScriptService } from './services/script.service';
 
 @Module({
-  imports: [],
   controllers: [AuthController, ScriptController, RolesController, CampaignsController, TenantsController, UsersController, HealthController, ExecutionGroupsController],
+  imports: [],
   providers: [
     ExecutionGroupRepository,
     CampaignRepository,

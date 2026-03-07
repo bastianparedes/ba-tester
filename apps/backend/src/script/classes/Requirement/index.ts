@@ -93,8 +93,8 @@ const requirementNode = async (requirement: Extract<TypeRequirementScript, { typ
       device: () => requirementDevice(childData as Extract<TypeRequirementScript, { type: 'device' }>),
       localStorage: () => requirementLocalStorage(childData as Extract<TypeRequirementScript, { type: 'localStorage' }>),
       node: () => requirementNode(childData as Extract<TypeRequirementScript, { type: 'node' }>),
-      sessionStorage: () => requirementSessionStorage(childData as Extract<TypeRequirementScript, { type: 'sessionstorage' }>),
       queryParam: () => requirementQueryParam(childData as Extract<TypeRequirementScript, { type: 'queryParam' }>),
+      sessionStorage: () => requirementSessionStorage(childData as Extract<TypeRequirementScript, { type: 'sessionstorage' }>),
       url: () => requirementUrl(childData as Extract<TypeRequirementScript, { type: 'url' }>),
     };
     const strategy = requirementStrategies[childData.type];

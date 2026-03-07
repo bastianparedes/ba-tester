@@ -29,6 +29,7 @@ export class DbService {
   ) {
     this.users = {
       ...this.userRepository,
+      create: this.userRepository.create,
       get: async (args) => {
         if (env.NODE_ENV === 'production') {
           const cached = await this.cacheService.users.get({ userId: args.userId });
@@ -40,13 +41,13 @@ export class DbService {
             email: env.SUPER_ADMIN_EMAIL,
             id: superAdminId,
             name: 'Super Admin',
-            roleId: -1,
             role: {
               description: 'Super admin is GOD',
               id: -1,
               name: 'Super Admin Role',
               permissions: flatPermissions,
             },
+            roleId: -1,
           };
           await this.cacheService.users.save({ user });
           return user;
@@ -56,42 +57,41 @@ export class DbService {
         if (user) await this.cacheService.users.save({ user });
         return user;
       },
-      create: this.userRepository.create,
+      getAll: this.userRepository.getAll,
+      getForLogin: async (args) => {
+        if (args.email === env.SUPER_ADMIN_EMAIL)
+          return {
+            email: env.SUPER_ADMIN_EMAIL,
+            id: superAdminId,
+            passwordHash: getPasswordHashed(env.SUPER_ADMIN_PASSWORD),
+          };
+        return this.userRepository.getForLogin(args);
+      },
+      remove: async (args) => {
+        const removedUser = await this.userRepository.remove(args);
+        await this.cacheService.users.clear({ userIds: [args.userId] });
+        return removedUser;
+      },
       update: async (args) => {
         await this.userRepository.update(args);
         const user = await this.userRepository.get({ userId: args.userId });
         if (!user) throw new Error('Could not get recently updated user');
         await this.cacheService.users.save({ user });
       },
-      getForLogin: async (args) => {
-        if (args.email === env.SUPER_ADMIN_EMAIL)
-          return {
-            id: superAdminId,
-            email: env.SUPER_ADMIN_EMAIL,
-            passwordHash: getPasswordHashed(env.SUPER_ADMIN_PASSWORD),
-          };
-        return this.userRepository.getForLogin(args);
-      },
-      getAll: this.userRepository.getAll,
-      remove: async (args) => {
-        const removedUser = await this.userRepository.remove(args);
-        await this.cacheService.users.clear({ userIds: [args.userId] });
-        return removedUser;
-      },
     };
     this.roles = {
       ...this.roleRepository,
+      remove: async (...args) => {
+        const users = await this.userRepository.getAllWithRoleId({ roleId: args[0].roleId });
+        await this.roleRepository.remove(...args);
+        await this.cacheService.users.clear({ userIds: users.map((u) => u.id) });
+      },
       update: async (...args) => {
         const updatedRole = await this.roleRepository.update(...args);
         const users = await this.userRepository.getAllWithRoleId({ roleId: args[0].roleId });
 
         await this.cacheService.users.clear({ userIds: users.map((u) => u.id) });
         return updatedRole;
-      },
-      remove: async (...args) => {
-        const users = await this.userRepository.getAllWithRoleId({ roleId: args[0].roleId });
-        await this.roleRepository.remove(...args);
-        await this.cacheService.users.clear({ userIds: users.map((u) => u.id) });
       },
     };
     this.tenants = this.tenantRepository;
@@ -102,13 +102,13 @@ export class DbService {
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      update: async (args) => {
-        const result = await this.campaignRepository.update(args);
+      remove: async (args) => {
+        const result = await this.campaignRepository.remove(args);
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      remove: async (args) => {
-        const result = await this.campaignRepository.remove(args);
+      update: async (args) => {
+        const result = await this.campaignRepository.update(args);
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
@@ -120,13 +120,13 @@ export class DbService {
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      update: async (args) => {
-        const result = await this.executionGroupRepository.update(args);
+      remove: async (args) => {
+        const result = await this.executionGroupRepository.remove(args);
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },
-      remove: async (args) => {
-        const result = await this.executionGroupRepository.remove(args);
+      update: async (args) => {
+        const result = await this.executionGroupRepository.update(args);
         await this.scriptService.clear({ tenantId: args.tenantId });
         return result;
       },

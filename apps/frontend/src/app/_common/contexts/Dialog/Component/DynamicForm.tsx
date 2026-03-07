@@ -67,50 +67,50 @@ const transformArgsToFields = (args: TypeArgs): TypeField[] => {
       case 'email':
       case 'password':
         return {
-          name,
-          label: arg.label,
           description: arg.description,
+          forbiddenValues: arg.forbiddenValues || [],
+          label: arg.label,
+          name,
+          required: arg.required,
           type: arg.type,
           value: arg.value,
-          required: arg.required,
-          forbiddenValues: arg.forbiddenValues || [],
         };
       case 'time':
         return {
-          name,
-          label: arg.label,
           description: arg.description,
+          label: arg.label,
+          name,
+          required: arg.required,
           type: arg.type,
           value: arg.value,
-          required: arg.required,
         };
       case 'number':
         return {
-          name,
-          label: arg.label,
           description: arg.description,
+          label: arg.label,
+          name,
+          required: arg.required,
           type: 'number',
           value: arg.value,
-          required: arg.required,
         };
       case 'switch':
         return {
-          name,
-          label: arg.label,
           description: arg.description,
+          label: arg.label,
+          name,
+          required: arg.required,
           type: 'switch',
           value: arg.value,
-          required: arg.required,
         };
       case 'select':
         return {
-          name,
-          label: arg.label,
           description: arg.description,
-          type: 'select',
-          value: arg.value,
+          label: arg.label,
+          name,
           options: arg.options,
           required: arg.required,
+          type: 'select',
+          value: arg.value,
         };
     }
     throw new Error(`Unsupported field type`);
@@ -210,11 +210,11 @@ export const DynamicForm = ({ args: initialArgs, resolver }: { args: TypeArgs; r
                         type="email"
                         className="border p-1 bg-gray-200"
                         {...register(`items.${index}.value`, {
-                          required: field.required && 'Este campo es obligatorio',
                           pattern: {
-                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                             message: 'Formato de email inválido',
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                           },
+                          required: field.required && 'Este campo es obligatorio',
                           validate: (value) => !field.forbiddenValues.includes(String(value)) || 'Este valor no está permitido',
                         })}
                         defaultValue={field.value}

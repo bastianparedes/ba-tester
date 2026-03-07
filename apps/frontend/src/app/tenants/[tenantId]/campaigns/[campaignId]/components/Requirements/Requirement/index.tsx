@@ -144,6 +144,20 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
         },
         type: 'cookie',
       },
+      custom: {
+        data: {
+          javascript: 'return true;\nreturn await new Promise((r) => r(true));',
+          name: '',
+        },
+        type: 'custom',
+      },
+      device: {
+        data: {
+          comparator: 'is' as const,
+          device: 'desktop' as const,
+        },
+        type: 'device',
+      },
       localStorage: {
         data: {
           comparator: 'is' as const,
@@ -167,20 +181,6 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
           value: '',
         },
         type: 'sessionStorage',
-      },
-      custom: {
-        data: {
-          javascript: 'return true;\nreturn await new Promise((r) => r(true));',
-          name: '',
-        },
-        type: 'custom',
-      },
-      device: {
-        data: {
-          comparator: 'is' as const,
-          device: 'desktop' as const,
-        },
-        type: 'device',
       },
       url: {
         data: {

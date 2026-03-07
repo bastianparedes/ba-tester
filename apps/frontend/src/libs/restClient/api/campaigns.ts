@@ -2,18 +2,18 @@ import type { TypeApiCampaigns } from '@/domain/api/campaigns';
 import { fetchers } from '../fetcher';
 
 export const campaigns = {
-  getMany: async (data: TypeApiCampaigns['getMany']['request']) => {
-    const response = await fetchers.get<TypeApiCampaigns['getMany']['response']>({
+  create: async (data: TypeApiCampaigns['create']['request']) => {
+    const response = await fetchers.post<TypeApiCampaigns['create']['response']>({
+      body: data.body,
       headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/campaigns`,
-      queryParams: data.queryParams,
     });
     return response;
   },
-  getAllLight: async (data: TypeApiCampaigns['getAllLight']['request']) => {
-    const response = await fetchers.get<TypeApiCampaigns['getAllLight']['response']>({
+  delete: async (data: TypeApiCampaigns['delete']['request']) => {
+    const response = await fetchers.delete<TypeApiCampaigns['delete']['response']>({
       headers: data.headers,
-      url: `/tenants/${data.pathParams.tenantId}/campaigns/getAllLight`,
+      url: `/tenants/${data.pathParams.tenantId}/campaigns/${data.pathParams.campaignId}`,
     });
     return response;
   },
@@ -24,24 +24,24 @@ export const campaigns = {
     });
     return response;
   },
-  create: async (data: TypeApiCampaigns['create']['request']) => {
-    const response = await fetchers.post<TypeApiCampaigns['create']['response']>({
+  getAllLight: async (data: TypeApiCampaigns['getAllLight']['request']) => {
+    const response = await fetchers.get<TypeApiCampaigns['getAllLight']['response']>({
       headers: data.headers,
+      url: `/tenants/${data.pathParams.tenantId}/campaigns/getAllLight`,
+    });
+    return response;
+  },
+  getMany: async (data: TypeApiCampaigns['getMany']['request']) => {
+    const response = await fetchers.get<TypeApiCampaigns['getMany']['response']>({
+      headers: data.headers,
+      queryParams: data.queryParams,
       url: `/tenants/${data.pathParams.tenantId}/campaigns`,
-      body: data.body,
     });
     return response;
   },
   update: async (data: TypeApiCampaigns['update']['request']) => {
     const response = await fetchers.put<TypeApiCampaigns['update']['response']>({
-      headers: data.headers,
-      url: `/tenants/${data.pathParams.tenantId}/campaigns/${data.pathParams.campaignId}`,
       body: data.body,
-    });
-    return response;
-  },
-  delete: async (data: TypeApiCampaigns['delete']['request']) => {
-    const response = await fetchers.delete<TypeApiCampaigns['delete']['response']>({
       headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/campaigns/${data.pathParams.campaignId}`,
     });

@@ -4,8 +4,8 @@ import { Server, Socket } from 'socket.io';
 import { AuthService } from '../services/auth.service';
 
 @WebSocketGateway({
-  namespace: '/gateways/campaigns',
   cors: { origin: '*' },
+  namespace: '/gateways/campaigns',
 })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly authService: AuthService) {}
@@ -28,12 +28,12 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     client.data.user = {
+      email: user.email,
       id: user.id,
       name: user.name,
-      email: user.email,
     };
 
-    const roomId = this.getRoomId({ tenantId, campaignId });
+    const roomId = this.getRoomId({ campaignId, tenantId });
     await client.join(roomId);
     const sockets = await this.server.in(roomId).fetchSockets();
 
@@ -53,13 +53,13 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     const user = client.data.user;
     const { tenantId, campaignId } = payload;
-    const roomId = this.getRoomId({ tenantId, campaignId });
+    const roomId = this.getRoomId({ campaignId, tenantId });
     this.server.to(roomId).emit('user-updated-campaign', user);
   }
 
   async handleDisconnect(client: Socket) {
     const { tenantId, campaignId } = client.handshake.auth;
-    const roomId = this.getRoomId({ tenantId, campaignId });
+    const roomId = this.getRoomId({ campaignId, tenantId });
     await client.leave(roomId);
 
     const sockets = await this.server.in(roomId).fetchSockets();

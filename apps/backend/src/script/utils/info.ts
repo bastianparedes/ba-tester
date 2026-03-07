@@ -8,9 +8,9 @@ const getId = () => {
   const savedValueIsNumber = value !== null && /^-?\d+$/.test(value);
   const id = savedValueIsNumber ? parseInt(value, 10) : getRandomIntegerNumber(constants.cookie.min, constants.cookie.max);
   cookie.set({
+    exdays: constants.cookie.duration,
     name: constants.cookie.name,
     value: id,
-    exdays: constants.cookie.duration,
   });
   return id;
 };

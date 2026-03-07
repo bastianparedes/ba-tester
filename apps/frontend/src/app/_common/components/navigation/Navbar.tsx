@@ -40,9 +40,9 @@ export function Navbar({ children, breadcrumb }: Props) {
                 <a
                   href={crumb.path}
                   className={cx({
-                    'transition-colors duration-200': index < breadcrumb.length - 1,
-                    'text-slate-900 font-medium': index === breadcrumb.length - 1,
                     'hover:text-blue-600': !!crumb.path,
+                    'text-slate-900 font-medium': index === breadcrumb.length - 1,
+                    'transition-colors duration-200': index < breadcrumb.length - 1,
                   })}
                 >
                   {crumb.name}

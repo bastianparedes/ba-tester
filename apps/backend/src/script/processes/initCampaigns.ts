@@ -89,9 +89,9 @@ const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
   });
 
   const strategiesAndFlags = [
-    { fn: onlyPreviousCampaignsStrategy, flag: executionGroup.onlyCampaignsPreviouslyExecuted },
-    { fn: waitForAllOrNotStrategy, flag: executionGroup.waitForEveryCampaignToBeEvaluated },
-    { fn: oneOrManyStrategy, flag: executionGroup.onlyOneCampaignPerPageLoad },
+    { flag: executionGroup.onlyCampaignsPreviouslyExecuted, fn: onlyPreviousCampaignsStrategy },
+    { flag: executionGroup.waitForEveryCampaignToBeEvaluated, fn: waitForAllOrNotStrategy },
+    { flag: executionGroup.onlyOneCampaignPerPageLoad, fn: oneOrManyStrategy },
   ];
 
   for (const strategieAndFlag of strategiesAndFlags) {

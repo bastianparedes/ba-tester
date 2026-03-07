@@ -9,9 +9,9 @@ import { DbService } from '../services/db.service';
 /* ---------- SCHEMA ---------- */
 
 const tenantSchema = z.object({
-  name: z.string(),
   description: z.string(),
   domain: z.string(),
+  name: z.string(),
 });
 
 type TenantDto = z.infer<typeof tenantSchema>;

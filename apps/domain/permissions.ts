@@ -1,35 +1,35 @@
 import { flattenObject } from './utils';
 
 export const permissions = {
-  role: {
-    read: 'role.read',
-    create: 'role.create',
-    update: 'role.update',
-    delete: 'role.delete',
-  },
-  user: {
-    read: 'user.read',
-    create: 'user.create',
-    update: 'user.update',
-    delete: 'user.delete',
-  },
-  tenant: {
-    read: 'tenant.read',
-    create: 'tenant.create',
-    update: 'tenant.update',
-    delete: 'tenant.delete',
-  },
   campaign: {
-    read: 'campaign.read',
     create: 'campaign.create',
-    update: 'campaign.update',
     delete: 'campaign.delete',
+    read: 'campaign.read',
+    update: 'campaign.update',
   },
   executionGroup: {
-    read: 'execution-group.read',
     create: 'execution-group.create',
-    update: 'execution-group.update',
     delete: 'execution-group.delete',
+    read: 'execution-group.read',
+    update: 'execution-group.update',
+  },
+  role: {
+    create: 'role.create',
+    delete: 'role.delete',
+    read: 'role.read',
+    update: 'role.update',
+  },
+  tenant: {
+    create: 'tenant.create',
+    delete: 'tenant.delete',
+    read: 'tenant.read',
+    update: 'tenant.update',
+  },
+  user: {
+    create: 'user.create',
+    delete: 'user.delete',
+    read: 'user.read',
+    update: 'user.update',
   },
 };
 

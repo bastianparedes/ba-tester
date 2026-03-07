@@ -2,8 +2,8 @@ import english from './english';
 
 const languages = {
   english: {
-    name: 'English',
     labels: english,
+    name: 'English',
   },
 };
 export default languages;

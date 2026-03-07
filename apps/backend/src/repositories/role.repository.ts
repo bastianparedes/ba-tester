@@ -36,8 +36,8 @@ export class RoleRepository {
       await tx
         .insert(schema.roles)
         .values({
-          name: data.name,
           description: data.description,
+          name: data.name,
         })
         .returning();
     });
@@ -51,8 +51,8 @@ export class RoleRepository {
       const [updatedRole] = await tx
         .update(schema.roles)
         .set({
-          name: updates.name,
           description: updates.description,
+          name: updates.name,
         })
         .where(eq(schema.roles.id, roleId))
         .returning();
@@ -107,8 +107,8 @@ export class RoleRepository {
       if (permissionsToAttach.length > 0) {
         await tx.insert(schema.rolePermissions).values(
           permissionsToAttach.map((permission) => ({
-            roleId,
             permissionId: permission.id,
+            roleId,
           })),
         );
       }

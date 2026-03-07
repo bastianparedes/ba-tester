@@ -5,43 +5,43 @@ export const getUserFromCookies = async (): Promise<TypeFullUser> => {
   const userResponse = await apiCaller.users.get({});
   if (!userResponse.ok)
     return {
-      isLogedIn: false,
       data: null,
-      rawPermissions: [],
+      isLogedIn: false,
       permissions: {
-        canReadRole: false,
+        canCreateCampaign: false,
+        canCreateExecutionGroup: false,
         canCreateRole: false,
-        canUpdateRole: false,
-        canDeleteRole: false,
-
-        canReadUser: false,
+        canCreateTenant: false,
         canCreateUser: false,
-        canUpdateUser: false,
+        canDeleteCampaign: false,
+        canDeleteExecutionGroup: false,
+        canDeleteRole: false,
+        canDeleteTenant: false,
         canDeleteUser: false,
 
-        canReadTenant: false,
-        canCreateTenant: false,
-        canUpdateTenant: false,
-        canDeleteTenant: false,
-
         canReadCampaign: false,
-        canCreateCampaign: false,
-        canUpdateCampaign: false,
-        canDeleteCampaign: false,
 
         canReadExecutionGroup: false,
-        canCreateExecutionGroup: false,
+        canReadRole: false,
+
+        canReadTenant: false,
+
+        canReadUser: false,
+        canUpdateCampaign: false,
         canUpdateExecutionGroup: false,
-        canDeleteExecutionGroup: false,
+        canUpdateRole: false,
+        canUpdateTenant: false,
+        canUpdateUser: false,
       },
+      rawPermissions: [],
     };
 
   const user = await userResponse.json();
 
   return {
-    isLogedIn: true,
     data: user,
-    rawPermissions: user.role.permissions,
+    isLogedIn: true,
     permissions: getUserPermissions(user),
+    rawPermissions: user.role.permissions,
   };
 };

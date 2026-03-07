@@ -7,11 +7,11 @@ import { tenants } from './api/tenants';
 import { users } from './api/users';
 
 export const apiCaller = {
+  campaigns,
+  executionGroups,
   roles,
-  users,
+  scripts,
   sessions,
   tenants,
-  executionGroups,
-  campaigns,
-  scripts,
+  users,
 };

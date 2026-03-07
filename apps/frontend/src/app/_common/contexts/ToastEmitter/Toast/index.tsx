@@ -11,19 +11,19 @@ type Props = {
 
 const Toast = ({ severity, text, onClose }: Props) => {
   const Icon = {
-    success: Check,
-    information: Info,
-    warning: AlertCircle,
     error: AlertCircle,
+    information: Info,
     neutral: ImageIcon,
+    success: Check,
+    warning: AlertCircle,
   }[severity];
 
   const severityClasses: Record<Severity, string> = {
-    success: 'bg-green-100 border border-green-200 text-green-800',
-    information: 'bg-blue-100 border border-blue-200 text-blue-800',
-    warning: 'bg-yellow-100 border border-yellow-300 text-yellow-800',
     error: 'bg-red-100 border border-red-300 text-red-700 flex items-start gap-1 p-3',
+    information: 'bg-blue-100 border border-blue-200 text-blue-800',
     neutral: 'bg-gray-900 border border-gray-800 text-gray-100',
+    success: 'bg-green-100 border border-green-200 text-green-800',
+    warning: 'bg-yellow-100 border border-yellow-300 text-yellow-800',
   };
 
   return (

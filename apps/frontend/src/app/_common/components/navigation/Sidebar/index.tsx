@@ -1,6 +1,6 @@
 'use client';
 
-import { Boxes, Building2, Code, Eye, FlaskConical, Shield, UserCog } from 'lucide-react';
+import { Boxes, Building2, CircleUser, Code, Eye, FlaskConical, Shield, Users } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import constants from '@/config/constants';
@@ -82,12 +82,16 @@ export function Sidebar({ children, tenant }: Props) {
             {/* Administration Section */}
             <div className="mb-6">
               <div className="text-md font-semibold text-gray-400 uppercase mb-2 px-2">{translation.common.administration}</div>
+              <a href={constants.pages.account()} className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
+                <CircleUser className="w-5 h-5" />
+                <span className="text-sm font-medium">{translation.common.account}</span>
+              </a>
               <a href={constants.pages.roles()} className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
                 <Shield className="w-5 h-5" />
                 <span className="text-sm font-medium">{translation.common.roles}</span>
               </a>
               <a href={constants.pages.users()} className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800">
-                <UserCog className="w-5 h-5" />
+                <Users className="w-5 h-5" />
                 <span className="text-sm font-medium">{translation.common.users}</span>
               </a>
             </div>

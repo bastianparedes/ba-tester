@@ -79,11 +79,11 @@ export default function Page() {
                 type="email"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 {...register('email', {
-                  required: 'Email is required',
                   pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     message: 'Invalid email address',
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   },
+                  required: 'Email is required',
                 })}
               />
               {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}

@@ -10,15 +10,19 @@ import { DynamicForm } from './DynamicForm';
 export const DynamicDialog = () => {
   const { isOpen, title, description, data, completeResolver } = useDialogStore(
     useShallow(({ isOpen, title, description, data, completeResolver }) => ({
+      completeResolver,
+      data,
+      description,
       isOpen,
       title,
-      description,
-      data,
-      completeResolver,
     })),
   );
 
   const dialogComponentsStrategies = {
+    confirmDialog: {
+      content: () => undefined,
+      footer: () => <ConfirmForm resolver={completeResolver} />,
+    },
     dynamicDialog: {
       content: () => (
         <DynamicForm
@@ -34,10 +38,6 @@ export const DynamicDialog = () => {
         />
       ),
       footer: undefined,
-    },
-    confirmDialog: {
-      content: () => undefined,
-      footer: () => <ConfirmForm resolver={completeResolver} />,
     },
   };
   const dialogComponentsDefault = {

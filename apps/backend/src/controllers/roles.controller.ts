@@ -8,8 +8,8 @@ import { DbService } from '../services/db.service';
 
 /* ---------- SCHEMAS ---------- */
 const roleSchema = z.object({
-  name: z.string(),
   description: z.string(),
+  name: z.string(),
   permissions: z
     .array(z.enum(flatPermissions as [string, ...string[]]))
     .optional()

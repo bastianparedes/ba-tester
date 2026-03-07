@@ -15,8 +15,8 @@ import { type Request } from '../types/request';
 /* ---------- SCHEMAS ---------- */
 
 const newUserSchema = z.object({
-  name: z.string(),
   email: z.string(),
+  name: z.string(),
   password: z.string(),
   roleId: z.number().int(),
 });
@@ -24,8 +24,8 @@ const newUserSchema = z.object({
 type NewUserDto = z.infer<typeof newUserSchema>;
 
 const oldUserSchema = z.object({
-  name: z.string(),
   email: z.string(),
+  name: z.string(),
   roleId: z.number().int(),
 });
 
@@ -49,7 +49,7 @@ export class UsersController {
     const token = req.cookies[cookieNames.token];
     if (!token) throw new UnauthorizedException();
 
-    const tokenData = getTokenData({ token, purpose: 'session' });
+    const tokenData = getTokenData({ purpose: 'session', token });
     if (!tokenData.valid) throw new UnauthorizedException();
 
     const userId = tokenData.id;
@@ -90,7 +90,7 @@ export class UsersController {
     const newRole = await this.dbService.roles.get({ id: body.roleId });
     if (!newRole) throw new BadRequestException();
 
-    await this.dbService.users.update({ userId, updates: body });
+    await this.dbService.users.update({ updates: body, userId });
 
     return {};
   }

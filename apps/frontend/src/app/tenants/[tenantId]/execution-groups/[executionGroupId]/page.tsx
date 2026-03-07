@@ -19,7 +19,7 @@ const Page = async (props: PageProps) => {
   if (!tenantResponse.ok) return redirect(constants.pages.tenants());
   const tenant = await tenantResponse.json();
 
-  const executionGroupResponse = await apiCaller.executionGroups.get({ pathParams: { tenantId, executionGroupId } });
+  const executionGroupResponse = await apiCaller.executionGroups.get({ pathParams: { executionGroupId, tenantId } });
   if (!executionGroupResponse.ok) return redirect(constants.pages.executionGroups({ tenantId }));
 
   const { executionGroup: initialExecutionGroup, campaigns: initialCampaigns } = await executionGroupResponse.json();

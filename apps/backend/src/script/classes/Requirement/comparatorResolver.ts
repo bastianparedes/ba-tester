@@ -48,50 +48,50 @@ export const comparatorResolver = (
   const strategies = {
     atLeast: () =>
       strategyAtLeast({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     atMost: () =>
       strategyAtMost({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     contains: () =>
       strategyContains({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     doesNotContain: () =>
       strategyDoesNotContain({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     doesNotExist: () => strategyDoesNotExist({ obtainedValue: data.obtainedValue }),
     exactly: () =>
       strategyExactly({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     exists: () => strategyExists({ obtainedValue: data.obtainedValue }),
     is: () =>
       strategyIs({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     isNot: () =>
       strategyIsNot({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     lessThan: () =>
       strategyLessThan({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
     moreThan: () =>
       strategyMoreThan({
-        obtainedValue: data.obtainedValue,
         expectedValue: data.expectedValue,
+        obtainedValue: data.obtainedValue,
       }),
   };
   const strategy = strategies[data.comparator];

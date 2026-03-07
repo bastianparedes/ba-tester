@@ -19,7 +19,7 @@ export class ExecutionGroupCookieManager {
   }
 
   private saveInCookies(object: CookieValue) {
-    cookieUtils.set({ name: this.cookieName, value: JSON.stringify(object), exdays: 365 });
+    cookieUtils.set({ exdays: 365, name: this.cookieName, value: JSON.stringify(object) });
   }
 
   private setDefault() {

@@ -10,9 +10,9 @@ export class TenantRepository {
     const [results] = await db
       .insert(schema.tenants)
       .values({
-        name,
         description,
         domain,
+        name,
       })
       .returning();
     return results;
@@ -22,9 +22,9 @@ export class TenantRepository {
     const [result] = await db
       .update(schema.tenants)
       .set({
-        name: values.name,
         description: values.description,
         domain: values.domain,
+        name: values.name,
       })
       .where(eq(schema.tenants.id, tenantId))
       .returning();

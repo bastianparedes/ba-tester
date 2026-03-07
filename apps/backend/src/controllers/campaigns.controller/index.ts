@@ -12,7 +12,6 @@ import { triggerSchema } from './triggersValidator';
 import { variationSchema } from './variationsValidator';
 
 export const getCampaignsQuerySchema = z.object({
-  textSearch: z.string(),
   orderBy: z.enum(['status', 'name', 'id']),
   orderDirection: z.enum(commonConstants.campaignOrderDirection),
   page: z.coerce.number().int(),
@@ -20,12 +19,13 @@ export const getCampaignsQuerySchema = z.object({
     message: 'Invalid quantity',
   }),
   statusList: z.array(z.enum(commonConstants.campaignStatus)),
+  textSearch: z.string(),
 });
 
 export const campaignSchema = z.object({
   name: z.string(),
-  status: z.enum(commonConstants.campaignStatus),
   requirements: nodeRequirementSchema,
+  status: z.enum(commonConstants.campaignStatus),
   triggers: triggerSchema,
   variations: variationSchema,
 });
@@ -41,7 +41,7 @@ export class CampaignsController {
 
     @Query(new ZodValidationPipe(getCampaignsQuerySchema)) query: z.infer<typeof getCampaignsQuerySchema>,
   ): Promise<TypeApiCampaigns['getMany']['response']> {
-    const campaigns = await this.dbService.campaigns.getMany({ tenantId, params: query });
+    const campaigns = await this.dbService.campaigns.getMany({ params: query, tenantId });
     return campaigns;
   }
 
@@ -55,7 +55,7 @@ export class CampaignsController {
   @UseGuards(AuthGuard(permissions.campaign.read))
   @Get(':campaignId')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('campaignId', ParseIntPipe) campaignId: number): Promise<TypeApiCampaigns['get']['response']> {
-    const result = await this.dbService.campaigns.get({ tenantId, campaignId });
+    const result = await this.dbService.campaigns.get({ campaignId, tenantId });
     if (!result) throw new NotFoundException();
     return result;
   }
@@ -77,14 +77,14 @@ export class CampaignsController {
     @Param('campaignId', ParseIntPipe) campaignId: number,
     @Body(new ZodValidationPipe(campaignSchema)) body: z.infer<typeof campaignSchema>,
   ): Promise<TypeApiCampaigns['update']['response']> {
-    await this.dbService.campaigns.update({ tenantId, campaignId, updates: body });
+    await this.dbService.campaigns.update({ campaignId, tenantId, updates: body });
     return {};
   }
 
   @UseGuards(AuthGuard(permissions.campaign.delete))
   @Delete(':campaignId')
   async remove(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('campaignId', ParseIntPipe) campaignId: number): Promise<TypeApiCampaigns['delete']['response']> {
-    await this.dbService.campaigns.remove({ tenantId, campaignId });
+    await this.dbService.campaigns.remove({ campaignId, tenantId });
     return {};
   }
 }

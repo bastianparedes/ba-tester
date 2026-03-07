@@ -10,7 +10,7 @@ export class AuthService {
   async getUserFromToken(cookies: Record<string, string | undefined>) {
     const token = cookies[cookieNames.token];
     if (!token) return null;
-    const tokenData = getTokenData({ token, purpose: 'session' });
+    const tokenData = getTokenData({ purpose: 'session', token });
     if (!tokenData.valid) return null;
     const userId = tokenData.id;
     const user = await this.dbService.users.get({ userId });

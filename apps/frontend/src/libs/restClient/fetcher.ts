@@ -42,17 +42,17 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     try {
       console.info('Making fetch to', objectUrl.toString());
       const response = await fetch(objectUrl.toString(), {
-        method,
         body: JSON.stringify(body),
+        credentials: 'include',
         headers: {
+          ...headers,
           'Content-Type': 'application/json',
           Cookie: cookies,
-          ...headers,
         },
-        credentials: 'include',
+        method,
       });
 
-      return { ok: response.ok, json: async () => response.json(), text: async () => response.text() };
+      return { json: async () => response.json(), ok: response.ok, text: async () => response.text() };
     } catch (error) {
       console.error(error);
       return { ok: false };
@@ -62,8 +62,8 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
 };
 
 export const fetchers = {
+  delete: withLoader(constructRequest('DELETE')),
   get: withLoader(constructRequest('GET')),
   post: withLoader(constructRequest('POST')),
   put: withLoader(constructRequest('PUT')),
-  delete: withLoader(constructRequest('DELETE')),
 };

@@ -26,12 +26,6 @@ export function ClientPage({ initialTenants }: Props) {
         title: translation.tenants.createTenantTitle,
       },
       {
-        name: {
-          label: translation.tenants.name,
-          type: 'text',
-          value: initialData.name,
-          required: true,
-        },
         description: {
           label: translation.tenants.description,
           type: 'textarea',
@@ -39,9 +33,15 @@ export function ClientPage({ initialTenants }: Props) {
         },
         domain: {
           label: translation.tenants.domain,
+          required: true,
           type: 'text',
           value: initialData.domain,
+        },
+        name: {
+          label: translation.tenants.name,
           required: true,
+          type: 'text',
+          value: initialData.name,
         },
       },
     );
@@ -50,16 +50,16 @@ export function ClientPage({ initialTenants }: Props) {
 
   const createTenant = async () => {
     const data = await getTenantFromDialog({
-      name: '',
       description: '',
       domain: '',
+      name: '',
     });
     if (!data) return;
     const result = await apiCaller.tenants.create({
       body: {
-        name: data.name,
         description: data.description,
         domain: data.domain,
+        name: data.name,
       },
     });
     if (!result.ok) return;
@@ -76,12 +76,6 @@ export function ClientPage({ initialTenants }: Props) {
         title: translation.tenants.editTenantTitle,
       },
       {
-        name: {
-          label: translation.tenants.name,
-          type: 'text',
-          value: tenant.name,
-          required: true,
-        },
         description: {
           label: translation.tenants.description,
           type: 'textarea',
@@ -89,21 +83,27 @@ export function ClientPage({ initialTenants }: Props) {
         },
         domain: {
           label: translation.tenants.domain,
+          required: true,
           type: 'text',
           value: tenant.domain,
+        },
+        name: {
+          label: translation.tenants.name,
           required: true,
+          type: 'text',
+          value: tenant.name,
         },
       },
     );
     if (!data) return;
 
     const result = await apiCaller.tenants.update({
-      pathParams: { tenantId: tenant.id },
       body: {
-        name: data.name,
         description: data.description,
         domain: data.domain,
+        name: data.name,
       },
+      pathParams: { tenantId: tenant.id },
     });
     if (!result.ok) return;
 

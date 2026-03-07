@@ -23,14 +23,14 @@ const Buttons = ({ campaign, userMadeChange, notifyUsersCampaignWasUpdated }: Pr
   const handleOnSave = async () => {
     if (campaign.id === undefined) {
       await apiCaller.campaigns.create({
-        pathParams: { tenantId: campaign.tenantId },
         body: campaign,
+        pathParams: { tenantId: campaign.tenantId },
       });
     } else {
       notifyUsersCampaignWasUpdated();
       await apiCaller.campaigns.update({
-        pathParams: { tenantId: campaign.tenantId, campaignId: campaign.id },
         body: campaign,
+        pathParams: { campaignId: campaign.id, tenantId: campaign.tenantId },
       });
     }
     returnToCampaigns();

@@ -11,8 +11,6 @@ import { DbService } from '../services/db.service';
 /* ---------- QUERY SCHEMA ---------- */
 
 const getExecutionGroupsQuerySchema = z.object({
-  textSearch: z.string(),
-
   orderBy: z.enum(['name', 'id']),
 
   orderDirection: z.enum(commonConstants.executionGroupOrderDirection),
@@ -23,6 +21,7 @@ const getExecutionGroupsQuerySchema = z.object({
     .number()
     .int()
     .refine((v) => quantitiesAvailable.includes(v), { message: 'Invalid quantity' }),
+  textSearch: z.string(),
 });
 
 type GetExecutionGroupsQueryDto = z.infer<typeof getExecutionGroupsQuerySchema>;
@@ -30,15 +29,14 @@ type GetExecutionGroupsQueryDto = z.infer<typeof getExecutionGroupsQuerySchema>;
 /* ---------- BODY SCHEMA ---------- */
 
 const executionGroupSchema = z.object({
+  campaignIds: z.array(z.number().int()),
   name: z.string(),
-
-  waitForEveryCampaignToBeEvaluated: z.boolean(),
-
-  onlyOneCampaignPerPageLoad: z.boolean(),
 
   onlyCampaignsPreviouslyExecuted: z.boolean(),
 
-  campaignIds: z.array(z.number().int()),
+  onlyOneCampaignPerPageLoad: z.boolean(),
+
+  waitForEveryCampaignToBeEvaluated: z.boolean(),
 });
 
 type ExecutionGroupDto = z.infer<typeof executionGroupSchema>;
@@ -56,8 +54,8 @@ export class ExecutionGroupsController {
     @Query(new ZodValidationPipe(getExecutionGroupsQuerySchema)) query: GetExecutionGroupsQueryDto,
   ): Promise<TypeApiExecutionGroups['getMany']['response']> {
     const executionGroups = await this.dbService.executionGroup.getMany({
-      tenantId,
       params: query,
+      tenantId,
     });
 
     return executionGroups;
@@ -70,8 +68,8 @@ export class ExecutionGroupsController {
     @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
   ): Promise<TypeApiExecutionGroups['get']['response']> {
     const result = await this.dbService.executionGroup.get({
-      tenantId,
       executionGroupId,
+      tenantId,
     });
 
     if (!result) throw new NotFoundException();
@@ -90,9 +88,9 @@ export class ExecutionGroupsController {
     const { campaignIds, ...values } = body;
 
     await this.dbService.executionGroup.create({
+      campaignIds,
       tenantId,
       values,
-      campaignIds,
     });
 
     return {};
@@ -108,10 +106,10 @@ export class ExecutionGroupsController {
     const { campaignIds, ...values } = body;
 
     await this.dbService.executionGroup.update({
-      tenantId,
-      executionGroupId,
-      values,
       campaignIds,
+      executionGroupId,
+      tenantId,
+      values,
     });
 
     return {};
@@ -124,8 +122,8 @@ export class ExecutionGroupsController {
     @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
   ): Promise<TypeApiExecutionGroups['update']['response']> {
     await this.dbService.executionGroup.remove({
-      tenantId,
       executionGroupId,
+      tenantId,
     });
 
     return {};

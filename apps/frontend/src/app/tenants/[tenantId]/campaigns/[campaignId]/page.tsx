@@ -19,7 +19,7 @@ const Page = async (props: PageProps) => {
   if (!tenantResponse.ok) return redirect(constants.pages.tenants());
   const tenant = await tenantResponse.json();
 
-  const campaignResponse = await apiCaller.campaigns.get({ pathParams: { tenantId, campaignId } });
+  const campaignResponse = await apiCaller.campaigns.get({ pathParams: { campaignId, tenantId } });
   if (!campaignResponse.ok) return redirect(constants.pages.campaigns({ tenantId }));
 
   const initialCampaign = await campaignResponse.json();

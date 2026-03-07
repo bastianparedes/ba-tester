@@ -1,48 +1,48 @@
 {
-  "version": "7",
   "dialect": "postgresql",
   "entries": [
     {
+      "breakpoints": true,
       "idx": 0,
-      "version": "7",
-      "when": 1768768038706,
       "tag": "0000_mute_jackal",
-      "breakpoints": true
+      "version": "7",
+      "when": 1768768038706
     },
     {
+      "breakpoints": true,
       "idx": 1,
-      "version": "7",
-      "when": 1771774808192,
       "tag": "0001_greedy_tiger_shark",
-      "breakpoints": true
+      "version": "7",
+      "when": 1771774808192
     },
     {
+      "breakpoints": true,
       "idx": 2,
-      "version": "7",
-      "when": 1772127102657,
       "tag": "0002_certain_chat",
-      "breakpoints": true
+      "version": "7",
+      "when": 1772127102657
     },
     {
+      "breakpoints": true,
       "idx": 3,
-      "version": "7",
-      "when": 1772145552129,
       "tag": "0003_luxuriant_true_believers",
-      "breakpoints": true
+      "version": "7",
+      "when": 1772145552129
     },
     {
+      "breakpoints": true,
       "idx": 4,
-      "version": "7",
-      "when": 1772155826268,
       "tag": "0004_demonic_dragon_man",
-      "breakpoints": true
+      "version": "7",
+      "when": 1772155826268
     },
     {
+      "breakpoints": true,
       "idx": 5,
-      "version": "7",
-      "when": 1772560752779,
       "tag": "0005_certain_ricochet",
-      "breakpoints": true
+      "version": "7",
+      "when": 1772560752779
     }
-  ]
+  ],
+  "version": "7"
 }

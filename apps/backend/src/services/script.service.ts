@@ -15,10 +15,10 @@ const getMinifiedHtml = async (html: string): Promise<string> => {
   try {
     const minifiedHtml = await minifyHtml(html, {
       collapseWhitespace: true,
-      minifyJS: true,
       minifyCSS: true,
-      removeComments: true,
+      minifyJS: true,
       removeAttributeQuotes: false,
+      removeComments: true,
     });
     return minifiedHtml;
   } catch (err) {
@@ -38,15 +38,15 @@ const getMinifiedCss = (css: string): string => {
 const getMinifiedJs = async (js: string) => {
   const result = await minifyJs(js, {
     compress: {
-      passes: 2,
-      drop_debugger: true,
       drop_console: false,
+      drop_debugger: true,
+      passes: 2,
       pure_funcs: ['alert'],
     },
-    mangle: true,
     format: {
       comments: false,
     },
+    mangle: true,
   });
 
   return result.code ?? '';
@@ -134,8 +134,8 @@ export class ScriptService {
       campaign.variations.map(async (variation) => {
         return {
           ...variation,
-          html: await getMinifiedHtml(variation.html),
           css: getMinifiedCss(variation.css),
+          html: await getMinifiedHtml(variation.html),
           javascript: this.getFunctionFromBody({ body: variation.javascript }),
         };
       }),
@@ -171,7 +171,7 @@ export class ScriptService {
 
   async populateScript({ tenantId }: { tenantId: number }): Promise<string> {
     const script = await this.generateScript({ tenantId });
-    await this.cacheService.scripts.save({ tenantId, code: script });
+    await this.cacheService.scripts.save({ code: script, tenantId });
     return script;
   }
 
@@ -184,7 +184,7 @@ export class ScriptService {
     if (cachedScript) return cachedScript;
 
     const script = await this.generateScript({ tenantId });
-    await this.cacheService.scripts.save({ tenantId, code: script });
+    await this.cacheService.scripts.save({ code: script, tenantId });
     return script;
   }
 }

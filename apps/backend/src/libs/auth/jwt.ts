@@ -12,9 +12,9 @@ const getTokenData = ({ token, purpose }: { token: string; purpose: TokenPurpose
   try {
     const payload = jwt.verify(token, env.JWT_SECRET) as Payload;
     if (purpose !== payload.purpose) throw new Error('Invalid token purpose');
-    return { valid: true, id: payload.id };
+    return { id: payload.id, valid: true };
   } catch {
-    return { valid: false, id: null };
+    return { id: null, valid: false };
   }
 };
 

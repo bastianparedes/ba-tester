@@ -1,17 +1,5 @@
 {
-  "name": "backend",
-  "version": "0.0.1",
   "author": "Bastián Gabriel Paredes Padget",
-  "scripts": {
-    "build:script": "vite build",
-    "postbuild": "npm run build:script",
-    "build": "nest build",
-    "start": "NODE_ENV=production nest start",
-    "start:dev": "NODE_ENV=development nest start --watch & nodemon",
-    "start:debug": "npm run start:dev -- --debug ",
-    "start:prod": "NODE_ENV=production node dist/main",
-    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/repositories/postgres/schema.ts --out=./src/repositories/postgres/migrations"
-  },
   "dependencies": {
     "@nestjs/cli": "^11.0.16",
     "@nestjs/common": "^11.1.12",
@@ -50,5 +38,17 @@
     "source-map-support": "^0.5.21",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
-  }
+  },
+  "name": "backend",
+  "scripts": {
+    "build": "nest build",
+    "build:script": "vite build",
+    "generate-migration": "drizzle-kit generate --dialect=postgresql --schema=./src/repositories/postgres/schema.ts --out=./src/repositories/postgres/migrations",
+    "postbuild": "npm run build:script",
+    "start": "NODE_ENV=production nest start",
+    "start:debug": "npm run start:dev -- --debug ",
+    "start:dev": "NODE_ENV=development nest start --watch & nodemon",
+    "start:prod": "NODE_ENV=production node dist/main"
+  },
+  "version": "0.0.1"
 }

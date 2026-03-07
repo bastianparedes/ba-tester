@@ -1,12 +1,5 @@
 {
-  "name": "ba-tester",
-  "version": "1.0.0",
   "author": "Bastián Gabriel Paredes Padget",
-  "scripts": {
-    "build": "next build",
-    "dev": "next dev --webpack",
-    "start": "next start"
-  },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "class-variance-authority": "^0.7.1",
@@ -28,5 +21,12 @@
     "tailwindcss": "^4",
     "ts-loader": "^9.5.4",
     "typescript": "^5"
-  }
+  },
+  "name": "ba-tester",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --webpack",
+    "start": "next start"
+  },
+  "version": "1.0.0"
 }

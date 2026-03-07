@@ -14,44 +14,41 @@ client.connect();
  * ============================================================ */
 
 const cache = {
-  async set({ key, value, minutes }: { key: string; value: string; minutes: number }) {
-    await client.set(key, value, { EX: minutes * 60 });
+  async del({ key }: { key: string }) {
+    await client.del(key);
   },
 
   async get({ key }: { key: string }) {
     return await client.get(key);
   },
-
-  async del({ key }: { key: string }) {
-    await client.del(key);
+  async set({ key, value, minutes }: { key: string; value: string; minutes: number }) {
+    await client.set(key, value, { EX: minutes * 60 });
   },
 };
 
 @Injectable()
 export class CacheService {
   scripts = {
-    async save({ tenantId, code }: { tenantId: number; code: string }) {
-      if (env.NODE_ENV !== 'production') return;
+    async del({ tenantId }: { tenantId: number }): Promise<void> {
       const key = `tenant:${tenantId}:public_script`;
-      const minutes = 1;
-      await cache.set({ key, value: code, minutes });
+      await cache.del({ key });
     },
 
     async get({ tenantId }: { tenantId: number }): Promise<string | null> {
       const key = `tenant:${tenantId}:public_script`;
       return cache.get({ key });
     },
-    async del({ tenantId }: { tenantId: number }): Promise<void> {
+    async save({ tenantId, code }: { tenantId: number; code: string }) {
+      if (env.NODE_ENV !== 'production') return;
       const key = `tenant:${tenantId}:public_script`;
-      await cache.del({ key });
+      const minutes = 1;
+      await cache.set({ key, minutes, value: code });
     },
   };
   users = {
-    async save({ user }: { user: TypeUser }) {
-      if (env.NODE_ENV !== 'production') return;
-      const key = `user:${user.id}`;
-      const minutes = 5;
-      await cache.set({ key, value: JSON.stringify(user), minutes });
+    async clear({ userIds }: { userIds: TypeUser['id'][] }) {
+      const keys = userIds.map((id) => `user:${id}`);
+      await client.del(keys);
     },
     async get({ userId }: { userId: TypeUser['id'] }): Promise<TypeUser | null> {
       const key = `user:${userId}`;
@@ -59,9 +56,11 @@ export class CacheService {
       if (!result) return null;
       return JSON.parse(result);
     },
-    async clear({ userIds }: { userIds: TypeUser['id'][] }) {
-      const keys = userIds.map((id) => `user:${id}`);
-      await client.del(keys);
+    async save({ user }: { user: TypeUser }) {
+      if (env.NODE_ENV !== 'production') return;
+      const key = `user:${user.id}`;
+      const minutes = 5;
+      await cache.set({ key, minutes, value: JSON.stringify(user) });
     },
   };
 }

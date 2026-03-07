@@ -43,8 +43,8 @@ export function ClientPage({ tenantId }: PageProps) {
           if (state.sortConfig.key !== action.payload)
             return {
               ...state,
-              sortConfig: { key: action.payload, direction: 'asc' },
               currentPage: 0,
+              sortConfig: { direction: 'asc', key: action.payload },
             };
 
           const newDirection = {
@@ -53,8 +53,8 @@ export function ClientPage({ tenantId }: PageProps) {
           }[state.sortConfig.direction];
           return {
             ...state,
-            sortConfig: { ...state.sortConfig, direction: newDirection },
             currentPage: 0,
+            sortConfig: { ...state.sortConfig, direction: newDirection },
           };
         }
         case 'SET_NAME_FILTER':
@@ -70,11 +70,11 @@ export function ClientPage({ tenantId }: PageProps) {
       }
     },
     {
-      sortConfig: { key: 'id', direction: 'asc' },
-      nameFilter: '',
-      itemsPerPage: quantitiesAvailable[0],
-      totalItems: 0,
       currentPage: 0,
+      itemsPerPage: quantitiesAvailable[0],
+      nameFilter: '',
+      sortConfig: { direction: 'asc', key: 'id' },
+      totalItems: 0,
     },
   );
 
@@ -90,11 +90,11 @@ export function ClientPage({ tenantId }: PageProps) {
     const result = await apiCaller.executionGroups.getMany({
       pathParams: { tenantId },
       queryParams: {
-        textSearch: state.nameFilter,
         orderBy: state.sortConfig.key,
         orderDirection: state.sortConfig.direction,
         page: state.currentPage,
         quantity: state.itemsPerPage,
+        textSearch: state.nameFilter,
         ...args,
       },
     });
@@ -102,7 +102,7 @@ export function ClientPage({ tenantId }: PageProps) {
     if (result.ok) {
       const json = await result.json();
       setExecutionGroups(json.executionGroups);
-      dispatch({ type: 'SET_TOTAL_ITEMS', payload: json.count });
+      dispatch({ payload: json.count, type: 'SET_TOTAL_ITEMS' });
     }
   };
   const totalPages = Math.ceil(state.totalItems / state.itemsPerPage);
@@ -112,7 +112,7 @@ export function ClientPage({ tenantId }: PageProps) {
   }, [state.currentPage, state.sortConfig]);
 
   const onApplyFilters = () => {
-    dispatch({ type: 'SET_CURRENT_PAGE', payload: 0 });
+    dispatch({ payload: 0, type: 'SET_CURRENT_PAGE' });
     queryCampaigns({ page: 0 });
   };
 
@@ -127,11 +127,11 @@ export function ClientPage({ tenantId }: PageProps) {
 
   const deleteExecutionGroup = async ({ executionGroup }: { executionGroup: TypeExecutionGroup }) => {
     const result = await confirm({
-      title: `Delete execution group (id: ${executionGroup.id}) "${executionGroup.name}"`,
       description: 'You are about to delete an execution group and this change can not be undone. Are you sure tou want to delete this execution group?',
+      title: `Delete execution group (id: ${executionGroup.id}) "${executionGroup.name}"`,
     });
     if (!result) return;
-    await apiCaller.executionGroups.delete({ pathParams: { tenantId, executionGroupId: executionGroup.id } });
+    await apiCaller.executionGroups.delete({ pathParams: { executionGroupId: executionGroup.id, tenantId } });
     location.reload();
   };
 
@@ -146,7 +146,7 @@ export function ClientPage({ tenantId }: PageProps) {
           </div>
           <Button
             disabled={!user.permissions.canCreateExecutionGroup}
-            href={user.permissions.canCreateExecutionGroup ? config.pages.executionGroup({ tenantId, executionGroupId: undefined }) : undefined}
+            href={user.permissions.canCreateExecutionGroup ? config.pages.executionGroup({ executionGroupId: undefined, tenantId }) : undefined}
           >
             <PlusCircle />
             {translation.executionGroups.createButton}
@@ -159,14 +159,14 @@ export function ClientPage({ tenantId }: PageProps) {
               <thead className="bg-slate-800 text-white">
                 <tr>
                   <th
-                    onClick={() => dispatch({ type: 'SET_SORT', payload: 'id' })}
+                    onClick={() => dispatch({ payload: 'id', type: 'SET_SORT' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
                     {translation.executionGroups.tableId}
                     <SortIcon column="id" />
                   </th>
                   <th
-                    onClick={() => dispatch({ type: 'SET_SORT', payload: 'name' })}
+                    onClick={() => dispatch({ payload: 'name', type: 'SET_SORT' })}
                     className="px-6 py-4 text-left text-sm font-semibold cursor-pointer hover:bg-slate-700 transition-colors select-none"
                   >
                     {translation.executionGroups.tableName}
@@ -186,8 +186,8 @@ export function ClientPage({ tenantId }: PageProps) {
                           href={
                             user.permissions.canReadCampaign
                               ? config.pages.executionGroup({
-                                  tenantId,
                                   executionGroupId: executionGroup.id,
+                                  tenantId,
                                 })
                               : ''
                           }
@@ -200,8 +200,8 @@ export function ClientPage({ tenantId }: PageProps) {
                           href={
                             user.permissions.canReadCampaign
                               ? config.pages.executionGroup({
-                                  tenantId,
                                   executionGroupId: executionGroup.id,
+                                  tenantId,
                                 })
                               : ''
                           }
@@ -214,8 +214,8 @@ export function ClientPage({ tenantId }: PageProps) {
                           href={
                             user.permissions.canReadCampaign
                               ? config.pages.executionGroup({
-                                  tenantId,
                                   executionGroupId: executionGroup.id,
+                                  tenantId,
                                 })
                               : ''
                           }
@@ -229,8 +229,8 @@ export function ClientPage({ tenantId }: PageProps) {
                           disabled={!user.permissions.canUpdateExecutionGroup}
                           onClick={() => {
                             location.href = config.pages.executionGroup({
-                              tenantId,
                               executionGroupId: executionGroup.id,
+                              tenantId,
                             });
                           }}
                           className="p-3 text-blue-500 hover:enabled:bg-blue-200 rounded-lg transition-colors disabled:opacity-80 disabled:cursor-not-allowed"
@@ -264,7 +264,7 @@ export function ClientPage({ tenantId }: PageProps) {
 
         {/* Paginación */}
         <div className="mt-6 flex items-center justify-center bg-white rounded-lg shadow p-4">
-          <Pagination totalPages={totalPages} page={state.currentPage + 1} onChange={(newPage) => dispatch({ type: 'SET_CURRENT_PAGE', payload: newPage })} />
+          <Pagination totalPages={totalPages} page={state.currentPage + 1} onChange={(newPage) => dispatch({ payload: newPage, type: 'SET_CURRENT_PAGE' })} />
         </div>
       </div>
 
@@ -283,7 +283,7 @@ export function ClientPage({ tenantId }: PageProps) {
             <input
               type="text"
               value={state.nameFilter}
-              onChange={(e) => dispatch({ type: 'SET_NAME_FILTER', payload: e.target.value })}
+              onChange={(e) => dispatch({ payload: e.target.value, type: 'SET_NAME_FILTER' })}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -294,8 +294,8 @@ export function ClientPage({ tenantId }: PageProps) {
               value={state.itemsPerPage}
               onChange={(e) =>
                 dispatch({
-                  type: 'SET_ITEMS_PER_PAGE',
                   payload: Number(e.target.value),
+                  type: 'SET_ITEMS_PER_PAGE',
                 })
               }
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"

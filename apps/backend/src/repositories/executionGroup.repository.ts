@@ -119,13 +119,13 @@ export class ExecutionGroupRepository {
 
     const executionGroups = await db
       .select({
+        campaignsCount: sql<number>`count(${schema.campaigns.id})`,
         id: schema.executionGroups.id,
         name: schema.executionGroups.name,
-        waitForEveryCampaignToBeEvaluated: schema.executionGroups.waitForEveryCampaignToBeEvaluated,
-        onlyOneCampaignPerPageLoad: schema.executionGroups.onlyOneCampaignPerPageLoad,
         onlyCampaignsPreviouslyExecuted: schema.executionGroups.onlyCampaignsPreviouslyExecuted,
+        onlyOneCampaignPerPageLoad: schema.executionGroups.onlyOneCampaignPerPageLoad,
         tenantId: schema.executionGroups.tenantId,
-        campaignsCount: sql<number>`count(${schema.campaigns.id})`,
+        waitForEveryCampaignToBeEvaluated: schema.executionGroups.waitForEveryCampaignToBeEvaluated,
       })
       .from(schema.executionGroups)
       .where(and(eq(schema.executionGroups.tenantId, tenantId), ilike(schema.executionGroups.name, treatedTextSearch)))
@@ -143,8 +143,8 @@ export class ExecutionGroupRepository {
       .where(and(eq(schema.executionGroups.tenantId, tenantId), ilike(schema.executionGroups.name, treatedTextSearch)));
 
     return {
-      executionGroups,
       count: Number(count),
+      executionGroups,
     };
   };
 
@@ -165,8 +165,8 @@ export class ExecutionGroupRepository {
     if (result) {
       const { campaigns, ...executionGroup } = result;
       return {
-        executionGroup,
         campaigns,
+        executionGroup,
       };
     }
     return result;

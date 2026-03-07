@@ -59,12 +59,12 @@ export class CampaignRepository {
 
     const campaigns = await db
       .select({
+        executionGroup: schema.executionGroups,
+        executionGroupId: schema.campaigns.executionGroupId,
         id: schema.campaigns.id,
         name: schema.campaigns.name,
         status: schema.campaigns.status,
         tenantId: schema.campaigns.tenantId,
-        executionGroupId: schema.campaigns.executionGroupId,
-        executionGroup: schema.executionGroups,
       })
       .from(schema.campaigns)
       .leftJoin(schema.executionGroups, eq(schema.campaigns.executionGroupId, schema.executionGroups.id))
@@ -111,8 +111,8 @@ export class CampaignRepository {
   getAllLight = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
     const campaigns = await db.query.campaigns.findMany({
       columns: {
-        triggers: false,
         requirements: false,
+        triggers: false,
         variations: false,
       },
       where: eq(schema.campaigns.tenantId, tenantId),

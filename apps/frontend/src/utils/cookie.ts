@@ -29,7 +29,7 @@ const set = ({
 };
 
 const remove = ({ name }: { name: string }) => {
-  set({ name, value: '', exdays: -1 });
+  set({ exdays: -1, name, value: '' });
 };
 
 const cookie = { get, remove, set };

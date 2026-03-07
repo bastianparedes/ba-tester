@@ -30,8 +30,8 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
   useEffect(() => {
     const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/campaigns`, {
       auth: {
-        tenantId,
         campaignId,
+        tenantId,
       },
       transports: ['websocket'],
       withCredentials: true,
@@ -53,7 +53,7 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
   }, []);
 
   const notifyUsersCampaignWasUpdated = () => {
-    socketRef.current?.emit('user-updated-campaign', { tenantId, campaignId });
+    socketRef.current?.emit('user-updated-campaign', { campaignId, tenantId });
   };
 
   return (

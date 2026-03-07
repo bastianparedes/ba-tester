@@ -13,8 +13,8 @@ async function bootstrap() {
   app.useWebSocketAdapter(redisAdapter);
 
   app.enableCors({
-    origin: true,
     credentials: true,
+    origin: true,
   });
   await app.listen(env.PORT);
 }

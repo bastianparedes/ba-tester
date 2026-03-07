@@ -21,12 +21,12 @@ export class AuthController {
   @Get()
   async logOut(@Res({ passthrough: true }) res: Response): Promise<TypeApiSessions['logOut']['response']> {
     res.clearCookie(cookieNames.token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      path: '/',
       domain: env.DOMAIN,
+      httpOnly: true,
       maxAge: -1,
+      path: '/',
+      sameSite: 'none',
+      secure: true,
     });
 
     return {};
@@ -48,12 +48,12 @@ export class AuthController {
 
     const miliseconds = secondsTokenIsValid * 1000;
     res.cookie(cookieNames.token, token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      path: '/',
       domain: env.DOMAIN,
+      httpOnly: true,
       maxAge: miliseconds,
+      path: '/',
+      sameSite: 'none',
+      secure: true,
     });
     return {};
   }

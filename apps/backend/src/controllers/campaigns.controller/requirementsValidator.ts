@@ -9,67 +9,65 @@ const StorageComparatorWithoutValue = z.enum([constants.comparisons.exists, cons
 
 const TypeStorageComparisonDataSchema = z.union([
   z.object({
-    name: z.string(),
     comparator: StorageComparatorWithValue,
+    name: z.string(),
     value: z.string(),
   }),
   z.object({
-    name: z.string(),
     comparator: StorageComparatorWithoutValue,
+    name: z.string(),
   }),
 ]);
 
 const CookieRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.cookie),
   data: TypeStorageComparisonDataSchema,
+  type: z.literal(constants.requirementTypes.cookie),
 });
 
 const LocalStorageRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.localStorage),
   data: TypeStorageComparisonDataSchema,
+  type: z.literal(constants.requirementTypes.localStorage),
 });
 
 const SessionStorageRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.sessionStorage),
   data: TypeStorageComparisonDataSchema,
+  type: z.literal(constants.requirementTypes.sessionStorage),
 });
 
 const QueryParamRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.queryParam),
   data: TypeStorageComparisonDataSchema,
+  type: z.literal(constants.requirementTypes.queryParam),
 });
 
 const CustomRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.custom),
   data: z.object({
-    name: z.string(),
     javascript: z.string().refine((val) => jsCodeHasCorrectSyntax(val), {
       message: 'Invalid JavaScript code',
     }),
+    name: z.string(),
   }),
+  type: z.literal(constants.requirementTypes.custom),
 });
 
 const DeviceRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.device),
   data: z.object({
     comparator: z.enum([constants.comparisons.is, constants.comparisons.isNot]),
     device: z.enum([constants.devices.desktop, constants.devices.mobile]),
   }),
+  type: z.literal(constants.requirementTypes.device),
 });
 
 const UrlRequirementSchema = z.object({
-  type: z.literal(constants.requirementTypes.url),
   data: z.object({
     comparator: z.enum([constants.comparisons.is, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]),
     value: z.string(),
   }),
+  type: z.literal(constants.requirementTypes.url),
 });
 
 export const nodeRequirementSchema: z.ZodType<TypeNodeRequirement> = z.lazy(() =>
   z.object({
-    type: z.literal(constants.requirementTypes.node),
     data: z.object({
-      operator: z.enum([constants.booleanOperators.and, constants.booleanOperators.or]),
       children: z.array(
         z.union([
           nodeRequirementSchema,
@@ -82,6 +80,8 @@ export const nodeRequirementSchema: z.ZodType<TypeNodeRequirement> = z.lazy(() =
           UrlRequirementSchema,
         ]),
       ),
+      operator: z.enum([constants.booleanOperators.and, constants.booleanOperators.or]),
     }),
+    type: z.literal(constants.requirementTypes.node),
   }),
 );

@@ -99,18 +99,18 @@ const windowKey = 'ba_tester';
 
 const constants = {
   booleanOperators,
-  campaignRequirements,
-  executionGroupOrderDirection,
-  campaignStatus,
   campaignOrderDirection,
+  campaignRequirements,
+  campaignStatus,
   comparisons,
   devices,
+  executionGroupOrderDirection,
   limitTypes,
   nodeTypes,
   requirementTypes,
   status,
-  triggerTypes,
   triggers,
+  triggerTypes,
   typeRepetitions,
   windowKey,
 } as const;

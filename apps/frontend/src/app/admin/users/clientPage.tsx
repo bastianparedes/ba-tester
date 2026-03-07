@@ -27,34 +27,34 @@ export function ClientPage({ initialUsers, roles }: Props) {
         title: translation.users.newUser,
       },
       {
-        name: {
-          label: translation.users.name,
-          type: 'text',
-          value: '',
-          required: true,
-        },
         email: {
+          forbiddenValues: users.map((user) => user.email),
           label: translation.users.email,
+          required: true,
           type: 'email',
           value: '',
+        },
+        name: {
+          label: translation.users.name,
           required: true,
-          forbiddenValues: users.map((user) => user.email),
+          type: 'text',
+          value: '',
         },
         password: {
           label: translation.users.password,
+          required: true,
           type: 'password',
           value: '',
-          required: true,
         },
         roleId: {
           label: translation.users.role,
-          type: 'select',
           options: roles.map((role) => ({
             label: role.name,
             value: String(role.id),
           })),
-          value: '',
           required: true,
+          type: 'select',
+          value: '',
         },
       },
     );
@@ -62,8 +62,8 @@ export function ClientPage({ initialUsers, roles }: Props) {
 
     const apiResponse = await apiCaller.users.create({
       body: {
-        name: data.name,
         email: data.email,
+        name: data.name,
         password: data.password,
         roleId: Number(data.roleId),
       },
@@ -77,28 +77,28 @@ export function ClientPage({ initialUsers, roles }: Props) {
         title: `${translation.users.editUser} "${user.name}"`,
       },
       {
-        name: {
-          label: translation.users.name,
-          type: 'text',
-          value: user.name,
-          required: true,
-        },
         email: {
+          forbiddenValues: users.filter((userInArray) => userInArray.email !== user.email).map((userInArray) => userInArray.email),
           label: translation.users.email,
+          required: true,
           type: 'email',
           value: user.email,
+        },
+        name: {
+          label: translation.users.name,
           required: true,
-          forbiddenValues: users.filter((userInArray) => userInArray.email !== user.email).map((userInArray) => userInArray.email),
+          type: 'text',
+          value: user.name,
         },
         roleId: {
           label: translation.users.role,
-          type: 'select',
           options: roles.map((role) => ({
             label: role.name,
             value: String(role.id),
           })),
-          value: String(user.role.id),
           required: true,
+          type: 'select',
+          value: String(user.role.id),
         },
       },
     );
@@ -106,8 +106,8 @@ export function ClientPage({ initialUsers, roles }: Props) {
 
     const apiResponse = await apiCaller.users.update({
       body: {
-        name: data.name,
         email: data.email,
+        name: data.name,
         roleId: Number(data.roleId),
       },
       pathParams: { userId: user.id },

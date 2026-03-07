@@ -30,8 +30,8 @@ const Page = async (props: PageProps) => {
     >
       <ClientPage
         initialCampaign={{
+          executionGroupId: null,
           id: undefined,
-          tenantId,
           name: 'New Campaign Name',
           requirements: {
             data: {
@@ -41,9 +41,9 @@ const Page = async (props: PageProps) => {
             type: 'node',
           },
           status: commonConstants.status.active,
+          tenantId,
           triggers: [],
           variations: [],
-          executionGroupId: null,
         }}
         tenantId={tenantId}
         campaignId={undefined}

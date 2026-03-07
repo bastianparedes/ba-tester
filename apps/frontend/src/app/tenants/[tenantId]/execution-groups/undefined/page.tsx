@@ -34,10 +34,10 @@ const Page = async (props: PageProps) => {
         initialExecutionGroup={{
           id: undefined,
           name: 'New execution group name',
-          waitForEveryCampaignToBeEvaluated: true,
-          onlyOneCampaignPerPageLoad: true,
           onlyCampaignsPreviouslyExecuted: true,
+          onlyOneCampaignPerPageLoad: true,
           tenantId,
+          waitForEveryCampaignToBeEvaluated: true,
         }}
         initialCampaigns={[]}
         tenantId={tenantId}

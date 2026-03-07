@@ -30,26 +30,26 @@ export function ClientPage({ initialRoles }: Props) {
         title: translation.roles.newRole,
       },
       {
-        name: {
-          label: translation.roles.name,
-          type: 'text',
-          value: '',
-          required: true,
-          forbiddenValues: [...roles.map((role) => role.name)],
-        },
         description: {
           label: translation.roles.description,
+          required: true,
           type: 'textarea',
           value: '',
+        },
+        name: {
+          forbiddenValues: [...roles.map((role) => role.name)],
+          label: translation.roles.name,
           required: true,
+          type: 'text',
+          value: '',
         },
       },
     );
     if (!data) return;
     const apiResult = await apiCaller.roles.create({
       body: {
-        name: data.name,
         description: data.description,
+        name: data.name,
         permissions: [],
       },
     });
@@ -164,7 +164,7 @@ export function ClientPage({ initialRoles }: Props) {
                         <h3 className="font-semibold text-gray-900">{permission}</h3>
                         {/* <p className="text-sm text-gray-500 mt-1">Descripción del permiso</p> */}
                       </div>
-                      <Switch disabled={!user.permissions.canUpdateRole} checked={isActive} onChange={() => togglePermission({ role: currentRole, permission })} />
+                      <Switch disabled={!user.permissions.canUpdateRole} checked={isActive} onChange={() => togglePermission({ permission, role: currentRole })} />
                     </div>
                   </div>
                 );

@@ -35,17 +35,17 @@ export function TranslationProvider({ children, language }: TranslationProviderP
   const setLanguage = (newLanguage: Language) => {
     setSelectedLanguage(newLanguage);
     cookie.set({
+      exdays: 365,
       name: cookieNames.lang,
       value: newLanguage,
-      exdays: 365,
     });
   };
 
   const translation = languagesObject[selectedLanguage].labels;
   const languages = languageKeys.map((key: Language) => ({
+    isSelected: key === selectedLanguage,
     key: key,
     name: languagesObject[key].name,
-    isSelected: key === selectedLanguage,
   }));
 
   const selectedLanguageObject = {
@@ -56,10 +56,10 @@ export function TranslationProvider({ children, language }: TranslationProviderP
   return (
     <TranslationContext.Provider
       value={{
-        translation,
-        selectedLanguage: selectedLanguageObject,
         languages,
+        selectedLanguage: selectedLanguageObject,
         setLanguage,
+        translation,
       }}
     >
       {children}

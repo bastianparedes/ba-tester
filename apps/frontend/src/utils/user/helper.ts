@@ -65,28 +65,28 @@ export type TypeFullUser =
       };
     };
 export const getUserPermissions = (user: TypeUser | null) => ({
-  canReadRole: !!user && user.role.permissions.includes(permissions.role.read),
+  canCreateCampaign: !!user && user.role.permissions.includes(permissions.campaign.create),
+  canCreateExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.create),
   canCreateRole: !!user && user.role.permissions.includes(permissions.role.create),
-  canUpdateRole: !!user && user.role.permissions.includes(permissions.role.update),
-  canDeleteRole: !!user && user.role.permissions.includes(permissions.role.delete),
-
-  canReadUser: !!user && user.role.permissions.includes(permissions.user.read),
+  canCreateTenant: !!user && user.role.permissions.includes(permissions.tenant.create),
   canCreateUser: !!user && user.role.permissions.includes(permissions.user.create),
-  canUpdateUser: !!user && user.role.permissions.includes(permissions.user.update),
+  canDeleteCampaign: !!user && user.role.permissions.includes(permissions.campaign.delete),
+  canDeleteExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.delete),
+  canDeleteRole: !!user && user.role.permissions.includes(permissions.role.delete),
+  canDeleteTenant: !!user && user.role.permissions.includes(permissions.tenant.delete),
   canDeleteUser: !!user && user.role.permissions.includes(permissions.user.delete),
 
-  canReadTenant: !!user && user.role.permissions.includes(permissions.tenant.read),
-  canCreateTenant: !!user && user.role.permissions.includes(permissions.tenant.create),
-  canUpdateTenant: !!user && user.role.permissions.includes(permissions.tenant.update),
-  canDeleteTenant: !!user && user.role.permissions.includes(permissions.tenant.delete),
-
   canReadCampaign: !!user && user.role.permissions.includes(permissions.campaign.read),
-  canCreateCampaign: !!user && user.role.permissions.includes(permissions.campaign.create),
-  canUpdateCampaign: !!user && user.role.permissions.includes(permissions.campaign.update),
-  canDeleteCampaign: !!user && user.role.permissions.includes(permissions.campaign.delete),
 
   canReadExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.read),
-  canCreateExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.create),
+  canReadRole: !!user && user.role.permissions.includes(permissions.role.read),
+
+  canReadTenant: !!user && user.role.permissions.includes(permissions.tenant.read),
+
+  canReadUser: !!user && user.role.permissions.includes(permissions.user.read),
+  canUpdateCampaign: !!user && user.role.permissions.includes(permissions.campaign.update),
   canUpdateExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.update),
-  canDeleteExecutionGroup: !!user && user.role.permissions.includes(permissions.executionGroup.delete),
+  canUpdateRole: !!user && user.role.permissions.includes(permissions.role.update),
+  canUpdateTenant: !!user && user.role.permissions.includes(permissions.tenant.update),
+  canUpdateUser: !!user && user.role.permissions.includes(permissions.user.update),
 });

@@ -38,8 +38,8 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
   useEffect(() => {
     const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/execution-group`, {
       auth: {
-        tenantId,
         executionGroupId,
+        tenantId,
       },
       transports: ['websocket'],
       withCredentials: true,
@@ -62,8 +62,8 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
 
   const notifyUsersExecutionGroupWasUpdated = () => {
     socketRef.current?.emit('user-updated-execution-group', {
-      tenantId,
       executionGroup,
+      tenantId,
     });
   };
 
@@ -81,17 +81,17 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
 
     if (executionGroup.id === undefined) {
       await apiCaller.executionGroups.create({
-        pathParams: { tenantId: executionGroup.tenantId },
         body: { ...executionGroup, campaignIds },
+        pathParams: { tenantId: executionGroup.tenantId },
       });
     } else {
       notifyUsersExecutionGroupWasUpdated();
       await apiCaller.executionGroups.update({
-        pathParams: {
-          tenantId: executionGroup.tenantId,
-          executionGroupId: executionGroup.id,
-        },
         body: { ...executionGroup, campaignIds },
+        pathParams: {
+          executionGroupId: executionGroup.id,
+          tenantId: executionGroup.tenantId,
+        },
       });
     }
 

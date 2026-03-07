@@ -7,22 +7,22 @@ type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg';
 
 // Variantes del botón
 const buttonVariants: Record<'variant' | 'size', Record<string, string>> = {
+  size: {
+    default: 'h-9 px-4 py-2',
+    icon: 'w-9 h-9',
+    'icon-lg': 'w-10 h-10',
+    'icon-sm': 'w-8 h-8',
+    lg: 'h-10 rounded-md px-6',
+    sm: 'h-8 rounded-md gap-1.5 px-3',
+  },
   variant: {
     default: 'bg-blue-600 text-white hover:enabled:bg-blue-700',
     destructive: 'bg-red-500 text-white hover:enabled:bg-red-600 focus-visible:ring-red-200 dark:focus-visible:ring-red-900 dark:bg-red-600',
+    ghost: 'hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:hover:enabled:bg-gray-800',
+    link: 'text-blue-600 underline-offset-4 hover:enabled:underline',
     outline:
       'border border-gray-300 bg-white shadow-sm hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:hover:enabled:bg-gray-700',
     secondary: 'bg-gray-200 text-gray-900 hover:enabled:bg-gray-300',
-    ghost: 'hover:enabled:bg-gray-100 hover:enabled:text-gray-900 dark:hover:enabled:bg-gray-800',
-    link: 'text-blue-600 underline-offset-4 hover:enabled:underline',
-  },
-  size: {
-    default: 'h-9 px-4 py-2',
-    sm: 'h-8 rounded-md gap-1.5 px-3',
-    lg: 'h-10 rounded-md px-6',
-    icon: 'w-9 h-9',
-    'icon-sm': 'w-8 h-8',
-    'icon-lg': 'w-10 h-10',
   },
 };
 
