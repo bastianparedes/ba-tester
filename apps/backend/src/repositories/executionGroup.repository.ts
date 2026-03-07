@@ -9,15 +9,7 @@ import * as schema from './postgres/schema';
 
 @Injectable()
 export class ExecutionGroupRepository {
-  create = async ({
-    tenantId,
-    values,
-    campaignIds,
-  }: {
-    tenantId: TypeTenant['id'];
-    values: Omit<Omit<TypeExecutionGroup, 'id'>, 'tenantId'>;
-    campaignIds: TypeCampaign['id'][];
-  }) => {
+  create = async ({ tenantId, values, campaignIds }: { tenantId: TypeTenant['id']; values: TypeExecutionGroupUpdatable; campaignIds: TypeCampaign['id'][] }) => {
     const result = await db.transaction(async (tx) => {
       const [result] = await tx
         .insert(schema.executionGroups)

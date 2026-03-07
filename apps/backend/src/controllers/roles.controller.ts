@@ -7,22 +7,14 @@ import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 
 /* ---------- SCHEMAS ---------- */
-
-const newRoleSchema = z.object({
+const roleSchema = z.object({
   name: z.string(),
   description: z.string(),
+  permissions: z
+    .array(z.enum(flatPermissions as [string, ...string[]]))
+    .optional()
+    .default([]),
 });
-
-type NewRoleDto = z.infer<typeof newRoleSchema>;
-
-const oldRoleSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-
-  permissions: z.array(z.enum(flatPermissions as [string, ...string[]])),
-});
-
-type OldRoleDto = z.infer<typeof oldRoleSchema>;
 
 /* ---------- CONTROLLER ---------- */
 
@@ -39,14 +31,17 @@ export class RolesController {
 
   @UseGuards(AuthGuard(permissions.role.create))
   @Post()
-  async create(@Body(new ZodValidationPipe(newRoleSchema)) body: NewRoleDto): Promise<TypeApiRoles['create']['response']> {
+  async create(@Body(new ZodValidationPipe(roleSchema)) body: z.infer<typeof roleSchema>): Promise<TypeApiRoles['create']['response']> {
     await this.dbService.roles.create(body);
     return {};
   }
 
   @UseGuards(AuthGuard(permissions.role.update))
   @Put(':roleId')
-  async update(@Param('roleId', ParseIntPipe) roleId: number, @Body(new ZodValidationPipe(oldRoleSchema)) body: OldRoleDto): Promise<TypeApiRoles['update']['response']> {
+  async update(
+    @Param('roleId', ParseIntPipe) roleId: number,
+    @Body(new ZodValidationPipe(roleSchema)) body: z.infer<typeof roleSchema>,
+  ): Promise<TypeApiRoles['update']['response']> {
     await this.dbService.roles.update({
       roleId,
       updates: body,

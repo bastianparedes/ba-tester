@@ -48,7 +48,7 @@ export class UserRepository {
     return fullUser;
   };
 
-  create = async (data: { name: TypeUser['name']; email: TypeUser['email']; password: string; roleId: TypeRole['id'] }) => {
+  create = async (data: TypeUserUpdatable & { password: string }) => {
     await db.insert(schema.users).values({
       name: data.name,
       email: data.email,
@@ -59,6 +59,15 @@ export class UserRepository {
 
   update = async ({ userId, updates }: { userId: TypeUser['id']; updates: TypeUserUpdatable }) => {
     await db.update(schema.users).set(updates).where(eq(schema.users.id, userId));
+  };
+
+  updatePassword = async ({ userId, password }: { userId: TypeUser['id']; password: string }) => {
+    await db
+      .update(schema.users)
+      .set({
+        passwordHash: getPasswordHashed(password),
+      })
+      .where(eq(schema.users.id, userId));
   };
 
   getForLogin = async ({ email }: { email: TypeUser['email'] }): Promise<{ id: TypeUser['id']; email: TypeUser['email']; passwordHash: string }> => {

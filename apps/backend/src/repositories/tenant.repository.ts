@@ -6,8 +6,8 @@ import * as schema from './postgres/schema';
 
 @Injectable()
 export class TenantRepository {
-  create = async ({ name, description, domain }: { name: TypeTenant['name']; description: TypeTenant['description']; domain: TypeTenant['domain'] }) => {
-    const results = await db
+  create = async ({ name, description, domain }: TypeTenantUpdatable) => {
+    const [results] = await db
       .insert(schema.tenants)
       .values({
         name,
@@ -15,11 +15,11 @@ export class TenantRepository {
         domain,
       })
       .returning();
-    return results[0];
+    return results;
   };
 
   update = async ({ tenantId, values }: { tenantId: TypeTenant['id']; values: TypeTenantUpdatable }) => {
-    const result = await db
+    const [result] = await db
       .update(schema.tenants)
       .set({
         name: values.name,
@@ -28,7 +28,7 @@ export class TenantRepository {
       })
       .where(eq(schema.tenants.id, tenantId))
       .returning();
-    return result[0];
+    return result;
   };
 
   get = async ({ tenantId }: { tenantId: number }) => {
@@ -44,7 +44,7 @@ export class TenantRepository {
   };
 
   remove = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
-    const result = await db.delete(schema.tenants).where(eq(schema.tenants.id, tenantId)).returning();
-    return result[0];
+    const [result] = await db.delete(schema.tenants).where(eq(schema.tenants.id, tenantId)).returning();
+    return result;
   };
 }

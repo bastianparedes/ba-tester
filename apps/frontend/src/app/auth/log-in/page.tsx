@@ -48,9 +48,7 @@ export default function Page() {
         <div className="max-w-md">
           <h1 className="text-5xl font-bold mb-6">Welcome back</h1>
           <p className="text-lg text-blue-100">
-            Sign in to your account to access all the features of our platform.
-            Manage your projects, collaborate with your team, and take your
-            productivity to the next level.
+            Sign in to your account to access all the features of our platform. Manage your projects, collaborate with your team, and take your productivity to the next level.
           </p>
         </div>
       </div>
@@ -73,10 +71,7 @@ export default function Page() {
 
             {/* Email Field */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email
               </label>
               <input
@@ -86,25 +81,17 @@ export default function Page() {
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
-                    value:
-                      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     message: 'Invalid email address',
                   },
                 })}
               />
-              {errors.email && (
-                <p className="mt-2 text-sm text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
+              {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
             </div>
 
             {/* Password Field */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
               <input
@@ -115,18 +102,11 @@ export default function Page() {
                   required: 'Password is required',
                 })}
               />
-              {errors.password && (
-                <p className="mt-2 text-sm text-red-600">
-                  {errors.password.message}
-                </p>
-              )}
+              {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>}
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-lg hover:shadow-xl"
-            >
+            <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-lg hover:shadow-xl">
               Sign In
             </button>
 

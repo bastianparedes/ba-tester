@@ -8,13 +8,7 @@ import * as schema from './postgres/schema';
 
 @Injectable()
 export class CampaignRepository {
-  create = async ({
-    tenantId,
-    values,
-  }: {
-    tenantId: Exclude<TypeCampaign['tenantId'], undefined>;
-    values: Omit<Omit<Omit<TypeCampaign, 'id'>, 'tenantId'>, 'executionGroupId'>;
-  }) => {
+  create = async ({ tenantId, values }: { tenantId: Exclude<TypeCampaign['tenantId'], undefined>; values: TypeCampaignUpdatable }) => {
     const result = await db
       .insert(schema.campaigns)
       .values({

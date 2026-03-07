@@ -31,7 +31,7 @@ export class RoleRepository {
     return role;
   };
 
-  create = async (data: Omit<Omit<TypeRole, 'id'>, 'permissions'>) => {
+  create = async (data: TypeRoleUpdatable) => {
     await db.transaction(async (tx) => {
       await tx
         .insert(schema.roles)
