@@ -1,0 +1,149 @@
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { z } from 'zod';
+import { TypeApiExecutionGroups } from '../../../domain/api/executionGroups';
+import { quantitiesAvailable } from '../../../domain/config';
+import commonConstants from '../../../domain/constants';
+import { permissions } from '../../../domain/permissions';
+import { type AssertEqual } from '../../../domain/types/utils';
+import { AuthGuard } from '../guards/auth.guard';
+import { ZodValidationPipe } from '../pipes/zod';
+import { DbService } from '../services/db.service';
+import { type Request } from '../types/request';
+
+/* ---------- QUERY SCHEMA ---------- */
+
+const getExecutionGroupsQuerySchema = z
+  .object({
+    orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
+    orderDirection: z.enum(commonConstants.orderDirection),
+    page: z.coerce.number().int(),
+    quantity: z.coerce
+      .number()
+      .int()
+      .refine((v) => quantitiesAvailable.includes(v), { message: 'Invalid quantity' }),
+    statusList: z.preprocess(
+      (val) => {
+        if (!val) return [];
+        if (typeof val === 'string') return [val];
+        return val;
+      },
+      z.array(z.enum(commonConstants.arrayStatus)),
+    ),
+    textSearch: z.string(),
+  })
+  .strip();
+
+/* ---------- BODY SCHEMA ---------- */
+
+const executionGroupSchema = z
+  .object({
+    campaignIds: z.array(z.number().int()),
+    name: z.string(),
+    onlyCampaignsPreviouslyExecuted: z.boolean(),
+    onlyOneCampaignPerPageLoad: z.boolean(),
+    status: z.enum(commonConstants.arrayStatus),
+    waitForEveryCampaignToBeEvaluated: z.boolean(),
+  })
+  .strip();
+
+/* ---------- CONTROLLER ---------- */
+
+@Controller('tenants/:tenantId/execution-groups')
+export class ExecutionGroupsController {
+  constructor(private readonly dbService: DbService) {}
+
+  @UseGuards(AuthGuard(permissions.executionGroup.read))
+  @Get()
+  async getMany(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Query(new ZodValidationPipe(getExecutionGroupsQuerySchema)) query: AssertEqual<
+      z.infer<typeof getExecutionGroupsQuerySchema>,
+      TypeApiExecutionGroups['getMany']['request']['queryParams']
+    >,
+  ): Promise<TypeApiExecutionGroups['getMany']['response']> {
+    const executionGroups = await this.dbService.executionGroup.getMany({
+      params: query,
+      tenantId,
+    });
+
+    return executionGroups;
+  }
+
+  @UseGuards(AuthGuard(permissions.executionGroup.read))
+  @Get(':executionGroupId')
+  async get(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
+  ): Promise<TypeApiExecutionGroups['get']['response']> {
+    const result = await this.dbService.executionGroup.get({
+      executionGroupId,
+      tenantId,
+    });
+
+    if (!result) throw new NotFoundException();
+
+    const { campaigns, executionGroup } = result;
+
+    return { campaigns, executionGroup };
+  }
+
+  @UseGuards(AuthGuard(permissions.executionGroup.create))
+  @Post()
+  async create(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Body(new ZodValidationPipe(executionGroupSchema)) body: AssertEqual<z.infer<typeof executionGroupSchema>, TypeApiExecutionGroups['create']['request']['body']>,
+    @Req() req: Request,
+  ): Promise<TypeApiExecutionGroups['create']['response']> {
+    const user = req.user;
+    if (!user) throw new UnauthorizedException();
+
+    const { campaignIds, ...values } = body;
+
+    await this.dbService.executionGroup.create({
+      campaignIds,
+      tenantId,
+      userId: user.id,
+      values,
+    });
+
+    return {};
+  }
+
+  @UseGuards(AuthGuard(permissions.executionGroup.update))
+  @Put(':executionGroupId')
+  async update(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
+    @Body(new ZodValidationPipe(executionGroupSchema)) body: AssertEqual<z.infer<typeof executionGroupSchema>, TypeApiExecutionGroups['update']['request']['body']>,
+    @Req() req: Request,
+  ): Promise<TypeApiExecutionGroups['update']['response']> {
+    const user = req.user;
+    if (!user) throw new UnauthorizedException();
+
+    const { campaignIds, ...values } = body;
+
+    await this.dbService.executionGroup.update({
+      campaignIds,
+      executionGroupId,
+      tenantId,
+      userId: user.id,
+      values,
+    });
+
+    return {};
+  }
+
+  @UseGuards(AuthGuard(permissions.executionGroup.delete))
+  @Put(':executionGroupId/remove')
+  async remove(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Param('executionGroupId', ParseIntPipe) executionGroupId: number,
+  ): Promise<TypeApiExecutionGroups['update']['response']> {
+    await this.dbService.executionGroup.remove({
+      executionGroupId,
+      tenantId,
+    });
+
+    return {};
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  },
+  "dialect": "postgresql",
+  "enums": {
+    "public.execution_strategy_enum": {
+      "name": "execution_strategy_enum",
+      "schema": "public",
+      "values": ["execute_all", "execute_first", "execute_random"]
+    },
+    "public.status_enum": {
+      "name": "status_enum",
+      "schema": "public",
+      "values": ["inactive", "active"]
+    }
+  },
+  "id": "a8bd51b9-c0b8-4443-bd41-9bfeaf690ae8",
+  "policies": {},
+  "prevId": "8418e0c1-89da-44d1-8386-d557b60dd0a4",
+  "roles": {},
+  "schemas": {},
+  "sequences": {},
+  "tables": {
+    "public.campaigns": {
+      "checkConstraints": {},
+      "columns": {
+        "execution_group_id": {
+          "name": "execution_group_id",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "id": {
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "serial"
+        },
+        "name": {
+          "default": "''",
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        },
+        "requirements": {
+          "name": "requirements",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "jsonb"
+        },
+        "status": {
+          "default": "'inactive'",
+          "name": "status",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "status_enum",
+          "typeSchema": "public"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "triggers": {
+          "name": "triggers",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "jsonb"
+        },
+        "variations": {
+          "name": "variations",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "jsonb"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {
+        "campaigns_execution_group_id_execution_groups_id_fk": {
+          "columnsFrom": ["execution_group_id"],
+          "columnsTo": ["id"],
+          "name": "campaigns_execution_group_id_execution_groups_id_fk",
+          "onDelete": "cascade",
+          "onUpdate": "cascade",
+          "tableFrom": "campaigns",
+          "tableTo": "execution_groups"
+        },
+        "campaigns_tenant_id_tenants_id_fk": {
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
+          "name": "campaigns_tenant_id_tenants_id_fk",
+          "onDelete": "cascade",
+          "onUpdate": "cascade",
+          "tableFrom": "campaigns",
+          "tableTo": "tenants"
+        }
+      },
+      "indexes": {},
+      "isRLSEnabled": false,
+      "name": "campaigns",
+      "policies": {},
+      "schema": "",
+      "uniqueConstraints": {
+        "campaigns_id_unique": {
+          "columns": ["id"],
+          "name": "campaigns_id_unique",
+          "nullsNotDistinct": false
+        }
+      }
+    },
+    "public.execution_groups": {
+      "checkConstraints": {},
+      "columns": {
+        "id": {
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "serial"
+        },
+        "name": {
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        },
+        "persist_campaign_across_reloads": {
+          "default": true,
+          "name": "persist_campaign_across_reloads",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "boolean"
+        },
+        "strategy": {
+          "name": "strategy",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "execution_strategy_enum",
+          "typeSchema": "public"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {
+        "execution_groups_tenant_id_tenants_id_fk": {
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
+          "name": "execution_groups_tenant_id_tenants_id_fk",
+          "onDelete": "cascade",
+          "onUpdate": "cascade",
+          "tableFrom": "execution_groups",
+          "tableTo": "tenants"
+        }
+      },
+      "indexes": {},
+      "isRLSEnabled": false,
+      "name": "execution_groups",
+      "policies": {},
+      "schema": "",
+      "uniqueConstraints": {
+        "execution_groups_id_unique": {
+          "columns": ["id"],
+          "name": "execution_groups_id_unique",
+          "nullsNotDistinct": false
+        }
+      }
+    },
+    "public.tenants": {
+      "checkConstraints": {},
+      "columns": {
+        "description": {
+          "name": "description",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(1024)"
+        },
+        "domain": {
+          "name": "domain",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        },
+        "id": {
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "serial"
+        },
+        "name": {
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {},
+      "indexes": {},
+      "isRLSEnabled": false,
+      "name": "tenants",
+      "policies": {},
+      "schema": "",
+      "uniqueConstraints": {
+        "tenants_id_unique": {
+          "columns": ["id"],
+          "name": "tenants_id_unique",
+          "nullsNotDistinct": false
+        }
+      }
+    }
+  },
+  "version": "7",
+  "views": {}
+}

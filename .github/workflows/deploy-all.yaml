@@ -1,0 +1,10 @@
+name: Deploy All Production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying all"

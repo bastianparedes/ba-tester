@@ -1,0 +1,142 @@
+{
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  },
+  "dialect": "postgresql",
+  "enums": {
+    "public.status_enum": {
+      "name": "status_enum",
+      "schema": "public",
+      "values": ["inactive", "active", "deleted"]
+    }
+  },
+  "id": "f28f3334-317e-4330-b948-be9d4e01ca04",
+  "policies": {},
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "roles": {},
+  "schemas": {},
+  "sequences": {},
+  "tables": {
+    "public.campaigns": {
+      "checkConstraints": {},
+      "columns": {
+        "id": {
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "serial"
+        },
+        "name": {
+          "default": "''",
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        },
+        "requirements": {
+          "name": "requirements",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "jsonb"
+        },
+        "status": {
+          "default": "'inactive'",
+          "name": "status",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "status_enum",
+          "typeSchema": "public"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "triggers": {
+          "name": "triggers",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "jsonb"
+        },
+        "variations": {
+          "name": "variations",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "jsonb"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {
+        "campaigns_tenant_id_tenants_id_fk": {
+          "columnsFrom": ["tenant_id"],
+          "columnsTo": ["id"],
+          "name": "campaigns_tenant_id_tenants_id_fk",
+          "onDelete": "cascade",
+          "onUpdate": "cascade",
+          "tableFrom": "campaigns",
+          "tableTo": "tenants"
+        }
+      },
+      "indexes": {},
+      "isRLSEnabled": false,
+      "name": "campaigns",
+      "policies": {},
+      "schema": "",
+      "uniqueConstraints": {
+        "campaigns_id_unique": {
+          "columns": ["id"],
+          "name": "campaigns_id_unique",
+          "nullsNotDistinct": false
+        }
+      }
+    },
+    "public.tenants": {
+      "checkConstraints": {},
+      "columns": {
+        "description": {
+          "name": "description",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(1024)"
+        },
+        "domain": {
+          "name": "domain",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        },
+        "id": {
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "serial"
+        },
+        "name": {
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "varchar(255)"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {},
+      "indexes": {},
+      "isRLSEnabled": false,
+      "name": "tenants",
+      "policies": {},
+      "schema": "",
+      "uniqueConstraints": {
+        "tenants_id_unique": {
+          "columns": ["id"],
+          "name": "tenants_id_unique",
+          "nullsNotDistinct": false
+        }
+      }
+    }
+  },
+  "version": "7",
+  "views": {}
+}
