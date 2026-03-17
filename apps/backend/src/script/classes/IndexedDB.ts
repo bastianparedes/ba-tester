@@ -1,14 +1,15 @@
 type TypeData<T = unknown> = {
+  id?: number;
   date: Date;
   value: T;
 };
+const LIMIT_ROWS = 5000;
 
 class IndexedDBCrud {
   private dbName = 'ba_tester_v1';
   private db!: IDBDatabase;
   private stores: number[];
   private initPromise: Promise<void>;
-
   private cache = new Map<string, unknown[]>();
 
   constructor(stores: number[]) {
@@ -56,11 +57,14 @@ class IndexedDBCrud {
 
         this.stores.forEach((store) => {
           const name = String(store);
+
           if (!db.objectStoreNames.contains(name)) {
-            db.createObjectStore(name, {
+            const objectStore = db.createObjectStore(name, {
               autoIncrement: true,
               keyPath: 'id',
             });
+
+            objectStore.createIndex('date', 'date', { unique: false });
           }
         });
       };
@@ -83,31 +87,67 @@ class IndexedDBCrud {
     await this.ready();
 
     return new Promise((resolve, reject) => {
-      const store = this.getStore(storeName, 'readwrite');
-      const request = store.add(data);
+      const tx = this.db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
 
-      request.onsuccess = () => {
-        resolve();
+      const countRequest = store.count();
+
+      countRequest.onsuccess = () => {
+        const count = countRequest.result;
+
+        const insert = () => {
+          const addRequest = store.add(data);
+
+          addRequest.onsuccess = () => {
+            resolve();
+          };
+
+          addRequest.onerror = () => reject(addRequest.error);
+        };
+
+        if (count >= LIMIT_ROWS) {
+          const index = store.index('date');
+          const cursorRequest = index.openCursor();
+
+          cursorRequest.onsuccess = () => {
+            const cursor = cursorRequest.result;
+
+            if (cursor) {
+              const deleteRequest = store.delete(cursor.primaryKey);
+
+              deleteRequest.onsuccess = () => insert();
+              deleteRequest.onerror = () => reject(deleteRequest.error);
+            } else {
+              insert();
+            }
+          };
+
+          cursorRequest.onerror = () => reject(cursorRequest.error);
+        } else {
+          insert();
+        }
       };
 
-      request.onerror = () => reject(request.error);
+      countRequest.onerror = () => reject(countRequest.error);
     });
   }
 
-  async getAll<T = unknown>(storeName: number): Promise<TypeData<T>[]> {
+  async getAll<T = unknown>(storeId: number): Promise<TypeData<T>[]> {
     await this.ready();
 
-    if (this.cache.has(String(storeName))) {
-      return this.cache.get(String(storeName)) as TypeData<T>[];
+    const key = String(storeId);
+
+    if (this.cache.has(key)) {
+      return this.cache.get(key) as TypeData<T>[];
     }
 
     return new Promise((resolve, reject) => {
-      const store = this.getStore(String(storeName));
+      const store = this.getStore(key);
       const request = store.getAll();
 
       request.onsuccess = () => {
         const result = request.result as TypeData<T>[];
-        this.cache.set(String(storeName), result);
+        this.cache.set(key, result);
 
         resolve(result);
       };
