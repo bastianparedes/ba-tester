@@ -1,7 +1,6 @@
 export type TypeApiSessions = {
   logIn: {
     request: {
-      headers?: RequestInit['headers'];
       body: {
         email: string;
         password: string;
@@ -10,9 +9,7 @@ export type TypeApiSessions = {
     response: Record<string, never>;
   };
   logOut: {
-    request: {
-      headers?: RequestInit['headers'];
-    };
+    request: never;
     response: Record<string, never>;
   };
 };

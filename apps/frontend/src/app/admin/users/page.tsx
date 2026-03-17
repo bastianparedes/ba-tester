@@ -5,10 +5,10 @@ import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from './clientPage';
 
 export default async function Page() {
-  const usersResponse = await apiCaller.users.getAll({});
+  const usersResponse = await apiCaller.users.getAll();
   if (!usersResponse.ok) redirect(constants.pages.logIn());
 
-  const rolesResponse = await apiCaller.roles.getAll({});
+  const rolesResponse = await apiCaller.roles.getAll();
   if (!rolesResponse.ok) redirect(constants.pages.logIn());
 
   const users = await usersResponse.json();

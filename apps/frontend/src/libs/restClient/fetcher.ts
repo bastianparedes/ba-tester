@@ -16,12 +16,10 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     url,
     queryParams = {},
     body,
-    headers = {},
   }: {
     url: string;
     queryParams?: Record<string, string | number | string[] | number[]>;
     body?: Record<string, unknown>;
-    headers?: RequestInit['headers'];
   }): Promise<{ ok: true; json: () => Promise<T>; text: () => Promise<string> } | { ok: false }> => {
     const isServerSide = typeof window === 'undefined';
     const baseUrl = isServerSide ? env.NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE : env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE;
@@ -45,7 +43,6 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
         body: JSON.stringify(body),
         credentials: 'include',
         headers: {
-          ...headers,
           'Content-Type': 'application/json',
           Cookie: cookies,
         },

@@ -22,7 +22,7 @@ export function Navbar({ children, breadcrumb }: Props) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const onLogout = async () => {
-    const apiResponse = await apiCaller.sessions.logOut({});
+    const apiResponse = await apiCaller.sessions.logOut();
     if (apiResponse.ok) {
       location.href = constants.pages.home();
     }

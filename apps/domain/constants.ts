@@ -1,4 +1,9 @@
 import type {
+  TypeAudienceBooleanComparator,
+  TypeAudienceNumberComparator,
+  TypeAudienceRestrictionType,
+  TypeAudienceStringComparator,
+  TypeAudienceTimeUnit,
   TypeBooleanOperator,
   TypeDeviceType,
   TypeDirection,
@@ -36,6 +41,7 @@ const comparisons = {
 } as const satisfies Record<TypeStringComparator, string>;
 
 const requirementTypes = {
+  audience: 'audience',
   cookie: 'cookie',
   custom: 'custom',
   device: 'device',
@@ -49,7 +55,7 @@ const requirementTypes = {
 const typeRepetitions = {
   atLeast: 'atLeast',
   atMost: 'atMost',
-  exactly: 'exactly',
+  is: 'is',
   lessThan: 'lessThan',
   moreThan: 'moreThan',
 } as const satisfies Record<TypeNumericComparator, string>;
@@ -84,6 +90,7 @@ const arrayStatus = [status.inactive, status.active] as const satisfies TypeStat
 
 const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
 const campaignRequirements = [
+  requirementTypes.audience,
   requirementTypes.cookie,
   requirementTypes.custom,
   requirementTypes.device,
@@ -95,8 +102,62 @@ const campaignRequirements = [
 
 const windowKey = 'ba_tester';
 
+const audienceRestrictionTypes = {
+  any: 'any',
+  boolean: 'boolean',
+  node: 'node',
+  number: 'number',
+  string: 'string',
+} as const satisfies Record<TypeAudienceRestrictionType, string>;
+const audienceRequirements = [
+  audienceRestrictionTypes.boolean,
+  audienceRestrictionTypes.number,
+  audienceRestrictionTypes.string,
+  audienceRestrictionTypes.any,
+] satisfies Exclude<TypeAudienceRestrictionType, 'node'>[];
+
+const audienceQuantityOperator = {
+  atLeast: 'atLeast',
+  atMost: 'atMost',
+  is: 'is',
+  lessThan: 'lessThan',
+  moreThan: 'moreThan',
+} as const satisfies Record<TypeAudienceNumberComparator, string>;
+
+const audienceStringComparators = {
+  contains: 'contains',
+  doesNotContain: 'doesNotContain',
+  is: 'is',
+  isNot: 'isNot',
+} as const satisfies Record<TypeAudienceStringComparator, string>;
+
+const audienceNumberComparators = {
+  atLeast: 'atLeast',
+  atMost: 'atMost',
+  is: 'is',
+  lessThan: 'lessThan',
+  moreThan: 'moreThan',
+} as const satisfies Record<TypeAudienceNumberComparator, string>;
+
+const audienceBooleanComparators = {
+  is: 'is',
+} as const satisfies Record<TypeAudienceBooleanComparator, string>;
+
+const audienceTimeUnits = {
+  days: 'days',
+  hours: 'hours',
+  minutes: 'minutes',
+} as const satisfies Record<TypeAudienceTimeUnit, string>;
+
 const constants = {
   arrayStatus,
+  audienceBooleanComparators,
+  audienceNumberComparators,
+  audienceQuantityOperator,
+  audienceRequirements,
+  audienceRestrictionTypes,
+  audienceStringComparators,
+  audienceTimeUnits,
   booleanOperators,
   campaignRequirements,
   comparisons,

@@ -8,11 +8,12 @@ import { ClientPage } from '../[trackEventId]/clientPage';
 
 const getDataInitialValue = `
 /* ############ IT IS VERY IMPORTANT TO REMOVE UNUSED LISTENERS AND INTERVALS ############ */
+/* ############ RESOLVE ONLY string, number, boolean, undefined ############ */
 
 return new Promise((r) => {
   function handler(e) {
     if (e.target.id !== 'miId') return;
-    r({ element: undefined });
+    r(true);
     window.removeEventListener("click", handler);
   }
   window.addEventListener("click", handler);

@@ -65,6 +65,13 @@ const UrlRequirementSchema = z.object({
   type: z.literal(constants.requirementTypes.url),
 });
 
+const AudienceRequirementSchema = z.object({
+  data: z.object({
+    id: z.number(),
+  }),
+  type: z.literal(constants.requirementTypes.audience),
+});
+
 export const nodeRequirementSchema: z.ZodType<TypeNodeRequirement> = z.lazy(() =>
   z.object({
     data: z.object({
@@ -78,6 +85,7 @@ export const nodeRequirementSchema: z.ZodType<TypeNodeRequirement> = z.lazy(() =
           CustomRequirementSchema,
           DeviceRequirementSchema,
           UrlRequirementSchema,
+          AudienceRequirementSchema,
         ]),
       ),
       operator: z.enum([constants.booleanOperators.and, constants.booleanOperators.or]),

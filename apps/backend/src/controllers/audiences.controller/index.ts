@@ -1,0 +1,105 @@
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { z } from 'zod';
+import { TypeApiAudiences } from '../../../../domain/api/audiences';
+import { quantitiesAvailable } from '../../../../domain/config';
+import commonConstants from '../../../../domain/constants';
+import { permissions } from '../../../../domain/permissions';
+import { type AssertEqual } from '../../../../domain/types/utils';
+import { AuthGuard } from '../../guards/auth.guard';
+import { ZodValidationPipe } from '../../pipes/zod';
+import { DbService } from '../../services/db.service';
+import { type Request } from '../../types/request';
+import { NodeRequirementSchema } from './requirementsValidator';
+
+export const getAudiencesQuerySchema = z
+  .object({
+    orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
+    orderDirection: z.enum(commonConstants.orderDirection),
+    page: z.coerce.number().int(),
+    quantity: z.coerce.number().refine((v) => quantitiesAvailable.includes(v), {
+      message: 'Invalid quantity',
+    }),
+    statusList: z.preprocess(
+      (val) => {
+        if (!val) return [];
+        if (typeof val === 'string') return [val];
+        return val;
+      },
+      z.array(z.enum(commonConstants.arrayStatus)),
+    ),
+    textSearch: z.string(),
+  })
+  .strip();
+
+const audienceSchema = z
+  .object({
+    name: z.string(),
+    requirements: NodeRequirementSchema,
+  })
+  .strip();
+
+@Controller('tenants/:tenantId/audiences')
+export class AudiencesController {
+  constructor(private readonly dbService: DbService) {}
+
+  @UseGuards(AuthGuard(permissions.audience.read))
+  @Get()
+  async getMany(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Query(new ZodValidationPipe(getAudiencesQuerySchema)) query: AssertEqual<z.infer<typeof getAudiencesQuerySchema>, TypeApiAudiences['getMany']['request']['pathParams']>,
+  ): Promise<TypeApiAudiences['getMany']['response']> {
+    const audiences = await this.dbService.audiences.getMany({ params: query, tenantId });
+    return audiences;
+  }
+
+  @UseGuards(AuthGuard(permissions.audience.read))
+  @Get('getAllForCampaign')
+  async getAllForCampaign(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<TypeApiAudiences['getAllForCampaign']['response']> {
+    const audiences = await this.dbService.audiences.getAllForCampaign({ tenantId });
+    return { audiences };
+  }
+
+  @UseGuards(AuthGuard(permissions.audience.read))
+  @Get(':audienceId')
+  async get(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('audienceId', ParseIntPipe) audienceId: number): Promise<TypeApiAudiences['get']['response']> {
+    const result = await this.dbService.audiences.get({ audienceId, tenantId });
+    if (!result) throw new NotFoundException();
+    return result;
+  }
+
+  @UseGuards(AuthGuard(permissions.audience.create))
+  @Post()
+  async create(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Body(new ZodValidationPipe(audienceSchema)) body: AssertEqual<z.infer<typeof audienceSchema>, TypeApiAudiences['create']['request']['body']>,
+    @Req() req: Request,
+  ): Promise<TypeApiAudiences['create']['response']> {
+    const user = req.user;
+    if (!user) throw new UnauthorizedException();
+
+    await this.dbService.audiences.create({ tenantId, userId: user.id, values: body });
+    return {};
+  }
+
+  @UseGuards(AuthGuard(permissions.audience.update))
+  @Put(':audienceId')
+  async update(
+    @Param('tenantId', ParseIntPipe) tenantId: number,
+    @Param('audienceId', ParseIntPipe) audienceId: number,
+    @Body(new ZodValidationPipe(audienceSchema)) body: AssertEqual<z.infer<typeof audienceSchema>, TypeApiAudiences['update']['request']['body']>,
+    @Req() req: Request,
+  ): Promise<TypeApiAudiences['update']['response']> {
+    const user = req.user;
+    if (!user) throw new UnauthorizedException();
+
+    await this.dbService.audiences.update({ audienceId, tenantId, updates: body, userId: user.id });
+    return {};
+  }
+
+  @UseGuards(AuthGuard(permissions.audience.delete))
+  @Delete(':audienceId')
+  async remove(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('audienceId', ParseIntPipe) audienceId: number): Promise<TypeApiAudiences['delete']['response']> {
+    await this.dbService.audiences.remove({ audienceId, tenantId });
+    return {};
+  }
+}

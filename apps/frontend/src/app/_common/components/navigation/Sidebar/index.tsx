@@ -1,6 +1,6 @@
 'use client';
 
-import { Boxes, Building2, Code, Database, Eye, FlaskConical, Shield, Users } from 'lucide-react';
+import { Boxes, Building2, Code, Database, Eye, FlaskConical, Shield, Tags, Users } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import constants from '@/config/constants';
@@ -39,53 +39,55 @@ export function Sidebar({ children, tenant }: Props) {
               </a>
 
               {tenant && (
-                <a
-                  href={constants.pages.trackEvents({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <Database className="w-5 h-5" />
-                  <span className="text-sm font-medium">{translation.common.trackEvents}</span>
-                </a>
-              )}
+                <>
+                  <a
+                    href={constants.pages.trackEvents({ tenantId: tenant.id })}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                  >
+                    <Database className="w-5 h-5" />
+                    <span className="text-sm font-medium">{translation.common.trackEvents}</span>
+                  </a>
 
-              {tenant && (
-                <a
-                  href={constants.pages.campaigns({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <FlaskConical className="w-5 h-5" />
-                  <span className="text-sm font-medium">{translation.common.campaigns}</span>
-                </a>
-              )}
+                  <a
+                    href={constants.pages.audiences({ tenantId: tenant.id })}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                  >
+                    <Tags className="w-5 h-5" />
+                    <span className="text-sm font-medium">{translation.common.audiences}</span>
+                  </a>
 
-              {tenant && (
-                <a
-                  href={constants.pages.executionGroups({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <Boxes className="w-5 h-5" />
-                  <span className="text-sm font-medium">{translation.common.executionGroups}</span>
-                </a>
-              )}
+                  <a
+                    href={constants.pages.campaigns({ tenantId: tenant.id })}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                  >
+                    <FlaskConical className="w-5 h-5" />
+                    <span className="text-sm font-medium">{translation.common.campaigns}</span>
+                  </a>
 
-              {tenant && (
-                <a
-                  href={constants.pages.script({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <Code className="w-5 h-5" />
-                  <span className="text-sm font-medium">{translation.common.scriptAndUrl}</span>
-                </a>
-              )}
+                  <a
+                    href={constants.pages.executionGroups({ tenantId: tenant.id })}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                  >
+                    <Boxes className="w-5 h-5" />
+                    <span className="text-sm font-medium">{translation.common.executionGroups}</span>
+                  </a>
 
-              {tenant && (
-                <a
-                  href={constants.pages.playground({ tenantId: tenant.id })}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
-                >
-                  <Eye className="w-5 h-5" />
-                  <span className="text-sm font-medium">{translation.common.playground}</span>
-                </a>
+                  <a
+                    href={constants.pages.script({ tenantId: tenant.id })}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                  >
+                    <Code className="w-5 h-5" />
+                    <span className="text-sm font-medium">{translation.common.scriptAndUrl}</span>
+                  </a>
+
+                  <a
+                    href={constants.pages.playground({ tenantId: tenant.id })}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg transition-colors mb-1 text-gray-300 hover:bg-gray-800"
+                  >
+                    <Eye className="w-5 h-5" />
+                    <span className="text-sm font-medium">{translation.common.playground}</span>
+                  </a>
+                </>
               )}
             </div>
 

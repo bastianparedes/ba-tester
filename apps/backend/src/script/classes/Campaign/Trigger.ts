@@ -1,4 +1,4 @@
-import type { TypeBaTester } from '../types';
+import type { TypeBaTester } from '../../types';
 
 type TypeTriggerData = TypeBaTester['executionGroupsData'][number]['campaigns'][number]['triggers'][number];
 

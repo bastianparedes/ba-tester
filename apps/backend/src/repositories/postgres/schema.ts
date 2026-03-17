@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { boolean, integer, jsonb, pgEnum, pgTable, primaryKey, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 import commonConstants from '../../../../domain/constants';
+import type { TypeAudience } from '../../../../domain/types/audience';
 import type { TypeCampaign } from '../../../../domain/types/campaign';
 
 export const statusEnum = pgEnum('status_enum', commonConstants.arrayStatus);
@@ -57,6 +58,25 @@ export const executionGroups = pgTable('execution_groups', {
     .notNull(),
   updatedBy: integer('updated_by').references(() => users.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
   waitForEveryCampaignToBeEvaluated: boolean('wait_for_every_campaign_to_be_evaluated').notNull(),
+});
+
+// AUDIENCES
+export const audiences = pgTable('audiences', {
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdBy: integer('created_by')
+    .notNull()
+    .references(() => users.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
+  id: serial('id').primaryKey().unique().notNull(),
+  name: varchar('name', { length: 255 }).notNull().default(''),
+  requirements: jsonb('requirements').$type<TypeAudience['requirements']>().notNull(),
+  tenantId: integer('tenant_id')
+    .notNull()
+    .references(() => tenants.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+  updatedAt: timestamp('updated_at')
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  updatedBy: integer('updated_by').references(() => users.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
 });
 
 // CAMPAIGNS

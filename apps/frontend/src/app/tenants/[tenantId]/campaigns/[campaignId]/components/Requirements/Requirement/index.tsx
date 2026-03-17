@@ -3,6 +3,7 @@ import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/domain/constants';
+import { TypeAudienceForCampaign } from '@/domain/types/audience';
 import type { TypeCampaignWithOptionalId, TypeRequirement } from '@/domain/types/campaign';
 import RequirementSpecific from './RequirementSpecific';
 
@@ -13,9 +14,10 @@ interface Props {
   parentNode: TypeCampaignWithOptionalId['requirements'] | null;
   requirement: TypeCampaignWithOptionalId['requirements']['data']['children'][number];
   setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
+  audiences: TypeAudienceForCampaign[];
 }
 
-const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign }: Props) => {
+const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setCampaign, audiences }: Props) => {
   const { translation } = useTranslationContext();
 
   const getSiblings = () => {
@@ -92,6 +94,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
                 parentNode={requirement}
                 requirement={childNode}
                 setCampaign={setCampaign}
+                audiences={audiences}
               />
             </div>
           ))}
@@ -136,6 +139,12 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
     const newType = event.target.value as Exclude<TypeRequirement['type'], 'node'>;
 
     const childrenByType = {
+      audience: {
+        data: {
+          id: audiences[0].id,
+        },
+        type: 'audience' as const,
+      },
       cookie: {
         data: {
           comparator: 'is' as const,
@@ -241,7 +250,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
           <ChevronDown />
         </div>
       </div>
-      <RequirementSpecific setCampaign={setCampaign} requirement={requirement} />
+      <RequirementSpecific setCampaign={setCampaign} requirement={requirement} audiences={audiences} />
       <button type="button" onClick={removeRequirement} className="p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
         <Trash2 size={20} />
       </button>

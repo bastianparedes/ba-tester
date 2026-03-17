@@ -6,7 +6,6 @@ import type { TypeTenant } from '../types/tenant';
 export type TypeApiExecutionGroups = {
   get: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
     };
     response: {
@@ -16,7 +15,6 @@ export type TypeApiExecutionGroups = {
   };
   getMany: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
       queryParams: {
         textSearch: string;
@@ -34,7 +32,6 @@ export type TypeApiExecutionGroups = {
   };
   create: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
       body: Omit<Omit<Omit<Omit<TypeExecutionGroup, 'id'>, 'createdAt'>, 'updatedAt'>, 'tenantId'> & { campaignIds: TypeCampaign['id'][] };
     };
@@ -42,7 +39,6 @@ export type TypeApiExecutionGroups = {
   };
   update: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
       body: Omit<Omit<Omit<Omit<TypeExecutionGroup, 'id'>, 'createdAt'>, 'updatedAt'>, 'tenantId'> & { campaignIds: TypeCampaign['id'][] };
     };
@@ -50,7 +46,6 @@ export type TypeApiExecutionGroups = {
   };
   delete: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; executionGroupId: TypeExecutionGroup['id'] };
     };
     response: Record<string, never>;

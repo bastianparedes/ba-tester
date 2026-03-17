@@ -1,6 +1,8 @@
 const constants = {
   pages: {
     account: () => '/admin/account',
+    audience: ({ tenantId, audienceId }: { tenantId: number; audienceId: number | undefined }) => `/tenants/${tenantId}/audiences/${audienceId}`,
+    audiences: ({ tenantId }: { tenantId: number }) => `/tenants/${tenantId}/audiences`,
     campaign: ({ tenantId, campaignId, cloneFrom }: { tenantId: number; campaignId: number | undefined; cloneFrom?: number }) => {
       const basePath = `/tenants/${tenantId}/campaigns/${campaignId}`;
       const queryParams = cloneFrom !== undefined ? `?cloneFrom=${cloneFrom}` : '';

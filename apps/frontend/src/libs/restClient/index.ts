@@ -1,3 +1,4 @@
+import { audiences } from './api/audiences';
 import { campaigns } from './api/campaigns';
 import { executionGroups } from './api/executionGroups';
 import { roles } from './api/roles';
@@ -8,6 +9,7 @@ import { trackEvents } from './api/trackEvents';
 import { users } from './api/users';
 
 export const apiCaller = {
+  audiences,
   campaigns,
   executionGroups,
   roles,

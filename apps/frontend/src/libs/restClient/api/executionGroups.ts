@@ -5,28 +5,25 @@ export const executionGroups = {
   create: async (data: TypeApiExecutionGroups['create']['request']) => {
     const response = await fetchers.post<TypeApiExecutionGroups['create']['response']>({
       body: data.body,
-      headers: data.headers,
+
       url: `/tenants/${data.pathParams.tenantId}/execution-groups`,
     });
     return response;
   },
   delete: async (data: TypeApiExecutionGroups['delete']['request']) => {
     const response = await fetchers.delete<TypeApiExecutionGroups['delete']['response']>({
-      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/execution-groups/${data.pathParams.executionGroupId}`,
     });
     return response;
   },
   get: async (data: TypeApiExecutionGroups['get']['request']) => {
     const response = await fetchers.get<TypeApiExecutionGroups['get']['response']>({
-      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}/execution-groups/${data.pathParams.executionGroupId}`,
     });
     return response;
   },
   getMany: async (data: TypeApiExecutionGroups['getMany']['request']) => {
     const response = await fetchers.get<TypeApiExecutionGroups['getMany']['response']>({
-      headers: data.headers,
       queryParams: data.queryParams,
       url: `/tenants/${data.pathParams.tenantId}/execution-groups`,
     });
@@ -35,7 +32,7 @@ export const executionGroups = {
   update: async (data: TypeApiExecutionGroups['update']['request']) => {
     const response = await fetchers.put<TypeApiExecutionGroups['update']['response']>({
       body: data.body,
-      headers: data.headers,
+
       url: `/tenants/${data.pathParams.tenantId}/execution-groups/${data.pathParams.executionGroupId}`,
     });
     return response;

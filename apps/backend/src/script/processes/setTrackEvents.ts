@@ -1,5 +1,5 @@
+import { indexedDBCrud } from '../classes/IndexedDB';
 import { TypeBaTester } from '../types';
-import { IndexedDBCrud } from '../utils/indexedDB';
 
 declare global {
   interface Window {
@@ -10,7 +10,7 @@ declare global {
 const WINDOW_MS = 500;
 const MAX_COUNT = 5;
 
-const applyTrackEvent = async (eventData: (typeof window.ba_tester.trackEventsData)[number], productDB: IndexedDBCrud, storeName: string) => {
+const applyTrackEvent = async (eventData: (typeof window.ba_tester.trackEventsData)[number], storeName: string) => {
   let count = 0;
   let windowStart = Date.now();
 
@@ -35,7 +35,7 @@ const applyTrackEvent = async (eventData: (typeof window.ba_tester.trackEventsDa
       return;
     }
 
-    await productDB.add(storeName, {
+    await indexedDBCrud.add(storeName, {
       date: new Date(),
       value,
     });
@@ -46,12 +46,8 @@ const getStoreName = (trackEventData: (typeof window.ba_tester.trackEventsData)[
 
 export const setTrackEvents = async () => {
   const events = window.ba_tester.trackEventsData;
-  const storeNames = events.map((event) => getStoreName(event));
-
-  const productDB = new IndexedDBCrud(storeNames);
-  await productDB.init();
 
   events.forEach((trackEventData) => {
-    applyTrackEvent(trackEventData, productDB, getStoreName(trackEventData));
+    applyTrackEvent(trackEventData, getStoreName(trackEventData));
   });
 };

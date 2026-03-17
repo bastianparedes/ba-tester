@@ -18,3 +18,4 @@ export type TypeTrackEventWithOptionalId = Omit<Pick<TypeTrackEvent, 'name' | 's
 
 export type TypeTrackEventUpdatable = Pick<TypeTrackEvent, 'name' | 'status' | 'getData' | 'multipleTimes'>;
 export type TypeTrackEventForMenu = Pick<TypeTrackEvent, 'id' | 'name' | 'status' | 'createdAt' | 'updatedAt'>;
+export type TypeTrackEventForAudience = Pick<TypeTrackEvent, 'id' | 'name'>;

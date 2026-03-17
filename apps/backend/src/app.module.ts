@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AccountController } from './controllers/account.controller';
+import { AudiencesController } from './controllers/audiences.controller';
 import { AuthController } from './controllers/auth.controller';
 import { CampaignsController } from './controllers/campaigns.controller';
 import { ExecutionGroupsController } from './controllers/executionGroup.controller';
@@ -10,6 +11,7 @@ import { TenantsController } from './controllers/tenants.controller';
 import { TrackEventController } from './controllers/trackEvent.controller';
 import { UsersController } from './controllers/users.controller';
 import { EventsGateway } from './gateways/campaigns.gateway';
+import { AudienceRepository } from './repositories/audience.repository';
 import { CampaignRepository } from './repositories/campaign.repository';
 import { ExecutionGroupRepository } from './repositories/executionGroup.repository';
 import { RoleRepository } from './repositories/role.repository';
@@ -23,6 +25,7 @@ import { ScriptService } from './services/script.service';
 
 @Module({
   controllers: [
+    AudiencesController,
     TrackEventController,
     AuthController,
     ScriptController,
@@ -36,6 +39,7 @@ import { ScriptService } from './services/script.service';
   ],
   imports: [],
   providers: [
+    AudienceRepository,
     TrackEventRepository,
     ExecutionGroupRepository,
     CampaignRepository,

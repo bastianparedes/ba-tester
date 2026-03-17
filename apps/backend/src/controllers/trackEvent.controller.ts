@@ -67,6 +67,13 @@ export class TrackEventController {
     return trackEvents;
   }
 
+  @UseGuards(AuthGuard(permissions.campaign.read))
+  @Get('getAllForAudience')
+  async getAllForAudience(@Param('tenantId', ParseIntPipe) tenantId: number): Promise<TypeApiTrackEvents['getAllForAudience']['response']> {
+    const trackEvents = await this.dbService.trackEvents.getAllForAudience({ tenantId });
+    return { trackEvents };
+  }
+
   @UseGuards(AuthGuard(permissions.trackEvent.read))
   @Get(':trackEventId')
   async get(@Param('tenantId', ParseIntPipe) tenantId: number, @Param('trackEventId', ParseIntPipe) trackEventId: number): Promise<TypeApiTrackEvents['get']['response']> {

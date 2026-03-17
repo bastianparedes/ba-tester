@@ -5,7 +5,7 @@ import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from './clientPage';
 
 export default async function Page() {
-  const response = await apiCaller.tenants.getAll({});
+  const response = await apiCaller.tenants.getAll();
   if (!response.ok) redirect(constants.pages.logIn());
 
   const tenants = await response.json();

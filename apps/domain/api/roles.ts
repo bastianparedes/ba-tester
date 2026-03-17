@@ -2,14 +2,11 @@ import type { TypeRole } from '../types/role';
 
 export type TypeApiRoles = {
   getAll: {
-    request: {
-      headers?: RequestInit['headers'];
-    };
+    request: never;
     response: TypeRole[];
   };
   create: {
     request: {
-      headers?: RequestInit['headers'];
       body: {
         name: string;
         description: string;
@@ -20,7 +17,6 @@ export type TypeApiRoles = {
   };
   update: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { roleId: TypeRole['id'] };
       body: {
         name: string;
@@ -32,7 +28,6 @@ export type TypeApiRoles = {
   };
   delete: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { roleId: TypeRole['id'] };
     };
     response: Record<string, never>;

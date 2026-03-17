@@ -1,5 +1,6 @@
-import type { TypeBaTester } from '../types';
-import { getId } from '../utils/info';
+import type { TypeBaTester } from '../../types';
+import { getId } from '../../utils/info';
+import { Audience } from '../Audience';
 import Requirement from './Requirement';
 import type Trigger from './Trigger';
 import type Variation from './Variation';
@@ -17,8 +18,9 @@ class Campaign {
   requirementsWereEvaluated: boolean;
   requirementsWereMetPromise: Promise<boolean>;
   private resolveRequirementsWereMet: (response: boolean) => void;
+  private audiences: Audience[];
 
-  constructor(id: number, name: string, requirementData: TypeRequirementData, triggers: Trigger[], variations: Variation[]) {
+  constructor(id: number, name: string, requirementData: TypeRequirementData, triggers: Trigger[], variations: Variation[], audiences) {
     this.id = id;
     this.name = name;
     this.requirementData = requirementData;
@@ -32,6 +34,7 @@ class Campaign {
       this.requirementsWereMet = requirementsWereMet;
       return requirementsWereMet;
     });
+    this.audiences = audiences;
 
     Promise.any(this.triggers.map((trigger) => trigger.setTrigger()))
       .then(() => this.evaluate())
@@ -44,7 +47,7 @@ class Campaign {
       this.resolveRequirementsWereMet(true);
       return true;
     }
-    const result = await new Requirement(this.requirementData).evaluate();
+    const result = await new Requirement(this.requirementData, this.audiences).evaluate();
     this.requirementsWereEvaluated = true;
     this.resolveRequirementsWereMet(result);
     return result;

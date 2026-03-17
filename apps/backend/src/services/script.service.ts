@@ -8,6 +8,7 @@ import type { TypeNodeRequirement } from '../../../domain/types/campaign';
 import { TypeCampaign } from '../../../domain/types/campaign';
 import type { TypeCampaignScript, TypeExecutionGroupScript } from '../../../domain/types/script';
 import { getScriptLocation } from '../libs/script';
+import { AudienceRepository } from '../repositories/audience.repository';
 import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { TrackEventRepository } from '../repositories/trackEvent.repository';
 import { TypeBaTester } from '../script/types';
@@ -86,6 +87,7 @@ export class ScriptService {
   constructor(
     private readonly executionGroupRepository: ExecutionGroupRepository,
     private readonly trackEventRepository: TrackEventRepository,
+    private readonly audienceRepository: AudienceRepository,
     private readonly cacheService: CacheService,
   ) {}
 
@@ -166,14 +168,23 @@ export class ScriptService {
     return trackEventsWithFunctions;
   }
 
+  private async getAudiences({ tenantId }: { tenantId: number }) {
+    const audiences = await this.audienceRepository.getAllAudiencesForScript({ tenantId });
+    return audiences;
+  }
+
   private async generateScript({ tenantId }: { tenantId: number }): Promise<string> {
     const scriptLocation = getScriptLocation();
     const fileExists = fs.existsSync(scriptLocation);
     if (!fileExists) throw new InternalServerErrorException();
 
-    const [executionGroupsData, trackEventsData] = await Promise.all([this.getExecutionGroups({ tenantId }), this.getTrackEvents({ tenantId })]);
+    const [executionGroupsData, trackEventsData, audiencesData] = await Promise.all([
+      this.getExecutionGroups({ tenantId }),
+      this.getTrackEvents({ tenantId }),
+      this.getAudiences({ tenantId }),
+    ]);
 
-    const windowObject: TypeBaTester = { executionGroupsData, trackEventsData };
+    const windowObject: TypeBaTester = { audiencesData, executionGroupsData, trackEventsData };
     const stringWindow = `window.${commonConstants.windowKey} = ${stringifyWithFunctions(windowObject)};`;
     const script = fs.readFileSync(scriptLocation, 'utf-8');
     const fullScript = stringWindow + script;

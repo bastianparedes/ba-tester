@@ -36,6 +36,11 @@ export type TypeFullUser =
         canCreateTrackEvent: boolean;
         canUpdateTrackEvent: boolean;
         canDeleteTrackEvent: boolean;
+
+        canReadAudience: boolean;
+        canCreateAudience: boolean;
+        canUpdateAudience: boolean;
+        canDeleteAudience: boolean;
       };
     }
   | {
@@ -72,6 +77,11 @@ export type TypeFullUser =
         canCreateTrackEvent: false;
         canUpdateTrackEvent: false;
         canDeleteTrackEvent: false;
+
+        canReadAudience: false;
+        canCreateAudience: false;
+        canUpdateAudience: false;
+        canDeleteAudience: false;
       };
     };
 export const getUserPermissions = (user: TypeUser) => {
@@ -84,24 +94,28 @@ export const getUserPermissions = (user: TypeUser) => {
     }, [] as string[]) ?? [];
   return {
     permissions: {
+      canCreateAudience: userPermissions.includes(permissions.audience.create),
       canCreateCampaign: userPermissions.includes(permissions.campaign.create),
       canCreateExecutionGroup: userPermissions.includes(permissions.executionGroup.create),
       canCreateRole: userPermissions.includes(permissions.role.create),
       canCreateTenant: userPermissions.includes(permissions.tenant.create),
       canCreateTrackEvent: userPermissions.includes(permissions.trackEvent.update),
       canCreateUser: userPermissions.includes(permissions.user.create),
+      canDeleteAudience: userPermissions.includes(permissions.audience.delete),
       canDeleteCampaign: userPermissions.includes(permissions.campaign.delete),
       canDeleteExecutionGroup: userPermissions.includes(permissions.executionGroup.delete),
       canDeleteRole: userPermissions.includes(permissions.role.delete),
       canDeleteTenant: userPermissions.includes(permissions.tenant.delete),
       canDeleteTrackEvent: userPermissions.includes(permissions.trackEvent.update),
       canDeleteUser: userPermissions.includes(permissions.user.delete),
+      canReadAudience: userPermissions.includes(permissions.audience.read),
       canReadCampaign: userPermissions.includes(permissions.campaign.read),
       canReadExecutionGroup: userPermissions.includes(permissions.executionGroup.read),
       canReadRole: userPermissions.includes(permissions.role.read),
       canReadTenant: userPermissions.includes(permissions.tenant.read),
       canReadTrackEvent: userPermissions.includes(permissions.trackEvent.update),
       canReadUser: userPermissions.includes(permissions.user.read),
+      canUpdateAudience: userPermissions.includes(permissions.audience.update),
       canUpdateCampaign: userPermissions.includes(permissions.campaign.update),
       canUpdateExecutionGroup: userPermissions.includes(permissions.executionGroup.update),
       canUpdateRole: userPermissions.includes(permissions.role.update),

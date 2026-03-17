@@ -1,10 +1,11 @@
 // External imports
 
-import commonConstants from '../../../../../domain/constants';
+import commonConstants from '../../../../../../domain/constants';
 // Types
-import type { TypeRequirementScript } from '../../../../../domain/types/script';
-import cookie from '../../utils/cookie';
-import queryParam from '../../utils/queryParam';
+import type { TypeCampaignRequirementScript } from '../../../../../../domain/types/script';
+import cookie from '../../../utils/cookie';
+import queryParam from '../../../utils/queryParam';
+import { Audience } from '../../Audience';
 // Internal imports
 import { comparatorResolver } from './comparatorResolver';
 
@@ -13,7 +14,7 @@ import { comparatorResolver } from './comparatorResolver';
 // ------------------------------
 
 // Evaluate cookie requirement
-const requirementCookie = async (requirement: Extract<TypeRequirementScript, { type: 'cookie' }>) => {
+const requirementCookie = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'cookie' }>) => {
   const cookieValue = cookie.get({ name: requirement.data.name });
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -23,7 +24,7 @@ const requirementCookie = async (requirement: Extract<TypeRequirementScript, { t
 };
 
 // Evaluate custom JavaScript requirement
-const requirementCustom = async (requirement: Extract<TypeRequirementScript, { type: 'custom' }>) => {
+const requirementCustom = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'custom' }>) => {
   return new Promise((resolveRequirement) => {
     const customCodeResult = requirement.data.javascript();
     resolveRequirement(customCodeResult);
@@ -34,7 +35,7 @@ const requirementCustom = async (requirement: Extract<TypeRequirementScript, { t
 };
 
 // Evaluate device type requirement
-const requirementDevice = async (requirement: Extract<TypeRequirementScript, { type: 'device' }>) => {
+const requirementDevice = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'device' }>) => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent);
   const device = isMobile ? commonConstants.devices.mobile : commonConstants.devices.desktop;
 
@@ -46,7 +47,7 @@ const requirementDevice = async (requirement: Extract<TypeRequirementScript, { t
 };
 
 // Evaluate localStorage requirement
-const requirementLocalStorage = async (requirement: Extract<TypeRequirementScript, { type: 'localStorage' }>) => {
+const requirementLocalStorage = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'localStorage' }>) => {
   const keyValue = localStorage.getItem(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -56,7 +57,7 @@ const requirementLocalStorage = async (requirement: Extract<TypeRequirementScrip
 };
 
 // Evaluate sessionStorage requirement
-const requirementSessionStorage = async (requirement: Extract<TypeRequirementScript, { type: 'sessionStorage' }>) => {
+const requirementSessionStorage = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'sessionStorage' }>) => {
   const keyValue = sessionStorage.getItem(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -66,7 +67,7 @@ const requirementSessionStorage = async (requirement: Extract<TypeRequirementScr
 };
 
 // Evaluate query parameter requirement
-const requirementQueryParam = async (requirement: Extract<TypeRequirementScript, { type: 'queryParam' }>) => {
+const requirementQueryParam = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'queryParam' }>) => {
   const queryParamValue = queryParam.get(requirement.data.name);
   return comparatorResolver({
     comparator: requirement.data.comparator,
@@ -76,7 +77,7 @@ const requirementQueryParam = async (requirement: Extract<TypeRequirementScript,
 };
 
 // Evaluate URL requirement
-const requirementUrl = async (requirement: Extract<TypeRequirementScript, { type: 'url' }>) => {
+const requirementUrl = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'url' }>) => {
   return comparatorResolver({
     comparator: requirement.data.comparator,
     expectedValue: requirement.data.value,
@@ -84,18 +85,25 @@ const requirementUrl = async (requirement: Extract<TypeRequirementScript, { type
   });
 };
 
+const requirementAudience = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'audience' }>, audiences: Audience[]) => {
+  const audience = audiences.find((audience) => audience.id === requirement.data.id);
+  if (!audience) return false;
+  return audience.evaluate();
+};
+
 // Evaluate node requirement (combines multiple child requirements)
-const requirementNode = async (requirement: Extract<TypeRequirementScript, { type: 'node' }>): Promise<boolean> => {
+const requirementNode = async (requirement: Extract<TypeCampaignRequirementScript, { type: 'node' }>, audiences: Audience[]): Promise<boolean> => {
   const booleanPromises = requirement.data.children.map((childData) => {
     const requirementStrategies = {
-      cookie: () => requirementCookie(childData as Extract<TypeRequirementScript, { type: 'cookie' }>),
-      custom: () => requirementCustom(childData as Extract<TypeRequirementScript, { type: 'custom' }>),
-      device: () => requirementDevice(childData as Extract<TypeRequirementScript, { type: 'device' }>),
-      localStorage: () => requirementLocalStorage(childData as Extract<TypeRequirementScript, { type: 'localStorage' }>),
-      node: () => requirementNode(childData as Extract<TypeRequirementScript, { type: 'node' }>),
-      queryParam: () => requirementQueryParam(childData as Extract<TypeRequirementScript, { type: 'queryParam' }>),
-      sessionStorage: () => requirementSessionStorage(childData as Extract<TypeRequirementScript, { type: 'sessionstorage' }>),
-      url: () => requirementUrl(childData as Extract<TypeRequirementScript, { type: 'url' }>),
+      audience: () => requirementAudience(childData as Extract<TypeCampaignRequirementScript, { type: 'audience' }>, audiences),
+      cookie: () => requirementCookie(childData as Extract<TypeCampaignRequirementScript, { type: 'cookie' }>),
+      custom: () => requirementCustom(childData as Extract<TypeCampaignRequirementScript, { type: 'custom' }>),
+      device: () => requirementDevice(childData as Extract<TypeCampaignRequirementScript, { type: 'device' }>),
+      localStorage: () => requirementLocalStorage(childData as Extract<TypeCampaignRequirementScript, { type: 'localStorage' }>),
+      node: () => requirementNode(childData as Extract<TypeCampaignRequirementScript, { type: 'node' }>, audiences),
+      queryParam: () => requirementQueryParam(childData as Extract<TypeCampaignRequirementScript, { type: 'queryParam' }>),
+      sessionStorage: () => requirementSessionStorage(childData as Extract<TypeCampaignRequirementScript, { type: 'sessionstorage' }>),
+      url: () => requirementUrl(childData as Extract<TypeCampaignRequirementScript, { type: 'url' }>),
     };
     const strategy = requirementStrategies[childData.type];
     return strategy();
@@ -114,15 +122,17 @@ const requirementNode = async (requirement: Extract<TypeRequirementScript, { typ
 // Main Requirement class
 // ------------------------------
 class Requirement {
-  readonly requirementData: Extract<TypeRequirementScript, { type: 'node' }>;
+  readonly requirementData: Extract<TypeCampaignRequirementScript, { type: 'node' }>;
+  private audiences: Audience[];
 
-  constructor(requirementData: Extract<TypeRequirementScript, { type: 'node' }>) {
+  constructor(requirementData: Extract<TypeCampaignRequirementScript, { type: 'node' }>, audiences) {
     this.requirementData = requirementData;
+    this.audiences = audiences;
   }
 
   // Evaluate the root requirement node
   async evaluate() {
-    return requirementNode(this.requirementData).catch(() => false);
+    return requirementNode(this.requirementData, this.audiences).catch(() => false);
   }
 }
 

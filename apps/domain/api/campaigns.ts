@@ -6,14 +6,12 @@ import type { TypeTenant } from '../types/tenant';
 export type TypeApiCampaigns = {
   get: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
     };
     response: TypeCampaign & { executionGroup: TypeExecutionGroup | null };
   };
   getMany: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
       queryParams: {
         textSearch: string;
@@ -31,7 +29,6 @@ export type TypeApiCampaigns = {
   };
   getAllForExecutionGroup: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
     };
     response: {
@@ -40,7 +37,6 @@ export type TypeApiCampaigns = {
   };
   create: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id'] };
       body: Omit<Omit<TypeCampaignWithOptionalId, 'id'>, 'executionGroupId'>;
     };
@@ -48,7 +44,6 @@ export type TypeApiCampaigns = {
   };
   update: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
       body: TypeCampaignWithOptionalId;
     };
@@ -56,7 +51,6 @@ export type TypeApiCampaigns = {
   };
   delete: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { tenantId: TypeTenant['id']; campaignId: TypeCampaign['id'] };
     };
     response: Record<string, never>;

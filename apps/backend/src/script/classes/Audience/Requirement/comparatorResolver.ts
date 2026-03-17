@@ -7,9 +7,6 @@ const strategyAtLeast = ({ obtainedValue, expectedValue }: { obtainedValue: Type
 const strategyAtMost = ({ obtainedValue, expectedValue }: { obtainedValue: TypeObtainedValue; expectedValue: TypeExpectedValue }) =>
   typeof obtainedValue === 'number' && typeof expectedValue === 'number' && obtainedValue <= expectedValue;
 
-const strategyExactly = ({ obtainedValue, expectedValue }: { obtainedValue: TypeObtainedValue; expectedValue: TypeExpectedValue }) =>
-  typeof obtainedValue === 'number' && typeof expectedValue === 'number' && obtainedValue === expectedValue;
-
 const strategyLessThan = ({ obtainedValue, expectedValue }: { obtainedValue: TypeObtainedValue; expectedValue: TypeExpectedValue }) =>
   typeof obtainedValue === 'number' && typeof expectedValue === 'number' && obtainedValue < expectedValue;
 
@@ -23,7 +20,8 @@ const strategyDoesNotContain = ({ obtainedValue, expectedValue }: { obtainedValu
   typeof obtainedValue === 'string' && typeof expectedValue === 'string' && !obtainedValue.includes(expectedValue);
 
 const strategyIs = ({ obtainedValue, expectedValue }: { obtainedValue: TypeObtainedValue; expectedValue: TypeExpectedValue }) =>
-  typeof obtainedValue === 'string' && typeof expectedValue === 'string' && obtainedValue === expectedValue;
+  ((typeof obtainedValue === 'string' && typeof expectedValue === 'string') || (typeof obtainedValue === 'number' && typeof expectedValue === 'number')) &&
+  obtainedValue === expectedValue;
 
 const strategyIsNot = ({ obtainedValue, expectedValue }: { obtainedValue: TypeObtainedValue; expectedValue: TypeExpectedValue }) =>
   typeof obtainedValue === 'string' && typeof expectedValue === 'string' && obtainedValue !== expectedValue;
@@ -35,7 +33,7 @@ const strategyExists = ({ obtainedValue }: { obtainedValue: TypeObtainedValue; e
 export const comparatorResolver = (
   data:
     | {
-        comparator: 'atLeast' | 'atMost' | 'exactly' | 'lessThan' | 'moreThan';
+        comparator: 'atLeast' | 'atMost' | 'is' | 'lessThan' | 'moreThan';
         obtainedValue: number;
         expectedValue: number;
       }
@@ -67,11 +65,6 @@ export const comparatorResolver = (
         obtainedValue: data.obtainedValue,
       }),
     doesNotExist: () => strategyDoesNotExist({ obtainedValue: data.obtainedValue }),
-    exactly: () =>
-      strategyExactly({
-        expectedValue: data.expectedValue,
-        obtainedValue: data.obtainedValue,
-      }),
     exists: () => strategyExists({ obtainedValue: data.obtainedValue }),
     is: () =>
       strategyIs({

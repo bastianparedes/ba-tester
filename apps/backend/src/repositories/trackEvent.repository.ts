@@ -106,6 +106,18 @@ export class TrackEventRepository {
     };
   };
 
+  getAllForAudience = async ({ tenantId }: { tenantId: TypeTenant['id'] }) => {
+    const result = await db.query.trackEvents.findMany({
+      columns: {
+        id: true,
+        name: true,
+      },
+      where: eq(schema.trackEvents.tenantId, tenantId),
+    });
+
+    return result;
+  };
+
   get = async ({ tenantId, trackEventId }: { tenantId: TypeTenant['id']; trackEventId: TypeTrackEvent['id'] }) => {
     const result = await db.query.trackEvents.findFirst({
       where: and(eq(schema.trackEvents.tenantId, tenantId), eq(schema.trackEvents.id, trackEventId)),

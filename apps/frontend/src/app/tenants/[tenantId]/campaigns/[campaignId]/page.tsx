@@ -21,8 +21,11 @@ const Page = async (props: PageProps) => {
 
   const campaignResponse = await apiCaller.campaigns.get({ pathParams: { campaignId, tenantId } });
   if (!campaignResponse.ok) return redirect(constants.pages.campaigns({ tenantId }));
-
   const initialCampaign = await campaignResponse.json();
+
+  const audiencesResponse = await apiCaller.audiences.getAllForCampaign({ pathParams: { tenantId } });
+  if (!audiencesResponse.ok) return redirect(constants.pages.tenants());
+  const { audiences } = await audiencesResponse.json();
 
   return (
     <Navigation
@@ -34,7 +37,7 @@ const Page = async (props: PageProps) => {
         { name: initialCampaign.name },
       ]}
     >
-      <ClientPage initialCampaign={initialCampaign} tenantId={tenantId} campaignId={campaignId} />
+      <ClientPage initialCampaign={initialCampaign} tenantId={tenantId} campaignId={campaignId} audiences={audiences} />
     </Navigation>
   );
 };

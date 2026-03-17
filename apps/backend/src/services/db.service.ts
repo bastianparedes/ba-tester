@@ -3,6 +3,7 @@ import { superAdminId } from '../../../domain/config';
 import { flatPermissions } from '../../../domain/permissions';
 import { getPasswordHashed } from '../libs/auth/password';
 import { env } from '../libs/env';
+import { AudienceRepository } from '../repositories/audience.repository';
 import { CampaignRepository } from '../repositories/campaign.repository';
 import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { RoleRepository } from '../repositories/role.repository';
@@ -18,6 +19,7 @@ export class DbService {
   roles: RoleRepository;
   tenants: TenantRepository;
   executionGroup: ExecutionGroupRepository;
+  audiences: AudienceRepository;
   campaigns: CampaignRepository;
   trackEvents: TrackEventRepository;
   constructor(
@@ -25,11 +27,13 @@ export class DbService {
     private readonly userRepository: UserRepository,
     private readonly roleRepository: RoleRepository,
     private readonly tenantRepository: TenantRepository,
+    private readonly audienceRepository: AudienceRepository,
     private readonly campaignRepository: CampaignRepository,
     private readonly trackEventRepository: TrackEventRepository,
     private readonly executionGroupRepository: ExecutionGroupRepository,
     private readonly scriptService: ScriptService,
   ) {
+    this.audiences = this.audienceRepository;
     this.trackEvents = this.trackEventRepository;
     this.users = {
       ...this.userRepository,

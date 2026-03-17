@@ -1,9 +1,7 @@
 import { initCampaigns } from './processes/initCampaigns';
-import { setUtils } from './processes/setUtils';
-import { setTrackEvents } from './processes/trackEvents';
+import { setTrackEvents } from './processes/setTrackEvents';
 
 const script = async () => {
-  setUtils();
   setTrackEvents();
   initCampaigns();
 };

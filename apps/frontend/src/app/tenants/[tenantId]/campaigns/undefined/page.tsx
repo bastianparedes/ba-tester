@@ -51,6 +51,10 @@ const Page = async (props: PageProps) => {
   if (!tenantResponse.ok) return redirect(constants.pages.tenants());
   const tenant = await tenantResponse.json();
 
+  const audiencesResponse = await apiCaller.audiences.getAllForCampaign({ pathParams: { tenantId } });
+  if (!audiencesResponse.ok) return redirect(constants.pages.tenants());
+  const { audiences } = await audiencesResponse.json();
+
   return (
     <Navigation
       tenant={tenant}
@@ -61,7 +65,7 @@ const Page = async (props: PageProps) => {
         { name: 'New campaign' },
       ]}
     >
-      <ClientPage initialCampaign={initialCampaign} tenantId={tenantId} campaignId={undefined} />
+      <ClientPage initialCampaign={initialCampaign} tenantId={tenantId} campaignId={undefined} audiences={audiences} />
     </Navigation>
   );
 };

@@ -1,9 +1,10 @@
 import commonConstants from '../../../../domain/constants';
 import { TypeExecutionGroupScript } from '../../../../domain/types/script';
+import { Audience } from '../classes/Audience';
 import Campaign from '../classes/Campaign';
+import Trigger from '../classes/Campaign/Trigger';
+import Variation from '../classes/Campaign/Variation';
 import { ExecutionGroupCookieManager } from '../classes/ExecutionGroupCookieManager';
-import Trigger from '../classes/Trigger';
-import Variation from '../classes/Variation';
 import type { TypeBaTester } from '../types';
 import { getRandomFromArray } from '../utils/random';
 
@@ -78,13 +79,22 @@ const oneOrManyStrategy = async (
   return [campaign];
 };
 
+const audiences = window.ba_tester.audiencesData.map(
+  (audienceData) =>
+    new Audience({
+      id: audienceData.id,
+      name: audienceData.name,
+      requirementData: audienceData.requirements,
+    }),
+);
+
 const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
   const executionGroupCookieManager = new ExecutionGroupCookieManager(executionGroup.id);
 
   let campaigns = executionGroup.campaigns.map((campaignData) => {
     const triggers = campaignData.triggers.map((triggerData) => new Trigger(triggerData, campaignData.id));
     const variations = campaignData.variations.map((variationData) => new Variation(variationData, campaignData.id));
-    const campaign = new Campaign(campaignData.id, campaignData.name, campaignData.requirements, triggers, variations);
+    const campaign = new Campaign(campaignData.id, campaignData.name, campaignData.requirements, triggers, variations, audiences);
     return campaign;
   });
 

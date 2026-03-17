@@ -86,7 +86,7 @@ const ClientPage = ({ initialTrackEvent, tenantId, trackEventId }: Props) => {
   return (
     <>
       {trackEventId !== undefined && <LiveViewersNavbar usersWatching={usersWatching} userMadeChange={userMadeChange} />}
-      <div className="w-4/5 mx-auto my-8 relative flex flex-col gap-8">
+      <div className="w-9/10 mx-auto my-8 relative flex flex-col gap-8">
         <div className="mb-8">
           <div className="flex items-start justify-between">
             <div>

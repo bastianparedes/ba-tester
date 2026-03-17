@@ -93,6 +93,13 @@ export type TypeUrlRequirement = {
   };
 };
 
+export type TypeAudienceRequirement = {
+  type: 'audience';
+  data: {
+    id: number;
+  };
+};
+
 export type TypeNodeRequirement = {
   type: 'node';
   data: {
@@ -105,6 +112,7 @@ export type TypeNodeRequirement = {
       | TypeCustomRequirement
       | TypeDeviceRequirement
       | TypeUrlRequirement
+      | TypeAudienceRequirement
     )[];
     operator: 'and' | 'or';
   };

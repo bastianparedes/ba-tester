@@ -1,13 +1,15 @@
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
+import { TypeAudienceForCampaign } from '@/domain/types/audience';
 import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
 import Requirement from './Requirement';
 
 interface Props {
   requirements: TypeCampaignWithOptionalId['requirements'];
   setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
+  audiences: TypeAudienceForCampaign[];
 }
 
-const Requirements = ({ setCampaign, requirements }: Props) => {
+const Requirements = ({ setCampaign, requirements, audiences }: Props) => {
   const { translation } = useTranslationContext();
 
   return (
@@ -15,7 +17,7 @@ const Requirements = ({ setCampaign, requirements }: Props) => {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold text-blue-900">{translation.campaign.requirementsTitle}</h2>
       </div>
-      <Requirement grandParentNode={null} id={'0'} index={0} parentNode={null} requirement={requirements} setCampaign={setCampaign} />
+      <Requirement grandParentNode={null} id={'0'} index={0} parentNode={null} requirement={requirements} setCampaign={setCampaign} audiences={audiences} />
     </div>
   );
 };

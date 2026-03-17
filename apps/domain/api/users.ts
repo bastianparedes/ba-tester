@@ -3,20 +3,15 @@ import type { TypeUser } from '../types/user';
 
 export type TypeApiUsers = {
   getAll: {
-    request: {
-      headers?: RequestInit['headers'];
-    };
+    request: never;
     response: TypeUser[];
   };
   get: {
-    request: {
-      headers?: RequestInit['headers'];
-    };
+    request: never;
     response: TypeUser;
   };
   create: {
     request: {
-      headers?: RequestInit['headers'];
       body: {
         name: TypeUser['name'];
         email: TypeUser['email'];
@@ -27,7 +22,6 @@ export type TypeApiUsers = {
   };
   update: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { userId: TypeUser['id'] };
       body: {
         name: TypeUser['name'];
@@ -39,14 +33,12 @@ export type TypeApiUsers = {
   };
   delete: {
     request: {
-      headers?: RequestInit['headers'];
       pathParams: { userId: TypeUser['id'] };
     };
     response: Record<string, never>;
   };
   updatePassword: {
     request: {
-      headers?: RequestInit['headers'];
       body: {
         oldPassword: string;
         newPassword: string;
@@ -56,7 +48,6 @@ export type TypeApiUsers = {
   };
   updateAccount: {
     request: {
-      headers?: RequestInit['headers'];
       body: {
         name: TypeUser['name'];
         email: TypeUser['email'];

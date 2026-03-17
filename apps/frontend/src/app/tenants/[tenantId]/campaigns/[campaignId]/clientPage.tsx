@@ -8,6 +8,7 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
 import commonConstants from '@/domain/constants';
+import { TypeAudienceForCampaign } from '@/domain/types/audience';
 import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
 import type { TypeUser } from '@/domain/types/user';
 import { env } from '@/libs/env';
@@ -21,9 +22,10 @@ type Props = {
   initialCampaign: TypeCampaignWithOptionalId;
   tenantId: number;
   campaignId: number | undefined;
+  audiences: TypeAudienceForCampaign[];
 };
 
-const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
+const ClientPage = ({ initialCampaign, tenantId, campaignId, audiences }: Props) => {
   const { translation } = useTranslationContext();
   const [campaign, setCampaign] = useState(initialCampaign);
   const socketRef = useRef<Socket | null>(null);
@@ -88,7 +90,7 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
   return (
     <>
       {campaignId !== undefined && <LiveViewersNavbar usersWatching={usersWatching} userMadeChange={userMadeChange} />}
-      <div className="w-4/5 mx-auto my-8 relative flex flex-col gap-8">
+      <div className="w-9/10 mx-auto my-8 relative flex flex-col gap-8">
         <div className="mb-8">
           <div className="flex items-start justify-between">
             <div>
@@ -139,7 +141,7 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId }: Props) => {
         </div>
 
         <Triggers triggers={campaign.triggers} setCampaign={setCampaign} />
-        <Requirements requirements={campaign.requirements} setCampaign={setCampaign} />
+        <Requirements requirements={campaign.requirements} setCampaign={setCampaign} audiences={audiences} />
         <Variations setCampaign={setCampaign} variations={campaign.variations} />
         <div className="mt-8 flex justify-end gap-4">
           <Button onClick={returnToCampaigns} variant="destructive">

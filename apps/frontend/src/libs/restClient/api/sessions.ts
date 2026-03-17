@@ -5,14 +5,13 @@ export const sessions = {
   logIn: async (data: TypeApiSessions['logIn']['request']) => {
     const response = await fetchers.post<TypeApiSessions['logIn']['response']>({
       body: data.body,
-      headers: data.headers,
+
       url: '/public/auth/session',
     });
     return response;
   },
-  logOut: async (data: TypeApiSessions['logOut']['request']) => {
+  logOut: async () => {
     const response = await fetchers.get<TypeApiSessions['logOut']['response']>({
-      headers: data.headers,
       url: '/public/auth/session',
     });
     return response;

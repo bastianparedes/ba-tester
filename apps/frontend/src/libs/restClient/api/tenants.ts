@@ -17,14 +17,12 @@ export const tenants = {
   },
   get: async (data: TypeApiTenants['get']['request']) => {
     const response = await fetchers.get<TypeApiTenants['get']['response']>({
-      headers: data.headers,
       url: `/tenants/${data.pathParams.tenantId}`,
     });
     return response;
   },
-  getAll: async (data: TypeApiTenants['getAll']['request']) => {
+  getAll: async () => {
     const response = await fetchers.get<TypeApiTenants['getAll']['response']>({
-      headers: data.headers,
       url: '/tenants',
     });
     return response;

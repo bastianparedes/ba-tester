@@ -1,4 +1,4 @@
-import type { TypeBaTester } from '../types';
+import type { TypeBaTester } from '../../types';
 
 class Variation {
   data: TypeBaTester['executionGroupsData'][number]['campaigns'][number]['variations'][number];

@@ -1,6 +1,12 @@
 import { flattenObject } from './utils';
 
 export const permissions = {
+  audience: {
+    create: 'audience.create',
+    delete: 'audience.delete',
+    read: 'audience.read',
+    update: 'audience.update',
+  },
   campaign: {
     create: 'campaign.create',
     delete: 'campaign.delete',

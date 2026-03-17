@@ -1,5 +1,7 @@
 import commonConstants from '@/domain/constants';
+import { TypeAudienceForCampaign } from '@/domain/types/audience';
 import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
+import Audience from './Audience';
 import Custom from './Custom';
 import Device from './Device';
 import Storage from './Storage';
@@ -8,9 +10,11 @@ import Url from './Url';
 interface Props {
   requirement: Exclude<TypeCampaignWithOptionalId['requirements']['data']['children'][number], { type: 'node' }>;
   setCampaign: (campaign: (TypeCampaign: TypeCampaignWithOptionalId) => TypeCampaignWithOptionalId) => void;
+  audiences: TypeAudienceForCampaign[];
 }
 
-const Element = ({ setCampaign, requirement }: Props) => {
+const Element = ({ setCampaign, requirement, audiences }: Props) => {
+  if (requirement.type === 'audience') return <Audience setCampaign={setCampaign} requirement={requirement} audiences={audiences} />;
   const requirements = {
     [commonConstants.requirementTypes.cookie]: Storage,
     [commonConstants.requirementTypes.custom]: Custom,
@@ -19,6 +23,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
     [commonConstants.requirementTypes.queryParam]: Storage,
     [commonConstants.requirementTypes.sessionStorage]: Storage,
     [commonConstants.requirementTypes.url]: Url,
+    [commonConstants.requirementTypes.audience]: Audience,
   };
 
   const Requirement = requirements[requirement.type];
