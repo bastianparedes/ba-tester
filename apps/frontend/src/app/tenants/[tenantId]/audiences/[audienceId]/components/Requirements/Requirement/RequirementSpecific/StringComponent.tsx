@@ -17,7 +17,7 @@ const Element = ({ setAudience, requirement }: Props) => {
     commonConstants.audienceStringComparators.contains,
     commonConstants.audienceStringComparators.doesNotContain,
     commonConstants.audienceStringComparators.isNot,
-    commonConstants.audienceStringComparators.is,
+    commonConstants.audienceStringComparators.equal,
   ];
 
   const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -38,7 +38,7 @@ const Element = ({ setAudience, requirement }: Props) => {
 
   return (
     <>
-      <div className="relative w-68">
+      <div className="relative w-48">
         <select
           className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
           onChange={handleOnChangeComparator}

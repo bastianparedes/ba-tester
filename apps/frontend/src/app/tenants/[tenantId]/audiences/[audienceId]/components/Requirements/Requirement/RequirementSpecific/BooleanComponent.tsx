@@ -13,7 +13,7 @@ const Element = ({ setAudience, requirement }: Props) => {
   const { translation } = useTranslationContext();
   if (requirement.type !== 'boolean') throw new Error('Type boolean expected in requirement');
 
-  const comparatorPermittedValues = [commonConstants.audienceBooleanComparators.is];
+  const comparatorPermittedValues = [commonConstants.audienceBooleanComparators.equal];
 
   const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newComparator = event.target.value as (typeof comparatorPermittedValues)[number];

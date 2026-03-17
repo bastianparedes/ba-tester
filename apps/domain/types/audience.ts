@@ -3,7 +3,7 @@ import { TypeTrackEvent } from './trackEvents';
 
 // REQUIREMENTS
 type TypeBaseComparator = {
-  quantityOperator: 'is' | 'moreThan' | 'lessThan' | 'atLeast' | 'atMost';
+  quantityOperator: 'equal' | 'moreThan' | 'lessThan' | 'atLeast' | 'atMost';
   trackEventId: TypeTrackEvent['id'];
   eventCount: number;
   timeUnit: 'days' | 'hours' | 'minutes';
@@ -13,7 +13,7 @@ type TypeBaseComparator = {
 type TypeStringComparator = {
   type: 'string';
   data: TypeBaseComparator & {
-    comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
+    comparator: 'equal' | 'isNot' | 'contains' | 'doesNotContain';
     value: string;
   };
 };
@@ -21,14 +21,14 @@ type TypeStringComparator = {
 type TypeNumberComparator = {
   type: 'number';
   data: TypeBaseComparator & {
-    comparator: 'is' | 'moreThan' | 'lessThan' | 'atLeast' | 'atMost';
+    comparator: 'equal' | 'moreThan' | 'lessThan' | 'atLeast' | 'atMost';
     value: number;
   };
 };
 type TypeBooleanComparator = {
   type: 'boolean';
   data: TypeBaseComparator & {
-    comparator: 'is';
+    comparator: 'equal';
     value: boolean;
   };
 };

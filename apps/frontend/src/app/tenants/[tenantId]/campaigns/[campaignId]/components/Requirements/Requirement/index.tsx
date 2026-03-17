@@ -147,7 +147,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
       },
       cookie: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           name: '',
           value: '',
         },
@@ -162,14 +162,14 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
       },
       device: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           device: 'desktop' as const,
         },
         type: 'device',
       },
       localStorage: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           name: '',
           value: '',
         },
@@ -177,7 +177,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
       },
       queryParam: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           name: '',
           value: '',
         },
@@ -185,7 +185,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
       },
       sessionStorage: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           name: '',
           value: '',
         },
@@ -193,7 +193,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
       },
       url: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           value: '',
         },
         type: 'url',

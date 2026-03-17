@@ -35,8 +35,8 @@ const comparisons = {
   contains: 'contains',
   doesNotContain: 'doesNotContain',
   doesNotExist: 'doesNotExist',
+  equal: 'equal',
   exists: 'exists',
-  is: 'is',
   isNot: 'isNot',
 } as const satisfies Record<TypeStringComparator, string>;
 
@@ -55,7 +55,7 @@ const requirementTypes = {
 const typeRepetitions = {
   atLeast: 'atLeast',
   atMost: 'atMost',
-  is: 'is',
+  equal: 'equal',
   lessThan: 'lessThan',
   moreThan: 'moreThan',
 } as const satisfies Record<TypeNumericComparator, string>;
@@ -119,7 +119,7 @@ const audienceRequirements = [
 const audienceQuantityOperator = {
   atLeast: 'atLeast',
   atMost: 'atMost',
-  is: 'is',
+  equal: 'equal',
   lessThan: 'lessThan',
   moreThan: 'moreThan',
 } as const satisfies Record<TypeAudienceNumberComparator, string>;
@@ -127,20 +127,20 @@ const audienceQuantityOperator = {
 const audienceStringComparators = {
   contains: 'contains',
   doesNotContain: 'doesNotContain',
-  is: 'is',
+  equal: 'equal',
   isNot: 'isNot',
 } as const satisfies Record<TypeAudienceStringComparator, string>;
 
 const audienceNumberComparators = {
   atLeast: 'atLeast',
   atMost: 'atMost',
-  is: 'is',
+  equal: 'equal',
   lessThan: 'lessThan',
   moreThan: 'moreThan',
 } as const satisfies Record<TypeAudienceNumberComparator, string>;
 
 const audienceBooleanComparators = {
-  is: 'is',
+  equal: 'equal',
 } as const satisfies Record<TypeAudienceBooleanComparator, string>;
 
 const audienceTimeUnits = {

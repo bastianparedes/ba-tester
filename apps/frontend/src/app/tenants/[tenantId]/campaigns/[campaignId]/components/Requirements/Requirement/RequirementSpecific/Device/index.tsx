@@ -14,7 +14,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
 
   if (requirement.type !== 'device') throw new Error('Type device expected in requirement');
 
-  const comparatorPermittedValues = [commonConstants.comparisons.is, commonConstants.comparisons.isNot];
+  const comparatorPermittedValues = [commonConstants.comparisons.equal, commonConstants.comparisons.isNot];
   const devicePermittedValues = [commonConstants.devices.desktop, commonConstants.devices.mobile];
 
   const handleOnChangeComparator = (event: React.ChangeEvent<HTMLSelectElement>) => {

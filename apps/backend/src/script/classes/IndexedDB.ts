@@ -87,7 +87,6 @@ class IndexedDBCrud {
       const request = store.add(data);
 
       request.onsuccess = () => {
-        this.cache.delete(storeName);
         resolve();
       };
 

@@ -3,7 +3,7 @@ import constants from '../../../../domain/constants';
 import { jsCodeHasCorrectSyntax } from '../../../../domain/jsCode';
 import { TypeNodeRequirement } from '../../../../domain/types/campaign';
 
-const StorageComparatorWithValue = z.enum([constants.comparisons.is, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]);
+const StorageComparatorWithValue = z.enum([constants.comparisons.equal, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]);
 
 const StorageComparatorWithoutValue = z.enum([constants.comparisons.exists, constants.comparisons.doesNotExist]);
 
@@ -51,7 +51,7 @@ const CustomRequirementSchema = z.object({
 
 const DeviceRequirementSchema = z.object({
   data: z.object({
-    comparator: z.enum([constants.comparisons.is, constants.comparisons.isNot]),
+    comparator: z.enum([constants.comparisons.equal, constants.comparisons.isNot]),
     device: z.enum([constants.devices.desktop, constants.devices.mobile]),
   }),
   type: z.literal(constants.requirementTypes.device),
@@ -59,7 +59,7 @@ const DeviceRequirementSchema = z.object({
 
 const UrlRequirementSchema = z.object({
   data: z.object({
-    comparator: z.enum([constants.comparisons.is, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]),
+    comparator: z.enum([constants.comparisons.equal, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]),
     value: z.string(),
   }),
   type: z.literal(constants.requirementTypes.url),

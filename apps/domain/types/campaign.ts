@@ -40,7 +40,7 @@ export type TypeTriggerData = TypeClickOnElementTrigger | TypeCustomTrigger | Ty
 type TypeStorageComparisonData =
   | {
       name: string;
-      comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
+      comparator: 'equal' | 'isNot' | 'contains' | 'doesNotContain';
       value: string;
     }
   | {
@@ -80,7 +80,7 @@ export type TypeCustomRequirement = {
 export type TypeDeviceRequirement = {
   type: 'device';
   data: {
-    comparator: 'is' | 'isNot';
+    comparator: 'equal' | 'isNot';
     device: 'desktop' | 'mobile';
   };
 };
@@ -88,7 +88,7 @@ export type TypeDeviceRequirement = {
 export type TypeUrlRequirement = {
   type: 'url';
   data: {
-    comparator: 'is' | 'isNot' | 'contains' | 'doesNotContain';
+    comparator: 'equal' | 'isNot' | 'contains' | 'doesNotContain';
     value: string;
   };
 };

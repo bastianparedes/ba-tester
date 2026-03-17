@@ -1,6 +1,6 @@
 import type { TypeAudienceScript } from '../../../../../../domain/types/script';
+import { comparatorResolver } from '../../../utils/comparatorResolver';
 import { indexedDBCrud } from '../../IndexedDB';
-import { comparatorResolver } from './comparatorResolver';
 import { filterByDate } from './dateComparator';
 
 const requirementString = async (requirement: Extract<TypeAudienceScript['requirements']['data']['children'][number], { type: 'string' }>) => {

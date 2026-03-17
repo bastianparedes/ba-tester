@@ -6,7 +6,7 @@ import { TypeNodeRequirement } from '../../../../domain/types/audience';
 const baseComparatorSchema = z.object({
   eventCount: z.number(),
   quantityOperator: z.enum([
-    constants.audienceQuantityOperator.is,
+    constants.audienceQuantityOperator.equal,
     constants.audienceQuantityOperator.moreThan,
     constants.audienceQuantityOperator.atLeast,
     constants.audienceQuantityOperator.lessThan,
@@ -23,7 +23,7 @@ const stringComparatorSchema = z.object({
     comparator: z.enum([
       constants.audienceStringComparators.contains,
       constants.audienceStringComparators.doesNotContain,
-      constants.audienceStringComparators.is,
+      constants.audienceStringComparators.equal,
       constants.audienceStringComparators.isNot,
     ]),
     value: z.string(),
@@ -34,7 +34,7 @@ const stringComparatorSchema = z.object({
 const numberComparatorSchema = z.object({
   data: baseComparatorSchema.extend({
     comparator: z.enum([
-      constants.audienceNumberComparators.is,
+      constants.audienceNumberComparators.equal,
       constants.audienceNumberComparators.moreThan,
       constants.audienceNumberComparators.atLeast,
       constants.audienceNumberComparators.lessThan,
@@ -47,7 +47,7 @@ const numberComparatorSchema = z.object({
 
 const booleanComparatorSchema = z.object({
   data: baseComparatorSchema.extend({
-    comparator: z.enum([constants.audienceBooleanComparators.is]),
+    comparator: z.enum([constants.audienceBooleanComparators.equal]),
     value: z.boolean(),
   }),
   type: z.literal(constants.audienceRestrictionTypes.boolean),

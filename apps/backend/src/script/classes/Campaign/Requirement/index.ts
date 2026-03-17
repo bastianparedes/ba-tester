@@ -3,11 +3,11 @@
 import commonConstants from '../../../../../../domain/constants';
 // Types
 import type { TypeCampaignRequirementScript } from '../../../../../../domain/types/script';
+// Internal imports
+import { comparatorResolver } from '../../../utils/comparatorResolver';
 import cookie from '../../../utils/cookie';
 import queryParam from '../../../utils/queryParam';
 import { Audience } from '../../Audience';
-// Internal imports
-import { comparatorResolver } from './comparatorResolver';
 
 // ------------------------------
 // Requirement evaluation functions

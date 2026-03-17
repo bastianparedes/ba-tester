@@ -16,7 +16,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
   const comparatorPermittedValues = [
     commonConstants.comparisons.contains,
     commonConstants.comparisons.doesNotContain,
-    commonConstants.comparisons.is,
+    commonConstants.comparisons.equal,
     commonConstants.comparisons.isNot,
   ];
 

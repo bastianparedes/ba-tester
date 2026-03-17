@@ -27,7 +27,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
 
   const newRequirement = {
     data: {
-      comparator: 'is' as const,
+      comparator: 'equal' as const,
       eventCount: 1,
       quantityOperator: 'atLeast' as const,
       timeAmount: 1,
@@ -156,7 +156,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
       },
       boolean: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           eventCount: 1,
           quantityOperator: 'atLeast' as const,
           timeAmount: 1,
@@ -180,7 +180,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
       },
       string: {
         data: {
-          comparator: 'is' as const,
+          comparator: 'equal' as const,
           eventCount: 1,
           quantityOperator: 'atLeast' as const,
           timeAmount: 1,
@@ -225,7 +225,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
   };
 
   const audienceQuantityOperators = [
-    commonConstants.audienceQuantityOperator.is,
+    commonConstants.audienceQuantityOperator.equal,
     commonConstants.audienceQuantityOperator.moreThan,
     commonConstants.audienceQuantityOperator.atLeast,
     commonConstants.audienceQuantityOperator.lessThan,
@@ -236,7 +236,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
     <div className="flex items-center gap-3">
       <div className="flex flex-col gap-3">
         <div className="flex-1 flex items-center gap-3">
-          <div className="min-w-10">Track event</div>
+          <div className="min-w-10">{translation.audience.trackEvent}</div>
           <div className="w-100 relative">
             <select
               className="w-full flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
@@ -259,7 +259,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
               <ChevronDown />
             </div>
           </div>
-          <div>is</div>
+          <div>{translation.audience.is}</div>
           <div className="w-32 relative">
             <select
               className="w-full flex-1 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
@@ -279,8 +279,8 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
           <RequirementSpecific setAudience={setAudience} requirement={requirement} />
         </div>
         <div className="flex-1 flex items-center gap-3">
-          <div className="min-w-10">is</div>
-          <div className="w-64 relative">
+          <div className="min-w-10">{translation.audience.is}</div>
+          <div className="w-24 relative">
             <select
               className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
               onChange={(event) => {
@@ -322,7 +322,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
             type="number"
             value={requirement.data.eventCount}
           />
-          <div className="min-w-10">in</div>
+          <div className="min-w-10">{translation.audience.in}</div>
           <input
             className="w-32 px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 transition-all hover:border-blue-400"
             max={999999}

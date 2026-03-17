@@ -33,12 +33,12 @@ const strategyExists = ({ obtainedValue }: { obtainedValue: TypeObtainedValue; e
 export const comparatorResolver = (
   data:
     | {
-        comparator: 'atLeast' | 'atMost' | 'is' | 'lessThan' | 'moreThan';
+        comparator: 'atLeast' | 'atMost' | 'equal' | 'lessThan' | 'moreThan';
         obtainedValue: number;
         expectedValue: number;
       }
     | {
-        comparator: 'contains' | 'doesNotContain' | 'is' | 'isNot' | 'doesNotExist' | 'exists';
+        comparator: 'contains' | 'doesNotContain' | 'equal' | 'isNot' | 'doesNotExist' | 'exists';
         obtainedValue: string | null | undefined;
         expectedValue: string | undefined;
       },
@@ -65,12 +65,12 @@ export const comparatorResolver = (
         obtainedValue: data.obtainedValue,
       }),
     doesNotExist: () => strategyDoesNotExist({ obtainedValue: data.obtainedValue }),
-    exists: () => strategyExists({ obtainedValue: data.obtainedValue }),
-    is: () =>
+    equal: () =>
       strategyIs({
         expectedValue: data.expectedValue,
         obtainedValue: data.obtainedValue,
       }),
+    exists: () => strategyExists({ obtainedValue: data.obtainedValue }),
     isNot: () =>
       strategyIsNot({
         expectedValue: data.expectedValue,

@@ -19,7 +19,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
     commonConstants.comparisons.doesNotContain,
     commonConstants.comparisons.exists,
     commonConstants.comparisons.doesNotExist,
-    commonConstants.comparisons.is,
+    commonConstants.comparisons.equal,
     commonConstants.comparisons.isNot,
   ];
 
@@ -50,7 +50,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
     if (
       requirement.data.comparator !== commonConstants.comparisons.contains &&
       requirement.data.comparator !== commonConstants.comparisons.doesNotContain &&
-      requirement.data.comparator !== commonConstants.comparisons.is &&
+      requirement.data.comparator !== commonConstants.comparisons.equal &&
       requirement.data.comparator !== commonConstants.comparisons.isNot
     )
       return;
@@ -89,7 +89,7 @@ const Element = ({ setCampaign, requirement }: Props) => {
       </div>
       {(requirement.data.comparator === commonConstants.comparisons.contains ||
         requirement.data.comparator === commonConstants.comparisons.doesNotContain ||
-        requirement.data.comparator === commonConstants.comparisons.is ||
+        requirement.data.comparator === commonConstants.comparisons.equal ||
         requirement.data.comparator === commonConstants.comparisons.isNot) && (
         <input
           value={requirement.data.value}

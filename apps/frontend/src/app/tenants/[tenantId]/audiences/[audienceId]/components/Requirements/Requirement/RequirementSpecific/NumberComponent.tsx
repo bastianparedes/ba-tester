@@ -14,7 +14,7 @@ const Element = ({ setAudience, requirement }: Props) => {
   if (requirement.type !== 'number') throw new Error('Type number expected in requirement');
 
   const comparatorPermittedValues = [
-    commonConstants.audienceNumberComparators.is,
+    commonConstants.audienceNumberComparators.equal,
     commonConstants.audienceNumberComparators.moreThan,
     commonConstants.audienceNumberComparators.atLeast,
     commonConstants.audienceNumberComparators.lessThan,
@@ -31,7 +31,7 @@ const Element = ({ setAudience, requirement }: Props) => {
 
   return (
     <>
-      <div className="relative w-68">
+      <div className="relative w-24">
         <select
           className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
           onChange={handleOnChangeComparator}
