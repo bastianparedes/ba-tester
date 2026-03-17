@@ -71,14 +71,13 @@ const stringifyWithFunctions = (obj: unknown): string => {
     return `${key}: ${stringifyWithFunctions(value)}`;
   });
 
-  return `{\n${' '.repeat(2)}${entries.join(`,\n${' '.repeat(2)}`)}\n}`;
+  return `{${' '.repeat(2)}${entries.join(`, ${' '.repeat(2)}`)}}`;
 };
 const getFunctionFromBody = ({ params = [], body }: { params?: string[]; body: string }): (() => Promise<void>) => {
   const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor;
   const fn = new AsyncFunction(...params, body);
 
   fn.toString = () => `async function(${params.join(',')}) {${body}}`;
-
   return fn;
 };
 
@@ -185,7 +184,7 @@ export class ScriptService {
     ]);
 
     const windowObject: TypeBaTester = { audiencesData, executionGroupsData, trackEventsData };
-    const stringWindow = `window.${commonConstants.windowKey} = ${stringifyWithFunctions(windowObject)};`;
+    const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {};window.${commonConstants.windowKey} = ${stringifyWithFunctions(windowObject)};`;
     const script = fs.readFileSync(scriptLocation, 'utf-8');
     const fullScript = stringWindow + script;
     const minifiedJs = await getMinifiedJs(fullScript);
