@@ -1,5 +1,6 @@
 import type { TypeBaTester } from '../../types';
 import { getId } from '../../utils/info';
+import { seededRandomFromInputs } from '../../utils/random';
 import { Audience } from '../Audience';
 import Requirement from './Requirement';
 import type Trigger from './Trigger';
@@ -54,7 +55,7 @@ class Campaign {
   }
 
   getVariation() {
-    const numberDecider = ((Math.abs(getId()) + this.id) / 100) % 100;
+    const numberDecider = seededRandomFromInputs({ inputs: [getId(), this.id], max: 99, min: 0 });
     let accumulator = 0;
     return this.variations.find((variation) => {
       accumulator += variation.data.traffic;

@@ -154,7 +154,12 @@ export class ScriptService {
     const executionGroups = await this.executionGroupRepository.getAllExecutionGroupsForScript({ tenantId });
     const executionGroupsScript: TypeExecutionGroupScript[] = await Promise.all(
       executionGroups.map(async (executionGroup) => {
-        const campaigns = await Promise.all(executionGroup.campaigns.map((campaign) => this.getCampaignWithFunctions(campaign)));
+        const campaigns = await Promise.all(
+          executionGroup.campaigns.map((campaign) => {
+            campaign.variations = campaign.variations.filter((variation) => variation.traffic > 0);
+            return this.getCampaignWithFunctions(campaign);
+          }),
+        );
         return { ...executionGroup, campaigns };
       }),
     );
