@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, or, sql } from 'drizzle-orm';
 import type { TypeAudience, TypeAudienceUpdatable, TypeOrderAudiencesBy } from '../../../domain/types/audience';
 import type { TypeDirection } from '../../../domain/types/constants';
@@ -42,6 +42,22 @@ export class AudienceRepository {
   };
 
   remove = async ({ tenantId, audienceId }: { tenantId: TypeTenant['id']; audienceId: TypeAudience['id'] }) => {
+    const campaigns = await db
+      .select({
+        id: schema.campaigns.id,
+      })
+      .from(schema.campaigns)
+      .where(sql`
+        jsonb_path_exists(
+          requirements,
+          '$.** ? (@.type == "audience" && @.data.id == $id)',
+          ${JSON.stringify({ id: audienceId })}
+        )
+      `)
+      .limit(1);
+
+    if (campaigns.length > 0) throw new ConflictException(`Campaigns with id ${campaigns.map((c) => c.id).join(', ')} are using this Audience`);
+
     const [result] = await db
       .delete(schema.audiences)
       .where(and(eq(schema.audiences.tenantId, tenantId), eq(schema.audiences.id, audienceId)))

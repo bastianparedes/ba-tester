@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
 import { TypeApiTrackEvents } from '../../../domain/api/trackEvents';
 import { quantitiesAvailable } from '../../../domain/config';
@@ -126,7 +126,7 @@ export class TrackEventController {
   }
 
   @UseGuards(AuthGuard(permissions.trackEvent.delete))
-  @Put(':trackEventId/remove')
+  @Delete(':trackEventId')
   async remove(
     @Param('tenantId', ParseIntPipe) tenantId: number,
     @Param('trackEventId', ParseIntPipe) trackEventId: number,
