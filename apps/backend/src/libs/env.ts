@@ -3,12 +3,12 @@ import { z } from 'zod';
 const envSchema = z.object({
   DATABASE_URL_POSTGRES: z.string().min(1),
   DATABASE_URL_REDIS: z.string().min(1),
-  DOMAIN: z.string().min(1),
+  DOMAIN: z.string().min(1).optional(),
   JWT_SECRET: z.string().min(1),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().default(4000),
   SALT_ROUNDS: z.coerce.number().int(),
-  SUPER_ADMIN_EMAIL: z.email().min(1),
+  SUPER_ADMIN_EMAIL: z.email().min(1).optional(),
   SUPER_ADMIN_PASSWORD: z.string().min(1),
 });
 

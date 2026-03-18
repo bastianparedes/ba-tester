@@ -67,15 +67,13 @@ const requirementBoolean = async (requirement: Extract<TypeAudienceScript['requi
 };
 
 const requirementAny = async (requirement: Extract<TypeAudienceScript['requirements']['data']['children'][number], { type: 'any' }>) => {
-  console.log('ayuda');
   const array = await indexedDBCrud.getAll<boolean>(requirement.data.trackEventId);
-  console.log('ayuda array', array);
   const arrayFilteredByDate = filterByDate({
     items: array,
     timeUnit: requirement.data.timeUnit,
     value: requirement.data.timeAmount,
   });
-  console.log('arrayFilteredByDate', arrayFilteredByDate);
+
   return comparatorResolver({
     comparator: requirement.data.quantityOperator,
     expectedValue: requirement.data.eventCount,

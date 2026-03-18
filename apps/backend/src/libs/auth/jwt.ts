@@ -3,16 +3,21 @@ import { TypeUser } from '../../../../domain/types/user';
 import { env } from '../../libs/env';
 
 type TokenPurpose = 'session' | 'password_recovery';
-type TokenData = { valid: true; id: TypeUser['id'] } | { valid: false; id: null };
+type TokenData = { valid: true; id: TypeUser['id']; secondsLeft: number } | { valid: false; id: null };
 type Payload = { id: TypeUser['id']; purpose: TokenPurpose };
+type FullPayload = Payload & { iat: number; exp: number };
 
-const secondsTokenIsValid = 60 * 60 * 12; // 12 hours
+const secondsTokenIsValid = 60 * 60 * 1; // 1 hour
 
 const getTokenData = ({ token, purpose }: { token: string; purpose: TokenPurpose }): TokenData => {
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET) as Payload;
+    const payload = jwt.verify(token, env.JWT_SECRET) as FullPayload;
     if (purpose !== payload.purpose) throw new Error('Invalid token purpose');
-    return { id: payload.id, valid: true };
+
+    const now = Math.floor(Date.now() / 1000);
+    const secondsLeft = payload.exp - now;
+
+    return { id: payload.id, secondsLeft, valid: true };
   } catch {
     return { id: null, valid: false };
   }
@@ -20,7 +25,7 @@ const getTokenData = ({ token, purpose }: { token: string; purpose: TokenPurpose
 
 const generateToken = (payload: Payload) => {
   const token = jwt.sign(payload, env.JWT_SECRET, {
-    expiresIn: secondsTokenIsValid, // jwt espera segundos
+    expiresIn: secondsTokenIsValid,
   });
 
   return token;

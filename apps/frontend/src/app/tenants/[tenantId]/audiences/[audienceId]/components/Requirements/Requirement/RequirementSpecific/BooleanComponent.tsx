@@ -45,7 +45,6 @@ const Element = ({ setAudience, requirement }: Props) => {
         <select
           className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
           onChange={(event) => {
-            console.log();
             const newValue = Boolean(Number(event.target.value));
             requirement.data.value = newValue;
             setAudience((audience) => {

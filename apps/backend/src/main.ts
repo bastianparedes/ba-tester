@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
 import { RedisIoAdapter } from './adapters/redis-socket-io';
 import { AppModule } from './app.module';
+import { TokenRenewerInterceptor } from './interceptors/tokenRenewer.interceptor';
 import { env } from './libs/env';
 
 async function bootstrap() {
@@ -10,6 +11,7 @@ async function bootstrap() {
 
   const redisAdapter = new RedisIoAdapter(app);
   await redisAdapter.connectToRedis();
+  app.useGlobalInterceptors(new TokenRenewerInterceptor());
   app.useWebSocketAdapter(redisAdapter);
 
   app.enableCors({
