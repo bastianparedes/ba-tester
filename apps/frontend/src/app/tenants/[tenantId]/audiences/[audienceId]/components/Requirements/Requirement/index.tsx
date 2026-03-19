@@ -266,7 +266,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setA
               onChange={handleOnChangeType}
               value={requirement.type}
             >
-              {commonConstants.audienceRequirements.map((type) => (
+              {commonConstants.audienceRequirementsArray.map((type) => (
                 <option key={type} value={type}>
                   {translation.audience[type]}
                 </option>

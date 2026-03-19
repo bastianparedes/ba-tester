@@ -15,7 +15,7 @@ import { type Request } from '../types/request';
 const getTrackEventQuerySchema = z
   .object({
     orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
-    orderDirection: z.enum(commonConstants.orderDirection),
+    orderDirection: z.enum(commonConstants.orderDirectionArray),
     page: z.coerce.number().int(),
     quantity: z.coerce
       .number()
@@ -27,7 +27,7 @@ const getTrackEventQuerySchema = z
         if (typeof val === 'string') return [val];
         return val;
       },
-      z.array(z.enum(commonConstants.arrayStatus)),
+      z.array(z.enum(commonConstants.arrayStatusArray)),
     ),
     textSearch: z.string(),
   })
@@ -40,7 +40,7 @@ const trackEventSchema = z
     getData: z.string(),
     multipleTimes: z.boolean(),
     name: z.string(),
-    status: z.enum(commonConstants.arrayStatus),
+    status: z.enum(commonConstants.arrayStatusArray),
   })
   .strip();
 

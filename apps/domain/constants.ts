@@ -85,11 +85,11 @@ const devices = {
   mobile: 'mobile',
 } as const satisfies Record<TypeDeviceType, string>;
 
-const orderDirection = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
-const arrayStatus = [status.inactive, status.active] as const satisfies TypeStatus[];
+const orderDirectionArray = [orderDirections.asc, orderDirections.desc] as const satisfies TypeDirection[];
+const arrayStatusArray = [status.inactive, status.active] as const satisfies TypeStatus[];
 
-const triggers = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
-const campaignRequirements = [
+const triggerTypesArray = [triggerTypes.clickOnElement, triggerTypes.custom, triggerTypes.pageLoad, triggerTypes.timeOnPage];
+const campaignRequirementsArray = [
   requirementTypes.audience,
   requirementTypes.cookie,
   requirementTypes.custom,
@@ -109,7 +109,7 @@ const audienceRestrictionTypes = {
   number: 'number',
   string: 'string',
 } as const satisfies Record<TypeAudienceRestrictionType, string>;
-const audienceRequirements = [
+const audienceRequirementsArray = [
   audienceRestrictionTypes.boolean,
   audienceRestrictionTypes.number,
   audienceRestrictionTypes.string,
@@ -150,25 +150,25 @@ const audienceTimeUnits = {
 } as const satisfies Record<TypeAudienceTimeUnit, string>;
 
 const constants = {
-  arrayStatus,
+  arrayStatusArray,
   audienceBooleanComparators,
   audienceNumberComparators,
   audienceQuantityOperator,
-  audienceRequirements,
+  audienceRequirementsArray,
   audienceRestrictionTypes,
   audienceStringComparators,
   audienceTimeUnits,
   booleanOperators,
-  campaignRequirements,
+  campaignRequirementsArray,
   comparisons,
   devices,
   limitTypes,
   nodeTypes,
-  orderDirection,
+  orderDirectionArray,
   requirementTypes,
   status,
-  triggers,
   triggerTypes,
+  triggerTypesArray,
   typeRepetitions,
   windowKey,
 } as const;

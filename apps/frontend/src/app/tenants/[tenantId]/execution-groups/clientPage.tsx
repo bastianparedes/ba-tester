@@ -311,7 +311,7 @@ export function ClientPage({ tenantId }: PageProps) {
           <div className="mb-6">
             <span className="block text-sm font-semibold text-slate-700 mb-2">{translation.campaigns.filtersStatus}</span>
             <div className="space-y-2">
-              {commonConstants.arrayStatus.map((status) => (
+              {commonConstants.arrayStatusArray.map((status) => (
                 <label key={status} className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"

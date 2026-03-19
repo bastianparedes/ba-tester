@@ -15,7 +15,7 @@ import { type Request } from '../types/request';
 const getExecutionGroupsQuerySchema = z
   .object({
     orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
-    orderDirection: z.enum(commonConstants.orderDirection),
+    orderDirection: z.enum(commonConstants.orderDirectionArray),
     page: z.coerce.number().int(),
     quantity: z.coerce
       .number()
@@ -27,7 +27,7 @@ const getExecutionGroupsQuerySchema = z
         if (typeof val === 'string') return [val];
         return val;
       },
-      z.array(z.enum(commonConstants.arrayStatus)),
+      z.array(z.enum(commonConstants.arrayStatusArray)),
     ),
     textSearch: z.string(),
   })
@@ -41,7 +41,7 @@ const executionGroupSchema = z
     name: z.string(),
     onlyCampaignsPreviouslyExecuted: z.boolean(),
     onlyOneCampaignPerPageLoad: z.boolean(),
-    status: z.enum(commonConstants.arrayStatus),
+    status: z.enum(commonConstants.arrayStatusArray),
     waitForEveryCampaignToBeEvaluated: z.boolean(),
   })
   .strip();

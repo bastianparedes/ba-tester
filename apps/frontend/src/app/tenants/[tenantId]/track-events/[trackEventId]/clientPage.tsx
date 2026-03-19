@@ -111,7 +111,7 @@ const ClientPage = ({ initialTrackEvent, tenantId, trackEventId }: Props) => {
                         : 'bg-red-500 text-white hover:bg-red-600'
                   }`}
                 >
-                  {commonConstants.arrayStatus.map((status) => (
+                  {commonConstants.arrayStatusArray.map((status) => (
                     <option key={status} value={status}>
                       {translation.common[status]}
                     </option>

@@ -240,7 +240,7 @@ const Requirement = ({ grandParentNode, id, index, parentNode, requirement, setC
           onChange={handleOnChangeType}
           value={requirement.type}
         >
-          {commonConstants.campaignRequirements.map((type) => (
+          {commonConstants.campaignRequirementsArray.map((type) => (
             <option key={type} value={type}>
               {translation.campaign[type]}
             </option>

@@ -29,7 +29,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
     });
   };
 
-  const handleOnChangeType = (trigger: TypeTriggerData, newType: (typeof commonConstants)['triggers'][number]) => {
+  const handleOnChangeType = (trigger: TypeTriggerData, newType: (typeof commonConstants)['triggerTypesArray'][number]) => {
     setCampaign((campaign) => {
       const index = campaign.triggers.findIndex((triggerInList) => triggerInList.id === trigger.id);
 
@@ -96,7 +96,7 @@ const Triggers = ({ setCampaign, triggers }: Props) => {
                   className="w-full px-4 py-3 border-2 border-blue-200 rounded-lg focus:outline-none focus:border-blue-500 bg-white appearance-none cursor-pointer transition-all hover:border-blue-400"
                   onChange={(e) => handleOnChangeType(trigger, e.target.value as typeof trigger.type)}
                 >
-                  {commonConstants.triggers.map((type) => (
+                  {commonConstants.triggerTypesArray.map((type) => (
                     <option key={type} value={type}>
                       {translation.campaign[type]}
                     </option>

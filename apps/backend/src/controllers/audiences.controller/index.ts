@@ -14,7 +14,7 @@ import { NodeRequirementSchema } from './requirementsValidator';
 export const getAudiencesQuerySchema = z
   .object({
     orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
-    orderDirection: z.enum(commonConstants.orderDirection),
+    orderDirection: z.enum(commonConstants.orderDirectionArray),
     page: z.coerce.number().int(),
     quantity: z.coerce.number().refine((v) => quantitiesAvailable.includes(v), {
       message: 'Invalid quantity',
@@ -25,7 +25,7 @@ export const getAudiencesQuerySchema = z
         if (typeof val === 'string') return [val];
         return val;
       },
-      z.array(z.enum(commonConstants.arrayStatus)),
+      z.array(z.enum(commonConstants.arrayStatusArray)),
     ),
     textSearch: z.string(),
   })
