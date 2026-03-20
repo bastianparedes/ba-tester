@@ -1,0 +1,62 @@
+services:
+
+  db-postgres:
+    tty: true
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: db
+    volumes:
+      - ./src/repositories/postgres/migrations:/docker-entrypoint-initdb.d
+
+  db-redis:
+    tty: true
+    image: redis
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    image: ba-tester/service
+    environment:
+      JWT_SECRET: "abc123"
+      DOMAIN: "localhost"
+      DATABASE_URL_POSTGRES: "postgresql://admin:12345678@db-postgres:5432/db?sslmode=disable"
+      DATABASE_URL_REDIS: "redis://db-redis:6379"
+      SALT_ROUNDS: 1
+      SUPER_ADMIN_EMAIL: test@test.com
+      SUPER_ADMIN_PASSWORD: abc
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db-postgres
+      - db-redis
+    volumes:
+      - /app/node_modules
+      - ..:/app
+
+
+  frontend:
+    tty: true
+    command: npm run dev
+    build:
+      context: ./ab-tester-ui
+      dockerfile: Dockerfile.dev
+    image: ba-tester/ui
+    environment:
+      NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE: http://backend:4000
+      NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE: http://localhost:4000
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/ab-tester-ui/node_modules
+      - ../ab-tester-ui:/app/ab-tester-ui
+    depends_on:
+      - db-postgres
+      - db-redis

@@ -1,0 +1,28 @@
+{
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "typescript": "^5.9.3"
+  },
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts"
+    },
+    "./api/*": {
+      "types": "./dist/api/*.d.ts"
+    }
+  },
+  "name": "@digital-retail/ab-tester-types",
+  "publishConfig": {
+    "@digital-retail:registry": "https://gitlab.falabella.tech/api/v4/projects/66385/packages/npm/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.falabella.tech/digital-retail/bu/falabella/b2c/services/ab-tester/ab-tester-types"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
+  },
+  "version": "1.0.0"
+}

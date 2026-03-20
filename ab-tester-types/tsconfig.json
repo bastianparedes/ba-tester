@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "stripInternal": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}

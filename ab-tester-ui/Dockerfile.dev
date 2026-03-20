@@ -1,0 +1,13 @@
+FROM node:24-alpine AS builder
+WORKDIR /app/ab-tester-ui
+COPY ./ab-tester-ui/package*.json ./
+RUN npm ci --silent
+
+FROM node:24-alpine AS dev
+WORKDIR /app/frontend
+COPY --from=builder /app/frontend/node_modules ./node_modules
+COPY ./ab-tester-ui ./ab-tester-ui
+COPY ./ab-tester-types ./ab-tester-types
+
+EXPOSE 3000
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,68 @@
+default:
+  image: node:24.0.0
+
+stages:
+  - setup
+  - quality
+  - build
+
+variables:
+  NPM_REGISTRY: "https://gitlab.falabella.tech/api/v4/packages/npm/"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+before_script:
+  - node -v
+  - npm -v
+  - npm config set @digital-retail:registry=${NPM_REGISTRY}
+  - npm config set //gitlab.falabella.tech/api/v4/packages/npm/:_authToken=${NPM_TOKEN}
+  - npm config set //gitlab.falabella.tech/api/v4/projects/66385/packages/npm/:_authToken=${NPM_TOKEN}
+  - npm config set //gitlab.falabella.tech/api/v4/projects/27620736/packages/npm/:_authToken=${NPM_TOKEN}
+
+install:
+  stage: setup
+  script:
+    - npm ci --cache .npm --prefer-offline --no-audit
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1h
+
+audit:
+  stage: quality
+  needs:
+    - install
+  script:
+    - npm audit --audit-level=high -w @digital-retail/${LIB_NAME}
+
+lint:
+  stage: quality
+  needs:
+    - install
+  script:
+    - npm run lint
+
+test:
+  stage: quality
+  needs:
+    - install
+  script:
+    - npm run test
+  coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
+
+build:
+  stage: build
+  needs:
+    - audit
+    - lint
+    - test
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+      - build/
+    expire_in: 1h

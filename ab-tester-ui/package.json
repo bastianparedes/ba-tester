@@ -1,0 +1,39 @@
+{
+  "author": "Bastián Gabriel Paredes Padget",
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.577.0",
+    "monaco-editor": "^0.55.1",
+    "next": "16.1.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.71.2",
+    "react-tabs": "^6.1.0",
+    "socket.io-client": "^4.8.3",
+    "zustand": "^5.0.11"
+  },
+  "devDependencies": {
+    "@digital-retail/ab-tester-types": "file:../ab-tester-types/digital-retail-ab-tester-types-1.0.0.tgz",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^25",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5"
+  },
+  "name": "@digital-retail/ab-tester-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.falabella.tech/digital-retail/bu/falabella/b2c/services/ab-tester/ab-tester-ui"
+  },
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --webpack",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "start": "next start"
+  },
+  "version": "1.0.0"
+}
