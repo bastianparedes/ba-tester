@@ -1,12 +1,12 @@
-import commonConstants from '../../../../domain/constants';
-import { TypeExecutionGroupScript } from '../../../../domain/types/script';
 import { Audience } from '../classes/Audience';
+import { TypeExecutionGroupScript } from '../../../../domain/types/script';
 import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Campaign/Trigger';
 import Variation from '../classes/Campaign/Variation';
 import { ExecutionGroupCookieManager } from '../classes/ExecutionGroupCookieManager';
 import type { TypeBaTester } from '../types';
 import { getRandomFromArray } from '../utils/random';
+import scriptConstants from '../config/constants';
 
 declare global {
   interface Window {
@@ -119,7 +119,7 @@ const initExecutionGroup = async (executionGroup: TypeExecutionGroupScript) => {
 };
 
 export const initCampaigns = () => {
-  window[commonConstants.windowKey].executionGroupsData.forEach((executionGroupData) => {
+  window[scriptConstants.windowKey].executionGroupsData.forEach((executionGroupData) => {
     initExecutionGroup(executionGroupData);
   });
 };

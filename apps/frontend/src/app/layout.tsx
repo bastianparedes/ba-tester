@@ -2,7 +2,7 @@ import type React from 'react';
 import './styles/global.css';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { cookieNames } from '@/domain/config';
+import constants from '../config/constants';
 import { DynamicDialog } from './_common/contexts/Dialog/Component';
 import { Loader } from './_common/contexts/Loader/Component';
 import { ToastProvider } from './_common/contexts/ToastEmitter';
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
-  const languageInCookie = cookieStore.get(cookieNames.lang)?.value || 'english';
+  const languageInCookie = cookieStore.get(constants.cookieNames.lang)?.value || 'english';
 
   return (
     <html lang="es-ES">

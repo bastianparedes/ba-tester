@@ -1,11 +1,10 @@
 import { Body, Controller, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-
-import { TypeApiUsers } from '../../../domain/api/users';
-import { permissions } from '../../../domain/permissions';
+import { TypeApiUsers } from '../../../domain/types/api/users';
 import { type AssertEqual } from '../../../domain/types/utils';
 import { AuthGuard } from '../guards/auth.guard';
 import { isPasswordCorrect } from '../libs/auth/password';
+import { permissions } from '../libs/constants';
 import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 import { type Request } from '../types/request';

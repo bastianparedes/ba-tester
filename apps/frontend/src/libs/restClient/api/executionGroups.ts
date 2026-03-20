@@ -1,4 +1,4 @@
-import type { TypeApiExecutionGroups } from '@/domain/api/executionGroups';
+import type { TypeApiExecutionGroups } from '@/domain/types/api/executionGroups';
 import { fetchers } from '../fetcher';
 
 export const executionGroups = {

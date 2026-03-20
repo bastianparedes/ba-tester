@@ -100,8 +100,6 @@ const campaignRequirementsArray = [
   requirementTypes.url,
 ] satisfies Exclude<TypeRequirementType, 'node'>[];
 
-const windowKey = 'ba_tester';
-
 const audienceRestrictionTypes = {
   any: 'any',
   boolean: 'boolean',
@@ -170,7 +168,6 @@ const constants = {
   triggerTypes,
   triggerTypesArray,
   typeRepetitions,
-  windowKey,
 } as const;
 
 export default constants;

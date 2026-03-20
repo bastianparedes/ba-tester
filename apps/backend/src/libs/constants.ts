@@ -1,6 +1,7 @@
-import { flattenObject } from './utils';
+import { TypePermissions } from '../../../domain/types/permissions';
+import { flattenObject } from '../libs/object';
 
-export const permissions = {
+export const permissions: TypePermissions = {
   audience: {
     create: 'audience.create',
     delete: 'audience.delete',
@@ -44,5 +45,9 @@ export const permissions = {
     update: 'user.update',
   },
 };
-
 export const flatPermissions = flattenObject(permissions);
+
+export const cookieNames = {
+  token: 'token',
+};
+export const superAdminId = -1;

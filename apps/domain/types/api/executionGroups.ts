@@ -1,7 +1,7 @@
-import type { TypeCampaign, TypeCampaignForExecutionGroup } from '../types/campaign';
-import type { TypeDirection } from '../types/constants';
-import type { TypeExecutionGroup, TypeExecutionGroupForMenu, TypeOrderExecutionGroupsBy } from '../types/executionGroup';
-import type { TypeTenant } from '../types/tenant';
+import type { TypeCampaign, TypeCampaignForExecutionGroup } from '../campaign';
+import type { TypeDirection } from '../constants';
+import type { TypeExecutionGroup, TypeExecutionGroupForMenu, TypeOrderExecutionGroupsBy } from '../executionGroup';
+import type { TypeTenant } from '../tenant';
 
 export type TypeApiExecutionGroups = {
   get: {

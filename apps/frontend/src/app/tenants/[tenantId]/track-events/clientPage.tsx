@@ -8,7 +8,6 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
-import { quantitiesAvailable } from '@/domain/config';
 import commonConstants from '@/domain/constants';
 import type { TypeDirection } from '@/domain/types/constants';
 import type { TypeOrderTrackEventBy, TypeTrackEventForMenu } from '@/domain/types/trackEvents';
@@ -84,7 +83,7 @@ export function ClientPage({ tenantId }: PageProps) {
     },
     {
       currentPage: 0,
-      itemsPerPage: quantitiesAvailable[0],
+      itemsPerPage: config.quantitiesAvailable[0],
       nameFilter: '',
       sortConfig: { direction: 'desc', key: 'updatedAt' },
       statusFilter: ['active', 'inactive'],
@@ -353,7 +352,7 @@ export function ClientPage({ tenantId }: PageProps) {
               }
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
             >
-              {quantitiesAvailable.map((qty) => (
+              {config.quantitiesAvailable.map((qty) => (
                 <option key={qty} value={qty}>
                   {qty}
                 </option>

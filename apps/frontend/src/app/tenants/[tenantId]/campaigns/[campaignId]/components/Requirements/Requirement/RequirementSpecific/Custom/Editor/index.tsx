@@ -6,7 +6,7 @@ import type { TypeCampaignWithOptionalId, TypeCustomRequirement } from '@/domain
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';
-import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
+import { jsCodeHasCorrectSyntax } from '@/utils/jsCode';
 
 interface Props {
   requirement: TypeCustomRequirement;

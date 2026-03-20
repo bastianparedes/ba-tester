@@ -1,4 +1,4 @@
-import type { TypeApiScripts } from '@/domain/api/scripts';
+import type { TypeApiScripts } from '@/domain/types/api/scripts';
 import { fetchers } from '../fetcher';
 
 export const scripts = {

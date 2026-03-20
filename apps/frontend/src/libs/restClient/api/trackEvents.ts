@@ -1,4 +1,4 @@
-import type { TypeApiTrackEvents } from '@/domain/api/trackEvents';
+import type { TypeApiTrackEvents } from '@/domain/types/api/trackEvents';
 import { fetchers } from '../fetcher';
 
 export const trackEvents = {

@@ -1,6 +1,6 @@
-import type { TypeDirection } from '../types/constants';
-import type { TypeTenant } from '../types/tenant';
-import type { TypeOrderTrackEventBy, TypeTrackEvent, TypeTrackEventForAudience, TypeTrackEventForMenu, TypeTrackEventUpdatable } from '../types/trackEvents';
+import type { TypeDirection } from '../constants';
+import type { TypeTenant } from '../tenant';
+import type { TypeOrderTrackEventBy, TypeTrackEvent, TypeTrackEventForAudience, TypeTrackEventForMenu, TypeTrackEventUpdatable } from '../trackEvents';
 
 export type TypeApiTrackEvents = {
   get: {

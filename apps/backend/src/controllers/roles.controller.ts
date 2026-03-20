@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-import { TypeApiRoles } from '../../../domain/api/roles';
-import { flatPermissions, permissions } from '../../../domain/permissions';
+import { TypeApiRoles } from '../../../domain/types/api/roles';
 import { type AssertEqual } from '../../../domain/types/utils';
 import { AuthGuard } from '../guards/auth.guard';
+import { flatPermissions, permissions } from '../libs/constants';
 import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 

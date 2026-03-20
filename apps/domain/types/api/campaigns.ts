@@ -1,7 +1,7 @@
-import type { TypeCampaign, TypeCampaignForExecutionGroup, TypeCampaignForMenu, TypeCampaignWithOptionalId, TypeOrderCampaignsBy } from '../types/campaign';
-import type { TypeDirection } from '../types/constants';
-import type { TypeExecutionGroup } from '../types/executionGroup';
-import type { TypeTenant } from '../types/tenant';
+import type { TypeCampaign, TypeCampaignForExecutionGroup, TypeCampaignForMenu, TypeCampaignWithOptionalId, TypeOrderCampaignsBy } from '../campaign';
+import type { TypeDirection } from '../constants';
+import type { TypeExecutionGroup } from '../executionGroup';
+import type { TypeTenant } from '../tenant';
 
 export type TypeApiCampaigns = {
   get: {

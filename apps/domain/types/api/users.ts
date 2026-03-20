@@ -1,5 +1,5 @@
-import type { TypeRole } from '../types/role';
-import type { TypeUser } from '../types/user';
+import type { TypeRole } from '../role';
+import type { TypeUser } from '../user';
 
 export type TypeApiUsers = {
   getAll: {

@@ -1,13 +1,11 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-
-import { TypeApiUsers } from '../../../domain/api/users';
-import { cookieNames } from '../../../domain/config';
-import { permissions } from '../../../domain/permissions';
+import { TypeApiUsers } from '../../../domain/types/api/users';
 import { TypeUser } from '../../../domain/types/user';
 import { type AssertEqual } from '../../../domain/types/utils';
 import { AuthGuard } from '../guards/auth.guard';
 import { getTokenData } from '../libs/auth/jwt';
+import { cookieNames, permissions } from '../libs/constants';
 import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 import { type Request } from '../types/request';

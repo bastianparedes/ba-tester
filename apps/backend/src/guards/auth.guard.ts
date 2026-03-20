@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, mixin, Type } from '@nestjs/common';
-import { cookieNames } from '../../../domain/config';
 import { getTokenData } from '../libs/auth/jwt';
+import { cookieNames } from '../libs/constants';
 import { DbService } from '../services/db.service';
 import { type Request } from '../types/request';
 

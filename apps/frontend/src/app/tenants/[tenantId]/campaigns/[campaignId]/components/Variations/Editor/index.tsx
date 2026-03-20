@@ -7,7 +7,7 @@ import type { TypeCampaignWithOptionalId, TypeVariationData } from '@/domain/typ
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';
-import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
+import { jsCodeHasCorrectSyntax } from '@/utils/jsCode';
 
 interface Props {
   variation: TypeVariationData;

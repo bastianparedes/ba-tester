@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Res, UnauthorizedException } from '@nestjs/common';
 import { type Response } from 'express';
 import { z } from 'zod';
-import { TypeApiSessions } from '../../../domain/api/sessions';
-import { cookieNames } from '../../../domain/config';
+import { TypeApiSessions } from '../../../domain/types/api/sessions';
 import { type AssertEqual } from '../../../domain/types/utils';
 import { generateToken, secondsTokenIsValid } from '../libs/auth/jwt';
 import { isPasswordCorrect } from '../libs/auth/password';
+import { cookieNames } from '../libs/constants';
 import { env } from '../libs/env';
 import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';

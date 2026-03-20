@@ -6,7 +6,7 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@/domain/types/campaign';
 
 import 'react-tabs/style/react-tabs.css';
-import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
+import { jsCodeHasCorrectSyntax } from '@/utils/jsCode';
 
 interface Props {
   trigger: TypeTriggerData & { type: 'custom' };

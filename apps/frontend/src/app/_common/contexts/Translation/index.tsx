@@ -2,8 +2,8 @@
 
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
-import { cookieNames } from '@/domain/config';
 import cookie from '@/utils/cookie';
+import constants from '../../../../config/constants';
 import languagesObject from './languages';
 
 type Language = keyof typeof languagesObject;
@@ -36,7 +36,7 @@ export function TranslationProvider({ children, language }: TranslationProviderP
     setSelectedLanguage(newLanguage);
     cookie.set({
       exdays: 365,
-      name: cookieNames.lang,
+      name: constants.cookieNames.lang,
       value: newLanguage,
     });
   };

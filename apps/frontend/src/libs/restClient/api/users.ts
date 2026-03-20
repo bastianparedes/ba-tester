@@ -1,4 +1,4 @@
-import type { TypeApiUsers } from '@/domain/api/users';
+import type { TypeApiUsers } from '@/domain/types/api/users';
 import { fetchers } from '../fetcher';
 
 export const users = {

@@ -1,4 +1,4 @@
-import type { TypeApiTenants } from '@/domain/api/tenants';
+import type { TypeApiTenants } from '@/domain/types/api/tenants';
 import { fetchers } from '../fetcher';
 
 export const tenants = {

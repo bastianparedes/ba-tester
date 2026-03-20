@@ -5,6 +5,7 @@ const constants = {
     min: 0,
     name: 'ba_test_id_v1',
   },
+  windowKey: 'ba_tester',
 };
 
 export default constants;

@@ -1,4 +1,4 @@
-import type { TypeTenant } from '../types/tenant';
+import type { TypeTenant } from '../tenant';
 
 export type TypeApiTenants = {
   getAll: {

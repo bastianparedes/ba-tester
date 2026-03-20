@@ -1,4 +1,4 @@
-import type { TypeApiRoles } from '@/domain/api/roles';
+import type { TypeApiRoles } from '@/domain/types/api/roles';
 import { fetchers } from '../fetcher';
 
 export const roles = {

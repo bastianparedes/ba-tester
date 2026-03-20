@@ -1,6 +1,6 @@
-import type { TypeAudience, TypeAudienceForCampaign, TypeAudienceForMenu, TypeAudienceWithOptionalId, TypeOrderAudiencesBy } from '../types/audience';
-import type { TypeDirection } from '../types/constants';
-import type { TypeTenant } from '../types/tenant';
+import type { TypeAudience, TypeAudienceForCampaign, TypeAudienceForMenu, TypeAudienceWithOptionalId, TypeOrderAudiencesBy } from '../audience';
+import type { TypeDirection } from '../constants';
+import type { TypeTenant } from '../tenant';
 
 export type TypeApiAudiences = {
   get: {

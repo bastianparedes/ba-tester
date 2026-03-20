@@ -10,11 +10,11 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
 import commonConstants from '@/domain/constants';
-import { jsCodeHasCorrectSyntax } from '@/domain/jsCode';
 import type { TypeTrackEventWithOptionalId } from '@/domain/types/trackEvents';
 import type { TypeUser } from '@/domain/types/user';
 import { env } from '@/libs/env';
 import { apiCaller } from '@/libs/restClient';
+import { jsCodeHasCorrectSyntax } from '@/utils/jsCode';
 import { LiveViewersNavbar } from './components/LiveViewersBar';
 
 type Props = {

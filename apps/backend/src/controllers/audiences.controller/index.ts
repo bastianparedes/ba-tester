@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-import { TypeApiAudiences } from '../../../../domain/api/audiences';
-import { quantitiesAvailable } from '../../../../domain/config';
 import commonConstants from '../../../../domain/constants';
-import { permissions } from '../../../../domain/permissions';
+import { TypeApiAudiences } from '../../../../domain/types/api/audiences';
 import { type AssertEqual } from '../../../../domain/types/utils';
 import { AuthGuard } from '../../guards/auth.guard';
+import { permissions } from '../../libs/constants';
 import { ZodValidationPipe } from '../../pipes/zod';
 import { DbService } from '../../services/db.service';
 import { type Request } from '../../types/request';
@@ -16,9 +15,6 @@ export const getAudiencesQuerySchema = z
     orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
     orderDirection: z.enum(commonConstants.orderDirectionArray),
     page: z.coerce.number().int(),
-    quantity: z.coerce.number().refine((v) => quantitiesAvailable.includes(v), {
-      message: 'Invalid quantity',
-    }),
     statusList: z.preprocess(
       (val) => {
         if (!val) return [];

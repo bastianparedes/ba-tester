@@ -1,4 +1,4 @@
-import type { TypeApiAudiences } from '@/domain/api/audiences';
+import type { TypeApiAudiences } from '@/domain/types/api/audiences';
 import { fetchers } from '../fetcher';
 
 export const audiences = {

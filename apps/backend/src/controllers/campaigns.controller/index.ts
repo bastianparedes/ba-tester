@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-import { TypeApiCampaigns } from '../../../../domain/api/campaigns';
-import { quantitiesAvailable } from '../../../../domain/config';
 import commonConstants from '../../../../domain/constants';
-import { permissions } from '../../../../domain/permissions';
+import { TypeApiCampaigns } from '../../../../domain/types/api/campaigns';
 import { type AssertEqual } from '../../../../domain/types/utils';
 import { AuthGuard } from '../../guards/auth.guard';
+import { permissions } from '../../libs/constants';
 import { ZodValidationPipe } from '../../pipes/zod';
 import { DbService } from '../../services/db.service';
 import { type Request } from '../../types/request';
@@ -18,9 +17,7 @@ export const getCampaignsQuerySchema = z
     orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
     orderDirection: z.enum(commonConstants.orderDirectionArray),
     page: z.coerce.number().int(),
-    quantity: z.coerce.number().refine((v) => quantitiesAvailable.includes(v), {
-      message: 'Invalid quantity',
-    }),
+    quantity: z.coerce.number(),
     statusList: z.preprocess(
       (val) => {
         if (!val) return [];

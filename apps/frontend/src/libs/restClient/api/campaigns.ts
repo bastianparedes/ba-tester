@@ -1,4 +1,4 @@
-import type { TypeApiCampaigns } from '@/domain/api/campaigns';
+import type { TypeApiCampaigns } from '@/domain/types/api/campaigns';
 import { fetchers } from '../fetcher';
 
 export const campaigns = {

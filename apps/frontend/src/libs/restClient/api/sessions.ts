@@ -1,4 +1,4 @@
-import type { TypeApiSessions } from '@/domain/api/sessions';
+import type { TypeApiSessions } from '@/domain/types/api/sessions';
 import { fetchers } from '../fetcher';
 
 export const sessions = {

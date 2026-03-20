@@ -2,8 +2,8 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import { type Response } from 'express';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { cookieNames } from '../../../domain/config';
 import { generateToken, getTokenData, secondsTokenIsValid } from '../libs/auth/jwt';
+import { cookieNames } from '../libs/constants';
 import { env } from '../libs/env';
 import { type Request } from '../types/request';
 

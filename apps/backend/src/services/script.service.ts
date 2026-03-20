@@ -13,6 +13,7 @@ import { ExecutionGroupRepository } from '../repositories/executionGroup.reposit
 import { TrackEventRepository } from '../repositories/trackEvent.repository';
 import { TypeBaTester } from '../script/types';
 import { CacheService } from './cache.service';
+import scriptConstants from '../script/config/constants';
 
 const getMinifiedHtml = async (html: string): Promise<string> => {
   try {
@@ -189,7 +190,7 @@ export class ScriptService {
     ]);
 
     const windowObject: TypeBaTester = { audiencesData, executionGroupsData, trackEventsData };
-    const stringWindow = `window.${commonConstants.windowKey} = window.${commonConstants.windowKey} || {};window.${commonConstants.windowKey} = ${stringifyWithFunctions(windowObject)};`;
+    const stringWindow = `window.${scriptConstants.windowKey} = window.${scriptConstants.windowKey} || {};window.${scriptConstants.windowKey} = ${stringifyWithFunctions(windowObject)};`;
     const script = fs.readFileSync(scriptLocation, 'utf-8');
     const fullScript = stringWindow + script;
     const minifiedJs = await getMinifiedJs(fullScript);

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { superAdminId } from '../../../domain/config';
-import { flatPermissions } from '../../../domain/permissions';
 import { getPasswordHashed } from '../libs/auth/password';
+import { flatPermissions, superAdminId } from '../libs/constants';
 import { env } from '../libs/env';
 import { AudienceRepository } from '../repositories/audience.repository';
 import { CampaignRepository } from '../repositories/campaign.repository';

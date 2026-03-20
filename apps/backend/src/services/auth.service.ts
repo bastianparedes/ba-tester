@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { cookieNames } from '../../../domain/config';
 import { getTokenData } from '../libs/auth/jwt';
+import { cookieNames } from '../libs/constants';
 import { DbService } from './db.service';
 
 @Injectable()

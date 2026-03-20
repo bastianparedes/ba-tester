@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import constants from '../../../../domain/constants';
-import { jsCodeHasCorrectSyntax } from '../../../../domain/jsCode';
 import { TypeNodeRequirement } from '../../../../domain/types/campaign';
+import { jsCodeHasCorrectSyntax } from '../../libs/jsCode';
 
 const StorageComparatorWithValue = z.enum([constants.comparisons.equal, constants.comparisons.isNot, constants.comparisons.contains, constants.comparisons.doesNotContain]);
 

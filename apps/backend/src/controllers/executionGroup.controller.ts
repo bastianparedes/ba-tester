@@ -1,11 +1,10 @@
 import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
-import { TypeApiExecutionGroups } from '../../../domain/api/executionGroups';
-import { quantitiesAvailable } from '../../../domain/config';
 import commonConstants from '../../../domain/constants';
-import { permissions } from '../../../domain/permissions';
+import { TypeApiExecutionGroups } from '../../../domain/types/api/executionGroups';
 import { type AssertEqual } from '../../../domain/types/utils';
 import { AuthGuard } from '../guards/auth.guard';
+import { permissions } from '../libs/constants';
 import { ZodValidationPipe } from '../pipes/zod';
 import { DbService } from '../services/db.service';
 import { type Request } from '../types/request';
@@ -17,10 +16,7 @@ const getExecutionGroupsQuerySchema = z
     orderBy: z.enum(['status', 'name', 'id', 'updatedAt']),
     orderDirection: z.enum(commonConstants.orderDirectionArray),
     page: z.coerce.number().int(),
-    quantity: z.coerce
-      .number()
-      .int()
-      .refine((v) => quantitiesAvailable.includes(v), { message: 'Invalid quantity' }),
+    quantity: z.coerce.number().int(),
     statusList: z.preprocess(
       (val) => {
         if (!val) return [];

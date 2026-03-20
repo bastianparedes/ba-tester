@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { jsCodeHasCorrectSyntax } from '../../../../domain/jsCode';
+import { jsCodeHasCorrectSyntax } from '../../libs/jsCode';
 
 export const variationSchema = z
   .array(
