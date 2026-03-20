@@ -3,7 +3,6 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import CleanCSS from 'clean-css';
 import { minify as minifyHtml } from 'html-minifier-terser';
 import { minify as minifyJs } from 'terser';
-import commonConstants from '../../../domain/constants';
 import type { TypeNodeRequirement } from '../../../domain/types/campaign';
 import { TypeCampaign } from '../../../domain/types/campaign';
 import type { TypeCampaignScript, TypeExecutionGroupScript } from '../../../domain/types/script';
@@ -11,9 +10,9 @@ import { getScriptLocation } from '../libs/script';
 import { AudienceRepository } from '../repositories/audience.repository';
 import { ExecutionGroupRepository } from '../repositories/executionGroup.repository';
 import { TrackEventRepository } from '../repositories/trackEvent.repository';
+import scriptConstants from '../script/config/constants';
 import { TypeBaTester } from '../script/types';
 import { CacheService } from './cache.service';
-import scriptConstants from '../script/config/constants';
 
 const getMinifiedHtml = async (html: string): Promise<string> => {
   try {

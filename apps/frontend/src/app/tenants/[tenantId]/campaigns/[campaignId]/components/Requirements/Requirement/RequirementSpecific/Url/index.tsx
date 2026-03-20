@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import commonConstants from '@/domain/constants';
+import commonConstants from '@/config/sharedConstants';
 import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
 
 interface Props {

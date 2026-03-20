@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import constants from '../../../../domain/constants';
 import { jsCodeHasCorrectSyntax } from '../../libs/jsCode';
+import constants from '../../libs/sharedConstants';
 
 const clickOnElementDataSchema = z.object({
   selector: z.string(),

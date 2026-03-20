@@ -8,7 +8,7 @@ import { Switch } from '@/app/_common/components/switch';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
-import commonConstants from '@/domain/constants';
+import commonConstants from '@/config/sharedConstants';
 import type { TypeCampaignForExecutionGroup } from '@/domain/types/campaign';
 import type { TypeExecutionGroupWithOptionalId } from '@/domain/types/executionGroup';
 import type { TypeUser } from '@/domain/types/user';

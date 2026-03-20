@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import constants from '../../../../domain/constants';
 import { TypeNodeRequirement } from '../../../../domain/types/audience';
+import constants from '../../libs/sharedConstants';
 
 // Base
 const baseComparatorSchema = z.object({

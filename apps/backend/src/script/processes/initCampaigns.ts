@@ -1,12 +1,12 @@
-import { Audience } from '../classes/Audience';
 import { TypeExecutionGroupScript } from '../../../../domain/types/script';
+import { Audience } from '../classes/Audience';
 import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Campaign/Trigger';
 import Variation from '../classes/Campaign/Variation';
 import { ExecutionGroupCookieManager } from '../classes/ExecutionGroupCookieManager';
+import scriptConstants from '../config/constants';
 import type { TypeBaTester } from '../types';
 import { getRandomFromArray } from '../utils/random';
-import scriptConstants from '../config/constants';
 
 declare global {
   interface Window {

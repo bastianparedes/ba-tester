@@ -2,7 +2,7 @@ import { cx } from 'class-variance-authority';
 import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import commonConstants from '@/domain/constants';
+import commonConstants from '@/config/sharedConstants';
 import type { TypeAudienceWithOptionalId, TypeRequirement } from '@/domain/types/audience';
 import { TypeTrackEventForAudience } from '@/domain/types/trackEvents';
 import RequirementSpecific from './RequirementSpecific';

@@ -1,8 +1,8 @@
 // External imports
 
-import commonConstants from '../../../../../../domain/constants';
 // Types
 import type { TypeCampaignRequirementScript } from '../../../../../../domain/types/script';
+import commonConstants from '../../../../libs/sharedConstants';
 // Internal imports
 import { comparatorResolver } from '../../../utils/comparatorResolver';
 import cookie from '../../../utils/cookie';

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
-import commonConstants from '@/domain/constants';
+import commonConstants from '@/config/sharedConstants';
 import { TypeTrackEventWithOptionalId } from '@/domain/types/trackEvents';
 import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from '../[trackEventId]/clientPage';

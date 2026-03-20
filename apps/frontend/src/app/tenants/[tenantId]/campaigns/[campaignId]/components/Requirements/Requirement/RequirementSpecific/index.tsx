@@ -1,4 +1,4 @@
-import commonConstants from '@/domain/constants';
+import commonConstants from '@/config/sharedConstants';
 import { TypeAudienceForCampaign } from '@/domain/types/audience';
 import type { TypeCampaignWithOptionalId } from '@/domain/types/campaign';
 import Audience from './Audience';

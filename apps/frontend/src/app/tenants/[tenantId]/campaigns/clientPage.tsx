@@ -8,7 +8,7 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
-import commonConstants from '@/domain/constants';
+import commonConstants from '@/config/sharedConstants';
 import type { TypeCampaignForMenu, TypeOrderCampaignsBy } from '@/domain/types/campaign';
 import type { TypeDirection } from '@/domain/types/constants';
 import type { TypeExecutionGroup } from '@/domain/types/executionGroup';

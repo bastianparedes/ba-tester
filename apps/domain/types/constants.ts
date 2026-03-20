@@ -16,3 +16,9 @@ export type TypeAudienceNumberComparator = 'equal' | 'moreThan' | 'lessThan' | '
 export type TypeAudienceQuantityOperator = 'equal' | 'moreThan' | 'lessThan' | 'atLeast' | 'atMost';
 export type TypeAudienceBooleanComparator = 'equal';
 export type TypeAudienceTimeUnit = 'days' | 'hours' | 'minutes';
+
+// type TypeOrderDirectionArray = TypeDirection[];
+// type arrayStatusArray = TypeStatus[];
+export type TypeTriggerTypesArray = TypeTriggerType[];
+// type campaignRequirementsArray = Exclude<TypeRequirementType, 'node'>[];
+// type audienceRequirementsArray = Exclude<TypeAudienceRestrictionType, 'node'>[];
