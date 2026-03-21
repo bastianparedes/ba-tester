@@ -1,4 +1,4 @@
-import { TypeUser } from '@digital-retail/ab-tester-types/user';
+import { TypeUser } from '@ba-tester/types/user';
 import jwt from 'jsonwebtoken';
 import { env } from '../env';
 

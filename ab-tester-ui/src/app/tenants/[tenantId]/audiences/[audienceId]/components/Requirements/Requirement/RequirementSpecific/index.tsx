@@ -1,4 +1,4 @@
-import type { TypeAudienceWithOptionalId } from '@digital-retail/ab-tester-types/audience';
+import type { TypeAudienceWithOptionalId } from '@ba-tester/types/audience';
 import BooleanComponent from './BooleanComponent';
 import NumberComponent from './NumberComponent';
 import StringComponent from './StringComponent';

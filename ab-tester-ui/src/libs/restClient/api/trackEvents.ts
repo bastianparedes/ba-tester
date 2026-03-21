@@ -1,4 +1,4 @@
-import type { TypeApiTrackEvents } from '@digital-retail/ab-tester-types/api/trackEvents';
+import type { TypeApiTrackEvents } from '@ba-tester/types/api/trackEvents';
 import { fetchers } from '../fetcher';
 
 export const trackEvents = {

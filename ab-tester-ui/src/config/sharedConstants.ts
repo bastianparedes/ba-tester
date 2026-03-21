@@ -15,7 +15,7 @@ import type {
   TypeStringComparator,
   TypeTriggerType,
   TypeTriggerTypesArray,
-} from '@digital-retail/ab-tester-types/constants';
+} from '@ba-tester/types/constants';
 
 const constants = {
   arrayStatusArray: ['inactive', 'active'] as const satisfies TypeStatus[],

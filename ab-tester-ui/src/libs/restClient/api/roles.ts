@@ -1,4 +1,4 @@
-import type { TypeApiRoles } from '@digital-retail/ab-tester-types/api/roles';
+import type { TypeApiRoles } from '@ba-tester/types/api/roles';
 import { fetchers } from '../fetcher';
 
 export const roles = {

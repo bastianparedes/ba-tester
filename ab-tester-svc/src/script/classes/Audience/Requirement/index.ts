@@ -1,4 +1,4 @@
-import type { TypeAudienceScript } from '@digital-retail/ab-tester-types/script';
+import type { TypeAudienceScript } from '@ba-tester/types/script';
 import { comparatorResolver } from '../../../utils/comparatorResolver';
 import { indexedDBCrud } from '../../IndexedDB';
 import { filterByDate } from './dateComparator';

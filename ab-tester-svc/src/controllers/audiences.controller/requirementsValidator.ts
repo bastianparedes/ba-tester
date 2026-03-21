@@ -1,4 +1,4 @@
-import { TypeNodeRequirement } from '@digital-retail/ab-tester-types/audience';
+import { TypeNodeRequirement } from '@ba-tester/types/audience';
 import { z } from 'zod';
 import constants from '../../libs/sharedConstants';
 

@@ -3,7 +3,7 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@digital-retail/ab-tester-types/campaign';
+import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@ba-tester/types/campaign';
 
 import 'react-tabs/style/react-tabs.css';
 import { jsCodeHasCorrectSyntax } from '@/utils/jsCode';

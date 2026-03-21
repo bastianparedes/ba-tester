@@ -1,4 +1,4 @@
-import { TypeAudienceScript } from '@digital-retail/ab-tester-types/script';
+import { TypeAudienceScript } from '@ba-tester/types/script';
 import Requirement from './Requirement';
 
 export class Audience {

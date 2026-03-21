@@ -1,4 +1,4 @@
-import type { TypeApiSessions } from '@digital-retail/ab-tester-types/api/sessions';
+import type { TypeApiSessions } from '@ba-tester/types/api/sessions';
 import { fetchers } from '../fetcher';
 
 export const sessions = {

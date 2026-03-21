@@ -1,5 +1,5 @@
-import { TypeRole } from '@digital-retail/ab-tester-types/role';
-import type { TypeUser, TypeUserUpdatable } from '@digital-retail/ab-tester-types/user';
+import { TypeRole } from '@ba-tester/types/role';
+import type { TypeUser, TypeUserUpdatable } from '@ba-tester/types/user';
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
 import { getPasswordHashed } from '../libs/auth/password';

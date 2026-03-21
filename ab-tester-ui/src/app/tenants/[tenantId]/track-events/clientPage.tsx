@@ -9,8 +9,8 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeDirection } from '@digital-retail/ab-tester-types/constants';
-import type { TypeOrderTrackEventBy, TypeTrackEventForMenu } from '@digital-retail/ab-tester-types/trackEvents';
+import type { TypeDirection } from '@ba-tester/types/constants';
+import type { TypeOrderTrackEventBy, TypeTrackEventForMenu } from '@ba-tester/types/trackEvents';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

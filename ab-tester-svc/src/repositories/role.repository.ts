@@ -1,4 +1,4 @@
-import type { TypeRole, TypeRoleUpdatable } from '@digital-retail/ab-tester-types/role';
+import type { TypeRole, TypeRoleUpdatable } from '@ba-tester/types/role';
 import { Injectable } from '@nestjs/common';
 import { and, eq, inArray } from 'drizzle-orm';
 import db from './postgres/client';

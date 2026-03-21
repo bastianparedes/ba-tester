@@ -1,4 +1,4 @@
-import { TypeExecutionGroupScript } from '@digital-retail/ab-tester-types/script';
+import { TypeExecutionGroupScript } from '@ba-tester/types/script';
 import { Audience } from '../classes/Audience';
 import Campaign from '../classes/Campaign';
 import Trigger from '../classes/Campaign/Trigger';

@@ -9,9 +9,9 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeCampaignForMenu, TypeOrderCampaignsBy } from '@digital-retail/ab-tester-types/campaign';
-import type { TypeDirection } from '@digital-retail/ab-tester-types/constants';
-import type { TypeExecutionGroup } from '@digital-retail/ab-tester-types/executionGroup';
+import type { TypeCampaignForMenu, TypeOrderCampaignsBy } from '@ba-tester/types/campaign';
+import type { TypeDirection } from '@ba-tester/types/constants';
+import type { TypeExecutionGroup } from '@ba-tester/types/executionGroup';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

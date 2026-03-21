@@ -1,4 +1,4 @@
-import type { TypeVariationData } from '@digital-retail/ab-tester-types/campaign';
+import type { TypeVariationData } from '@ba-tester/types/campaign';
 
 const variationsWithDistributedTraffic = (variations: TypeVariationData[]) => {
   if (variations.length === 0) return variations;

@@ -1,4 +1,4 @@
-import { TypePermissions } from '@digital-retail/ab-tester-types/permissions';
+import { TypePermissions } from '@ba-tester/types/permissions';
 import { flattenObject } from './object';
 
 export const permissions: TypePermissions = {

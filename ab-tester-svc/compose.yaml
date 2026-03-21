@@ -21,8 +21,7 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: ./Dockerfile.dev
+      dockerfile: Dockerfile.dev
     image: ba-tester/service
     environment:
       JWT_SECRET: "abc123"
@@ -39,14 +38,13 @@ services:
       - db-redis
     volumes:
       - /app/node_modules
-      - ..:/app
-
+      - .:/app
 
   frontend:
     tty: true
     command: npm run dev
     build:
-      context: ./ab-tester-ui
+      context: ../ab-tester-ui
       dockerfile: Dockerfile.dev
     image: ba-tester/ui
     environment:
@@ -55,8 +53,5 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /app/ab-tester-ui/node_modules
-      - ../ab-tester-ui:/app/ab-tester-ui
-    depends_on:
-      - db-postgres
-      - db-redis
+      - /app/node_modules
+      - ../ab-tester-ui:/app

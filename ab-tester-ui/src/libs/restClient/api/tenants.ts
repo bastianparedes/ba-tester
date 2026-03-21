@@ -1,4 +1,4 @@
-import type { TypeApiTenants } from '@digital-retail/ab-tester-types/api/tenants';
+import type { TypeApiTenants } from '@ba-tester/types/api/tenants';
 import { fetchers } from '../fetcher';
 
 export const tenants = {

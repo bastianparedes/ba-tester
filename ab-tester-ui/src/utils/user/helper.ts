@@ -1,4 +1,4 @@
-import type { TypeUser } from '@digital-retail/ab-tester-types/user';
+import type { TypeUser } from '@ba-tester/types/user';
 import { permissions } from '../../config/constants';
 
 export type TypeFullUser =

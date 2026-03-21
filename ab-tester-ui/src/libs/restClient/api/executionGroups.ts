@@ -1,4 +1,4 @@
-import type { TypeApiExecutionGroups } from '@digital-retail/ab-tester-types/api/executionGroups';
+import type { TypeApiExecutionGroups } from '@ba-tester/types/api/executionGroups';
 import { fetchers } from '../fetcher';
 
 export const executionGroups = {

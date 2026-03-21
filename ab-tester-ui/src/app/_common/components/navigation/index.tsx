@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { TypeTenant } from '@digital-retail/ab-tester-types/tenant';
+import type { TypeTenant } from '@ba-tester/types/tenant';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
 

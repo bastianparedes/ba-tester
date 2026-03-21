@@ -14,7 +14,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "@digital-retail/ab-tester-types": "file:../ab-tester-types/digital-retail-ab-tester-types-1.0.0.tgz",
+    "@ba-tester/types": "^1.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^25",
     "@types/react": "^19",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "next build",
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "start": "next start"

@@ -1,5 +1,5 @@
-import { TypeApiSessions } from '@digital-retail/ab-tester-types/api/sessions';
-import { type AssertEqual } from '@digital-retail/ab-tester-types/utils';
+import { TypeApiSessions } from '@ba-tester/types/api/sessions';
+import { type AssertEqual } from '@ba-tester/types/utils';
 import { Body, Controller, Get, Post, Res, UnauthorizedException } from '@nestjs/common';
 import { type Response } from 'express';
 import { z } from 'zod';

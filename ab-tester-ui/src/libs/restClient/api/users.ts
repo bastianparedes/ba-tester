@@ -1,4 +1,4 @@
-import type { TypeApiUsers } from '@digital-retail/ab-tester-types/api/users';
+import type { TypeApiUsers } from '@ba-tester/types/api/users';
 import { fetchers } from '../fetcher';
 
 export const users = {

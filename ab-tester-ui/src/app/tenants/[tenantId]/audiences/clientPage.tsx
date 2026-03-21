@@ -8,8 +8,8 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
-import type { TypeAudienceForMenu, TypeOrderAudiencesBy } from '@digital-retail/ab-tester-types/audience';
-import type { TypeDirection } from '@digital-retail/ab-tester-types/constants';
+import type { TypeAudienceForMenu, TypeOrderAudiencesBy } from '@ba-tester/types/audience';
+import type { TypeDirection } from '@ba-tester/types/constants';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

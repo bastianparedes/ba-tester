@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import { TypeCampaignWithOptionalId } from '@digital-retail/ab-tester-types/campaign';
+import { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
 import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from '../[campaignId]/clientPage';
 

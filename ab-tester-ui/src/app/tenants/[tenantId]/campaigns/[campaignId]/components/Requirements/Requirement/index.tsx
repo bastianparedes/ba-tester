@@ -3,8 +3,8 @@ import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/sharedConstants';
-import { TypeAudienceForCampaign } from '@digital-retail/ab-tester-types/audience';
-import type { TypeCampaignWithOptionalId, TypeRequirement } from '@digital-retail/ab-tester-types/campaign';
+import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
+import type { TypeCampaignWithOptionalId, TypeRequirement } from '@ba-tester/types/campaign';
 import RequirementSpecific from './RequirementSpecific';
 
 interface Props {

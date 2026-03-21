@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaignWithOptionalId } from '@digital-retail/ab-tester-types/campaign';
+import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
 import Editor from './Editor';
 
 interface Props {

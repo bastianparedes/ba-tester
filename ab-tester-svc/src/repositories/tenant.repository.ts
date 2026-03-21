@@ -1,4 +1,4 @@
-import type { TypeTenant, TypeTenantUpdatable } from '@digital-retail/ab-tester-types/tenant';
+import type { TypeTenant, TypeTenantUpdatable } from '@ba-tester/types/tenant';
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import db from './postgres/client';

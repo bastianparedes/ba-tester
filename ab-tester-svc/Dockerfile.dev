@@ -1,13 +1,8 @@
-FROM node:24-alpine AS builder
-WORKDIR /app/ab-tester-svc
-COPY ./ab-tester-svc/package*.json ./
+FROM node:24-alpine
+WORKDIR /app
+COPY ./package*.json ./
 RUN npm ci --silent
+COPY . .
 
-FROM node:24-alpine AS dev
-WORKDIR /app/ab-tester-svc
-COPY --from=builder /app/ab-tester-svc/node_modules ./node_modules
-COPY ./ab-tester-svc ./ab-tester-svc
-COPY ./ab-tester-types ./ab-tester-types
-
-EXPOSE 3000
+EXPOSE 4000
 CMD ["npm", "run", "start:dev"]

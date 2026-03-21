@@ -24,8 +24,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@ba-tester/types": "^1.0.0",
     "@biomejs/biome": "^2.3.11",
-    "@digital-retail/ab-tester-types": "file:../ab-tester-types/digital-retail-ab-tester-types-1.0.0.tgz",
     "@nestjs/schematics": "^11.0.9",
     "@types/bcrypt": "^6.0.0",
     "@types/clean-css": "^4.2.11",

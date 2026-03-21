@@ -1,7 +1,7 @@
-import type { TypeAudience, TypeAudienceUpdatable, TypeOrderAudiencesBy } from '@digital-retail/ab-tester-types/audience';
-import type { TypeDirection } from '@digital-retail/ab-tester-types/constants';
-import type { TypeTenant } from '@digital-retail/ab-tester-types/tenant';
-import { TypeUser } from '@digital-retail/ab-tester-types/user';
+import type { TypeAudience, TypeAudienceUpdatable, TypeOrderAudiencesBy } from '@ba-tester/types/audience';
+import type { TypeDirection } from '@ba-tester/types/constants';
+import type { TypeTenant } from '@ba-tester/types/tenant';
+import { TypeUser } from '@ba-tester/types/user';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, or, sql } from 'drizzle-orm';
 import db from './postgres/client';

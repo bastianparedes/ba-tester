@@ -1,5 +1,5 @@
-import { TypeApiTrackEvents } from '@digital-retail/ab-tester-types/api/trackEvents';
-import { type AssertEqual } from '@digital-retail/ab-tester-types/utils';
+import { TypeApiTrackEvents } from '@ba-tester/types/api/trackEvents';
+import { type AssertEqual } from '@ba-tester/types/utils';
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
 import { AuthGuard } from '../guards/auth.guard';

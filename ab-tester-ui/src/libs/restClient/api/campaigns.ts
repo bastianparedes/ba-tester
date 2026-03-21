@@ -1,4 +1,4 @@
-import type { TypeApiCampaigns } from '@digital-retail/ab-tester-types/api/campaigns';
+import type { TypeApiCampaigns } from '@ba-tester/types/api/campaigns';
 import { fetchers } from '../fetcher';
 
 export const campaigns = {

@@ -1,5 +1,5 @@
-import { TypeApiAudiences } from '@digital-retail/ab-tester-types/api/audiences';
-import { type AssertEqual } from '@digital-retail/ab-tester-types/utils';
+import { TypeApiAudiences } from '@ba-tester/types/api/audiences';
+import { type AssertEqual } from '@ba-tester/types/utils';
 import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
 import { AuthGuard } from '../../guards/auth.guard';

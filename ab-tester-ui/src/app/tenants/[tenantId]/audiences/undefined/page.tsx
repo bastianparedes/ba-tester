@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Navigation } from '@/app/_common/components/navigation';
 import constants from '@/config/constants';
-import { TypeAudienceWithOptionalId } from '@digital-retail/ab-tester-types/audience';
+import { TypeAudienceWithOptionalId } from '@ba-tester/types/audience';
 import { apiCaller } from '@/libs/restClient';
 import { ClientPage } from '../[audienceId]/clientPage';
 

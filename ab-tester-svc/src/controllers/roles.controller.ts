@@ -1,5 +1,5 @@
-import { TypeApiRoles } from '@digital-retail/ab-tester-types/api/roles';
-import { type AssertEqual } from '@digital-retail/ab-tester-types/utils';
+import { TypeApiRoles } from '@ba-tester/types/api/roles';
+import { type AssertEqual } from '@ba-tester/types/utils';
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
 import { AuthGuard } from '../guards/auth.guard';

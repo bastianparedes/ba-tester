@@ -1,5 +1,5 @@
-import type { TypeAudience } from '@digital-retail/ab-tester-types/audience';
-import type { TypeCampaign } from '@digital-retail/ab-tester-types/campaign';
+import type { TypeAudience } from '@ba-tester/types/audience';
+import type { TypeCampaign } from '@ba-tester/types/campaign';
 import { relations } from 'drizzle-orm';
 import { boolean, integer, jsonb, pgEnum, pgTable, primaryKey, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 import commonConstants from '../../libs/sharedConstants';

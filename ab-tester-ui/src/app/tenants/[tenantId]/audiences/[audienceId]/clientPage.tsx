@@ -5,8 +5,8 @@ import { Button } from '@/app/_common/components/button';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
-import type { TypeAudienceWithOptionalId } from '@digital-retail/ab-tester-types/audience';
-import type { TypeTrackEventForAudience } from '@digital-retail/ab-tester-types/trackEvents';
+import type { TypeAudienceWithOptionalId } from '@ba-tester/types/audience';
+import type { TypeTrackEventForAudience } from '@ba-tester/types/trackEvents';
 import { apiCaller } from '@/libs/restClient';
 import Requirements from './components/Requirements';
 

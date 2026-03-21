@@ -4,7 +4,7 @@ import { Boxes, Building2, Code, Database, Eye, FlaskConical, Shield, Tags, User
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import constants from '@/config/constants';
-import type { TypeTenant } from '@digital-retail/ab-tester-types/tenant';
+import type { TypeTenant } from '@ba-tester/types/tenant';
 import { ComponentLanguage } from './Language';
 
 type Props = {

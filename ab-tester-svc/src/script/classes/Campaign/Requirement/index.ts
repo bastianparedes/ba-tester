@@ -1,7 +1,7 @@
 // External imports
 
 // Types
-import type { TypeCampaignRequirementScript } from '@digital-retail/ab-tester-types/script';
+import type { TypeCampaignRequirementScript } from '@ba-tester/types/script';
 import commonConstants from '../../../../libs/sharedConstants';
 // Internal imports
 import { comparatorResolver } from '../../../utils/comparatorResolver';

@@ -1,8 +1,8 @@
-import type { TypeOrderCampaignsBy } from '@digital-retail/ab-tester-types/campaign';
-import type { TypeDirection } from '@digital-retail/ab-tester-types/constants';
-import type { TypeTenant } from '@digital-retail/ab-tester-types/tenant';
-import type { TypeTrackEvent, TypeTrackEventUpdatable } from '@digital-retail/ab-tester-types/trackEvents';
-import { TypeUser } from '@digital-retail/ab-tester-types/user';
+import type { TypeOrderCampaignsBy } from '@ba-tester/types/campaign';
+import type { TypeDirection } from '@ba-tester/types/constants';
+import type { TypeTenant } from '@ba-tester/types/tenant';
+import type { TypeTrackEvent, TypeTrackEventUpdatable } from '@ba-tester/types/trackEvents';
+import { TypeUser } from '@ba-tester/types/user';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { and, asc, desc, eq, ilike, or, sql } from 'drizzle-orm';
 import db from './postgres/client';

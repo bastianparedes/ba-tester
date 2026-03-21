@@ -1,4 +1,4 @@
-import { TypeUser } from '@digital-retail/ab-tester-types/user';
+import { TypeUser } from '@ba-tester/types/user';
 import { Injectable } from '@nestjs/common';
 import { createClient } from 'redis';
 import { env } from '../libs/env';

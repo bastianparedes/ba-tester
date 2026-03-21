@@ -1,7 +1,7 @@
 import fs from 'node:fs';
-import type { TypeNodeRequirement } from '@digital-retail/ab-tester-types/campaign';
-import { TypeCampaign } from '@digital-retail/ab-tester-types/campaign';
-import type { TypeCampaignScript, TypeExecutionGroupScript } from '@digital-retail/ab-tester-types/script';
+import type { TypeNodeRequirement } from '@ba-tester/types/campaign';
+import { TypeCampaign } from '@ba-tester/types/campaign';
+import type { TypeCampaignScript, TypeExecutionGroupScript } from '@ba-tester/types/script';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import CleanCSS from 'clean-css';
 import { minify as minifyHtml } from 'html-minifier-terser';

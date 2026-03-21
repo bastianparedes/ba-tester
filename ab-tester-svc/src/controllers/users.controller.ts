@@ -1,6 +1,6 @@
-import { TypeApiUsers } from '@digital-retail/ab-tester-types/api/users';
-import { TypeUser } from '@digital-retail/ab-tester-types/user';
-import { type AssertEqual } from '@digital-retail/ab-tester-types/utils';
+import { TypeApiUsers } from '@ba-tester/types/api/users';
+import { TypeUser } from '@ba-tester/types/user';
+import { type AssertEqual } from '@ba-tester/types/utils';
 import { BadRequestException, Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { z } from 'zod';
 import { AuthGuard } from '../guards/auth.guard';

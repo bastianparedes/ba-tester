@@ -1,4 +1,4 @@
-import { TypeNodeRequirement } from '@digital-retail/ab-tester-types/campaign';
+import { TypeNodeRequirement } from '@ba-tester/types/campaign';
 import { z } from 'zod';
 import { jsCodeHasCorrectSyntax } from '../../libs/jsCode';
 import constants from '../../libs/sharedConstants';
