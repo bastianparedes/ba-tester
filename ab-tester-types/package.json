@@ -11,9 +11,9 @@
       "types": "./dist/api/*.d.ts"
     }
   },
-  "name": "@digital-retail/ab-tester-types",
+  "name": "@ba-tester/types",
   "publishConfig": {
-    "@digital-retail:registry": "https://gitlab.falabella.tech/api/v4/projects/66385/packages/npm/"
+    "access": "public"
   },
   "repository": {
     "type": "git",
