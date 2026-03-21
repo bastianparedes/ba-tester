@@ -1,10 +1,10 @@
+import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
+import type { TypeCampaignWithOptionalId, TypeRequirement } from '@ba-tester/types/campaign';
 import { cx } from 'class-variance-authority';
 import { Brackets, ChevronDown, Trash2 } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/sharedConstants';
-import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
-import type { TypeCampaignWithOptionalId, TypeRequirement } from '@ba-tester/types/campaign';
 import RequirementSpecific from './RequirementSpecific';
 
 interface Props {

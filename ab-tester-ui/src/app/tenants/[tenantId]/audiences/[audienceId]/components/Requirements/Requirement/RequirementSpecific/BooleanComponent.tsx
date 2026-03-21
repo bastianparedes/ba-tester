@@ -1,8 +1,8 @@
+import type { TypeAudienceWithOptionalId } from '@ba-tester/types/audience';
 import { ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeAudienceWithOptionalId } from '@ba-tester/types/audience';
 
 interface Props {
   requirement: TypeAudienceWithOptionalId['requirements']['data']['children'][number];

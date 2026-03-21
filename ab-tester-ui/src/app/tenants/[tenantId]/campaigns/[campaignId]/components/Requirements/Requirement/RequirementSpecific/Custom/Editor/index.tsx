@@ -1,8 +1,8 @@
+import type { TypeCampaignWithOptionalId, TypeCustomRequirement } from '@ba-tester/types/campaign';
 import Monaco from '@monaco-editor/react';
 import { useState } from 'react';
 import { Modal } from '@/app/_common/components/Modal';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaignWithOptionalId, TypeCustomRequirement } from '@ba-tester/types/campaign';
 
 import 'react-tabs/style/react-tabs.css';
 import { Pencil } from 'lucide-react';

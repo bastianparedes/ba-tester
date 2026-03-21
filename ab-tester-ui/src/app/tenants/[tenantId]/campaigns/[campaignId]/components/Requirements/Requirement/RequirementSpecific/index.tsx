@@ -1,6 +1,6 @@
-import commonConstants from '@/config/sharedConstants';
 import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
 import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
+import commonConstants from '@/config/sharedConstants';
 import Audience from './Audience';
 import Custom from './Custom';
 import Device from './Device';

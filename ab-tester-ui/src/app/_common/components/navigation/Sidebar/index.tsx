@@ -1,10 +1,10 @@
 'use client';
 
+import type { TypeTenant } from '@ba-tester/types/tenant';
 import { Boxes, Building2, Code, Database, Eye, FlaskConical, Shield, Tags, Users } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import constants from '@/config/constants';
-import type { TypeTenant } from '@ba-tester/types/tenant';
 import { ComponentLanguage } from './Language';
 
 type Props = {

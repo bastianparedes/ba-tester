@@ -19,8 +19,8 @@ export default function Page() {
     formState: { errors },
   } = useForm<LoginFormData>({
     defaultValues: {
-      email: 'test@test.com',
-      password: 'abc',
+      email: '',
+      password: '',
     },
   });
 

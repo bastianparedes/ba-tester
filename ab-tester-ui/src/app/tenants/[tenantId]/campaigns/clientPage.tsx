@@ -1,5 +1,8 @@
 'use client';
 
+import type { TypeCampaignForMenu, TypeOrderCampaignsBy } from '@ba-tester/types/campaign';
+import type { TypeDirection } from '@ba-tester/types/constants';
+import type { TypeExecutionGroup } from '@ba-tester/types/executionGroup';
 import { ChevronDown, ChevronUp, Copy, Pencil, PlusCircle, Trash2 } from 'lucide-react';
 import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
@@ -9,9 +12,6 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeCampaignForMenu, TypeOrderCampaignsBy } from '@ba-tester/types/campaign';
-import type { TypeDirection } from '@ba-tester/types/constants';
-import type { TypeExecutionGroup } from '@ba-tester/types/executionGroup';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

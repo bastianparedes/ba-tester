@@ -1,9 +1,9 @@
 'use client';
 
+import { TypeUser } from '@ba-tester/types/user';
 import { Eye } from 'lucide-react';
 import { useState } from 'react';
 import { useUser } from '@/app/_common/contexts/User';
-import { TypeUser } from '@ba-tester/types/user';
 
 const formatTimestamp = (date: Date) => {
   return date.toLocaleString('es-ES', {

@@ -1,5 +1,6 @@
 'use client';
 
+import type { TypeTenant } from '@ba-tester/types/tenant';
 import { Edit } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
@@ -7,7 +8,6 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
-import type { TypeTenant } from '@ba-tester/types/tenant';
 import { apiCaller } from '@/libs/restClient';
 
 type Props = {

@@ -1,5 +1,6 @@
 'use client';
 
+import type { TypeRole } from '@ba-tester/types/role';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Switch } from '@/app/_common/components/switch';
@@ -7,7 +8,6 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import { flatPermissions } from '@/config/constants';
-import type { TypeRole } from '@ba-tester/types/role';
 import { apiCaller } from '@/libs/restClient';
 
 type Props = {

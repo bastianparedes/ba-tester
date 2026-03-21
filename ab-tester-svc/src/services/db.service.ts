@@ -67,13 +67,17 @@ export class DbService {
       },
       getAll: this.userRepository.getAll,
       getForLogin: async (args) => {
+        const userFromDb = await this.userRepository.getForLogin(args);
+        if (userFromDb) return userFromDb;
+
         if (args.email === env.SUPER_ADMIN_EMAIL)
           return {
             email: env.SUPER_ADMIN_EMAIL,
             id: superAdminId,
             passwordHash: getPasswordHashed(env.SUPER_ADMIN_PASSWORD),
           };
-        return this.userRepository.getForLogin(args);
+
+        return undefined;
       },
       remove: async (args) => {
         const removedUser = await this.userRepository.remove(args);

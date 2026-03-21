@@ -1,5 +1,7 @@
 'use client';
 
+import type { TypeDirection } from '@ba-tester/types/constants';
+import type { TypeOrderTrackEventBy, TypeTrackEventForMenu } from '@ba-tester/types/trackEvents';
 import { ChevronDown, ChevronUp, Copy, Pencil, PlusCircle, Trash2 } from 'lucide-react';
 import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
@@ -9,8 +11,6 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeDirection } from '@ba-tester/types/constants';
-import type { TypeOrderTrackEventBy, TypeTrackEventForMenu } from '@ba-tester/types/trackEvents';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

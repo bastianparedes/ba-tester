@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { TypeTenant } from '@ba-tester/types/tenant';
+import type React from 'react';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
 

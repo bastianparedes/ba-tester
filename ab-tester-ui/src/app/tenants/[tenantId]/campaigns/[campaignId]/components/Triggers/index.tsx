@@ -1,7 +1,7 @@
+import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@ba-tester/types/campaign';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeCampaignWithOptionalId, TypeTriggerData } from '@ba-tester/types/campaign';
 import Editor from './TriggerEditor';
 
 interface Props {

@@ -1,5 +1,7 @@
 'use client';
 
+import type { TypeAudienceForMenu, TypeOrderAudiencesBy } from '@ba-tester/types/audience';
+import type { TypeDirection } from '@ba-tester/types/constants';
 import { ChevronDown, ChevronUp, Pencil, PlusCircle, Trash2 } from 'lucide-react';
 import { useEffect, useReducer, useState } from 'react';
 import { Button } from '@/app/_common/components/button';
@@ -8,8 +10,6 @@ import { useDialogStore } from '@/app/_common/contexts/Dialog/state';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import config from '@/config/constants';
-import type { TypeAudienceForMenu, TypeOrderAudiencesBy } from '@ba-tester/types/audience';
-import type { TypeDirection } from '@ba-tester/types/constants';
 import { apiCaller } from '@/libs/restClient';
 
 type UiState = {

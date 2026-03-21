@@ -1,6 +1,6 @@
+import type { TypeCampaignWithOptionalId, TypeVariationData } from '@ba-tester/types/campaign';
 import { Plus, Trash2 } from 'lucide-react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import type { TypeCampaignWithOptionalId, TypeVariationData } from '@ba-tester/types/campaign';
 import Editor from './Editor';
 import { variationsWithDistributedTraffic } from './util';
 

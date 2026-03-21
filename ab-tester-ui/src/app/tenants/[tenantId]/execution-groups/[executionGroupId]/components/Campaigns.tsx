@@ -1,9 +1,9 @@
 'use client';
 
+import { TypeCampaignForExecutionGroup } from '@ba-tester/types/campaign';
 import { Trash2 } from 'lucide-react';
 import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
-import { TypeCampaignForExecutionGroup } from '@ba-tester/types/campaign';
 
 type Props = {
   allCampaigns: TypeCampaignForExecutionGroup[];

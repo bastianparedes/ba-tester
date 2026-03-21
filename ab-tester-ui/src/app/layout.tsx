@@ -7,7 +7,6 @@ import { DynamicDialog } from './_common/contexts/Dialog/Component';
 import { Loader } from './_common/contexts/Loader/Component';
 import { ToastProvider } from './_common/contexts/ToastEmitter';
 import { TranslationProvider } from './_common/contexts/Translation';
-// import './styles/normalize.css';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;

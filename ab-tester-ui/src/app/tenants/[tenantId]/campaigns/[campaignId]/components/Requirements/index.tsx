@@ -1,6 +1,6 @@
-import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
 import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import Requirement from './Requirement';
 
 interface Props {

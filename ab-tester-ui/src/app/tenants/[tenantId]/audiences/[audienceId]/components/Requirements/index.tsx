@@ -1,6 +1,6 @@
-import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import type { TypeAudienceWithOptionalId } from '@ba-tester/types/audience';
 import { TypeTrackEventForAudience } from '@ba-tester/types/trackEvents';
+import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import Requirement from './Requirement';
 
 interface Props {

@@ -99,7 +99,7 @@ export class UserRepository {
       .where(eq(schema.users.id, userId));
   };
 
-  getForLogin = async ({ email }: { email: TypeUser['email'] }): Promise<{ id: TypeUser['id']; email: TypeUser['email']; passwordHash: string }> => {
+  getForLogin = async ({ email }: { email: TypeUser['email'] }): Promise<undefined | { id: TypeUser['id']; email: TypeUser['email']; passwordHash: string }> => {
     const user = await db.query.users.findFirst({
       columns: {
         email: true,
@@ -109,7 +109,6 @@ export class UserRepository {
       where: eq(schema.users.email, email),
     });
 
-    if (!user) throw new Error('User not found');
     return user;
   };
 

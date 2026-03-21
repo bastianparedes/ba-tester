@@ -1,8 +1,8 @@
+import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
 import { ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
 
 interface Props {
   requirement: TypeCampaignWithOptionalId['requirements']['data']['children'][number];

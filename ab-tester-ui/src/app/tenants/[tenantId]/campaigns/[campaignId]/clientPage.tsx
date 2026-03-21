@@ -1,5 +1,8 @@
 'use client';
 
+import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
+import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
+import type { TypeUser } from '@ba-tester/types/user';
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { io, type Socket } from 'socket.io-client';
@@ -8,9 +11,6 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import { TypeAudienceForCampaign } from '@ba-tester/types/audience';
-import type { TypeCampaignWithOptionalId } from '@ba-tester/types/campaign';
-import type { TypeUser } from '@ba-tester/types/user';
 import { env } from '@/libs/env';
 import { apiCaller } from '@/libs/restClient';
 import { LiveViewersNavbar } from './components/LiveViewersBar';

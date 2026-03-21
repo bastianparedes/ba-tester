@@ -40,6 +40,7 @@ export class AccountController {
     if (!reqUser) throw new UnauthorizedException();
 
     const user = await this.dbService.users.getForLogin({ email: reqUser.email });
+    if (!user) throw new UnauthorizedException();
 
     const passwordIsCorrect = isPasswordCorrect({ password: body.oldPassword, passwordHash: user.passwordHash });
     if (!passwordIsCorrect) throw new UnauthorizedException();

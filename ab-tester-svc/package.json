@@ -58,5 +58,5 @@
     "start:dev": "NODE_ENV=development nest start --watch & nodemon",
     "start:prod": "NODE_ENV=production node dist/main"
   },
-  "version": "0.0.1"
+  "version": "1.0.0"
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import type { TypeTrackEventWithOptionalId } from '@ba-tester/types/trackEvents';
+import type { TypeUser } from '@ba-tester/types/user';
 import Monaco from '@monaco-editor/react';
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -10,8 +12,6 @@ import { useTranslationContext } from '@/app/_common/contexts/Translation';
 import { useUser } from '@/app/_common/contexts/User';
 import constants from '@/config/constants';
 import commonConstants from '@/config/sharedConstants';
-import type { TypeTrackEventWithOptionalId } from '@ba-tester/types/trackEvents';
-import type { TypeUser } from '@ba-tester/types/user';
 import { env } from '@/libs/env';
 import { apiCaller } from '@/libs/restClient';
 import { jsCodeHasCorrectSyntax } from '@/utils/jsCode';
