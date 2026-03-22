@@ -22,7 +22,7 @@ const constructRequest = (method: 'GET' | 'POST' | 'PUT' | 'DELETE') => {
     body?: Record<string, unknown>;
   }): Promise<{ ok: true; json: () => Promise<T>; text: () => Promise<string> } | { ok: false }> => {
     const isServerSide = typeof window === 'undefined';
-    const baseUrl = isServerSide ? env.NEXT_PUBLIC_BACKEND_URL_SERVER_SIDE : env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE;
+    const baseUrl = isServerSide ? env.NEXT_PUBLIC_BACKEND_URL_FROM_SERVER_SIDE : env.NEXT_PUBLIC_BACKEND_URL_FROM_CLIENT_SIDE;
 
     const objectUrl = new URL(baseUrl + url);
     const cookies = await getCookies();

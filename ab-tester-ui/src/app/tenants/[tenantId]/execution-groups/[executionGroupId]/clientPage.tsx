@@ -38,7 +38,7 @@ const ClientPage = ({ initialExecutionGroup, initialCampaigns, tenantId, executi
   } | null>(null);
 
   useEffect(() => {
-    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/execution-group`, {
+    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_FROM_CLIENT_SIDE}/gateways/execution-group`, {
       auth: {
         executionGroupId,
         tenantId,

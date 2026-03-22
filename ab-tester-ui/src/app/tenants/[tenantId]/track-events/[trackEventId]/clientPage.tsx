@@ -55,7 +55,7 @@ const ClientPage = ({ initialTrackEvent, tenantId, trackEventId }: Props) => {
   };
 
   useEffect(() => {
-    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/trackEvents`, {
+    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_FROM_CLIENT_SIDE}/gateways/trackEvents`, {
       auth: {
         tenantId,
         trackEventId,

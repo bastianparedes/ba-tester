@@ -59,7 +59,7 @@ const ClientPage = ({ initialCampaign, tenantId, campaignId, audiences }: Props)
   const sumVariationTrafficsIs100 = campaign.variations.reduce((acc, variation) => acc + variation.traffic, 0) === 100;
 
   useEffect(() => {
-    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_CLIENT_SIDE}/gateways/campaigns`, {
+    const socket = io(`${env.NEXT_PUBLIC_BACKEND_URL_FROM_CLIENT_SIDE}/gateways/campaigns`, {
       auth: {
         campaignId,
         tenantId,

@@ -56,15 +56,6 @@ This will start:
 
 Code changes are automatically reflected thanks to the configured Docker volumes.
 
-## 🛑 Stop services
-
-To stop the containers:
-
-```bash id="m5iz7a"
-docker compose down
-```
-
----
 
 ## 🧩 Additional Notes
 
